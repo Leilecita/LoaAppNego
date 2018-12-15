@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.google.gson.Gson;
@@ -28,6 +29,30 @@ public class ApiClient {
     public static ApiClient get(){
         return INSTANCE;
     }
+
+    public void putEmployee(Employee e, GenericCallback<Employee> callback){
+        handleRequest( ApiUtils.getAPIService().putEmployee(e), callback);
+    }
+
+    public void getEmployee(Long id, GenericCallback<Employee> callback){
+        handleRequest( ApiUtils.getAPIService().getEmployee(id), callback);
+    }
+
+    public void getEmployees( GenericCallback<List<Employee>> callback){
+        handleRequest( ApiUtils.getAPIService().getEmployees(), callback);
+    }
+
+    public void getEmployeesByPage( Integer page,final GenericCallback<List<Employee>> callback ){
+        handleRequest( ApiUtils.getAPIService().getEmployeesByPage(page), callback);
+    }
+    public void postEmployee(Employee e,GenericCallback<Employee> callback){
+        handleRequest( ApiUtils.getAPIService().postEmployee(e), callback);
+    }
+
+    public void deleteEmployee(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPIService().deleteEmployee(id), callback);
+    }
+
 
     public void searchClients(String query, Integer page,final GenericCallback<List<Client>> callback ){
         handleRequest( ApiUtils.getAPIService().getClientsByPage(page,query), callback);

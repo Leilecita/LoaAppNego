@@ -47,6 +47,7 @@ public class PhotoEdithActivity extends BaseActivity {
         mContext.startActivity(i);
     }
 
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_photo_edith;

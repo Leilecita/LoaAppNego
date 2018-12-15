@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.android.loa.fragments.BaseFragment;
 import com.example.android.loa.fragments.ClientsFragment;
+import com.example.android.loa.fragments.EmployeesFragment;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         mContext = context;
         mFragments = new ArrayList<>();
         mFragments.add(new ClientsFragment());
+        mFragments.add(new EmployeesFragment());
 
         // mFragments.add(new PreimpresoFragment().setChangeListener(this));
         // mFragments.add(new MistakeFragment());
@@ -43,7 +45,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         if(position==0){
             return "Deudas";
         }else{
-            return "Deudas";
+            return "Team";
         }
        /* if (position == 0) {
             return "Clientes";

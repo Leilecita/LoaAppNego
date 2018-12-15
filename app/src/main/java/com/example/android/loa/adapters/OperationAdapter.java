@@ -3,7 +3,9 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Path;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +45,6 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
     }
 
     public OperationAdapter(Context context, List<Operation> items) {
-
         setItems(items);
         mContext = context;
     }
@@ -404,5 +405,6 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         dialog.show();
 
     }
+
 
 }

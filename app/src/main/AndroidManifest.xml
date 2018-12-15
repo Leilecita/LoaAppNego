@@ -51,6 +51,10 @@
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
+            android:name=".activities.CreateEmployeeActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
             android:name=".activities.PhotoEdithActivity"
             android:parentActivityName=".activities.MainActivity"
             />

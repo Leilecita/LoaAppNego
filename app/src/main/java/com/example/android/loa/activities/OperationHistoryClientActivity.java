@@ -95,12 +95,12 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
         ApiClient.get().getOperationAcum(mClientId, new GenericCallback<AmountResult>() {
             @Override
             public void onSuccess(AmountResult data) {
-               /* if(data.total<0){
-                    mOperationAcum.setTextColor(getResources().getColor(R.color.loa_red));
+                if(data.total<0){
+                    mOperationAcum.setText(String.valueOf(data.total));
                 }else{
-                    mOperationAcum.setTextColor(getResources().getColor(R.color.loa_green));
-                }*/
-                mOperationAcum.setText(String.valueOf(data.total));
+                    mOperationAcum.setText("+"+String.valueOf(data.total));
+                }
+
             }
 
             @Override

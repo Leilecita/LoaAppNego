@@ -2,6 +2,7 @@ package com.example.android.loa.network;
 
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 
@@ -17,6 +18,24 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public interface APIService {
+
+
+    @PUT("employees.php")
+    Observable<Response<Employee>> putEmployee(@Body Employee e);
+
+    @GET("employees.php")
+    Observable<Response<Employee>> getEmployee(@Query("id") Long id);
+    @GET("employees.php")
+    Observable<Response<List<Employee>>> getEmployees();
+    @GET("employees.php")
+    Observable<Response<List<Employee>>> getEmployeesByPage(@Query("page") Integer page);
+
+
+    @POST("employees.php")
+    Observable<Response<Employee>> postEmployee(@Body Employee e);
+
+    @DELETE("employees.php")
+    Observable<ResponseBody>  deleteEmployee(@Query("id") Long id);
 
     @PUT("clients.php")
     Observable<Response<Client>> putClient(@Body Client c);

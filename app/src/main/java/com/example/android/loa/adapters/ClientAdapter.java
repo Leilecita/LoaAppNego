@@ -278,11 +278,19 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         final ImageView edituser=  dialogView.findViewById(R.id.edituser);
         final ImageView history=  dialogView.findViewById(R.id.historyuser);
         final ImageView call=  dialogView.findViewById(R.id.phone);
+        final ImageView mens=  dialogView.findViewById(R.id.mens);
 
         name.setText(c.getName());
         address.setText(c.getAddress());
         phone.setText(c.getPhone());
         phone2.setText(c.getAlternative_phone());
+
+        mens.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendWhatsapp("",c.phone);
+            }
+        });
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -442,4 +450,13 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     interface OnClientEditedCallback {
         void onUserEdited(Client client);
     }
+
+    private void sendWhatsapp(String text, String phone){
+        Uri uri = Uri.parse("smsto:" + phone);
+        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+        i.setPackage("com.whatsapp");
+        i.putExtra(Intent.EXTRA_TEXT,text);
+        mContext.startActivity(Intent.createChooser(i, ""));
+    }
+
 }

@@ -2,7 +2,9 @@ package com.example.android.loa.network;
 
 public class ApiUtils {
     private ApiUtils() {}
-    public static final String BASE_URL = "http://192.168.88.5/loaserver/";
+
+    //public static final String BASE_URL = "http://leila.abarbieri.com.ar/";
+    public static final String BASE_URL = "http://192.168.88.3/loaserver/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);

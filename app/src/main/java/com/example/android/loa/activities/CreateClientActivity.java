@@ -37,7 +37,9 @@ public class CreateClientActivity extends BaseActivity{
 
     private EditText mUserName;
     private EditText mUserPhone;
+    private EditText mAlternativePhone;
     private EditText mUserAddress;
+    private EditText mEmployeeCreator;
 
     private ImageView mImageView;
 
@@ -57,7 +59,9 @@ public class CreateClientActivity extends BaseActivity{
         mUserName = findViewById(R.id.user_name);
         mImageView =  findViewById(R.id.imageview);
         mUserPhone =  findViewById(R.id.user_phone);
+        mAlternativePhone =  findViewById(R.id.alternative_phone);
         mUserAddress =  findViewById(R.id.user_address);
+        mEmployeeCreator =  findViewById(R.id.employee_creator);
 
         CardView takePhoto= findViewById(R.id.select_photo);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -137,9 +141,11 @@ public class CreateClientActivity extends BaseActivity{
                     String name=mUserName.getText().toString().trim();
                     String address=mUserAddress.getText().toString().trim();
                     String phone=mUserPhone.getText().toString().trim();
+                    String phone2=mAlternativePhone.getText().toString().trim();
+                    String employee=mEmployeeCreator.getText().toString().trim();
 
                     String picpath="/uploads/preimpresos/person_color.png";
-                    final Client newClient= new Client(name,address,phone,"",picpath,0d);
+                    final Client newClient= new Client(name,address,phone,phone2,picpath,0d,employee);
 
                     if(image_path!=null){
                         try {

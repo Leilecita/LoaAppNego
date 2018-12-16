@@ -12,10 +12,29 @@
         <android.support.v7.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
             android:background="@drawable/rec_find"
-            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
             android:clickable="true"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_rec"
+            android:id="@+id/orderClientBy"
+            android:layout_margin="6dp"
+            android:text="> $"
+
+            android:textStyle="bold"
+            android:textColor="#ffff"
+            android:layout_gravity="center_vertical"
+
+            />
+
+
 
 
     </LinearLayout>
@@ -38,5 +57,14 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/totalAmount"
+            android:layout_height="wrap_content"
+            android:textColor="@color/word"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="asasas"
+            />
     </LinearLayout>
 </RelativeLayout>

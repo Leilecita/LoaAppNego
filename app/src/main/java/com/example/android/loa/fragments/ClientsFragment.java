@@ -9,14 +9,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
+import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.CreateClientActivity;
 import com.example.android.loa.adapters.ClientAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
@@ -25,12 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ClientsFragment extends BaseFragment implements Paginate.Callbacks{
+public class ClientsFragment extends BaseFragment implements Paginate.Callbacks, OnAmountChange{
 
     private RecyclerView mRecyclerView;
     private ClientAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private View mRootView;
+    private TextView mTotalAmoount;
+    private Button mOrderBy;
 
     //pagination
     private boolean loadingInProgress;
@@ -42,7 +50,7 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks{
 
     public void onClickButton(){ activityAddClient(); }
     public int getIconButton(){
-        return R.drawable.addperson;
+        return R.drawable.add_file;
     }
 
     public int getVisibility(){
@@ -59,10 +67,23 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks{
         layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new ClientAdapter(getActivity(), new ArrayList<Client>());
+        mAdapter.setOnAmountCangeListener(this);
+
+        mTotalAmoount=mRootView.findViewById(R.id.totalAmount);
 
        // registerForContextMenu(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
        // setHasOptionsMenu(true);
+
+        mOrderBy=mRootView.findViewById(R.id.orderClientBy);
+        mOrderBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeOrderBy();
+                clearView();
+
+            }
+        });
 
         final SearchView searchView= mRootView.findViewById(R.id.searchView);
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +110,44 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks{
             }
         });
 
+        loadOperationAcum(true);
         implementsPaginate();
+
         return mRootView;
+    }
+
+    private void clearView(){
+        mCurrentPage = 0;
+        mAdapter.clear();
+        hasMoreItems=true;
+        listClients(mQuery);
+    }
+
+
+    private void changeOrderBy(){
+        if(CurrentValuesHelper.get().getmOrderClientBy().equals("name")){
+            CurrentValuesHelper.get().setmOrderClientBy("debt");
+            mOrderBy.setText("A-B");
+        }else{
+            CurrentValuesHelper.get().setmOrderClientBy("name");
+            mOrderBy.setText("> $");
+
+        }
+    }
+
+    @Override
+    public void loadOperationAcum(boolean refreshOperations) {
+        ApiClient.get().getTotalAmount(new GenericCallback<AmountResult>() {
+            @Override
+            public void onSuccess(AmountResult data) {
+                mTotalAmoount.setText(String.valueOf(data.total));
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
     }
 
     @Override
@@ -109,7 +166,7 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks{
         this.mQuery = query;
         final String newToken = UUID.randomUUID().toString();
         this.token =  newToken;
-        ApiClient.get().searchClients(query, mCurrentPage, new GenericCallback<List<Client>>() {
+        ApiClient.get().searchClients(query, mCurrentPage, CurrentValuesHelper.get().getmOrderClientBy(),new GenericCallback<List<Client>>() {
             @Override
             public void onSuccess(List<Client> data) {
                 if(token.equals(newToken)){

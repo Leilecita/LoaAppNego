@@ -3,6 +3,7 @@ package com.example.android.loa.network;
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
+import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 
@@ -18,6 +19,25 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public interface APIService {
+
+    @PUT("items_employee_file.php")
+    Observable<Response<Item_employee>> putItemEmployee(@Body Item_employee e);
+
+    @GET("items_employee_file.php")
+    Observable<Response<Item_employee>> getItemEmployee(@Query("id") Long id);
+
+
+    @GET("items_employee_file.php")
+    Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeId(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id);
+
+
+    @POST("items_employee_file.php")
+    Observable<Response<Item_employee>> postItemEmploye(@Body  Item_employee e);
+
+    @DELETE("items_employee_file.php")
+    Observable<ResponseBody>  deleteItemEmployee(@Query("id") Long id);
+
+
 
 
     @PUT("employees.php")
@@ -44,7 +64,7 @@ public interface APIService {
     Observable<Response<Client>> getClient(@Query("id") Long id);
 
     @GET("clients.php")
-    Observable<Response<List<Client>>> getClientsByPage(@Query("page") Integer page, @Query("query") String query );
+    Observable<Response<List<Client>>> getClientsByPage(@Query("page") Integer page, @Query("query") String query,@Query("order") String order );
 
     @POST("clients.php")
     Observable<Response<Client>> postClient(@Body Client c);
@@ -66,6 +86,9 @@ public interface APIService {
 
     @GET("items_file.php")
     Observable<Response<AmountResult>> getOperationAcum(@Query("method") String method, @Query("client_id") Long client_id);
+
+    @GET("items_file.php")
+    Observable<Response<AmountResult>> getTotalAmount(@Query("method") String method);
 
     @DELETE("items_file.php")
     Observable<ResponseBody>  deleteItemFile(@Query("id") Long id);

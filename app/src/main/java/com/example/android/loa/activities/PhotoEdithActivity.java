@@ -27,6 +27,7 @@ import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.Employee;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -40,10 +41,19 @@ public class PhotoEdithActivity extends BaseActivity {
     private Uri mCropImageUri;
     private String image_path = null;
     private Client mCurrentClient;
+    private Employee mCurrentEmployee;
+
+    private boolean isClient;
 
     public static void start(Context mContext, Client client) {
         Intent i = new Intent(mContext, PhotoEdithActivity.class);
         i.putExtra("ID", client.id);
+        mContext.startActivity(i);
+    }
+
+    public static void startEmployee(Context mContext, Employee employee) {
+        Intent i = new Intent(mContext, PhotoEdithActivity.class);
+        i.putExtra("IDEMPLOYEE", employee.id);
         mContext.startActivity(i);
     }
 
@@ -60,18 +70,38 @@ public class PhotoEdithActivity extends BaseActivity {
         //photo
         mImageView = findViewById(R.id.imageview);
 
-        ApiClient.get().getClient( getIntent().getLongExtra("ID", -1), new GenericCallback<Client>() {
-            @Override
-            public void onSuccess(Client data) {
-                mCurrentClient=data;
-                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentClient.getImage_url())).into(mImageView);
-            }
+        clientOrEmployee();
 
-            @Override
-            public void onError(Error error) {
+        if(isClient){
+            ApiClient.get().getClient( getIntent().getLongExtra("ID", -1), new GenericCallback<Client>() {
+                @Override
+                public void onSuccess(Client data) {
+                    mCurrentClient=data;
+                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentClient.getImage_url())).into(mImageView);
+                }
 
-            }
-        });
+                @Override
+                public void onError(Error error) {
+
+                }
+            });
+        }else{
+            ApiClient.get().getEmployee(getIntent().getLongExtra("IDEMPLOYEE", -1), new GenericCallback<Employee>() {
+                @Override
+                public void onSuccess(Employee data) {
+                    mCurrentEmployee=data;
+                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentEmployee.getImage_url())).into(mImageView);
+                }
+
+                @Override
+                public void onError(Error error) {
+
+                }
+            });
+        }
+
+
+
 
         CardView takePhoto = findViewById(R.id.select_photo);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +110,15 @@ public class PhotoEdithActivity extends BaseActivity {
                 onSelectImageClick(view);
             }
         });
+    }
+
+    private void clientOrEmployee(){
+       Long l= getIntent().getLongExtra("ID", -1);
+       if(l <0 ){
+           isClient=false;
+       }else{
+           isClient=true;
+       }
     }
 
     @Override
@@ -94,26 +133,48 @@ public class PhotoEdithActivity extends BaseActivity {
             case R.id.action_save:
                 if (image_path != null) {
                     try {
-                        mCurrentClient.imageData = fileToBase64(image_path);
+                        if(isClient){
+                            mCurrentClient.imageData = fileToBase64(image_path);
+                        }else{
+                            mCurrentEmployee.imageData = fileToBase64(image_path);
+                        }
+
                     } catch (Exception e) {
                     }
 
                     final ProgressDialog progress = ProgressDialog.show(this, "Creando usuario",
                             "Aguarde un momento", true);
 
-                    ApiClient.get().putClient(mCurrentClient, new GenericCallback<Client>() {
-                        @Override
-                        public void onSuccess(Client data) {
-                            Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
-                            finish();
-                            progress.dismiss();
-                        }
+                    if(isClient){
+                        ApiClient.get().putClient(mCurrentClient, new GenericCallback<Client>() {
+                            @Override
+                            public void onSuccess(Client data) {
+                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
+                                finish();
+                                progress.dismiss();
+                            }
 
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
-                        }
-                    });
+                            @Override
+                            public void onError(Error error) {
+                                DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                            }
+                        });
+                    }else{
+
+                        ApiClient.get().putEmployee(mCurrentEmployee, new GenericCallback<Employee>() {
+                            @Override
+                            public void onSuccess(Employee data) {
+                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
+                                finish();
+                                progress.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Error error) {
+                                DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                            }
+                        });
+                    }
                 }
 
                 return true;

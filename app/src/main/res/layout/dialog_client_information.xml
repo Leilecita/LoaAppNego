@@ -116,13 +116,13 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:textStyle="bold"
-                android:text="Telefono 2"
+                android:text="Inicio ficha "
                 android:textColor="@color/word"
                 android:textSize="18sp" />
 
 
             <TextView
-                android:id="@+id/alternative_phone"
+                android:id="@+id/employee_creator"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

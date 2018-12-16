@@ -124,14 +124,14 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         holder.brand.setText(checkEmpty(currentOperation.brand));
         holder.code.setText(checkEmpty(currentOperation.code).toUpperCase());
         holder.product_kind.setText(checkEmpty(currentOperation.product_kind));
-        holder.previous_balance.setText(String.valueOf(Math.abs(currentOperation.previous_balance)));
+        holder.previous_balance.setText(String.valueOf(currentOperation.previous_balance));
 
         Double value= currentOperation.value;
         if(value <0){
             holder.text_valueOut.setText(String.valueOf(Math.abs(value)));
             holder.text_valueOut.setTextColor(mContext.getResources().getColor(R.color.loa_red));
         }else{
-            holder.text_valueOut.setText(String.valueOf(Math.abs(value)));
+            holder.text_valueOut.setText(String.valueOf(value));
             holder.text_valueOut.setTextColor(mContext.getResources().getColor(R.color.loa_green));
 
           //  holder.text_valueIn.setText(String.valueOf(value));

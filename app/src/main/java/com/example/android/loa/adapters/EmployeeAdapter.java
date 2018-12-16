@@ -1,7 +1,6 @@
 package com.example.android.loa.adapters;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.WindowManager;
 import android.widget.Button;
 
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,12 +24,15 @@ import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
+import com.example.android.loa.activities.HoursHistoryEmployeeActivity;
+import com.example.android.loa.activities.OperationHistoryClientActivity;
+import com.example.android.loa.activities.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
+import com.example.android.loa.network.models.Item_employee;
 
 import java.util.List;
 
@@ -51,11 +55,13 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView name;
         public ImageView photo;
+        public ImageView options;
 
         public ViewHolder(View v){
             super(v);
             name= v.findViewById(R.id.name);
             photo=v.findViewById(R.id.photo);
+            options=v.findViewById(R.id.options);
         }
     }
 
@@ -81,7 +87,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
 
         final Employee currentEmployee = getItem(position);
 
-        holder.name.setText(currentEmployee.name);
+        holder.name.setText(currentEmployee.name+" "+currentEmployee.surname);
 
         if (currentEmployee.image_url == null) {
             Glide.with(mContext).load(R.drawable.person_color).into(holder.photo);
@@ -89,19 +95,108 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
             Glide.with(mContext).load(ApiUtils.getImageUrl(currentEmployee.image_url)).into(holder.photo);
         }
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                edithPhoto(currentEmployee);
+                return false;
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"holaaa",Toast.LENGTH_LONG).show();
-                //createInfoDialog(currentEmployee,position);
+                loadHours(currentEmployee);
+            }
+        });
+        holder.options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createInfoDialog(currentEmployee,position);
+            }
+        });
+    }
+
+    private void edithPhoto(final Employee currentEmployee){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.dialog_edith_photo, null);
+        final ImageView photo_info=  dialogView.findViewById(R.id.image_user);
+        Glide.with(mContext).load(ApiUtils.getImageUrl(currentEmployee.getImage_url())).into(photo_info);
+        ImageView edit= dialogView.findViewById(R.id.edit_photo);
+
+        builder.setView(dialogView);
+        final AlertDialog dialog = builder.create();
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                PhotoEdithActivity.startEmployee(mContext,currentEmployee);
+                dialog.dismiss();
             }
         });
 
-
-
+        dialog.show();
     }
 
+    private void loadHours(final Employee e){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_hours, null);
+
+        builder.setView(dialogView);
+
+        final TextView name=  dialogView.findViewById(R.id.name_employee);
+        name.setText(e.name);
+        final TextView turn=  dialogView.findViewById(R.id.turn);
+        final TextView date=  dialogView.findViewById(R.id.date);
+        date.setText(DateHelper.get().getActualDate());
+        final TextView time_worked=  dialogView.findViewById(R.id.time_worked);
+        final TextView obs=  dialogView.findViewById(R.id.observation);
+
+        final TextView cancel=  dialogView.findViewById(R.id.cancel);
+        final Button ok=  dialogView.findViewById(R.id.ok);
+
+        final AlertDialog dialog = builder.create();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String turnT=turn.getText().toString().trim();
+                Double time_workedT=Double.valueOf(time_worked.getText().toString().trim());
+                String obsT=obs.getText().toString().trim();
+                String dateT=date.getText().toString().trim();
+
+                Item_employee i=new Item_employee(e.id,time_workedT,turnT,dateT,obsT);
+
+                ApiClient.get().postItemEmploye(i, new GenericCallback<Item_employee>() {
+                    @Override
+                    public void onSuccess(Item_employee data) {
+                        Toast.makeText(mContext, "Horas cargadas para : "+e.getName(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
 
     private void createInfoDialog(final Employee e, final int position){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -117,6 +212,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         final ImageView delete=  dialogView.findViewById(R.id.deleteuser);
         final ImageView edituser=  dialogView.findViewById(R.id.edituser);
         final ImageView call=  dialogView.findViewById(R.id.phone);
+        final ImageView history=  dialogView.findViewById(R.id.history);
         final ImageView mens=  dialogView.findViewById(R.id.mens);
 
         name.setText(e.getName());
@@ -127,6 +223,13 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 sendWhatsapp("",e.phone);
+            }
+        });
+
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HoursHistoryEmployeeActivity.start(mContext,e);
             }
         });
 
@@ -149,8 +252,90 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
                 dialog.dismiss();
             }
         });
+
+        edituser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edithEmployee(e, position, new OnEmployeetEditedCallback() {
+                    @Override
+                    public void onEmployeeEdited(Employee newEmployee) {
+                        name.setText(newEmployee.getName());
+                        address.setText(newEmployee.getAddress());
+                        phone.setText(newEmployee.getPhone());
+                    }
+                });
+            }
+        });
         dialog.show();
 
+    }
+
+    private void edithEmployee(final Employee employeeToEdith, final int position, final OnEmployeetEditedCallback callback){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.dialog_edith_employee, null);
+
+        builder.setView(dialogView);
+
+        final EditText nameEdith=dialogView.findViewById(R.id.edith_name);
+        final EditText addressEdith=dialogView.findViewById(R.id.edith_address);
+        final EditText phoneEdith=dialogView.findViewById(R.id.edith_phone);
+
+        phoneEdith.setText(employeeToEdith.getPhone());
+        phoneEdith.setTextColor(mContext.getResources().getColor(R.color.word_info));
+        addressEdith.setText(employeeToEdith.getAddress());
+        addressEdith.setTextColor(mContext.getResources().getColor(R.color.word_info));
+        nameEdith.setText(employeeToEdith.getName());
+        nameEdith.setTextColor(mContext.getResources().getColor(R.color.word_info));
+
+        final TextView cancel=  dialogView.findViewById(R.id.cancel);
+        final Button ok=  dialogView.findViewById(R.id.ok);
+        final AlertDialog dialog = builder.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                final String nameNew= nameEdith.getText().toString().trim();
+                String addressNew= addressEdith.getText().toString().trim();
+                String phoneNew= phoneEdith.getText().toString().trim();
+
+                employeeToEdith.setName(nameNew);
+                employeeToEdith.setAddress(addressNew);
+                employeeToEdith.setPhone(phoneNew);
+
+                ApiClient.get().putEmployee(employeeToEdith, new GenericCallback<Employee>() {
+                    @Override
+                    public void onSuccess(Employee data) {
+                        notifyItemChanged(position);
+                        Toast.makeText(mContext, "El usuario ha sido editado",Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        DialogHelper.get().showMessage("Error","Error al editar usuario",mContext);
+                    }
+                });
+
+
+                dialog.dismiss();
+                callback.onEmployeeEdited(employeeToEdith);
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    interface OnEmployeetEditedCallback {
+        void onEmployeeEdited(Employee employee);
     }
 
     private void sendWhatsapp(String text, String phone){

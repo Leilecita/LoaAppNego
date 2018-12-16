@@ -62,6 +62,10 @@
             android:name=".activities.OperationHistoryClientActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+        <activity
+            android:name=".activities.HoursHistoryEmployeeActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

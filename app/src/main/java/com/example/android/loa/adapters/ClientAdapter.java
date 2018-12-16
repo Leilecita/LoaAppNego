@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
+import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.OperationHistoryClientActivity;
@@ -41,6 +42,12 @@ import java.util.List;
 public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> {
     private Context mContext;
     private ArrayAdapter<String> adapter;
+
+    private OnAmountChange onAmountChangeListener = null;
+    public void setOnAmountCangeListener(OnAmountChange listener){
+        onAmountChangeListener = listener;
+    }
+
 
     public ClientAdapter(Context context, List<Client> clients){
         setItems(clients);
@@ -229,6 +236,10 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                                    currentClient.debt+=data.value;
                                    updateItem(position,currentClient);
                                    Toast.makeText(mContext, "Transaccion creada para: "+currentClient.getName(), Toast.LENGTH_SHORT).show();
+
+                                    if(onAmountChangeListener!=null){
+                                        onAmountChangeListener.loadOperationAcum(true);
+                                    }
                                 }
 
                                 @Override
@@ -273,7 +284,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         final TextView name=  dialogView.findViewById(R.id.user_name);
         final TextView address=  dialogView.findViewById(R.id.user_address);
         final TextView phone=  dialogView.findViewById(R.id.user_phone);
-        final TextView phone2=  dialogView.findViewById(R.id.alternative_phone);
+        final TextView employee=  dialogView.findViewById(R.id.employee_creator);
         final ImageView delete=  dialogView.findViewById(R.id.deleteuser);
         final ImageView edituser=  dialogView.findViewById(R.id.edituser);
         final ImageView history=  dialogView.findViewById(R.id.historyuser);
@@ -282,9 +293,14 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         name.setText(c.getName());
         address.setText(c.getAddress());
-        phone.setText(c.getPhone());
-        phone2.setText(c.getAlternative_phone());
 
+        if(c.alternative_phone.equals("")){
+            phone.setText(c.getPhone());
+        }else{
+            phone.setText(c.getPhone()+" / "+c.alternative_phone);
+        }
+
+        employee.setText(c.employee_creator_id);
         mens.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

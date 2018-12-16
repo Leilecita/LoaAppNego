@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
+import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.google.gson.Gson;
@@ -29,6 +30,27 @@ public class ApiClient {
     public static ApiClient get(){
         return INSTANCE;
     }
+
+
+    public void putItemEmployee(Item_employee e, GenericCallback<Item_employee> callback){
+        handleRequest( ApiUtils.getAPIService().putItemEmployee(e), callback);
+    }
+
+    public void getItemEmployee(Long id, GenericCallback<Item_employee> callback){
+        handleRequest( ApiUtils.getAPIService().getItemEmployee(id), callback);
+    }
+
+    public void getItemsEmployeeByPageByEmployeeId(Integer page,Long employee_id,final GenericCallback<List<Item_employee>> callback ){
+        handleRequest( ApiUtils.getAPIService().getItemsEmployeeByPageByEmployeeId("listHours",page,employee_id), callback);
+    }
+    public void postItemEmploye(Item_employee e,GenericCallback<Item_employee> callback){
+        handleRequest( ApiUtils.getAPIService().postItemEmploye(e), callback);
+    }
+
+    public void deleteItemEmployee(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPIService().deleteItemEmployee(id), callback);
+    }
+
 
     public void putEmployee(Employee e, GenericCallback<Employee> callback){
         handleRequest( ApiUtils.getAPIService().putEmployee(e), callback);
@@ -54,8 +76,8 @@ public class ApiClient {
     }
 
 
-    public void searchClients(String query, Integer page,final GenericCallback<List<Client>> callback ){
-        handleRequest( ApiUtils.getAPIService().getClientsByPage(page,query), callback);
+    public void searchClients(String query, Integer page,String order,final GenericCallback<List<Client>> callback ){
+        handleRequest( ApiUtils.getAPIService().getClientsByPage(page,query,order), callback);
     }
 
     public void putClient(Client c, GenericCallback<Client> callback){
@@ -84,6 +106,10 @@ public class ApiClient {
 
     public void getOperationAcum(Long client_id,GenericCallback<AmountResult> callback){
         handleRequest( ApiUtils.getAPIService().getOperationAcum("amountByClientId",client_id), callback);
+    }
+
+    public void getTotalAmount(GenericCallback<AmountResult> callback){
+        handleRequest( ApiUtils.getAPIService().getTotalAmount("totalAmount"), callback);
     }
 
     public void getItemsByClientIdByPage(Integer page,Long client_id, GenericCallback<List<Operation>> callback){

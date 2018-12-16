@@ -34,6 +34,7 @@ import java.io.InputStream;
 
 public class CreateEmployeeActivity extends BaseActivity {
     private EditText mUserName;
+    private EditText mSurname;
     private EditText mUserPhone;
     private EditText mUserAddress;
 
@@ -44,7 +45,7 @@ public class CreateEmployeeActivity extends BaseActivity {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.activity_create_client;
+        return R.layout.activity_create_employee;
     }
 
     @Override
@@ -53,6 +54,7 @@ public class CreateEmployeeActivity extends BaseActivity {
         showBackArrow();
 
         mUserName = findViewById(R.id.user_name);
+        mSurname = findViewById(R.id.user_surname);
         mImageView =  findViewById(R.id.imageview);
         mUserPhone =  findViewById(R.id.user_phone);
         mUserAddress =  findViewById(R.id.user_address);
@@ -133,12 +135,13 @@ public class CreateEmployeeActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_save:
                 String name=mUserName.getText().toString().trim();
+                String surname=mSurname.getText().toString().trim();
                 String address=mUserAddress.getText().toString().trim();
                 String phone=mUserPhone.getText().toString().trim();
 
                 String picpath="/uploads/preimpresos/person_color.png";
 
-                final Employee newEmployee=new Employee(name,address,phone,picpath);
+                final Employee newEmployee=new Employee(name,surname,address,phone,picpath);
 
                 if(image_path!=null){
                     try {

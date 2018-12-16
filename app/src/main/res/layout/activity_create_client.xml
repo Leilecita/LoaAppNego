@@ -55,6 +55,25 @@
                     />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    style="@style/CodeFontCreate"
+                    android:layout_width="120dp"
+                    android:text="Teléfono 2  "
+                    />
+                <EditText
+                    style="@style/CodeFontInput"
+                    android:id="@+id/alternative_phone"
+                    />
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,6 +92,24 @@
                     android:id="@+id/user_address"
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    style="@style/CodeFontCreate"
+                    android:layout_width="120dp"
+                    android:text="Encargado   "
+                    />
+                <EditText
+                    style="@style/CodeFontInput"
+                    android:id="@+id/employee_creator"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 

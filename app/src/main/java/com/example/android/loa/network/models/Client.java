@@ -7,12 +7,13 @@ public class Client {
     public String address;
     public String phone;
     public String alternative_phone;
+    public String employee_creator_id;
     public String image_url;
     public Double debt;
 
     public String imageData;
 
-    public Client(String name, String address, String phone, String alternative_phone,String picpath,Double debt){
+    public Client(String name, String address, String phone, String alternative_phone,String picpath,Double debt,String employee_creator_id){
 
         this.name=name;
         this.address=address;
@@ -20,6 +21,7 @@ public class Client {
         this.alternative_phone=alternative_phone;
         this.image_url=picpath;
         this.debt=debt;
+        this.employee_creator_id=employee_creator_id;
     }
 
     public String getImage_url(){return this.image_url;}

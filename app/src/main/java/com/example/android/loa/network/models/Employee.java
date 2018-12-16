@@ -5,6 +5,7 @@ public class Employee {
 
     public Long id;
     public String name;
+    public String surname;
 
     public String phone;
     public String address;
@@ -12,9 +13,18 @@ public class Employee {
 
     public String imageData;
 
-    public Employee(String name, String address, String phone, String picpath){
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public Employee(String name, String surname, String address, String phone, String picpath){
 
         this.name=name;
+        this.surname=surname;
         this.address=address;
         this.phone=phone;
         this.image_url=picpath;

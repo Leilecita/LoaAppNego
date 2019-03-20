@@ -4,8 +4,10 @@ import android.graphics.Path;
 import android.util.Log;
 
 import com.example.android.loa.network.models.AmountResult;
+import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
+import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
@@ -40,9 +42,27 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPIService().getItemEmployee(id), callback);
     }
 
+    public void getItemEmployeeByDateAndEmployeeId(Long id,String date, GenericCallback<Item_employee> callback){
+        handleRequest( ApiUtils.getAPIService().getItemEmployeeByDateAndEmployeeid(id,date), callback);
+    }
+
     public void getItemsEmployeeByPageByEmployeeId(Integer page,Long employee_id,final GenericCallback<List<Item_employee>> callback ){
         handleRequest( ApiUtils.getAPIService().getItemsEmployeeByPageByEmployeeId("listHours",page,employee_id), callback);
     }
+
+    public void getItemsEmployeeByPageByEmployeeIdByMonth(Integer page,Long employee_id,String month1,String month2,final GenericCallback<List<Item_employee>> callback ){
+        handleRequest( ApiUtils.getAPIService().getItemsEmployeeByPageByEmployeeIdByMonth(page,employee_id,month1,month2), callback);
+    }
+    public void getItemsEmployeeByEmployeeIdByMonth(Long employee_id,String month1,String month2,final GenericCallback<List<Item_employee>> callback ){
+        handleRequest( ApiUtils.getAPIService().getItemsEmployeeByEmployeeIdByMonth(employee_id,month1,month2), callback);
+    }
+
+
+    public void getAmountHoursByMonth(String month1,String month2,Long employee_id, GenericCallback<AmountResult> callback){
+        handleRequest( ApiUtils.getAPIService().getAmountHoursByMonth("amountHoursByMonth",month1,month2,employee_id), callback);
+    }
+
+
     public void postItemEmploye(Item_employee e,GenericCallback<Item_employee> callback){
         handleRequest( ApiUtils.getAPIService().postItemEmploye(e), callback);
     }
@@ -112,6 +132,9 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPIService().getTotalAmount("totalAmount"), callback);
     }
 
+
+
+
     public void getItemsByClientIdByPage(Integer page,Long client_id, GenericCallback<List<Operation>> callback){
         handleRequest( ApiUtils.getAPIService().getItemsByClientIdByPage("listDebtsByClientId",page,client_id), callback);
     }
@@ -123,6 +146,62 @@ public class ApiClient {
     public void deleteItemFile(Long id, final GenericCallback<Void> callback){
         handleDeleteRequest( ApiUtils.getAPIService().deleteItemFile(id), callback);
     }
+
+    public void getExtractionsByPage( Integer page,String created,final GenericCallback<List<Extraction>> callback ){
+        handleRequest( ApiUtils.getAPIService().getExtractionsByPage(page,created), callback);
+    }
+    public void getExtractionsByPageAndDate( Integer page,String created,String next,final GenericCallback<List<Extraction>> callback ){
+        handleRequest( ApiUtils.getAPIService().getExtractionsByPageAndDate(page,created,next), callback);
+    }
+
+
+    public void getBoxesByPageAndDate( Integer page,String created,String next,final GenericCallback<List<Box>> callback ){
+        handleRequest( ApiUtils.getAPIService().getBoxesByPageAndDate(page,created,next), callback);
+    }
+
+    public void putExtraction(Extraction e, GenericCallback<Extraction> callback){
+        handleRequest( ApiUtils.getAPIService().putExtraction(e), callback);
+    }
+
+    public void getExtraction(Long id, GenericCallback<Extraction> callback){
+        handleRequest( ApiUtils.getAPIService().getExtraction(id), callback);
+    }
+
+    public void getTotalExtractionAmount(String date,String dateTo,GenericCallback<AmountResult> callback){
+        handleRequest( ApiUtils.getAPIService().getTotalExtractionsAmount("amountExtractions",date,dateTo), callback);
+    }
+
+    public void postExtraction(Extraction e,GenericCallback<Extraction> callback){
+        handleRequest( ApiUtils.getAPIService().postExtraction(e), callback);
+    }
+
+    public void deleteExtraction(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPIService().deleteExtraction(id), callback);
+    }
+
+
+
+    public void getBoxesByPage( Integer page,String created,final GenericCallback<List<Box>> callback ){
+        handleRequest( ApiUtils.getAPIService().getBoxesByPage(page,created), callback);
+    }
+
+    public void putBox(Box b, GenericCallback<Box> callback){
+        handleRequest( ApiUtils.getAPIService().putBox(b), callback);
+    }
+
+    public void getBox(Long id, GenericCallback<Box> callback){
+        handleRequest( ApiUtils.getAPIService().getBox(id), callback);
+    }
+
+    public void postBox(Box b,GenericCallback<Box> callback){
+        handleRequest( ApiUtils.getAPIService().postBox(b), callback);
+    }
+
+    public void deleteBox(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPIService().deleteBox(id), callback);
+    }
+
+
 
     private <T> void handleRequest(Observable<Response<T>> request, final GenericCallback<T> callback){
         request.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.android.loa.fragments.BaseFragment;
+import com.example.android.loa.fragments.BoxFragment;
 import com.example.android.loa.fragments.ClientsFragment;
 import com.example.android.loa.fragments.EmployeesFragment;
+import com.example.android.loa.fragments.ExtractionsFragment;
 
 import java.util.ArrayList;
 
@@ -23,6 +25,8 @@ public class PageAdapter extends FragmentPagerAdapter {
         mFragments = new ArrayList<>();
         mFragments.add(new ClientsFragment());
         mFragments.add(new EmployeesFragment());
+        mFragments.add(new ExtractionsFragment());
+        mFragments.add(new BoxFragment());
 
         // mFragments.add(new PreimpresoFragment().setChangeListener(this));
         // mFragments.add(new MistakeFragment());
@@ -45,7 +49,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -53,16 +57,12 @@ public class PageAdapter extends FragmentPagerAdapter {
 
         if(position==0){
             return "Deudas";
-        }else{
+        }else if(position==1){
             return "Team";
-        }
-       /* if (position == 0) {
-            return "Clientes";
-        }else if(position == 1){
-            return"Pedidos";
-
+        }else if(position ==2){
+            return "Extr";
         }else{
-            return"Resumen";
-        }*/
+            return "Cajas";
+        }
     }
 }

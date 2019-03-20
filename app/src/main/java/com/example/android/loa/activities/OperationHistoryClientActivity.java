@@ -1,10 +1,13 @@
 package com.example.android.loa.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
@@ -17,6 +20,7 @@ import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Operation;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
@@ -92,7 +96,7 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
         if(refreshOperations){
             reloadOperations();
         }
-        ApiClient.get().getOperationAcum(mClientId, new GenericCallback<AmountResult>() {
+       /* ApiClient.get().getOperationAcum(mClientId, new GenericCallback<AmountResult>() {
             @Override
             public void onSuccess(AmountResult data) {
                 if(data.total<0){
@@ -107,7 +111,7 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
             public void onError(Error error) {
             }
         });
-
+*/
     }
 
     private void implementsPaginate(){
@@ -165,5 +169,6 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
     public boolean hasLoadedAllItems() {
         return !hasMoreItems;
     }
+
 
 }

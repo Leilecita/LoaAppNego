@@ -25,6 +25,7 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
 import com.example.android.loa.activities.HoursHistoryEmployeeActivity;
+import com.example.android.loa.activities.LoadEmployeeHoursActivity;
 import com.example.android.loa.activities.OperationHistoryClientActivity;
 import com.example.android.loa.activities.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
@@ -42,6 +43,13 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
     public EmployeeAdapter(Context context, List<Employee> employees){
         setItems(employees);
         mContext = context;
+    }
+
+    public static void start(Context mContext, Employee e) {
+        Intent i = new Intent(mContext, LoadEmployeeHoursActivity.class);
+        i.putExtra("ID", e.id);
+        i.putExtra("NAME", e.name);
+        mContext.startActivity(i);
     }
 
     public EmployeeAdapter(){
@@ -87,7 +95,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
 
         final Employee currentEmployee = getItem(position);
 
-        holder.name.setText(currentEmployee.name+" "+currentEmployee.surname);
+        holder.name.setText(currentEmployee.name);
 
         if (currentEmployee.image_url == null) {
             Glide.with(mContext).load(R.drawable.person_color).into(holder.photo);
@@ -143,8 +151,9 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
     }
 
     private void loadHours(final Employee e){
+        start(mContext,e);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+     /*   AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_hours, null);
@@ -154,6 +163,8 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         final TextView name=  dialogView.findViewById(R.id.name_employee);
         name.setText(e.name);
         final TextView turn=  dialogView.findViewById(R.id.turn);
+        final TextView entry=  dialogView.findViewById(R.id.entry);
+        final TextView finish=  dialogView.findViewById(R.id.finish);
         final TextView date=  dialogView.findViewById(R.id.date);
         date.setText(DateHelper.get().getActualDate());
         final TextView time_worked=  dialogView.findViewById(R.id.time_worked);
@@ -169,9 +180,11 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
                 String turnT=turn.getText().toString().trim();
                 Double time_workedT=Double.valueOf(time_worked.getText().toString().trim());
                 String obsT=obs.getText().toString().trim();
+                String entryT=entry.getText().toString().trim();
+                String finishT=finish.getText().toString().trim();
                 String dateT=date.getText().toString().trim();
 
-                Item_employee i=new Item_employee(e.id,time_workedT,turnT,dateT,obsT);
+                Item_employee i=new Item_employee(e.id,time_workedT,turnT,dateT,obsT,entryT,finishT);
 
                 ApiClient.get().postItemEmploye(i, new GenericCallback<Item_employee>() {
                     @Override
@@ -194,7 +207,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
             }
         });
 
-        dialog.show();
+        dialog.show();*/
 
     }
 
@@ -338,12 +351,14 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         void onEmployeeEdited(Employee employee);
     }
 
-    private void sendWhatsapp(String text, String phone){
-        Uri uri = Uri.parse("smsto:" + phone);
-        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-        i.setPackage("com.whatsapp");
-        i.putExtra(Intent.EXTRA_TEXT,text);
-        mContext.startActivity(Intent.createChooser(i, ""));
+    public void sendWhatsapp(String text, String phone){
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+549"+phone));
+            mContext.startActivity(intent);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void deleteUser( final Employee e,final int position){

@@ -66,6 +66,18 @@
             android:name=".activities.HoursHistoryEmployeeActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+        <activity
+            android:name=".activities.ExtractionsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.BoxActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.LoadEmployeeHoursActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

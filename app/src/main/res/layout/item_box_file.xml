@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp"
+    android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+
+
+
+    <TextView
+        android:layout_width="55sp"
+        android:id="@+id/date"
+        android:paddingLeft="5dp"
+        android:textColor="@color/word"
+        android:layout_height="wrap_content"
+        android:text="10/11"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/venta_ctdo"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/word"
+        android:textSize="17sp"
+        android:layout_height="wrap_content"
+        android:text="10/11/19"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/card"
+        android:textColor="@color/word"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="10019"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:textColor="@color/word"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:id="@+id/total_amount"
+        android:layout_height="wrap_content"
+        android:text="11900"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/rest_box"
+        android:textColor="@color/word"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="1111111"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/dep"
+        android:textColor="@color/word"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="1123123"
+        />
+    </LinearLayout>
+    <TextView
+
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="4dp"
+        android:id="@+id/div"
+        style="@style/DivisorCategoryStyle"
+        />
+</LinearLayout>

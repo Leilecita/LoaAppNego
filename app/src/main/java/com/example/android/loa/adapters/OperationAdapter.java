@@ -32,12 +32,14 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 
+import java.security.DigestOutputStream;
 import java.util.Calendar;
 import java.util.List;
 
 public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.ViewHolder> {
 
     private Context mContext;
+    private Double mTotalAmount;
 
     private OnAmountChange onAmountChangeListener = null;
     public void setOnAmountCangeListener(OnAmountChange listener){
@@ -47,12 +49,13 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
     public OperationAdapter(Context context, List<Operation> items) {
         setItems(items);
         mContext = context;
+        mTotalAmount=0.0;
     }
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView text_valueOut;
-        public TextView text_valueIn;
+        public TextView tot;
         public TextView previous_balance;
         public TextView text_date;
         public TextView description;
@@ -68,7 +71,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             super(v);
             text_valueOut = v.findViewById(R.id.text_valueOut);
             previous_balance = v.findViewById(R.id.previous_balance);
-            //text_valueIn = v.findViewById(R.id.text_valueIn);
+            tot = v.findViewById(R.id.tot);
             text_date = v.findViewById(R.id.text_date);
             description = v.findViewById(R.id.description);
             brand = v.findViewById(R.id.brand);
@@ -83,15 +86,19 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
     @Override
     public OperationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Create a new View
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_history_file, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_history_file2, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
 
+    public void setTotalAmount(Double tot){
+        mTotalAmount=tot;
+    }
+
 
     public void clearViewHolder(OperationAdapter.ViewHolder vh) {
-        if (vh.text_valueIn != null)
-            vh.text_valueIn.setText(null);
+        if (vh.tot != null)
+            vh.tot.setText(null);
         if (vh.text_valueOut != null)
             vh.text_valueOut.setText(null);
         if (vh.text_date != null)
@@ -111,11 +118,21 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             vh.previous_balance.setText(null);
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         clearViewHolder(holder);
         final Operation currentOperation = getItem(position);
+
+        holder.tot.setText(String.valueOf(Math.abs(currentOperation.previous_balance+currentOperation.value)));
+        if(currentOperation.previous_balance+currentOperation.value <0){
+            holder.tot.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+        }else{
+            holder.tot.setTextColor(mContext.getResources().getColor(R.color.loa_green));
+        }
+
 
         holder.text_date.setText(DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentOperation.created)));
         if(currentOperation.settled.equals("true")){
@@ -125,11 +142,17 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         holder.code.setText(checkEmpty(currentOperation.code).toUpperCase());
         holder.product_kind.setText(checkEmpty(currentOperation.product_kind));
         holder.previous_balance.setText(String.valueOf(currentOperation.previous_balance));
+        if(currentOperation.previous_balance<0){
+            holder.previous_balance.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+            holder.previous_balance.setText(String.valueOf(Math.abs(currentOperation.previous_balance)));
+        }else{
+            holder.previous_balance.setTextColor(mContext.getResources().getColor(R.color.loa_green));
+        }
 
         Double value= currentOperation.value;
         if(value <0){
             holder.text_valueOut.setText(String.valueOf(Math.abs(value)));
-            holder.text_valueOut.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+            holder.text_valueOut.setTextColor(mContext.getResources().getColor(R.color.word));
         }else{
             holder.text_valueOut.setText(String.valueOf(value));
             holder.text_valueOut.setTextColor(mContext.getResources().getColor(R.color.loa_green));

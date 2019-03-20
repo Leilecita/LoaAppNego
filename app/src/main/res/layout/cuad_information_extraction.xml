@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="2dp"
+    card_view:cardMaxElevation="4dp"
+    android:backgroundTint="#ededed"
+    card_view:contentPadding="8dp"
+
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:text="Informacion extracción"
+            android:textSize="18sp"
+            android:textColor="@color/word"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:padding="4dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/word"
+                android:text="Fecha  "/>
+
+            <TextView
+                android:id="@+id/obs_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/word"
+                android:text="Descripción  "/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/word"
+                android:text="Tipo "/>
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/word"
+                android:text="Valor "/>
+
+            <TextView
+                android:id="@+id/value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:id="@+id/edith"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/edituser"
+                android:padding="8dp"
+                android:textColor="#6e6e6e"
+                android:textSize="18dp"
+                android:textStyle="italic"/>
+
+            <ImageView
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:id="@+id/delete"
+                android:src="@drawable/deleteuser"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#414141"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

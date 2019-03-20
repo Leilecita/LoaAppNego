@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.UsersEditorActivity">
+
 
     <item
-        android:id="@+id/search"
-        android:layout_width="match_parent"
-        android:icon="@drawable/searchwhite"
-        android:title="find"
+        android:id="@+id/action_save"
+        android:icon="@drawable/info"
+        android:title="Save"
         app:showAsAction="always" />
+
+
 </menu>

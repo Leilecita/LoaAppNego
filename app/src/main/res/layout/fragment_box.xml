@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/listado">
+
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:id="@+id/line1"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="55sp"
+                android:id="@+id/date"
+                android:textColor="@color/word"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:text="FECHA"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/venta_ctdo"
+                android:textColor="@color/word"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text=" CTDO"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/word"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/credit_card"
+                android:layout_height="wrap_content"
+                android:text="TARJ"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/total_amount"
+                android:textColor="@color/word"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="C TOT"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/rest_box"
+                android:textColor="@color/word"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="REST C"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/dep"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/word"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="T EXT"
+                />
+        </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_box"
+        android:layout_below="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>
+
+<!--
+
+-->

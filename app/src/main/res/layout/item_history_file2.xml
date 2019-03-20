@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/item_layout"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="0dp"
+            android:id="@+id/div"
+            style="@style/DivisorCategoryStyle"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/text_date"
+                android:text="10/12/2018"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/word"
+                android:textStyle="italic"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/settled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/word"
+                android:textStyle="italic"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+
+            android:layout_marginLeft="0dp"
+            android:id="@+id/div2"
+            android:layout_marginRight="0dp"
+            style="@style/DivisorCategoryStyle"
+            />
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:id="@+id/product_kind"
+                    android:textSize="17sp"
+                    android:text="Remera"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:id="@+id/brand"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="17sp"
+                    android:text="oneill"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+
+
+
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/loa_red"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:gravity="right"
+                    android:text="sad"
+                    android:textStyle="bold"
+                    android:id="@+id/tot"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/loa_red"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/description"
+                    android:textSize="17sp"
+                    android:text="mandaven"
+                    android:textColor="@color/word"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:id="@+id/code"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="17sp"
+                    android:text="dfdfse"
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/text_valueOut"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123"
+                    android:textColor="@color/loa_red"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:text="asd"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/previous_balance"
+                    android:textColor="@color/loa_red"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Item_file;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -102,6 +105,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         holder.text_name.setText(currentClient.name);
         if(currentClient.image_url==null){
+
             Glide.with(mContext).load(R.drawable.person_color).into(holder.photo);
         }else{
             Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
@@ -177,7 +181,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                         int mYear = c.get(Calendar.YEAR); // current year
                         int mMonth = c.get(Calendar.MONTH); // current month
                         int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                        datePickerDialog = new DatePickerDialog(mContext,
+                        datePickerDialog = new DatePickerDialog(mContext,R.style.datepicker,
                                 new DatePickerDialog.OnDateSetListener() {
 
                                     @Override
@@ -223,8 +227,10 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                             String dateToServer=DateHelper.get().changeFormatDateUserToServer( date.getText().toString());
 
 
-                            Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"",brandT,codeT,sizeT,product_kindT);
+                            Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"",brandT,codeT,sizeT,product_kindT,"false");
                             //TODO ver fechas
+                            item.created=dateToServer;
+
                             if(currentClient.debt + val == 0){
                                 item.settled="true";
                             }
@@ -267,7 +273,17 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                OperationHistoryClientActivity.start(mContext,currentClient);
+
+                //createInfoDialog(currentClient,position);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 createInfoDialog(currentClient,position);
+                return false;
             }
         });
     }
@@ -467,12 +483,15 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         void onUserEdited(Client client);
     }
 
-    private void sendWhatsapp(String text, String phone){
-        Uri uri = Uri.parse("smsto:" + phone);
-        Intent i = new Intent(Intent.ACTION_SENDTO, uri);
-        i.setPackage("com.whatsapp");
-        i.putExtra(Intent.EXTRA_TEXT,text);
-        mContext.startActivity(Intent.createChooser(i, ""));
+
+    public void sendWhatsapp(String text, String phone){
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+549"+phone));
+            mContext.startActivity(intent);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

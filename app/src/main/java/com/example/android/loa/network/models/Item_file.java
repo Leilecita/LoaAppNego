@@ -18,7 +18,7 @@ public class Item_file {
     public Item_file(){}
 
     public Item_file(Long client_file_id, Long client_id,String description, Double value,Double previous_balance,String observation,
-    String brand,String code,String size,String product_kind){
+    String brand,String code,String size,String product_kind,String settled){
         this.client_file_id=client_file_id;
         this.client_id=client_id;
         this.description=description;
@@ -28,6 +28,7 @@ public class Item_file {
         this.code=code;
         this.value=value;
         this.observation=observation;
+        this.settled=settled;
         this.previous_balance=previous_balance;
     }
 }

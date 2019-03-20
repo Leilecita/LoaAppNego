@@ -20,8 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Fede"
-            android:id="@+id/name_employee"
+            android:text="Extracción"
             android:textSize="18sp"
             android:textColor="@color/title_dialog_info"
             android:gravity="center"
@@ -72,28 +71,28 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/entry"
+                android:id="@+id/description"
                 android:layout_height="33dp"
                 android:layout_weight="1"
                 android:paddingLeft="8dp"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint="Entrada Ej: 10"
+                android:hint="Descripcion"
                 android:textColor="#5c5c5c"
                 android:textSize="16sp"
                 android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords" />
 
             <EditText
-                android:id="@+id/finish"
+                android:id="@+id/type"
                 android:layout_height="33dp"
                 android:layout_weight="1"
                 android:paddingLeft="8dp"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint="Salida Ej:12"
+                android:hint="Tipo"
                 android:textColor="#5c5c5c"
                 android:textSize="16sp"
                 android:background="@drawable/rec_text_edit"
@@ -103,62 +102,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
+            android:paddingTop="2dp"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/time_worked"
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:hint="Horas Ej: 2"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
 
-            <EditText
-                android:id="@+id/turn"
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:hint="Turno Ej: Mañana"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/value"
+                    android:hint="$"
+                    android:layout_width="120dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:paddingLeft="8dp"
+                    android:textColor="#5c5c5c"
+                    android:layout_height="33dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+
+
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/observation"
-                android:layout_weight="1"
-                android:layout_height="33dp"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:hint="Observación"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-
-
-        </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

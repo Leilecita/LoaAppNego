@@ -1,27 +1,36 @@
 package com.example.android.loa.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
+import com.example.android.loa.DateHelper;
+import com.example.android.loa.Interfaces.OnAmountHoursChange;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.HourEmployeeAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Item_employee;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-public class HoursHistoryEmployeeActivity extends BaseActivity implements Paginate.Callbacks {
+public class HoursHistoryEmployeeActivity extends BaseActivity implements Paginate.Callbacks, OnAmountHoursChange {
 
     private RecyclerView mRecyclerView;
     private HourEmployeeAdapter mAdapter;
@@ -29,7 +38,12 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
 
     private TextView mUserName;
     private TextView mHoursAcum;
+    private TextView mSelectMonth;
     private Long mEmployeeId;
+
+    private String monthSince;
+    private String monthTo;
+
 
     //pagination
     private boolean loadingInProgress;
@@ -62,16 +76,122 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
+        mSelectMonth=findViewById(R.id.select_month);
+
         mUserName= findViewById(R.id.user_trans);
-        mHoursAcum= findViewById(R.id.acum);
+        mHoursAcum= findViewById(R.id.totalAmount);
         mUserName.setText(name);
+        monthSince="";
+        monthTo="";
 
         mAdapter=new HourEmployeeAdapter(this,new ArrayList<Item_employee>());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnAmountHoursListener(this);
+
+        refactorToMonth(DateHelper.get().getActualDateEmployee());
+        loadAmountHours();
+
+
+        //System.out.println(DateHelper.get().getNameMonth("10-12-2019"));
+        mSelectMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                month();
+            }
+        });
 
         implementsPaginate();
     }
+    public void onAmountHoursChange(){
+        loadAmountHours();
+    }
 
+    private void loadAmountHours(){
+
+    ApiClient.get().getAmountHoursByMonth(monthSince, monthTo, mEmployeeId, new GenericCallback<AmountResult>() {
+            @Override
+            public void onSuccess(AmountResult data) {
+                mHoursAcum.setText(String.valueOf(data.total));
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!isLoading()) {
+            mCurrentPage = 0;
+            mAdapter.clear();
+            hasMoreItems=true;
+            listByMonth();
+        }
+    }
+
+    private void clearView(){
+        mCurrentPage = 0;
+        mAdapter.clear();
+        hasMoreItems=true;
+        listByMonth();
+    }
+    private void month(){
+            final DatePickerDialog datePickerDialog;
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR); // current year
+            int mMonth = c.get(Calendar.MONTH); // current month
+            int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+            // date picker dialog
+            datePickerDialog = new DatePickerDialog(HoursHistoryEmployeeActivity.this,R.style.datepicker,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                            // set day of month , month and year value in the edit text
+                            String sdayOfMonth = String.valueOf(dayOfMonth);
+                            if (sdayOfMonth.length() == 1) {
+                                sdayOfMonth = "0" + dayOfMonth;
+                            }
+
+                            String smonthOfYear = String.valueOf(monthOfYear + 1);
+                            if (smonthOfYear.length() == 1) {
+                                smonthOfYear = "0" + smonthOfYear;
+                            }
+
+                            String time=DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
+
+                            String datePicker=sdayOfMonth+"-"+smonthOfYear +"-"+year+" "+time;
+                            refactorToMonth(datePicker);
+                            clearView();
+                            loadAmountHours();
+
+                        }
+                    }, mYear, mMonth, mDay);
+
+            datePickerDialog.show();
+
+    }
+
+    private void refactorToMonth(String month){
+        String monthDate=DateHelper.get().getOnlymonth(DateHelper.get().getOnlyDate(month));
+        String nextMonth=DateHelper.get().getNextMonth(month);
+        String finalNextMonth=DateHelper.get().getOnlymonth(DateHelper.get().getOnlyDate(nextMonth));
+
+
+        monthSince=monthDate;
+        monthTo=finalNextMonth;
+
+        mSelectMonth.setText(DateHelper.get().getNameMonth(monthSince));
+        System.out.println(monthDate);
+        System.out.println(nextMonth);
+        System.out.println(finalNextMonth);
+
+    }
     private void implementsPaginate(){
         loadingInProgress=false;
         mCurrentPage=0;
@@ -90,9 +210,10 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
                 .build();
     }
 
-    public void list(){
+    public void listByMonth(){
+
         loadingInProgress=true;
-        ApiClient.get().getItemsEmployeeByPageByEmployeeId(mCurrentPage, mEmployeeId, new GenericCallback<List<Item_employee>>() {
+        ApiClient.get().getItemsEmployeeByPageByEmployeeIdByMonth(mCurrentPage, mEmployeeId, monthSince, monthTo, new GenericCallback<List<Item_employee>>() {
             @Override
             public void onSuccess(List<Item_employee> data) {
                 if (data.size() == 0) {
@@ -113,12 +234,15 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
                 loadingInProgress = false;
             }
         });
+
+
     }
+
 
 
     @Override
     public void onLoadMore() {
-        list();
+        listByMonth();
     }
 
     @Override
@@ -131,5 +255,15 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
         return !hasMoreItems;
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if ( id == android.R.id.home ) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

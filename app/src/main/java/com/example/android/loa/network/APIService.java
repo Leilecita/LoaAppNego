@@ -1,8 +1,10 @@
 package com.example.android.loa.network;
 
 import com.example.android.loa.network.models.AmountResult;
+import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
+import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
@@ -30,6 +32,22 @@ public interface APIService {
     @GET("items_employee_file.php")
     Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeId(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id);
 
+    @GET("items_employee_file.php")
+    Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeIdByMonth(@Query("page") Integer page,@Query("employee_id") Long id,
+                                                                                        @Query("since")String  month1,@Query("to") String month2);
+
+    @GET("items_employee_file.php")
+    Observable<Response<List<Item_employee>>> getItemsEmployeeByEmployeeIdByMonth(@Query("employee_id") Long id,
+                                                                                        @Query("since")String  month1,@Query("to") String month2);
+
+    @GET("items_employee_file.php")
+    Observable<Response<Item_employee>> getItemEmployeeByDateAndEmployeeid(@Query("employee_id") Long id,
+                                                                                        @Query("date")String  month1);
+
+
+
+    @GET("items_employee_file.php")
+    Observable<Response<AmountResult>> getAmountHoursByMonth(@Query("method") String method,@Query("since")String  month1,@Query("to") String month2,@Query("employee_id") Long id);
 
     @POST("items_employee_file.php")
     Observable<Response<Item_employee>> postItemEmploye(@Body  Item_employee e);
@@ -94,5 +112,47 @@ public interface APIService {
     Observable<ResponseBody>  deleteItemFile(@Query("id") Long id);
 
 
+    @GET("extractions.php")
+    Observable<Response<AmountResult>> getTotalExtractionsAmount(@Query("method") String method, @Query("date") String date, @Query("dateTo") String dateTo);
+
+
+    @PUT("extractions.php")
+    Observable<Response<Extraction>> putExtraction(@Body Extraction e);
+
+    @GET("extractions.php")
+    Observable<Response<Extraction>> getExtraction(@Query("id") Long id);
+
+    @GET("extractions.php")
+    Observable<Response<List<Extraction>>> getExtractionsByPage(@Query("page") Integer page,@Query("since") String created);
+
+    @GET("extractions.php")
+    Observable<Response<List<Extraction>>> getExtractionsByPageAndDate(@Query("page") Integer page,@Query("since") String created,@Query("to") String next );
+
+
+    @GET("boxes.php")
+    Observable<Response<List<Box>>> getBoxesByPageAndDate(@Query("page") Integer page,@Query("since") String created,@Query("to") String next );
+
+
+
+    @POST("extractions.php")
+    Observable<Response<Extraction>> postExtraction(@Body Extraction e);
+
+    @DELETE("extractions.php")
+    Observable<ResponseBody>  deleteExtraction(@Query("id") Long id);
+
+    @PUT("boxes.php")
+    Observable<Response<Box>> putBox(@Body Box b);
+
+    @GET("boxes.php")
+    Observable<Response<Box>> getBox(@Query("id") Long id);
+
+    @GET("boxes.php")
+    Observable<Response<List<Box>>> getBoxesByPage(@Query("page") Integer page,@Query("created") String created );
+
+    @POST("boxes.php")
+    Observable<Response<Box>> postBox(@Body Box b);
+
+    @DELETE("boxes.php")
+    Observable<ResponseBody>  deleteBox(@Query("id") Long id);
 
 }

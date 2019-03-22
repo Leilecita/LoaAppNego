@@ -125,9 +125,10 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
         holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
                 LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -149,8 +150,8 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                 edith.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                         edithBox(currentBox,position);
-                         dialog.dismiss();
+                        edithBox(currentBox,position);
+                        dialog.dismiss();
                     }
                 });
 
@@ -171,9 +172,9 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
 
                 date.setText(DateHelper.get().serverToUserFormatted(currentBox.created));
                 dialog.show();
+                return false;
             }
         });
-
     }
 
     private void deleteBox(final Box b,final Integer position){

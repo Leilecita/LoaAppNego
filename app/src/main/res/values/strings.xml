@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Loa</string>
+
+    <string-array name="types">
+        <item>Local</item>
+        <item>Santi</item>
+        <item>Mercaderia</item>
+        <item>Sueldo</item>
+        <item>Otro</item>
+    </string-array>
 </resources>

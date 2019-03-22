@@ -2,10 +2,12 @@ package com.example.android.loa.adapters;
 
 
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.android.loa.DateHelper;
@@ -30,6 +33,9 @@ import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Operation;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.transform.dom.DOMLocator;
@@ -37,6 +43,11 @@ import javax.xml.transform.dom.DOMLocator;
 public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployeeAdapter.ViewHolder> {
 
     private Context mContext;
+
+    Calendar c = Calendar.getInstance();
+    Integer hour = c.get(Calendar.HOUR_OF_DAY);
+    Integer minute = c.get(Calendar.MINUTE);
+
 
     private OnAmountHoursChange onAmountHoursListener = null;
     public void setOnAmountHoursListener(OnAmountHoursChange listener){
@@ -49,7 +60,8 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView date;
+        public TextView date_day;
+        public TextView date_month;
         public TextView time_worked;
         public TextView entry;
         public TextView finish;
@@ -63,7 +75,8 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
 
         public ViewHolder(View v) {
             super(v);
-            date = v.findViewById(R.id.date);
+            date_day = v.findViewById(R.id.date_day);
+            date_month = v.findViewById(R.id.date_month);
             time_worked = v.findViewById(R.id.time_worked);
             entry = v.findViewById(R.id.entry);
             finish = v.findViewById(R.id.finish);
@@ -85,8 +98,10 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
 
 
     public void clearViewHolder(HourEmployeeAdapter.ViewHolder vh) {
-        if (vh.date != null)
-            vh.date.setText(null);
+        if (vh.date_month != null)
+            vh.date_month.setText(null);
+        if (vh.date_day != null)
+            vh.date_day.setText(null);
         if (vh.time_worked != null)
             vh.time_worked.setText(null);
         if (vh.entry != null)
@@ -108,7 +123,10 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         final Item_employee currentItemEmployee = getItem(position);
 
         String date=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentItemEmployee.created));
-        holder.date.setText(DateHelper.get().onlyDayMonth(date));
+       // holder.date.setText(DateHelper.get().onlyDayMonth(date));
+
+        holder.date_day.setText(DateHelper.get().onlyDay(date));
+        holder.date_month.setText(DateHelper.get().onlyMonth(date));
 
         holder.entry.setText(currentItemEmployee.entry);
         holder.finish.setText(currentItemEmployee.finish);
@@ -134,15 +152,14 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
 
         if(!currentItemEmployee.finish.equals("") && !currentItemEmployee.entry.equals("") && !currentItemEmployee.time_worked.equals("") ){
 
-            if(!((Double.valueOf(currentItemEmployee.finish) - Double.valueOf(currentItemEmployee.entry)) == currentItemEmployee.time_worked)){
-                holder.time_worked.setTextColor(mContext.getResources().getColor(R.color.loa_red));
-            }
+      //      if(!((Double.valueOf(currentItemEmployee.finish) - Double.valueOf(currentItemEmployee.entry)) == currentItemEmployee.time_worked)){
+        //        holder.time_worked.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+          //  }
         }
 
         if(!currentItemEmployee.finish_aft.equals("") && !currentItemEmployee.entry_aft.equals("") && !currentItemEmployee.time_worked_aft.equals("") ){
-            if(!((Double.valueOf(currentItemEmployee.finish_aft) - Double.valueOf(currentItemEmployee.entry_aft)) == currentItemEmployee.time_worked_aft)){
-                holder.time_worked_aft.setTextColor(mContext.getResources().getColor(R.color.loa_red));
-            }
+         ////     holder.time_worked_aft.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+            //}
         }
 
         holder.afternoon.setOnLongClickListener(new View.OnLongClickListener() {
@@ -248,6 +265,29 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         dialog.show();
     }
 
+
+
+
+    private void obtenerHora(final TextView t){
+        TimePickerDialog recogerHora = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                String horaFormateada =  (hourOfDay < 10)? String.valueOf("0" + hourOfDay) : String.valueOf(hourOfDay);
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                String minutoFormateado = (minute < 10)? String.valueOf("0" + minute):String.valueOf(minute);
+                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "am";
+                } else {
+                    AM_PM = "pm";
+                }
+                t.setText(horaFormateada+"."+minutoFormateado);
+            }
+        }, hour, minute, false);
+        recogerHora.show();
+    }
     private void edithHour(final Item_employee e, final Integer position,final boolean morning){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -256,29 +296,42 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         builder.setView(dialogView);
 
         final TextView obs= dialogView.findViewById(R.id.observation);
+        final TextView time_worked= dialogView.findViewById(R.id.time_worked);
         final TextView title= dialogView.findViewById(R.id.title);
         final TextView entrada= dialogView.findViewById(R.id.entry);
         final TextView salida= dialogView.findViewById(R.id.out);
-        final TextView time_worked= dialogView.findViewById(R.id.time_worked);
         final TextView date =dialogView.findViewById(R.id.date);
 
         final TextView cancel =dialogView.findViewById(R.id.cancel);
         final ImageView date_picker =dialogView.findViewById(R.id.date_picker);
         final Button ok =dialogView.findViewById(R.id.ok);
 
+       /* entrada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obtenerHora(entrada);
+            }
+        });
 
+        salida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obtenerHora(salida);
+            }
+        });
+*/
 
         if(morning){
             title.setText("Horario mañana");
             obs.setText(String.valueOf(e.observation));
             entrada.setText(e.entry);
             salida.setText(e.finish);
-            time_worked.setText(String.valueOf(MathHelper.get().getIntegerQuantity(e.time_worked)));
+            time_worked.setText(String.valueOf(e.time_worked));
         }else{
             obs.setText(String.valueOf(e.obs_aft));
             entrada.setText(e.entry_aft);
             salida.setText(e.finish_aft);
-            time_worked.setText(String.valueOf(MathHelper.get().getIntegerQuantity(e.time_worked_aft)));
+            time_worked.setText(String.valueOf(e.time_worked_aft));
             title.setText("Horario tarde");
         }
 
@@ -290,35 +343,45 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(morning){
-                    e.observation=obs.getText().toString().trim();
-                    e.entry=entrada.getText().toString().trim();
-                    e.finish=salida.getText().toString().trim();
-                    e.time_worked=Double.valueOf(time_worked.getText().toString().trim());
-                }else{
-                    e.obs_aft=obs.getText().toString().trim();
-                    e.entry_aft=entrada.getText().toString().trim();
-                    e.finish_aft=salida.getText().toString().trim();
-                    e.time_worked_aft=Double.valueOf(time_worked.getText().toString().trim());
-                }
+                if(ValidatorHelper.get().isTypeDouble(time_worked.getText().toString().trim())){
+
+                    if(morning){
+                        e.observation=obs.getText().toString().trim();
+                        e.entry=entrada.getText().toString().trim();
+                        e.finish=salida.getText().toString().trim();
+                        e.time_worked=Double.valueOf(time_worked.getText().toString().trim());
+                        // e.time_worked=Double.valueOf(differenceBetweenHours(e.entry,e.finish));
+                    }else{
+                        e.obs_aft=obs.getText().toString().trim();
+                        e.entry_aft=entrada.getText().toString().trim();
+                        e.finish_aft=salida.getText().toString().trim();
+                        // e.time_worked_aft=Double.valueOf(differenceBetweenHours(e.entry_aft,e.finish_aft));
+                        e.time_worked_aft=Double.valueOf(time_worked.getText().toString().trim());
+                    }
 
 
-                ApiClient.get().putItemEmployee(e, new GenericCallback<Item_employee>() {
-                    @Override
-                    public void onSuccess(Item_employee data) {
-                        updateItem(position,e);
-                        if(onAmountHoursListener !=null){
-                            onAmountHoursListener.onAmountHoursChange();
+                    ApiClient.get().putItemEmployee(e, new GenericCallback<Item_employee>() {
+                        @Override
+                        public void onSuccess(Item_employee data) {
+                            updateItem(position,e);
+                            if(onAmountHoursListener !=null){
+                                onAmountHoursListener.onAmountHoursChange();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Error error) {
-                        DialogHelper.get().showMessage("Error","No se pudo realizar la operación",mContext);
-                    }
-                });
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error","No se pudo realizar la operación",mContext);
+                        }
+                    });
                     dialog.dismiss();
                     notifyDataSetChanged();
+
+                }else{
+
+                    Toast.makeText(mContext,"Tipo de dato no valido",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {

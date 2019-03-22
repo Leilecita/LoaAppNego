@@ -64,7 +64,7 @@
             android:textColor="@color/word"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="asasas"
+            android:text=""
             />
     </LinearLayout>
 </RelativeLayout>

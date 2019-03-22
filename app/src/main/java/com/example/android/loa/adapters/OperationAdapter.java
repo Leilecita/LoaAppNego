@@ -133,7 +133,6 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             holder.tot.setTextColor(mContext.getResources().getColor(R.color.loa_green));
         }
 
-
         holder.text_date.setText(DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentOperation.created)));
         if(currentOperation.settled.equals("true")){
             holder.settled.setText("SALDADO A 0");
@@ -161,9 +160,9 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         }
         holder.description.setText(checkEmpty(currentOperation.description));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
                 LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -203,7 +202,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
 
                 dialog.show();
 
-
+                return false;
             }
         });
 

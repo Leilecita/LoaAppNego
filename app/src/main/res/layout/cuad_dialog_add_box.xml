@@ -149,8 +149,10 @@
                 <EditText
                     android:id="@+id/deposit"
                     android:hint="Deposito"
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
                     style="@style/Widget.Design.TextInputLayout"
+                    android:layout_marginRight="8dp"
                     android:paddingLeft="8dp"
                     android:textColor="#5c5c5c"
                     android:layout_height="33dp"

@@ -20,6 +20,11 @@
 
     </style>
 
+    <style name="Autocomplete">
+        <item name="colorControlNormal">@color/colorDialogButton</item>
+        <item name="colorControlActivated">@color/colorDialogButton</item>
+    </style>
+
     <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimary">#d9d5d5</item>
         <item name="colorPrimaryDark">#ffff</item>

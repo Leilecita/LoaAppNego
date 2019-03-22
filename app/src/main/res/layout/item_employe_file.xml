@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
-
-
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-        android:id="@+id/line1Aft"
+            android:id="@+id/line1Aft"
             android:layout_gravity="center_vertical"
             android:padding="2dp">
             <TextView
                 android:layout_width="40sp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="bottom"
+                android:gravity="center"
                 android:textColor="@color/word"
-                android:id="@+id/date"
-                android:text="24/11"
+                android:id="@+id/date_day"
+                android:textStyle="bold"
+                android:text="24"
                 android:textSize="14sp"
                 />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="150sp"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="90sp"
+                            android:layout_width="80sp"
                             android:layout_height="match_parent"
                             android:text="Entrada  "
                             android:textColor="@color/word"
@@ -45,7 +44,7 @@
                              />
 
                         <TextView
-                            android:layout_width="40sp"
+                            android:layout_width="60sp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/word"
                             android:id="@+id/entry"
@@ -55,11 +54,11 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView
-                            android:layout_width="90sp"
+                            android:layout_width="80sp"
                             android:layout_height="wrap_content"
                             android:textColor="@color/word"
                             android:textSize="17sp"
@@ -67,7 +66,7 @@
                             android:text="Salida  "/>
 
                         <TextView
-                            android:layout_width="40sp"
+                            android:layout_width="60sp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:textColor="@color/word"
@@ -85,12 +84,10 @@
                 android:layout_gravity="center"
                 android:textColor="@color/word"
                 android:textSize="17sp"
-
                 android:text="Hs"
                 />
-
             <TextView
-                android:layout_width="40sp"
+                android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="@color/word"
@@ -108,9 +105,7 @@
                 android:textSize="17sp"
                 android:text="Mañana"
                 />
-
         </LinearLayout>
-
     <TextView
 
         android:layout_marginLeft="50sp"
@@ -118,7 +113,6 @@
         android:id="@+id/div2"
         style="@style/DivisorCategoryStyle"
         />
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -128,28 +122,30 @@
         android:layout_gravity="center_vertical"
         android:padding="2dp">
         <TextView
-            android:layout_width="40dp"
+            android:layout_width="40sp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="top"
+            android:gravity="center"
             android:textColor="@color/word"
-            android:id="@+id/date2"
-            android:text=""
+            android:id="@+id/date_month"
+            android:textStyle="bold"
+            android:text="24"
             android:textSize="14sp"
             />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="90sp"
+                    android:layout_width="80sp"
                     android:layout_height="match_parent"
                     android:text="Entrada  "
                     android:textColor="@color/word"
@@ -157,7 +153,7 @@
                     />
 
                 <TextView
-                    android:layout_width="40sp"
+                    android:layout_width="60sp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/word"
                     android:id="@+id/entryT"
@@ -167,11 +163,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="90sp"
+                    android:layout_width="80sp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/word"
                     android:textSize="17sp"
@@ -179,7 +175,121 @@
                     android:text="Salida  "/>
 
                 <TextView
-                    android:layout_width="40sp"
+                    android:layout_width="60sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:id="@+id/finishT"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:text="10"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/word"
+            android:textSize="17sp"
+            android:text="Hs"
+            />
+        <TextView
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/word"
+            android:id="@+id/time_workedT"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:text="4"
+            />
+
+        <TextView
+            android:layout_width="80sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/word"
+            android:textSize="17sp"
+            android:text="Tarde"
+            />
+    </LinearLayout>
+
+    <TextView
+
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="4dp"
+        android:id="@+id/div"
+        style="@style/DivisorCategoryStyle"
+        />
+</LinearLayout>
+
+
+
+<!--
+ <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/line2Aft"
+        android:layout_gravity="center_vertical"
+        android:padding="2dp">
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/word"
+            android:id="@+id/date_month"
+            android:text="03"
+            android:textSize="14sp"
+            />
+
+        <LinearLayout
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="9dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80sp"
+                    android:layout_height="match_parent"
+                    android:text="Entrada  "
+                    android:textColor="@color/word"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:layout_width="60sp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:id="@+id/entryT"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:text="10"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:textSize="17sp"
+
+                    android:text="Salida  "/>
+
+                <TextView
+                    android:layout_width="60sp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textColor="@color/word"
@@ -202,7 +312,7 @@
             />
 
         <TextView
-            android:layout_width="40sp"
+            android:layout_width="60sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/word"
@@ -222,19 +332,7 @@
             />
 
     </LinearLayout>
-    <TextView
-
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="4dp"
-        android:id="@+id/div"
-        style="@style/DivisorCategoryStyle"
-        />
-
-</LinearLayout>
-
-
-
-
+-->
 
 
 

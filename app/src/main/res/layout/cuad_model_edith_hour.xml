@@ -41,7 +41,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80sp"
+                    android:layout_width="70sp"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:padding="0dp"
@@ -77,10 +77,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="80sp"
+                android:layout_width="70sp"
                 android:layout_height="wrap_content"
                 android:text="Entrada  "
                 android:textSize="16sp"
+                android:layout_gravity="center_vertical"
                 android:textStyle="bold"
                 android:textColor="@color/word"
                 />
@@ -91,15 +92,30 @@
                 android:paddingLeft="8dp"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="50sp"
+                android:layout_width="170sp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorDialogButton"
                 android:textSize="16sp"
                 android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords" />
 
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:orientation="horizontal">
+
+
             <TextView
                 android:layout_width="70sp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="Salida  "
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -112,7 +128,9 @@
                 android:paddingLeft="8dp"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="50sp"
+                android:layout_width="170sp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorDialogButton"
                 android:textSize="16sp"
                 android:background="@drawable/rec_text_edit"
@@ -122,14 +140,33 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:paddingTop="6sp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Ej: 1hs -> 1    1hs y 30min -> 1.30 "
+                android:textSize="16sp"
+                android:textColor="@color/word"
+                />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="6dp"
             android:orientation="horizontal">
 
+
             <TextView
-                android:layout_width="80sp"
+                android:layout_width="70sp"
                 android:layout_height="wrap_content"
-                android:text="Horas  "
+                android:layout_gravity="center_vertical"
+                android:text="Horas "
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/word"
@@ -141,16 +178,17 @@
                 android:paddingLeft="8dp"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="50sp"
+                android:layout_width="70sp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:textColor="@color/colorDialogButton"
                 android:textSize="16sp"
                 android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords" />
 
 
-
-
         </LinearLayout>
+
 
 
         <LinearLayout

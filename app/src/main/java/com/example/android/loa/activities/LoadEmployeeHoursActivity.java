@@ -3,11 +3,13 @@ package com.example.android.loa.activities;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.android.loa.DateHelper;
@@ -31,7 +34,13 @@ import com.example.android.loa.network.models.Item_employee;
 
 import java.util.Calendar;
 import java.util.List;
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class LoadEmployeeHoursActivity extends BaseActivity {
 
@@ -49,6 +58,14 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
     private TextView mFinishT;
     private TextView mTime_workedT;
     private TextView mObsT;
+
+    Calendar c = Calendar.getInstance();
+
+    // Get the system current hour and minute
+    Integer hour = c.get(Calendar.HOUR_OF_DAY);
+    Integer minute = c.get(Calendar.MINUTE);
+
+
 
     public static void start(Context mContext, Employee employee) {
         Intent i = new Intent(mContext, LoadEmployeeHoursActivity.class);
@@ -148,6 +165,61 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         });
     }
 
+    private String differenceBetweenHours(String time1, String time2){
+        try
+        {
+            SimpleDateFormat format = new SimpleDateFormat("hh:mm aa");
+            Date date1 = format.parse(time1);
+            Date date2 = format.parse(time2);
+            long mills = date2.getTime() - date1.getTime();
+            Log.v("Data1", ""+date1.getTime());
+            Log.v("Data2", ""+date2.getTime());
+
+            System.out.println(date1.getTime());
+            System.out.println(date2.getTime());
+
+            int hours = (int) (mills/(1000 * 60 * 60));
+            int mins = (int) (mills/(1000*60)) % 60;
+            hours = (hours < 0 ? -hours : hours);
+
+            String diff = hours + "." + mins; // updated value every1 second
+            System.out.println(diff);
+            return diff;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private void obtenerHora(final TextView t){
+        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                String horaFormateada =  (hourOfDay < 10)? String.valueOf("0" + hourOfDay) : String.valueOf(hourOfDay);
+
+
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                String minutoFormateado = (minute < 10)? String.valueOf("0" + minute):String.valueOf(minute);
+
+                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "am";
+                } else {
+                    AM_PM = "pm";
+                }
+
+
+                t.setText(horaFormateada+"."+minutoFormateado);
+            }
+        }, hour, minute, false);
+        recogerHora.show();
+    }
+
 
     private void clearView(String date){
        // loadItem(date);
@@ -166,9 +238,7 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                    mItemEmployee.id=data.get(0).id;
 
                    loadDataItemEmployee();
-                  // Toast.makeText(LoadEmployeeHoursActivity.this,"Horas iniciadas", Toast.LENGTH_LONG).show();
                }else{
-                  // Toast.makeText(LoadEmployeeHoursActivity.this,"Inciando carga", Toast.LENGTH_LONG).show();
                }
 
            }
@@ -186,12 +256,12 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
        mEntry.setText(mItemEmployee.entry);
        mFinish.setText(mItemEmployee.finish);
-       mTime_worked.setText(String.valueOf(MathHelper.get().getIntegerQuantity(mItemEmployee.time_worked)));
+       mTime_worked.setText(String.valueOf(mItemEmployee.time_worked));
        mObs.setText(mItemEmployee.observation);
 
        mEntryT.setText(mItemEmployee.entry_aft);
        mFinishT.setText(mItemEmployee.finish_aft);
-       mTime_workedT.setText(String.valueOf(MathHelper.get().getIntegerQuantity(mItemEmployee.time_worked_aft)));
+       mTime_workedT.setText(String.valueOf(mItemEmployee.time_worked_aft));
        mObsT.setText(mItemEmployee.obs_aft);
 
     }
@@ -203,11 +273,13 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         builder.setView(dialogView);
 
         final TextView obs= dialogView.findViewById(R.id.observation);
+        final TextView time_worked= dialogView.findViewById(R.id.time_worked);
         final TextView title= dialogView.findViewById(R.id.title);
         final TextView entrada= dialogView.findViewById(R.id.entry);
         final TextView salida= dialogView.findViewById(R.id.out);
-        final TextView time_worked= dialogView.findViewById(R.id.time_worked);
         final TextView date =dialogView.findViewById(R.id.date);
+
+
 
         final TextView cancel =dialogView.findViewById(R.id.cancel);
         final Button ok =dialogView.findViewById(R.id.ok);
@@ -217,55 +289,104 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
             obs.setText(String.valueOf(mItemEmployee.observation));
             entrada.setText(mItemEmployee.entry);
             salida.setText(mItemEmployee.finish);
-            time_worked.setText(String.valueOf(MathHelper.get().getIntegerQuantity(mItemEmployee.time_worked)));
+            time_worked.setText(String.valueOf(mItemEmployee.time_worked));
         }else{
             title.setText("Turno Tarde");
             obs.setText(String.valueOf(mItemEmployee.obs_aft));
             entrada.setText(mItemEmployee.entry_aft);
             salida.setText(mItemEmployee.finish_aft);
-            time_worked.setText(String.valueOf(MathHelper.get().getIntegerQuantity(mItemEmployee.time_worked_aft)));
+            time_worked.setText(String.valueOf(mItemEmployee.time_worked_aft));
         }
 
         date.setHint(DateHelper.get().getOnlyDate((DateHelper.get().getOnlyDate(mItemEmployee.created))));
         date.setHintTextColor(getApplication().getResources().getColor(R.color.colorDialogButton));
+
+       /* entrada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obtenerHora(entrada);
+            }
+        });
+
+        salida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                obtenerHora(salida);
+            }
+        });*/
 
         final AlertDialog dialog = builder.create();
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ValidatorHelper.get().isTypeDouble(time_worked.getText().toString().trim())){
+
+
+                if( ValidatorHelper.get().isTypeDouble(time_worked.getText().toString().trim()) ){
 
                     if(isMorning){
                         mItemEmployee.observation=obs.getText().toString().trim();
                         mItemEmployee.entry=entrada.getText().toString().trim();
                         mItemEmployee.finish=salida.getText().toString().trim();
+
                         mItemEmployee.time_worked=Double.valueOf(time_worked.getText().toString().trim());
+                        // mItemEmployee.time_worked=Double.valueOf(differenceBetweenHours(mItemEmployee.entry,mItemEmployee.finish));
 
                         mEntry.setText(entrada.getText().toString().trim());
                         mFinish.setText(salida.getText().toString().trim());
                         mObs.setText(obs.getText().toString().trim());
-                        mTime_worked.setText(String.valueOf(time_worked.getText().toString().trim()));
+                        mTime_worked.setText(String.valueOf(mItemEmployee.time_worked));
                     }else{
                         mItemEmployee.obs_aft=obs.getText().toString().trim();
                         mItemEmployee.entry_aft=entrada.getText().toString().trim();
                         mItemEmployee.finish_aft=salida.getText().toString().trim();
+
                         mItemEmployee.time_worked_aft=Double.valueOf(time_worked.getText().toString().trim());
+                        // mItemEmployee.time_worked_aft=Double.valueOf( differenceBetweenHours(mItemEmployee.entry_aft,mItemEmployee.finish_aft));
 
                         mEntryT.setText(entrada.getText().toString().trim());
                         mFinishT.setText(salida.getText().toString().trim());
                         mObsT.setText(obs.getText().toString().trim());
-                        mTime_workedT.setText(String.valueOf(time_worked.getText().toString().trim()));
+                        mTime_workedT.setText(String.valueOf(mItemEmployee.time_worked_aft));
                     }
 
                     clearView(mDate.getText().toString().trim());
                     dialog.dismiss();
                 }else{
-                    Toast.makeText(LoadEmployeeHoursActivity.this,"Tipo no valido",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(),"Tipo de dato no valido",Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
+    private void showDialogCancelOrder(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.dialog_cancel_save, null);
+        builder.setView(dialogView);
+
+        TextView cancel= dialogView.findViewById(R.id.cancel);
+        final TextView ok= dialogView.findViewById(R.id.ok);
+        final AlertDialog dialog = builder.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                finish();
+            }
+        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -286,28 +407,10 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-
-                //turno mañana
-/*
-                String entryTS=mEntry.getText().toString().trim();
-                String finishTS=mFinish.getText().toString().trim();
-                Double time_workedTS=Double.valueOf(mTime_worked.getText().toString().trim());
-                String obsTS=mObs.getText().toString().trim();
-
-                //turno tarde
-                String entryTST=mEntryT.getText().toString().trim();
-                String finishTST=mFinishT.getText().toString().trim();
-                Double time_workedTST= Double.valueOf(mTime_workedT.getText().toString().trim());
-                String obsTST=mObsT.getText().toString().trim();
-*/
                 String date=mDate.getText().toString().trim();
-
-                /*final Item_employee i = new Item_employee(mItemEmployee.id,time_workedTS,"",date,obsTS,entryTS,finishTS,
-                    time_workedTST,obsTST,entryTST,finishTST);*/
 
                 if(!mEdithDate.equals(""))
                     mItemEmployee.created=date;
-
 
                 final ProgressDialog progress = ProgressDialog.show(this, "Cargando horas",
                         "Aguarde un momento", true);
@@ -329,9 +432,18 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                 return true;
 
             case android.R.id.home:
-                finish();
+
+                showDialogCancelOrder();
+               // finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String parseHours(String cantHours) {
+        String[] parts = cantHours.split(":");
+        String part1 = parts[0]; // hora
+        String part2 = parts[1]; // minuto
+        return part1+"."+part2;
     }
 }

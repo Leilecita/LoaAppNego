@@ -4,15 +4,13 @@
     android:layout_height="match_parent"
     android:id="@+id/listado">
 
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_extractions"
         android:layout_below="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="2dp"
         />
 
     <LinearLayout

@@ -107,6 +107,29 @@
                 android:textSize="18dp"
                 android:textStyle="italic"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:padding="4dp"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:textColor="@color/loa_green"
+                android:text="#100 "/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:text="EXT Sueldo"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="18dp"
+                android:textStyle="italic"/>
+        </LinearLayout>
 
     </LinearLayout>
 

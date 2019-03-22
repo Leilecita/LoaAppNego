@@ -117,6 +117,14 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
                 loadHours(currentEmployee);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                createInfoDialog(currentEmployee,position);
+                return false;
+            }
+        });
         holder.options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

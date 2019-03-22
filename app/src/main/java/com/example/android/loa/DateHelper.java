@@ -236,6 +236,22 @@ public class DateHelper {
         return part3;
     }
 
+    public String onlyMonth(String date) {
+        String[] parts = date.split("/");
+        String part1 = parts[0]; // dia
+        String part2 = parts[1]; // mes
+        String part3 = parts[2]; // año
+        return part2;
+    }
+
+    public String onlyDay(String date) {
+        String[] parts = date.split("/");
+        String part1 = parts[0]; // dia
+        String part2 = parts[1]; // mes
+        String part3 = parts[2]; // año
+        return part1;
+    }
+
 
     private String onlyTime(String date) {
         String[] parts = date.split(" ");

@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -41,7 +43,6 @@ import java.util.List;
 
 public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private Context mContext;
-    private String mLastDate;
     private String mLastDateDecoration;
 
     private boolean mResumAmountOn;
@@ -54,12 +55,15 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
 
     @Override
     public long getHeaderId(int position) {
-       /* if (position == 0) {
-            return -1;
-        } else {*/
+        if (position == 0) {
+            return 1;
+        } else {
             return getItem(position).id;
-      /*  }*/
+        }
     }
+
+
+
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
@@ -90,13 +94,12 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
     public ExtractionAdapter(Context context, List<Extraction> extractions,Boolean amount) {
         setItems(extractions);
         mContext = context;
-        mLastDate="";
         mLastDateDecoration="";
         mResumAmountOn=amount;
     }
 
-    public void resetLastDay(){
-        mLastDate="";
+    public void setLastDateDecoration(String s){
+        mLastDateDecoration=s;
     }
 
     public ExtractionAdapter() {
@@ -150,91 +153,69 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
 
         final Extraction currentExtraction = getItem(position);
 
-        String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentExtraction.created));
-        if(mLastDate.equals("")){
-           // holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
-          //  holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
-           // holder.date.setText(DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentExtraction.created)));
-           // mLastDate=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentExtraction.created));
-        }else if(mLastDate.equals(DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentExtraction.created)))){
-        }else{
-          //  holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
-         //   holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
-            //holder.date.setText(DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentExtraction.created)));
-           // mLastDate=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentExtraction.created));
-        }
 
+            holder.value.setText(String.valueOf(currentExtraction.value));
+            holder.description.setText(currentExtraction.description);
+            //  holder.type.setText(currentExtraction.type);
 
-        holder.value.setText(String.valueOf(currentExtraction.value));
-        holder.description.setText(currentExtraction.description);
-      //  holder.type.setText(currentExtraction.type);
+            if(currentExtraction.type.equals("Santi")){
+                holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+            }else if(currentExtraction.type.equals("Local")){
+                // holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
+            }else if(currentExtraction.type.equals("Mercaderia")){
+                holder.value.setTypeface(Typeface.create("san-serif", Typeface.BOLD));
+            }else if(currentExtraction.type.equals("Sueldo")){
+                holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
+            }
 
-        if(currentExtraction.type.equals("Santi")){
-            holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_red));
-        }else if(currentExtraction.type.equals("Local")){
-           // holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
-        }else if(currentExtraction.type.equals("Mercaderia")){
-            holder.value.setTypeface(Typeface.create("san-serif", Typeface.BOLD));
-        }
-
-       /* if(!mResumAmountOn){
-            holder.date.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    Intent intent= new Intent(mContext, ExtractionsActivity.class);
-                    intent.putExtra("DATE",currentExtraction.created);
-                    intent.putExtra("NEXTDATE",DateHelper.get().getNextDay(currentExtraction.created));
-                    mContext.startActivity(intent);
+                public boolean onLongClick(View v) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+                    LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    final View dialogView = inflater.inflate(R.layout.cuad_information_extraction, null);
+
+                    builder.setView(dialogView);
+                    final AlertDialog dialog = builder.create();
+
+                    final ImageView delete=  dialogView.findViewById(R.id.delete);
+                    ImageView edith=  dialogView.findViewById(R.id.edith);
+                    delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteExtraction(currentExtraction,position);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    edith.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            edithExtraction(currentExtraction,position);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    TextView desc=  dialogView.findViewById(R.id.description);
+                    desc.setText(currentExtraction.description);
+                    TextView value=  dialogView.findViewById(R.id.value);
+                    TextView type=  dialogView.findViewById(R.id.type);
+                    type.setText(currentExtraction.type);
+                    value.setText(String.valueOf(currentExtraction.value));
+                    TextView date=  dialogView.findViewById(R.id.obs_date);
+
+                    date.setText(DateHelper.get().changeFormatDate(currentExtraction.created));
+
+                    System.out.println(date.getText().toString().trim());
+                    System.out.println(currentExtraction.created);
+
+                    dialog.show();
+
+                    return false;
                 }
             });
-        }*/
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View dialogView = inflater.inflate(R.layout.cuad_information_extraction, null);
-
-                builder.setView(dialogView);
-                final AlertDialog dialog = builder.create();
-
-                final ImageView delete=  dialogView.findViewById(R.id.delete);
-                ImageView edith=  dialogView.findViewById(R.id.edith);
-                delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteExtraction(currentExtraction,position);
-                        dialog.dismiss();
-                    }
-                });
-
-                edith.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        edithExtraction(currentExtraction,position);
-                        dialog.dismiss();
-                    }
-                });
-
-                TextView desc=  dialogView.findViewById(R.id.description);
-                desc.setText(currentExtraction.description);
-                TextView value=  dialogView.findViewById(R.id.value);
-                TextView type=  dialogView.findViewById(R.id.type);
-                type.setText(currentExtraction.type);
-                value.setText(String.valueOf(currentExtraction.value));
-                TextView date=  dialogView.findViewById(R.id.obs_date);
-
-                date.setText(DateHelper.get().changeFormatDate(currentExtraction.created));
-
-                System.out.println(date.getText().toString().trim());
-                System.out.println(currentExtraction.created);
-
-                dialog.show();
-            }
-        });
-
     }
 
     private void deleteExtraction(final Extraction e,final Integer position){
@@ -266,9 +247,9 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                         Toast.makeText(mContext,"Se elimina la extracción "+e.description,Toast.LENGTH_LONG).show();
                         removeItem(position);
 
-                        if(onExtractionsAmountChangeListener!=null){
+                       /* if(onExtractionsAmountChangeListener!=null){
                             onExtractionsAmountChangeListener.reloadExtractionsAmount();
-                        }
+                        }*/
                     }
 
                     @Override
@@ -297,7 +278,7 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         builder.setView(dialogView);
 
         final TextView value= dialogView.findViewById(R.id.value);
-        final TextView type= dialogView.findViewById(R.id.type);
+        //final TextView type= dialogView.findViewById(R.id.type);
         final TextView description= dialogView.findViewById(R.id.description);
         final TextView date =dialogView.findViewById(R.id.date);
 
@@ -305,7 +286,13 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         final ImageView date_picker =dialogView.findViewById(R.id.date_picker);
         final Button ok =dialogView.findViewById(R.id.ok);
 
-        type.setText(e.type);
+        final AutoCompleteTextView type = dialogView.findViewById(R.id.autocomplete_region);
+        String[] regions = mContext.getResources().getStringArray(R.array.types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, regions);
+        type.setAdapter(adapter);
+        type.setHint(e.type);
+
+        //type.setText(e.type);
         description.setText(e.description);
         value.setText(String.valueOf(MathHelper.get().getIntegerQuantity(e.value)));
 

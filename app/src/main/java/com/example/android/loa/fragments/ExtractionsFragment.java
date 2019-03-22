@@ -13,11 +13,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
@@ -46,6 +51,8 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
     private RecyclerView.LayoutManager layoutManager;
     private View mRootView;
 
+    private boolean mFirstDate;
+
     private String mSelectDate;
     //pagination
     private boolean loadingInProgress;
@@ -68,7 +75,8 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         if(!isLoading()) {
             mCurrentPage = 0;
             mAdapter.clear();
-            mAdapter.resetLastDay();
+            mAdapter.setLastDateDecoration("");
+          //  mFirstDate.setText("");
             hasMoreItems=true;
             listExtractions();
         }
@@ -77,7 +85,8 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
     private void clearView(){
         mCurrentPage = 0;
         mAdapter.clear();
-        mAdapter.resetLastDay();
+        mAdapter.setLastDateDecoration("");
+       // mFirstDate.setText("");
         hasMoreItems=true;
         listExtractions();
     }
@@ -93,6 +102,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new ExtractionAdapter(getActivity(), new ArrayList<Extraction>(),false);
 
+        mFirstDate=false;
         // registerForContextMenu(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
@@ -185,6 +195,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         clearView();
     }
 
+
     private void listExtractions(){
         loadingInProgress=true;
         ApiClient.get().getExtractionsByPage(mCurrentPage, "", new GenericCallback<List<Extraction>>() {
@@ -201,6 +212,8 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                     }
                 }
                 loadingInProgress = false;
+
+
             }
             @Override
             public void onError(Error error) {
@@ -215,10 +228,12 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         builder.setView(dialogView);
 
         final TextView description=  dialogView.findViewById(R.id.description);
-        final TextView type=  dialogView.findViewById(R.id.type);
+        final Spinner spinner=  dialogView.findViewById(R.id.spinner_type);
         final TextView date=  dialogView.findViewById(R.id.date);
         final TextView value=  dialogView.findViewById(R.id.value);
         final ImageView date_picker=  dialogView.findViewById(R.id.date_picker);
+
+        createSpinner(spinner);
 
         date.setText(DateHelper.get().getActualDate());
 
@@ -269,8 +284,12 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 String descriptionT=description.getText().toString().trim();
-                Double valueT=Double.valueOf(value.getText().toString().trim());
-                String typeT=type.getText().toString().trim();
+                Double valueT=0.0;
+                if(!value.getText().toString().trim().matches("")){
+                    valueT=Double.valueOf(value.getText().toString().trim());
+                }
+
+                String typeT=String.valueOf(spinner.getSelectedItem());
 
                 Extraction extr=new Extraction(descriptionT,typeT,valueT);
                 extr.created= DateHelper.get().changeFormatDateUserToServer(date.getText().toString().trim());
@@ -317,6 +336,17 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                     }
                 })
                 .build();
+    }
+
+    private void createSpinner(final Spinner spinner) {
+
+        ArrayAdapter<String> adapter_extr = new ArrayAdapter<String>(getContext(),
+                R.layout.spinner_item, getResources().getStringArray(R.array.types));
+
+        adapter_extr.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(adapter_extr);
+
+
     }
 
     @Override

@@ -10,4 +10,5 @@
         android:icon="@drawable/searchwhite"
         android:title="find"
         app:showAsAction="always" />
+
 </menu>

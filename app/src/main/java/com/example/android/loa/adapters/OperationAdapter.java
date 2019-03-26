@@ -390,6 +390,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
 
                 Item_file item=new Item_file();
                 item.value=op.value;
+                item.client_id=op.client_id;
                 item.description=op.description;
                 item.created=op.created;
                 item.id=op.item_file_id;

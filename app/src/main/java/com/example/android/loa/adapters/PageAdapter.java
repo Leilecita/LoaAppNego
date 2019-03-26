@@ -60,7 +60,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         }else if(position==1){
             return "Team";
         }else if(position ==2){
-            return "Extr";
+            return "Extract";
         }else{
             return "Cajas";
         }

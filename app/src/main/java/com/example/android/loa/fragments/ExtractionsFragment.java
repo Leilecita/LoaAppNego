@@ -26,6 +26,7 @@ import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
+import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.ExtractionsActivity;
@@ -38,6 +39,8 @@ import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -298,6 +301,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                     @Override
                     public void onSuccess(Extraction data) {
                         clearView();
+                        EventBus.getDefault().post(new RefreshBoxesEvent("Hey event subscriber!"));
                     }
 
                     @Override
@@ -365,6 +369,24 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
     }
 
     @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_main, menu);
+
+        final MenuItem item = menu.findItem(R.id.search);
+
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                selectDate();
+
+                return false;
+            }
+        });
+
+    }
+
+   /* @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -378,6 +400,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
 }

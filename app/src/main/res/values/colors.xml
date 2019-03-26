@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#9788b8</color>
+    <color name="colorPrimaryDark">#655589</color>
+    <color name="colorAccent">#9788b8</color>
+
+
+    <color name="colorDialogButton"> #655589</color>
+    <color name="edithText">#310d58</color>
+
+
+    <color name="word">#252525</color>
+    <color name="word_clear">#807e7e</color>
+    <color name="title_dialog_info">#252525</color>
+    <color name="word_info">#7F7359</color>
+    <color name="loa_red">#9f1a27</color>
+    <color name="loa_green">#236b46</color>
+</resources>
+<!--
+<resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -15,8 +33,10 @@
     <color name="word_info">#7F7359</color>
     <color name="loa_red">#9f1a27</color>
     <color name="loa_green">#236b46</color>
-</resources>
-<!--
 
+
+     <color name="colorPrimary">#f28aac</color>
+    <color name="colorPrimaryDark">#e45685</color>
+</resources>
  <color name="colorAccent">#FF4081</color>
 -->

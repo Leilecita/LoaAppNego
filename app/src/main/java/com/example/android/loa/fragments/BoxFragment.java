@@ -25,6 +25,7 @@ import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
+import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.BoxActivity;
 import com.example.android.loa.activities.ExtractionsActivity;
@@ -41,6 +42,9 @@ import com.example.android.loa.network.GenericCallback;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +56,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private BoxAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private View mRootView;
-    private boolean changeDate;
 
     private String mSelectDate;
 
@@ -64,24 +67,9 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
     public void onClickButton(){
 
-        final String actualDate= DateHelper.get().getActualDate();
-        String date1= DateHelper.get().getOnlyDateComplete(actualDate);
-        String nextDay1= DateHelper.get().getNextDayBox(actualDate);
-        String date2= DateHelper.get().getOnlyDateComplete(nextDay1);
+            addBox();
 
-        ApiClient.get().getTotalExtractionAmount(DateHelper.get().changeFormatDateUserToServer(date1), DateHelper.get().changeFormatDateUserToServer(date2), new GenericCallback<AmountResult>() {
-            @Override
-            public void onSuccess(AmountResult data) {
-                addBox(data.total);
-            }
-
-            @Override
-            public void onError(Error error) {
-
-            }
-        });
-
-        }
+    }
     public int getIconButton(){
         return R.drawable.add_white;
     }
@@ -90,15 +78,33 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         return 0;
     }
 
+    @Subscribe
+    public void onEvent(RefreshBoxesEvent event){
+
+        Toast.makeText(getActivity(),event.mMessage,Toast.LENGTH_SHORT).show();
+        clearView();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         if(!isLoading()) {
-            mCurrentPage = 0;
-            mAdapter.clear();
-            hasMoreItems=true;
-            listBoxes();
+            clearView();
         }
     }
 
@@ -124,44 +130,14 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
          mRecyclerView.setAdapter(mAdapter);
          setHasOptionsMenu(true);
 
-         mSelectDate="";
+         mSelectDate=DateHelper.get().getActualDate();
 
         implementsPaginate();
+        EventBus.getDefault().register(this);
 
         return mRootView;
     }
 
-
-    private void listBoxesByDate(){
-
-        String from=DateHelper.get().getOnlyDateComplete(mSelectDate);
-        String to=DateHelper.get().getOnlyDateComplete(DateHelper.get().getNextDay(mSelectDate));
-
-        loadingInProgress=true;
-        ApiClient.get().getBoxesByPageAndDate(mCurrentPage, DateHelper.get().getOnlyDateComplete(mSelectDate),
-                DateHelper.get().getOnlyDateComplete(DateHelper.get().getNextDay(mSelectDate)), new GenericCallback<List<Box>>() {
-                    @Override
-                    public void onSuccess(List<Box> data) {
-                        if (data.size() == 0) {
-                            hasMoreItems = false;
-                        }else{
-                            int prevSize = mAdapter.getItemCount();
-                            mAdapter.pushList(data);
-                            mCurrentPage++;
-                            if(prevSize == 0){
-                                layoutManager.scrollToPosition(0);
-                            }
-                        }
-                        loadingInProgress = false;
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        loadingInProgress = false;
-                    }
-                });
-
-    }
     private void listBoxes(){
 
             loadingInProgress=true;
@@ -184,7 +160,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 @Override
                 public void onError(Error error) {
                     loadingInProgress = false;
-                    changeDate=false;
                 }
             });
 
@@ -226,7 +201,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         return !hasMoreItems;
     }
 
-    private void addBox(Double dep){
+    private void addBox(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_box, null);
@@ -240,7 +215,9 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         final TextView detail=  dialogView.findViewById(R.id.detail);
         final TextView date=  dialogView.findViewById(R.id.date);
         final ImageView date_picker=  dialogView.findViewById(R.id.date_picker);
-        date.setText(DateHelper.get().getOnlyDate(DateHelper.get().getActualDate()));
+
+
+        date.setText(DateHelper.get().getOnlyDate(mSelectDate));
 
         //deposit.setText(String.valueOf(dep));
 
@@ -275,8 +252,9 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
                                 String time=DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
 
-                                String datePicker=year + "-" + smonthOfYear + "-" +  sdayOfMonth +" "+time ;
+                                String datePicker=sdayOfMonth + "/" + smonthOfYear + "/" +  year +" "+time ;
                                 date.setText(datePicker);
+                                mSelectDate=datePicker;
                                 deposit.setText("");
 
                             }
@@ -298,16 +276,9 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 Double dep=Double.valueOf(deposit.getText().toString().trim().equals("")?"0":deposit.getText().toString().trim());
                 String det=detail.getText().toString().trim();
 
-                String dateT="";
-                /*if(changeDate){
-                    dateT=date.getText().toString().trim();
-                    changeDate=false;
-                }*/
-
                 Box b= new Box(countedSale,creditCard,totalAmount,restBox,dep,det);
-                if(!dateT.equals("")){
-                    b.created=dateT;
-                }
+                b.created= DateHelper.get().changeFormatDateUserToServer(mSelectDate);
+
                 ApiClient.get().postBox(b, new GenericCallback<Box>() {
                     @Override
                     public void onSuccess(Box data) {
@@ -333,7 +304,26 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         dialog.show();
     }
 
+
     @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_main, menu);
+
+        final MenuItem item = menu.findItem(R.id.search);
+
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                selectDate();
+
+                return false;
+            }
+        });
+
+    }
+
+    /* @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -344,14 +334,12 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
             case R.id.search:
 
                selectDate();
-
-
                 return false;
             default:
                 break;
         }
         return false;
-    }
+    }*/
     private void selectDate(){
                 final DatePickerDialog datePickerDialog;
                 final Calendar c = Calendar.getInstance();

@@ -4,6 +4,7 @@ import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
+import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
@@ -147,7 +148,10 @@ public interface APIService {
     Observable<Response<Box>> getBox(@Query("id") Long id);
 
     @GET("boxes.php")
-    Observable<Response<List<Box>>> getBoxesByPage(@Query("page") Integer page,@Query("created") String created );
+    Observable<Response<List<Box>>> getBoxesByPage(@Query("method") String m, @Query("page") Integer page,@Query("created") String created );
+
+    @GET("events.php")
+    Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page );
 
     @POST("boxes.php")
     Observable<Response<Box>> postBox(@Body Box b);

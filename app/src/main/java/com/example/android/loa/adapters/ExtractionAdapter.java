@@ -22,8 +22,10 @@ import android.widget.Toast;
 
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
+import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
+import com.example.android.loa.Interfaces.OnListBoxesChange;
 import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
@@ -36,6 +38,8 @@ import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.security.SecureRandom;
 import java.util.Calendar;
@@ -244,12 +248,17 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 ApiClient.get().deleteExtraction(e.id, new GenericCallback<Void>() {
                     @Override
                     public void onSuccess(Void data) {
+
+                        EventBus.getDefault().post(new RefreshBoxesEvent("Hey event subscriber!"));
                         Toast.makeText(mContext,"Se elimina la extracción "+e.description,Toast.LENGTH_LONG).show();
                         removeItem(position);
 
-                       /* if(onExtractionsAmountChangeListener!=null){
+                        if(onExtractionsAmountChangeListener!=null){
                             onExtractionsAmountChangeListener.reloadExtractionsAmount();
-                        }*/
+                        }
+
+
+
                     }
 
                     @Override
@@ -365,7 +374,9 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                         if(onExtractionsAmountChangeListener!=null){
                             onExtractionsAmountChangeListener.reloadExtractionsAmount();
                         }
-                        Toast.makeText(mContext,"La extracción se ha modificado con éxito" ,Toast.LENGTH_LONG).show();
+
+                       // Toast.makeText(mContext,"La extracción se ha modificado con éxito" ,Toast.LENGTH_LONG).show();
+                        EventBus.getDefault().post(new RefreshBoxesEvent("Hey event subscriber!"));
                     }
 
                     @Override

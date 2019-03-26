@@ -15,8 +15,13 @@ public class Operation {
     public String created;
 
 
+    public Long client_id;
+
+
+
     public Operation(String name, String description, Double value,Double previous_balance, String created, Long item_file_id,String obs,String settled
-    ,String product_kind,String brand, String size, String code){
+    ,String product_kind,String brand, String size, String code,Long client_id){
+        this.client_id=client_id;
         this.name=name;
         this.description=description;
         this.value=value;

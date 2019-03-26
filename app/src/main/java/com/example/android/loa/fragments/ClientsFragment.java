@@ -7,6 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +21,7 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.CreateClientActivity;
+import com.example.android.loa.activities.EventHistoryActivity;
 import com.example.android.loa.adapters.ClientAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -73,7 +77,7 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
 
        // registerForContextMenu(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-       // setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         mOrderBy=mRootView.findViewById(R.id.orderClientBy);
         mOrderBy.setOnClickListener(new View.OnClickListener() {
@@ -235,5 +239,27 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
         return !hasMoreItems;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_info, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_info);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                startHistoryEventsActivity();
+
+                return false;
+            }
+        });
+    }
+
+    private void startHistoryEventsActivity(){
+
+        startActivity(new Intent(getContext(), EventHistoryActivity.class));
+
+    }
 
 }

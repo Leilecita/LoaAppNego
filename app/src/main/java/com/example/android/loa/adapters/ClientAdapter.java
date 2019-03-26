@@ -1,5 +1,6 @@
 package com.example.android.loa.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -23,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
@@ -95,7 +98,6 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             vh.text_value.setText(null);
 
     }
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
@@ -104,12 +106,25 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         final Client currentClient=getItem(position);
 
         holder.text_name.setText(currentClient.name);
-        if(currentClient.image_url==null){
 
-            Glide.with(mContext).load(R.drawable.person_color).into(holder.photo);
-        }else{
-            Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
-        }
+       // if(currentClient.image_url==null){
+            //get first letter of each String item
+            String firstLetter = String.valueOf(getItem(position).name.charAt(0));
+
+            ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+            // generate random color
+            int color = generator.getColor(getItem(position));
+            //int color = generator.getRandomColor();
+
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(firstLetter, color); // radius in px
+
+            holder.photo.setImageDrawable(drawable);
+
+            //Glide.with(mContext).load(drawable).into(holder.photo);
+      //  }else{
+        //    Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
+        //}
 
         Double debt=currentClient.debt;
         if(debt<0){

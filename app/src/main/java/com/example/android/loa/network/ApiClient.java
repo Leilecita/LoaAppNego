@@ -11,6 +11,7 @@ import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
+import com.example.android.loa.network.models.Event;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -181,8 +182,12 @@ public class ApiClient {
 
 
 
-    public void getBoxesByPage( Integer page,String created,final GenericCallback<List<Box>> callback ){
-        handleRequest( ApiUtils.getAPIService().getBoxesByPage(page,created), callback);
+    public void getBoxesByPage(Integer page,String created,final GenericCallback<List<Box>> callback ){
+        handleRequest( ApiUtils.getAPIService().getBoxesByPage("getBoxes",page,created), callback);
+    }
+
+    public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){
+        handleRequest( ApiUtils.getAPIService().getEventsByPage(page), callback);
     }
 
     public void putBox(Box b, GenericCallback<Box> callback){

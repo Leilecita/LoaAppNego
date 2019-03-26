@@ -48,14 +48,8 @@
                             android:textSize="18sp"
                             android:textColor="#FFFFFF"
                              />
-                        <ImageView
-                            android:layout_width="25sp"
-                            android:id="@+id/options"
-                            android:layout_height="25sp"
-                            android:layout_marginRight="4dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/options_white"
-                            />
+
+
                     </LinearLayout>
                 </FrameLayout>
             </RelativeLayout>

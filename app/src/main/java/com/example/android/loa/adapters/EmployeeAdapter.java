@@ -63,13 +63,11 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView name;
         public ImageView photo;
-        public ImageView options;
 
         public ViewHolder(View v){
             super(v);
             name= v.findViewById(R.id.name);
             photo=v.findViewById(R.id.photo);
-            options=v.findViewById(R.id.options);
         }
     }
 
@@ -125,12 +123,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
                 return false;
             }
         });
-        holder.options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createInfoDialog(currentEmployee,position);
-            }
-        });
+
     }
 
     private void edithPhoto(final Employee currentEmployee){

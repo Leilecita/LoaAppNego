@@ -101,6 +101,10 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPIService().getClientsByPage(page,query,order), callback);
     }
 
+    public void getClientsByCreator(Integer page,String name,final GenericCallback<List<Client>> callback ){
+        handleRequest( ApiUtils.getAPIService().getClientsByPageByCreator(page,name), callback);
+    }
+
     public void putClient(Client c, GenericCallback<Client> callback){
         handleRequest( ApiUtils.getAPIService().putClient(c), callback);
     }
@@ -188,6 +192,10 @@ public class ApiClient {
 
     public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){
         handleRequest( ApiUtils.getAPIService().getEventsByPage(page), callback);
+    }
+
+    public void getEventsByPageByClientId(Integer page,Long client_id,final GenericCallback<List<Event>> callback ){
+        handleRequest( ApiUtils.getAPIService().getEventsByPageByClientId(page,client_id), callback);
     }
 
     public void putBox(Box b, GenericCallback<Box> callback){

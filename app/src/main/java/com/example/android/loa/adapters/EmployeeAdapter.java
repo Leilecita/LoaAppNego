@@ -24,6 +24,8 @@ import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
+import com.example.android.loa.activities.ClientsCreatedByEmployeeActivity;
+import com.example.android.loa.activities.EventHistoryActivity;
 import com.example.android.loa.activities.HoursHistoryEmployeeActivity;
 import com.example.android.loa.activities.LoadEmployeeHoursActivity;
 import com.example.android.loa.activities.OperationHistoryClientActivity;
@@ -221,6 +223,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         builder.setView(dialogView);
 
         final TextView name=  dialogView.findViewById(R.id.user_name);
+        final TextView fichas=  dialogView.findViewById(R.id.fichas);
         final TextView address=  dialogView.findViewById(R.id.user_address);
         final TextView phone=  dialogView.findViewById(R.id.user_phone);
         final ImageView delete=  dialogView.findViewById(R.id.deleteuser);
@@ -232,6 +235,13 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         name.setText(e.getName());
         address.setText(e.getAddress());
         phone.setText(e.getPhone());
+
+        fichas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClientsCreatedByEmployeeActivity.startClientsByEmployee(mContext, e.name);
+            }
+        });
 
         mens.setOnClickListener(new View.OnClickListener() {
             @Override

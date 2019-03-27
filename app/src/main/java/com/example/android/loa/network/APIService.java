@@ -85,6 +85,9 @@ public interface APIService {
     @GET("clients.php")
     Observable<Response<List<Client>>> getClientsByPage(@Query("page") Integer page, @Query("query") String query,@Query("order") String order );
 
+    @GET("clients.php")
+    Observable<Response<List<Client>>> getClientsByPageByCreator(@Query("page") Integer page,@Query("employee_creator_id") String name );
+
     @POST("clients.php")
     Observable<Response<Client>> postClient(@Body Client c);
 
@@ -152,6 +155,9 @@ public interface APIService {
 
     @GET("events.php")
     Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page );
+
+    @GET("events.php")
+    Observable<Response<List<Event>>> getEventsByPageByClientId(@Query("page") Integer page,@Query("client_id") Long client_id );
 
     @POST("boxes.php")
     Observable<Response<Box>> postBox(@Body Box b);

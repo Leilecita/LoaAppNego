@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -172,5 +173,27 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
         return !hasMoreItems;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_info, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_info:
+               startHistoryEvents();
+                return true;
+
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void startHistoryEvents(){
+        EventHistoryActivity.startHistoryEvents(this, getIntent().getLongExtra("ID",-1),getIntent().getStringExtra("CLIENTNAME"));
+    }
 }

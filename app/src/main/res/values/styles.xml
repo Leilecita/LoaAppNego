@@ -62,15 +62,15 @@
         <item name="tabIndicatorColor">@android:color/white</item>
         <item name="tabSelectedTextColor">@android:color/white</item>-->
     <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
-        <item name="android:textColor">#FFFF</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#d1cfcf</item>
+        <item name="android:textSize">17sp</item>
 
 
     </style>
 
     <style name="CategoryTab" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">#FFFF</item>
-        <item name="tabSelectedTextColor">#FFFF</item>
+        <item name="tabSelectedTextColor">#fff</item>
         <item name="tabTextAppearance">@style/CategoryTabTextAppearance</item>
     </style>
 

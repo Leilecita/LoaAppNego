@@ -1,45 +1,34 @@
 package com.example.android.loa.activities;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-
-import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
-import com.example.android.loa.DateHelper;
 import com.example.android.loa.R;
+import com.example.android.loa.adapters.ClientAdapter;
 import com.example.android.loa.adapters.EventAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
-import com.example.android.loa.network.models.Event;
-import com.example.android.loa.network.models.Item_employee;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 
 /**
  * Created by leila on 23/11/17.
  */
 
-public class EventHistoryActivity extends BaseActivity implements Paginate.Callbacks{
+public class ClientsCreatedByEmployeeActivity extends BaseActivity implements Paginate.Callbacks{
 
     private RecyclerView mRecyclerView;
-    private EventAdapter mAdapter;
+    private ClientAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private boolean loadingInProgress;
@@ -47,13 +36,12 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
     private Paginate paginate;
     private boolean hasMoreItems;
 
-    private Long mClientId;
+    private String mEmployeeName;
 
 
-    public static void startHistoryEvents(Context mContext, Long client_id,String name){
-        Intent i=new Intent(mContext, EventHistoryActivity.class);
-        i.putExtra("ID",client_id);
-        i.putExtra("CLIENTNAME",name);
+    public static void startClientsByEmployee(Context mContext, String name_employee){
+        Intent i=new Intent(mContext, ClientsCreatedByEmployeeActivity.class);
+        i.putExtra("EMPLOYEENAME",name_employee);
         mContext.startActivity(i);
     }
 
@@ -67,18 +55,19 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
         super.onCreate(savedInstanceState);
         showBackArrow();
 
-        setTitle("Eventos");
+        setTitle("Fichas ");
         //TextView title= findViewById(R.id.title);
         //title.setText("Historial");
         //  ImageView icon= findViewById(R.id.icon);
         // icon.setVisibility(View.INVISIBLE);
 
-        mClientId= getIntent().getLongExtra("ID",-1);
+
+        mEmployeeName=getIntent().getStringExtra("EMPLOYEENAME");
 
         mRecyclerView =  findViewById(R.id.list_events);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new EventAdapter(this, new ArrayList<Event>());
+        mAdapter = new ClientAdapter(this, new ArrayList<Client>());
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -105,36 +94,13 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
                 .build();
     }
 
-    private void listEventsByClientId(){
-        loadingInProgress=true;
-        ApiClient.get().getEventsByPageByClientId(mCurrentPage, mClientId, new GenericCallback<List<Event>>() {
-            @Override
-            public void onSuccess(List<Event> data) {
-                if (data.size() == 0) {
-                    hasMoreItems = false;
-                }else{
-                    int prevSize = mAdapter.getItemCount();
-                    mAdapter.pushList(data);
-                    mCurrentPage++;
-                    if(prevSize == 0){
-                        layoutManager.scrollToPosition(0);
-                    }
-                }
-                loadingInProgress = false;
-            }
 
-            @Override
-            public void onError(Error error) {
-                loadingInProgress = false;
-            }
-        });
-    }
 
-    private void listEvents(){
+    private void listClientsByEmployee(){
         loadingInProgress=true;
-        ApiClient.get().getEventsByPage(mCurrentPage, new GenericCallback<List<Event>>() {
+        ApiClient.get().getClientsByCreator(mCurrentPage, mEmployeeName, new GenericCallback<List<Client>>() {
             @Override
-            public void onSuccess(List<Event> data) {
+            public void onSuccess(List<Client> data) {
                 if (data.size() == 0) {
                     hasMoreItems = false;
                 }else{
@@ -160,14 +126,8 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
 
     @Override
     public void onLoadMore() {
-        if(mClientId != -1){
 
-            listEventsByClientId();
-        }else{
-            listEvents();
-        }
-
-
+        listClientsByEmployee();
     }
 
     @Override

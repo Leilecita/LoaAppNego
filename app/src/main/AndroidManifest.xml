@@ -82,6 +82,10 @@
             android:name=".activities.EventHistoryActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+        <activity
+            android:name=".activities.ClientsCreatedByEmployeeActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

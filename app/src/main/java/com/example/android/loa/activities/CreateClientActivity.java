@@ -15,23 +15,31 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.Employee;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateClientActivity extends BaseActivity{
 
@@ -39,7 +47,7 @@ public class CreateClientActivity extends BaseActivity{
     private EditText mUserPhone;
     private EditText mAlternativePhone;
     private EditText mUserAddress;
-    private EditText mEmployeeCreator;
+    private Spinner mEmployeeCreator;
 
     private ImageView mImageView;
 
@@ -61,7 +69,27 @@ public class CreateClientActivity extends BaseActivity{
         mUserPhone =  findViewById(R.id.user_phone);
         mAlternativePhone =  findViewById(R.id.alternative_phone);
         mUserAddress =  findViewById(R.id.user_address);
-        mEmployeeCreator =  findViewById(R.id.employee_creator);
+       // mEmployeeCreator =  findViewById(R.id.employee_creator);
+        mEmployeeCreator = findViewById(R.id.employee_creator);
+
+
+        ApiClient.get().getEmployees(new GenericCallback<List<Employee>>() {
+            @Override
+            public void onSuccess(List<Employee> data) {
+                createSpinner(mEmployeeCreator,createArray(data));
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+
+      /*  final AutoCompleteTextView type = findViewById(R.id.autocomplete_region);
+        String[] regions = mContext.getResources().getStringArray(R.array.types);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, regions);
+        type.setAdapter(adapter);
+        type.setHint(e.type);*/
 
         CardView takePhoto= findViewById(R.id.select_photo);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +99,32 @@ public class CreateClientActivity extends BaseActivity{
             }
         });
 
+    }
+
+    private void createSpinner(final Spinner spinner,  List<String> data){
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(),
+                R.layout.spinner_item, data);
+
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(adapter);
+
+
+       // int spinnerPosition = adapter.getPosition();
+        //spinner.setSelection(spinnerPosition);
+
+    }
+
+    private List<String> createArray(List<Employee> list){
+        List<String> listN=new ArrayList<>();
+        listN.add(" ");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).name != null){
+                listN.add(list.get(i).getName());
+            }
+        }
+        return listN;
     }
 
     public void onSelectImageClick(View view) {
@@ -142,7 +196,7 @@ public class CreateClientActivity extends BaseActivity{
                     String address=mUserAddress.getText().toString().trim();
                     String phone=mUserPhone.getText().toString().trim();
                     String phone2=mAlternativePhone.getText().toString().trim();
-                    String employee=mEmployeeCreator.getText().toString().trim();
+                    String employee=mEmployeeCreator.getSelectedItem().toString().trim();
 
                     String picpath="/uploads/preimpresos/person_color.png";
                     final Client newClient= new Client(name,address,phone,phone2,picpath,0d,employee);

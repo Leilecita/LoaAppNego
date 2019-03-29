@@ -149,7 +149,7 @@ public class CreateEmployeeActivity extends BaseActivity {
                     }catch (Exception e){
                     }
                 }
-                final ProgressDialog progress = ProgressDialog.show(this, "Creando cliente",
+                final ProgressDialog progress = ProgressDialog.show(this, "Creando empleado",
                         "Aguarde un momento", true);
 
                 ApiClient.get().postEmployee(newEmployee, new GenericCallback<Employee>() {
@@ -161,7 +161,7 @@ public class CreateEmployeeActivity extends BaseActivity {
 
                     @Override
                     public void onError(Error error) {
-                        DialogHelper.get().showMessage("Error","Error al crear el usuario",CreateEmployeeActivity.this);
+                        DialogHelper.get().showMessage("Error","Error al crear el empleado",CreateEmployeeActivity.this);
                     }
                 });
                 return true;

@@ -14,7 +14,6 @@
         style="@style/CategoryTab"
         android:layout_weight="0"
         tabTextColor="#787878"
-        app:tabSelectedTextColor="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark" />

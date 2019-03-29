@@ -148,8 +148,11 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPIService().postItemFile(item), callback);
     }
 
-    public void deleteItemFile(Long id, final GenericCallback<Void> callback){
-        handleDeleteRequest( ApiUtils.getAPIService().deleteItemFile(id), callback);
+    public void deleteItemFile(Long id,String modify, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPIService().deleteItemFile(id,modify), callback);
+    }
+    public void deleteItemFileByModify(String modify,Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPIService().deleteItemFileByModify("delete2",modify,id), callback);
     }
 
     public void getExtractionsByPage( Integer page,String created,final GenericCallback<List<Extraction>> callback ){

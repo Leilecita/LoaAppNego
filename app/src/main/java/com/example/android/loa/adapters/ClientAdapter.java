@@ -250,7 +250,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                                 item.settled="true";
                             }
 
-
+                            item.modify_by=currentClient.employee_creator_id;
                             ApiClient.get().postItemfile(item, new GenericCallback<Item_file>() {
                                 @Override
                                 public void onSuccess(Item_file data) {
@@ -290,7 +290,6 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             public void onClick(View view) {
                 OperationHistoryClientActivity.start(mContext,currentClient);
 
-                //createInfoDialog(currentClient,position);
             }
         });
 

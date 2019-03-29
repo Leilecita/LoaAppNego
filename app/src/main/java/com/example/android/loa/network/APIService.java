@@ -113,7 +113,10 @@ public interface APIService {
     Observable<Response<AmountResult>> getTotalAmount(@Query("method") String method);
 
     @DELETE("items_file.php")
-    Observable<ResponseBody>  deleteItemFile(@Query("id") Long id);
+    Observable<ResponseBody>  deleteItemFile(@Query("id") Long id,@Query("modify") String modify);
+
+    @DELETE("items_file.php")
+    Observable<ResponseBody>  deleteItemFileByModify(@Query("method") String method,@Query("modify") String modify,@Query("id") Long id);
 
 
     @GET("extractions.php")

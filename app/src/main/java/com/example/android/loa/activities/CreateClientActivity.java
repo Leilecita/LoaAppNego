@@ -69,7 +69,6 @@ public class CreateClientActivity extends BaseActivity{
         mUserPhone =  findViewById(R.id.user_phone);
         mAlternativePhone =  findViewById(R.id.alternative_phone);
         mUserAddress =  findViewById(R.id.user_address);
-       // mEmployeeCreator =  findViewById(R.id.employee_creator);
         mEmployeeCreator = findViewById(R.id.employee_creator);
 
 
@@ -85,11 +84,6 @@ public class CreateClientActivity extends BaseActivity{
             }
         });
 
-      /*  final AutoCompleteTextView type = findViewById(R.id.autocomplete_region);
-        String[] regions = mContext.getResources().getStringArray(R.array.types);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, regions);
-        type.setAdapter(adapter);
-        type.setHint(e.type);*/
 
         CardView takePhoto= findViewById(R.id.select_photo);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -103,17 +97,13 @@ public class CreateClientActivity extends BaseActivity{
 
     private void createSpinner(final Spinner spinner,  List<String> data){
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplication(),
                 R.layout.spinner_item, data);
 
         adapter.setDropDownViewResource(R.layout.spinner_item);
+
         spinner.setAdapter(adapter);
-
-
-       // int spinnerPosition = adapter.getPosition();
-        //spinner.setSelection(spinnerPosition);
-
+        spinner.setSelection(0);
     }
 
     private List<String> createArray(List<Employee> list){
@@ -192,6 +182,15 @@ public class CreateClientActivity extends BaseActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
+                if(mEmployeeCreator.getSelectedItem().toString().trim().equals("")){
+
+                    Toast.makeText(this, "El campo encargado debe estar completo", Toast.LENGTH_LONG).show();
+                    return false;
+                }else if(mUserName.getText().toString().trim().equals("")){
+                    Toast.makeText(this, "El campo nombre debe estar completo", Toast.LENGTH_LONG).show();
+                    return false;
+                }else{
+
                     String name=mUserName.getText().toString().trim();
                     String address=mUserAddress.getText().toString().trim();
                     String phone=mUserPhone.getText().toString().trim();
@@ -223,6 +222,8 @@ public class CreateClientActivity extends BaseActivity{
                         }
                     });
                     return true;
+                }
+
 
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);

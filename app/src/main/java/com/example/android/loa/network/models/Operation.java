@@ -12,6 +12,7 @@ public class Operation {
     public String settled;
     public Double value;
     public Double previous_balance;
+    public String modify_by;
     public String created;
 
 

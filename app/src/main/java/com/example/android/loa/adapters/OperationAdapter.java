@@ -13,14 +13,19 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountChange;
@@ -29,10 +34,12 @@ import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 
 import java.security.DigestOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,6 +47,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
 
     private Context mContext;
     private Double mTotalAmount;
+    private String mModifyBy;
 
     private OnAmountChange onAmountChangeListener = null;
     public void setOnAmountCangeListener(OnAmountChange listener){
@@ -50,6 +58,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         setItems(items);
         mContext = context;
         mTotalAmount=0.0;
+        mModifyBy="";
     }
 
 
@@ -176,7 +185,9 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteOperation(currentOperation,position);
+                        generateAcces(currentOperation,position,"Delete");
+                        //deleteOperation(currentOperation,position);
+
                         dialog.dismiss();
                     }
                 });
@@ -184,7 +195,8 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 edith.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        edithOperation(currentOperation,position);
+                        generateAcces(currentOperation,position,"Edith");
+                       // edithOperation(currentOperation,position);
                     }
                 });
 
@@ -206,6 +218,95 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             }
         });
 
+    }
+
+    private void generateAcces(final Operation op, final Integer position, final String action){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.cuad_acces_user, null);
+        builder.setView(dialogView);
+
+        final TextView password= dialogView.findViewById(R.id.password);
+        final Spinner employee= dialogView.findViewById(R.id.employee_creator);
+
+        ApiClient.get().getEmployees(new GenericCallback<List<Employee>>() {
+            @Override
+            public void onSuccess(List<Employee> data) {
+                createSpinner(employee,createArray(data));
+            }
+            @Override
+            public void onError(Error error) {
+            }
+        });
+
+
+        final TextView cancel =dialogView.findViewById(R.id.cancel);
+        final Button ok =dialogView.findViewById(R.id.ok);
+
+        final AlertDialog dialog = builder.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(password.getText().toString().trim().equals(employee.getSelectedItem().toString().trim()) && !password.getText().toString().trim().equals("")){
+                    //mModifyBy=employee.getSelectedItem().toString().trim();
+                    if(action.equals("Edith")){
+
+                        edithOperation(op,position);
+
+                    }else{
+                        deleteOperation(op,position);
+                    }
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(mContext,"Contraseña no válida",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
+    private void createSpinner(final Spinner spinner, List<String> data){
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,
+                R.layout.spinner_item, data);
+
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String itemSelected=String.valueOf(spinner.getSelectedItem());
+                mModifyBy=itemSelected;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private List<String> createArray(List<Employee> list){
+        List<String> listN=new ArrayList<>();
+        listN.add(" ");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).name != null){
+                listN.add(list.get(i).getName());
+            }
+        }
+        return listN;
     }
     private String checkEmpty(String text){
         if(text.equals("")){
@@ -239,7 +340,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApiClient.get().deleteItemFile(op.item_file_id, new GenericCallback<Void>() {
+                ApiClient.get().deleteItemFile(op.item_file_id,mModifyBy, new GenericCallback<Void>() {
                     @Override
                     public void onSuccess(Void data) {
                         Toast.makeText(mContext,"Se elimina la operacion "+op.description,Toast.LENGTH_LONG).show();
@@ -399,6 +500,8 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 item.code=op.code;
                 item.brand=op.brand;
                 item.product_kind=op.product_kind;
+
+                item.modify_by=mModifyBy;
 
                 ApiClient.get().putItemFile(item, new GenericCallback<Item_file>() {
                     @Override

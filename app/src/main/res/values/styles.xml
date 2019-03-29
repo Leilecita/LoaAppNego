@@ -63,7 +63,7 @@
         <item name="tabSelectedTextColor">@android:color/white</item>-->
     <style name="CategoryTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textColor">#d1cfcf</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">16sp</item>
 
 
     </style>

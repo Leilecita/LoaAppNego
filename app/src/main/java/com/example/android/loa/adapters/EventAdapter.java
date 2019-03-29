@@ -38,7 +38,7 @@ public class EventAdapter extends BaseAdapter<Event,EventAdapter.ViewHolder> {
         public TextView description;
         public TextView date;
         public TextView state;
-
+        public TextView modifyBy;
         public TextView value;
 
 
@@ -46,11 +46,10 @@ public class EventAdapter extends BaseAdapter<Event,EventAdapter.ViewHolder> {
             super(v);
             name_employee= v.findViewById(R.id.name_employee);
             description= v.findViewById(R.id.description);
+            modifyBy= v.findViewById(R.id.modify_by);
             value= v.findViewById(R.id.value);
             state= v.findViewById(R.id.state);
             date= v.findViewById(R.id.event_time);
-
-
         }
     }
 
@@ -66,6 +65,8 @@ public class EventAdapter extends BaseAdapter<Event,EventAdapter.ViewHolder> {
     public void clearBindView(EventAdapter.ViewHolder vh){
         if (vh.description != null)
             vh.description.setText(null);
+        if (vh.modifyBy != null)
+            vh.modifyBy.setText(null);
         if (vh.name_employee != null)
             vh.name_employee.setText(null);
         if (vh.value != null)
@@ -88,6 +89,10 @@ public class EventAdapter extends BaseAdapter<Event,EventAdapter.ViewHolder> {
         holder.value.setText(String.valueOf(currentEvent.value));
         holder.date.setText(DateHelper.get().serverToUserFormatted(currentEvent.created));
         holder.state.setText(currentEvent.state);
+
+        if(!currentEvent.state.equals("Creado"))
+        holder.modifyBy.setText(" por "+currentEvent.modify_by);
+
 
         if(currentEvent.state.equals("Modificado")){
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

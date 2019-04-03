@@ -25,7 +25,6 @@
             android:orientation="horizontal"
             android:padding="2dp">
 
-
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/photo_user"
@@ -33,6 +32,8 @@
                 android:layout_height="40dp"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FFFFFF"/>
+
+
 
             <TextView
                 android:layout_weight="1"
@@ -58,18 +59,18 @@
 
 
 
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="#ffff"
-                    android:src="@drawable/add_oscuro"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:id="@+id/add"
-                    />
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="#ffff"
+                android:src="@drawable/add_oscuro"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:id="@+id/add"
+                />
 
 
 
@@ -79,13 +80,13 @@
 
 </android.support.v7.widget.CardView>
 
-<!--
+    <!--
 
-   <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/photo_user"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#FFFFFF"/>
--->
+       <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/photo_user"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FFFFFF"/>
+    -->

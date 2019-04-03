@@ -6,9 +6,10 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
@@ -45,8 +46,8 @@ import com.example.android.loa.network.models.Item_file;
 import java.io.File;
 import java.util.Calendar;
 import java.util.List;
-
-public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> {
+/*
+public class ClientAdapter2 extends BaseAdapter<Client,ClientAdapter2.ViewHolder> {
     private Context mContext;
     private ArrayAdapter<String> adapter;
 
@@ -56,12 +57,12 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     }
 
 
-    public ClientAdapter(Context context, List<Client> clients){
+    public ClientAdapter2(Context context, List<Client> clients){
         setItems(clients);
         mContext = context;
     }
 
-    public ClientAdapter(){
+    public ClientAdapter2(){
 
     }
 
@@ -77,65 +78,131 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         public ViewHolder(View v){
             super(v);
-             text_name= v.findViewById(R.id.text_name);
+            text_name= v.findViewById(R.id.text_name);
             text_value= v.findViewById(R.id.text_value);
-             add=v.findViewById(R.id.add);
-             photo=v.findViewById(R.id.photo_user);
+            add=v.findViewById(R.id.add);
+            photo=v.findViewById(R.id.photo_user);
+        }
+    }
+    // Static inner class to initialize the views of rows
+    static class ViewHolderOne extends RecyclerView.ViewHolder {
+        public TextView text_name;
+        public TextView text_value;
+        public ImageView photo;
+        public ImageView add;
+        public ViewHolderOne(View itemView) {
+            super(itemView);
+            text_name= itemView.findViewById(R.id.text_name);
+            text_value= itemView.findViewById(R.id.text_value);
+            add=itemView.findViewById(R.id.add);
+            photo=itemView.findViewById(R.id.photo_user);
+        }
+    }
+
+    static class ViewHolderTwo extends RecyclerView.ViewHolder {
+        public TextView text_name;
+        public TextView text_value;
+        public ImageView photo;
+        public ImageView add;
+        public ViewHolderTwo(View itemView) {
+            super(itemView);
+            text_name= itemView.findViewById(R.id.text_name);
+            text_value= itemView.findViewById(R.id.text_value);
+            add=itemView.findViewById(R.id.add);
+            photo=itemView.findViewById(R.id.photo_user);
         }
     }
 
     @Override
-    public ClientAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         // Create a new View
 
-        View v = LayoutInflater.from(mContext).inflate(R.layout.card_item_client,parent,false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        if (viewType == 1) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.card_item_client, parent, false);
+            return new ViewHolderOne(view);
+        } else if (viewType == 2) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.card_item_client2, parent, false);
+            return new ViewHolderTwo(view);
+        } else {
+            throw new RuntimeException("The type has to be ONE or TWO");
+        }
     }
 
 
-    private void clearViewHolder(ClientAdapter.ViewHolder vh){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
+
+        switch (holder.getItemViewType()) {
+            case 1:
+                loadHolderOne((ViewHolderOne) holder, position);
+                break;
+            case 2:
+                loadHolderOne((ViewHolderOne) holder, position);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        Client client = getListClient().get(position);
+
+        if(ApiUtils.getImageUrl(client.image_url).equals("http://loa.abarbieri.com.ar/uploads/preimpresos/person_color.png")){
+            return 1;
+        }else{
+            return 2;
+        }
+    }
+
+    private void clearViewHolder(ClientAdapter2.ViewHolder vh){
         if(vh.text_name!=null)
             vh.text_name.setText(null);
         if(vh.text_value!=null)
             vh.text_value.setText(null);
 
     }
-    private Drawable getDrawableFirstLetter(Client c){
 
-        //get first letter of each String item
-        String firstLetter = String.valueOf(c.name.charAt(0));
-        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-        // generate random color
-        int color = generator.getColor(c);
-        //int color = generator.getRandomColor();
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .width(100)
-                .height(100)
-                .endConfig()
-                .buildRound(firstLetter, color);
-        return drawable;
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position){
-        clearViewHolder(holder);
+
+
+
+    private void loadHolderOne(ViewHolderOne holder , final Integer position){
+
+       // clearViewHolder(holder);
 
         final Client currentClient=getItem(position);
 
         holder.text_name.setText(currentClient.name);
 
-        if(ApiUtils.getImageUrl(currentClient.image_url).equals("http://loa.abarbieri.com.ar/uploads/preimpresos/person_color.png")) {
+        //if(ApiUtils.getImageUrl(currentClient.image_url).equals("http://loa.abarbieri.com.ar/uploads/preimpresos/person_color.png")){
 
-            holder.photo.setImageDrawable(getDrawableFirstLetter(currentClient));
+        //get first letter of each String item
+        String firstLetter = String.valueOf(getItem(position).name.charAt(0));
 
-        }else{
-            Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
-        }
-           // TextDrawable drawable = TextDrawable.builder()
-             //       .buildRound(firstLetter, color); // radius in px
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        // generate random color
+        int color = generator.getColor(getItem(position));
+        //int color = generator.getRandomColor();
+
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(firstLetter, color); // radius in px
+
+        //Glide.with(mContext).load(drawable.getCurrent()).into(holder.photo2);
+        // holder.photo2.setImageDrawable(drawable);
+
+
+        holder.photo.setImageDrawable(drawable);
+        // }else{
+        //    Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo2);
+        //}
+
+        //Glide.with(mContext).load(drawable).into(holder.photo);
+        //  }else{
+        //    Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
+        //}
 
         Double debt=currentClient.debt;
         if(debt<0){
@@ -265,9 +332,9 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                             ApiClient.get().postItemfile(item, new GenericCallback<Item_file>() {
                                 @Override
                                 public void onSuccess(Item_file data) {
-                                   currentClient.debt+=data.value;
-                                   updateItem(position,currentClient);
-                                   Toast.makeText(mContext, "Transaccion creada para: "+currentClient.getName(), Toast.LENGTH_SHORT).show();
+                                    currentClient.debt+=data.value;
+                                    updateItem(position,currentClient);
+                                    Toast.makeText(mContext, "Transaccion creada para: "+currentClient.getName(), Toast.LENGTH_SHORT).show();
 
                                     if(onAmountChangeListener!=null){
                                         onAmountChangeListener.loadOperationAcum(true);
@@ -311,6 +378,8 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 return false;
             }
         });
+
+
     }
 
 
@@ -520,3 +589,4 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     }
 
 }
+*/

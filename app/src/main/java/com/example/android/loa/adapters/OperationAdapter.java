@@ -186,7 +186,6 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                     @Override
                     public void onClick(View v) {
                         generateAcces(currentOperation,position,"Delete");
-                        //deleteOperation(currentOperation,position);
 
                         dialog.dismiss();
                     }
@@ -196,7 +195,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                     @Override
                     public void onClick(View v) {
                         generateAcces(currentOperation,position,"Edith");
-                       // edithOperation(currentOperation,position);
+                        dialog.dismiss();
                     }
                 });
 

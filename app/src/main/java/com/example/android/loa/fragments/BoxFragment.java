@@ -1,13 +1,21 @@
 package com.example.android.loa.fragments;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +36,8 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.BoxActivity;
+import com.example.android.loa.activities.CreateBoxActivity;
+import com.example.android.loa.activities.CreateClientActivity;
 import com.example.android.loa.activities.ExtractionsActivity;
 import com.example.android.loa.adapters.BoxAdapter;
 import com.example.android.loa.adapters.ExtractionAdapter;
@@ -35,16 +45,22 @@ import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Box;
+import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_box;
 import com.paginate.Paginate;
 import com.example.android.loa.network.GenericCallback;
 import com.paginate.recycler.LoadingListItemSpanLookup;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,8 +82,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private boolean hasMoreItems;
 
     public void onClickButton(){
-
-            addBox();
+        startActivity(new Intent(getContext(), CreateBoxActivity.class));
+           // addBox();
 
     }
     public int getIconButton(){
@@ -216,9 +232,16 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         final TextView date=  dialogView.findViewById(R.id.date);
         final ImageView date_picker=  dialogView.findViewById(R.id.date_picker);
 
+        ImageView takePhoto= dialogView.findViewById(R.id.select_photo);
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              //  onSelectImageClick(view);
+            }
+        });
+
 
         date.setText(DateHelper.get().getOnlyDate(mSelectDate));
-
         //deposit.setText(String.valueOf(dep));
 
         final TextView cancel=  dialogView.findViewById(R.id.cancel);
@@ -276,7 +299,10 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 Double dep=Double.valueOf(deposit.getText().toString().trim().equals("")?"0":deposit.getText().toString().trim());
                 String det=detail.getText().toString().trim();
 
-                Box b= new Box(countedSale,creditCard,totalAmount,restBox,dep,det);
+
+                String picpath="/uploads/preimpresos/person_color.png";
+                Box b= new Box(countedSale,creditCard,totalAmount,restBox,dep,det,picpath);
+
                 b.created= DateHelper.get().changeFormatDateUserToServer(mSelectDate);
 
                 ApiClient.get().postBox(b, new GenericCallback<Box>() {
@@ -307,39 +333,17 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-
         inflater.inflate(R.menu.menu_main, menu);
-
         final MenuItem item = menu.findItem(R.id.search);
-
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 selectDate();
-
                 return false;
             }
         });
 
     }
-
-    /* @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-
-               selectDate();
-                return false;
-            default:
-                break;
-        }
-        return false;
-    }*/
     private void selectDate(){
                 final DatePickerDialog datePickerDialog;
                 final Calendar c = Calendar.getInstance();
@@ -379,5 +383,4 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
                 datePickerDialog.show();
             }
-
 }

@@ -16,13 +16,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.activities.BoxPhotoActivity;
 import com.example.android.loa.activities.ExtractionsActivity;
+import com.example.android.loa.activities.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
+import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Box;
@@ -120,10 +124,17 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                 mContext.startActivity(intent);
             }
         });
-        String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentBox.created));
+        final String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentBox.created));
 
         holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
         holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BoxPhotoActivity.start(mContext,currentBox,dateToShow);
+            }
+        });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

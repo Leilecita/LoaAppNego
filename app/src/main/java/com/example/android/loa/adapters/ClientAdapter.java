@@ -42,7 +42,7 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Item_file;
 
-import java.io.File;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -99,6 +99,8 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             vh.text_name.setText(null);
         if(vh.text_value!=null)
             vh.text_value.setText(null);
+        if(vh.photo!=null)
+            vh.photo.setImageDrawable(null);
 
     }
     private Drawable getDrawableFirstLetter(Client c){
@@ -127,7 +129,9 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         holder.text_name.setText(currentClient.name);
 
-        if(ApiUtils.getImageUrl(currentClient.image_url).equals("http://loa.abarbieri.com.ar/uploads/preimpresos/person_color.png")) {
+        String search="person_color";
+        if(ApiUtils.getImageUrl(currentClient.image_url).toLowerCase().indexOf(search.toLowerCase()) != -1){
+       // if(ApiUtils.getImageUrl(currentClient.image_url).equals("http://loa.abarbieri.com.ar/uploads/preimpresos/person_color.png")) {
 
             holder.photo.setImageDrawable(getDrawableFirstLetter(currentClient));
 

@@ -86,6 +86,14 @@
             android:name=".activities.ClientsCreatedByEmployeeActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+        <activity
+            android:name=".activities.CreateBoxActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.BoxPhotoActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

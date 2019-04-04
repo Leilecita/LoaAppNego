@@ -26,6 +26,7 @@ import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -43,7 +44,11 @@ public class PhotoEdithActivity extends BaseActivity {
     private Client mCurrentClient;
     private Employee mCurrentEmployee;
 
-    private boolean isClient;
+    private Box mCurrentBox;
+
+    private boolean isBox=false;
+    private boolean isClient=false;
+    private boolean isEmployee=false;
 
     public static void start(Context mContext, Client client) {
         Intent i = new Intent(mContext, PhotoEdithActivity.class);
@@ -54,6 +59,12 @@ public class PhotoEdithActivity extends BaseActivity {
     public static void startEmployee(Context mContext, Employee employee) {
         Intent i = new Intent(mContext, PhotoEdithActivity.class);
         i.putExtra("IDEMPLOYEE", employee.id);
+        mContext.startActivity(i);
+    }
+
+    public static void startBox(Context mContext, Long boxid) {
+        Intent i = new Intent(mContext, PhotoEdithActivity.class);
+        i.putExtra("IDBOX", boxid);
         mContext.startActivity(i);
     }
 
@@ -70,7 +81,11 @@ public class PhotoEdithActivity extends BaseActivity {
         //photo
         mImageView = findViewById(R.id.imageview);
 
-        clientOrEmployee();
+       // clientOrEmployee();
+        isClient();
+        isBox();
+        isEmployee();
+
 
         if(isClient){
             ApiClient.get().getClient( getIntent().getLongExtra("ID", -1), new GenericCallback<Client>() {
@@ -85,7 +100,7 @@ public class PhotoEdithActivity extends BaseActivity {
 
                 }
             });
-        }else{
+        }else if(isEmployee){
             ApiClient.get().getEmployee(getIntent().getLongExtra("IDEMPLOYEE", -1), new GenericCallback<Employee>() {
                 @Override
                 public void onSuccess(Employee data) {
@@ -98,9 +113,21 @@ public class PhotoEdithActivity extends BaseActivity {
 
                 }
             });
+        }else if(isBox){
+            ApiClient.get().getBox(getIntent().getLongExtra("IDBOX", -1), new GenericCallback<Box>() {
+                @Override
+                public void onSuccess(Box data) {
+                    mCurrentBox=data;
+                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentBox.image_url)).into(mImageView);
+                }
+
+                @Override
+                public void onError(Error error) {
+
+                }
+            });
+
         }
-
-
 
 
         CardView takePhoto = findViewById(R.id.select_photo);
@@ -112,14 +139,39 @@ public class PhotoEdithActivity extends BaseActivity {
         });
     }
 
-    private void clientOrEmployee(){
+
+    private void isBox(){
+        Long l= getIntent().getLongExtra("IDBOX", -1);
+        if(l>0){
+            isBox=true;
+            System.out.println("box");
+        }
+
+    }
+
+    private void isEmployee(){
+        Long l= getIntent().getLongExtra("IDEMPLOYEE", -1);
+        if(l>0){
+            isEmployee=true;
+            System.out.println("empleado");
+        }
+    }
+
+    private void isClient(){
+        Long l= getIntent().getLongExtra("ID", -1);
+        if(l>0){
+            isClient=true;
+            System.out.println("client");
+        }
+    }
+   /* private void clientOrEmployee(){
        Long l= getIntent().getLongExtra("ID", -1);
        if(l <0 ){
            isClient=false;
        }else{
            isClient=true;
        }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,14 +187,16 @@ public class PhotoEdithActivity extends BaseActivity {
                     try {
                         if(isClient){
                             mCurrentClient.imageData = fileToBase64(image_path);
-                        }else{
+                        }else if(isEmployee){
                             mCurrentEmployee.imageData = fileToBase64(image_path);
+                        }else if(isBox){
+                            mCurrentBox.imageData = fileToBase64(image_path);
                         }
 
                     } catch (Exception e) {
                     }
 
-                    final ProgressDialog progress = ProgressDialog.show(this, "Creando usuario",
+                    final ProgressDialog progress = ProgressDialog.show(this, "Editando foto",
                             "Aguarde un momento", true);
 
                     if(isClient){
@@ -159,12 +213,26 @@ public class PhotoEdithActivity extends BaseActivity {
                                 DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
                             }
                         });
-                    }else{
+                    }else if(isEmployee){
 
                         ApiClient.get().putEmployee(mCurrentEmployee, new GenericCallback<Employee>() {
                             @Override
                             public void onSuccess(Employee data) {
                                 Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
+                                finish();
+                                progress.dismiss();
+                            }
+
+                            @Override
+                            public void onError(Error error) {
+                                DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                            }
+                        });
+                    }else if(isBox){
+                        ApiClient.get().putBox(mCurrentBox, new GenericCallback<Box>() {
+                            @Override
+                            public void onSuccess(Box data) {
+                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.image_url)).into(mImageView);
                                 finish();
                                 progress.dismiss();
                             }

@@ -94,6 +94,24 @@
             android:name=".activities.BoxPhotoActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+        <activity
+            android:name=".activities.ProductsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+
+        <activity
+            android:name=".activities.BalanceActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

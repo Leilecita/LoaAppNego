@@ -1,5 +1,6 @@
 package com.example.android.loa.activities;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,27 +14,31 @@ import android.view.View;
 
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.PageAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.fragments.BaseFragment;
 
 public class MainActivity extends BaseActivity {
 
-
     PageAdapter mAdapter;
     TabLayout mTabLayout;
-
     FloatingActionButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!SessionPrefs.get(this).isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
 
         ViewPager viewPager =  findViewById(R.id.viewpager);
+
         mAdapter = new PageAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
 
         mTabLayout =  findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(viewPager);
-       // mTabLayout.setSelectedTabIndicatorHeight(10);
 
         button= findViewById(R.id.fab_agregarTod);
 
@@ -43,24 +48,17 @@ public class MainActivity extends BaseActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
-
             @Override
             public void onPageSelected(int position) {
                 setImageButton();
                 actionFloatingButton();
-
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
-
     }
-
 
     @Override
     public int getLayoutRes() {
@@ -81,7 +79,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
     public void setImageButton(){
         int position = mTabLayout.getSelectedTabPosition();
         Fragment f = mAdapter.getItem(position);
@@ -91,21 +88,27 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-   /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main2, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // User clicked on a menu option in the app bar overflow menu
-        switch (item.getItemId()) {
 
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+
+
+        int id = item.getItemId();
+        if ( id == R.id.action_logout ) {
+            SessionPrefs.get(getBaseContext()).logOut();
+            startActivity(new Intent(getBaseContext(),LoginActivity.class));
+            finish();
+            return true;
+        }else if(id == R.id.action_stock){
+
+            startActivity(new Intent(getBaseContext(), ProductsActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }*/
 
+    }
 }

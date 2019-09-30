@@ -97,11 +97,11 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
 
         holder.name.setText(currentEmployee.name);
 
-        if (currentEmployee.image_url == null) {
+       // if (currentEmployee.image_url == null) {
             Glide.with(mContext).load(R.drawable.person_color).into(holder.photo);
-        } else {
-            Glide.with(mContext).load(ApiUtils.getImageUrl(currentEmployee.image_url)).into(holder.photo);
-        }
+        //} else {
+          //  Glide.with(mContext).load(ApiUtils.getImageUrl(currentEmployee.image_url)).into(holder.photo);
+        //}
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

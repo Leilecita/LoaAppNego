@@ -130,16 +130,14 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         holder.text_name.setText(currentClient.name);
 
         String search="person_color";
-        if(ApiUtils.getImageUrl(currentClient.image_url).toLowerCase().indexOf(search.toLowerCase()) != -1){
-       // if(ApiUtils.getImageUrl(currentClient.image_url).equals("http://loa.abarbieri.com.ar/uploads/preimpresos/person_color.png")) {
+      //  if(ApiUtils.getImageUrl(currentClient.image_url).toLowerCase().indexOf(search.toLowerCase()) != -1){
 
             holder.photo.setImageDrawable(getDrawableFirstLetter(currentClient));
 
-        }else{
+       /* }else{
             Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
-        }
-           // TextDrawable drawable = TextDrawable.builder()
-             //       .buildRound(firstLetter, color); // radius in px
+        }*/
+
 
         Double debt=currentClient.debt;
         if(debt<0){
@@ -375,8 +373,9 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteUser(c,position);
-                dialog.dismiss();
+               // deleteUser(c,position);
+                Toast.makeText(mContext,"Por seguridad solo lo puede borrar Leila", Toast.LENGTH_SHORT).show();
+               // dialog.dismiss();
             }
         });
 

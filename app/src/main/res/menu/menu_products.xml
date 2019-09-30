@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:id="@+id/menu_edit"
+        android:title="Editar"
+        android:iconTint="@color/loa_red"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+
+        android:id="@+id/menu_delete"
+        android:title="Borrar"
+        android:icon="@android:drawable/ic_menu_recent_history"/>
+
+    <item
+
+        android:id="@+id/menu_load_stock"
+        android:title="Sumar Stock"
+        />
+    <item
+
+        android:id="@+id/menu_solded"
+        android:title="Restar stock"
+        />
+    <item
+
+        android:id="@+id/menu_balance"
+        android:title="Ver Balance"
+        />
+
+</menu>

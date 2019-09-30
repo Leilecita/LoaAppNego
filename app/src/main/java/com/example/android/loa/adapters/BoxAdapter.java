@@ -132,7 +132,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BoxPhotoActivity.start(mContext,currentBox,dateToShow);
+                BoxPhotoActivity.start(mContext,currentBox.id,currentBox.image_url,dateToShow);
             }
         });
 
@@ -181,7 +181,8 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                 deposit.setText(String.valueOf(currentBox.deposit));
                 TextView date=  dialogView.findViewById(R.id.date);
 
-                date.setText(DateHelper.get().serverToUserFormatted(currentBox.created));
+               // date.setText(DateHelper.get().serverToUserFormatted(currentBox.created));
+                date.setText(DateHelper.get().changeFormatDate(currentBox.created));
                 dialog.show();
                 return false;
             }

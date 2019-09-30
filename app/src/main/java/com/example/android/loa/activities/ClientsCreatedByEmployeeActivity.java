@@ -35,9 +35,7 @@ public class ClientsCreatedByEmployeeActivity extends BaseActivity implements Pa
     private Integer mCurrentPage;
     private Paginate paginate;
     private boolean hasMoreItems;
-
     private String mEmployeeName;
-
 
     public static void startClientsByEmployee(Context mContext, String name_employee){
         Intent i=new Intent(mContext, ClientsCreatedByEmployeeActivity.class);
@@ -56,11 +54,6 @@ public class ClientsCreatedByEmployeeActivity extends BaseActivity implements Pa
         showBackArrow();
 
         setTitle("Fichas ");
-        //TextView title= findViewById(R.id.title);
-        //title.setText("Historial");
-        //  ImageView icon= findViewById(R.id.icon);
-        // icon.setVisibility(View.INVISIBLE);
-
 
         mEmployeeName=getIntent().getStringExtra("EMPLOYEENAME");
 
@@ -119,14 +112,10 @@ public class ClientsCreatedByEmployeeActivity extends BaseActivity implements Pa
                 loadingInProgress = false;
             }
         });
-
     }
-
-
 
     @Override
     public void onLoadMore() {
-
         listClientsByEmployee();
     }
 

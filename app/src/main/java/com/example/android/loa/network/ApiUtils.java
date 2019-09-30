@@ -3,12 +3,22 @@ package com.example.android.loa.network;
 public class ApiUtils {
     private ApiUtils() {}
 
-   //public static final String BASE_URL = "http://loadev.abarbieri.com.ar/";
+
+
+    //loa dev es la que esta acitva
+  // public static final String BASE_URL = "http://loadev.abarbieri.com.ar/";
+
+    //esta la tenia en el celu fede. se mirgaron los datos a loadev
     //public static final String BASE_URL = "http://loa.abarbieri.com.ar/";
    public static final String BASE_URL = "http://192.168.0.87/loaserver/";
+  // public static final String BASE_URL = "http://192.168.88.5/loaserver/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);
+    }
+
+    public static APIService getAPISessionService() {
+        return RetrofitClient.getSessionClient(BASE_URL).create(APIService.class);
     }
 
     public static final String getImageUrl(String imagePath){

@@ -30,10 +30,10 @@ public class BoxPhotoActivity extends BaseActivity {
     private Box mCurrentBox;
     private ImageView photo;
 
-    public static void start(Context mContext, Box box,String dateToShow){
+    public static void start(Context mContext, Long id,String image_url,String dateToShow){
         Intent i=new Intent(mContext, BoxPhotoActivity.class);
-        i.putExtra("ID",box.id);
-        i.putExtra("PHOTOURL",box.image_url);
+        i.putExtra("ID",id);
+        i.putExtra("PHOTOURL",image_url);
         i.putExtra("DATE",dateToShow);
         mContext.startActivity(i);
     }

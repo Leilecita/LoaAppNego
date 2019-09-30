@@ -214,6 +214,7 @@ public class CreateBoxActivity extends BaseActivity {
                     }
                 }
                 b.created= DateHelper.get().changeFormatDateUserToServer(mSelectDate);
+
                 final ProgressDialog progress = ProgressDialog.show(this, "Creando caja del día",
                         "Aguarde un momento", true);
                 ApiClient.get().postBox(b, new GenericCallback<Box>() {

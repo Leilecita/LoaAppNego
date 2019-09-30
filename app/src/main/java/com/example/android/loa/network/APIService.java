@@ -1,5 +1,7 @@
 package com.example.android.loa.network;
 
+import android.widget.Spinner;
+
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
@@ -9,6 +11,14 @@ import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
+import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.QuantityProducts;
+import com.example.android.loa.network.models.SpinnerData;
+import com.example.android.loa.network.models.SpinnerItem;
+import com.example.android.loa.network.models.SpinnerType;
+import com.example.android.loa.network.models.StockEvent;
+import com.example.android.loa.network.models.User;
+import com.example.android.loa.network.models.UserToken;
 
 import java.util.List;
 
@@ -167,5 +177,77 @@ public interface APIService {
 
     @DELETE("boxes.php")
     Observable<ResponseBody>  deleteBox(@Query("id") Long id);
+
+    @PUT("products.php")
+    Observable<Response<Product>> putProduct(@Body Product p);
+
+    @GET("products.php")
+    Observable<Response<Product>> getProduct(@Query("id") Long id);
+
+    @GET("products.php")
+    Observable<Response<List<Product>>> getProductsByPageByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("brand") String brand,@Query("type") String type);
+
+    @GET("products.php")
+    Observable<Response<List<Product>>> getProductsByPageByItemByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("item") String item,@Query("brand") String brand,@Query("type") String type);
+
+    @GET("products.php")
+    Observable<Response<Integer>> getSumStockByFilterProducts(@Query("method") String method, @Query("item") String item,
+                                                                     @Query("brand") String brand, @Query("type") String type2);
+    @GET("products.php")
+    Observable<Response<List<Product>>> getProductsByPage(@Query("page") Integer page);
+
+
+    @POST("products.php")
+    Observable<Response<Product>> postProduct(@Body Product p);
+
+    @POST("stock_events.php")
+    Observable<Response<StockEvent>> postStockEvent(@Body StockEvent s,@Query("balance") String balance);
+
+    @PUT("stock_events.php")
+    Observable<Response<StockEvent>> putStockEvent(@Body StockEvent s);
+
+    @GET("stock_events.php")
+    Observable<Response<List<StockEvent>>> getSotckeventsByPageSinceTo(@Query("page") Integer page,@Query("since") String created,@Query("to") String next, @Query("id_product") Long id_product);
+
+
+    @GET("stock_events.php")
+    Observable<Response<List<StockEvent>>> getSotckeventsByPage(@Query("page") Integer page, @Query("id_product") Long id_product);
+
+
+    @DELETE("products.php")
+    Observable<ResponseBody>  deleteProduct(@Query("id") Long id);
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerData>>> getSpinnerByItemByTypeByBrand(@Query("method") String method,@Query("tt") String type,@Query("item") String item,
+                                                                          @Query("brand") String brand,  @Query("type") String type2);
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerType>>> getSpinnerByItemByTypeByBrandType(@Query("method") String method,@Query("tt") String type,@Query("item") String item,
+                                                                          @Query("brand") String brand,  @Query("type") String type2);
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerItem>>> getSpinnerItemByItemByTypeByBrandType(@Query("method") String method, @Query("tt") String type, @Query("item") String item,
+                                                                                  @Query("brand") String brand, @Query("type") String type2);
+
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerData>>> getSpinner(@Query("method") String method,@Query("tt") String type);
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerType>>> getSpinnerType(@Query("method") String method, @Query("tt") String type);
+
+
+    @POST("users.php")
+    Observable<Response<User>> postUser(@Body User u);
+
+
+
+    @GET("login.php")
+    Observable<Response<UserToken>> login(@Query("name") String name, @Query("hash_password") String password,
+                                          @Query("method") String method);
+
+    @POST("login.php")
+    Observable<Response<User>> register(@Body User u,@Query("key_access") String key,@Query("method") String method);
+
 
 }

@@ -1,0 +1,186 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="2dp"
+    card_view:cardMaxElevation="4dp"
+    android:backgroundTint="#ededed"
+    card_view:contentPadding="10dp"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Producto"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textColor="@color/word"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:orientation="vertical">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/item"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:textColor="#5c5c5c"
+                android:textSize="16sp"
+                android:hint="Item"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+            <Spinner
+                android:id="@+id/spinner_item"
+                android:layout_width="match_parent"
+                android:spinnerMode="dropdown"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:dropDownVerticalOffset="38dp"
+                android:layout_height="33dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:orientation="vertical">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/type"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:textColor="#5c5c5c"
+                android:textSize="16sp"
+                android:hint="Producto"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+            <Spinner
+                android:id="@+id/spinner_type"
+                android:layout_width="match_parent"
+                android:spinnerMode="dropdown"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:dropDownVerticalOffset="38dp"
+                android:layout_height="33dp" />
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="vertical">
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/brand"
+                    android:hint="Marca "
+                    android:layout_width="match_parent"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:paddingLeft="8dp"
+                    android:textColor="#5c5c5c"
+                    android:layout_height="33dp"
+                    android:textSize="16sp"
+                    android:inputType="textCapWords"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+                    <Spinner
+                        android:id="@+id/spinner_brand"
+                        android:layout_width="match_parent"
+                        android:spinnerMode="dropdown"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:dropDownHeight="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:dropDownVerticalOffset="38dp"
+                        android:layout_height="35dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="vertical">
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cargar el stock presionando sobre el nuevo articulo"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    android:textColor="@color/word"
+                    />
+            </LinearLayout>
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@color/colorDialogButton"
+                android:text="guardar"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -18,11 +18,16 @@ import android.widget.TextView;
 
 import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
+import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.CreateClientActivity;
 import com.example.android.loa.activities.EventHistoryActivity;
+import com.example.android.loa.activities.LoginActivity;
+import com.example.android.loa.activities.MainActivity;
+import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.ClientAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -85,7 +90,6 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
             public void onClick(View v) {
                 changeOrderBy();
                 clearView();
-
             }
         });
 
@@ -127,7 +131,6 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
         listClients(mQuery);
     }
 
-
     private void changeOrderBy(){
         if(CurrentValuesHelper.get().getmOrderClientBy().equals("name")){
             CurrentValuesHelper.get().setmOrderClientBy("debt");
@@ -135,7 +138,6 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
         }else{
             CurrentValuesHelper.get().setmOrderClientBy("name");
             mOrderBy.setText("> $");
-
         }
     }
 
@@ -197,6 +199,8 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
 
             @Override
             public void onError(Error error) {
+                    DialogHelper.get().showMessage("Error",error.message+" "+error.result,getContext());
+
                 loadingInProgress = false;
             }
         });
@@ -242,24 +246,19 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-
         inflater.inflate(R.menu.menu_info, menu);
-
         final MenuItem item = menu.findItem(R.id.action_info);
         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 startHistoryEventsActivity();
-
                 return false;
             }
         });
     }
 
     private void startHistoryEventsActivity(){
-
         startActivity(new Intent(getContext(), EventHistoryActivity.class));
-
     }
 
 }

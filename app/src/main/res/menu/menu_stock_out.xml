@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:id="@+id/out_buy"
+        android:title="Salida venta"
+
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+
+        android:id="@+id/out_santi"
+        android:title="Salida santi"
+        android:icon="@android:drawable/ic_menu_recent_history"/>
+
+    <item
+
+        android:id="@+id/out_gifts"
+        android:title="Salida premios"
+        />
+    <item
+
+        android:id="@+id/out_dev"
+        android:title="Salida dev"
+        />
+    <item
+
+        android:id="@+id/out_falla"
+        android:title="Salida dev falla"
+        />
+
+
+</menu>

@@ -1,51 +1,9 @@
 package com.example.android.loa.adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.bumptech.glide.Glide;
-import com.example.android.loa.DateHelper;
-import com.example.android.loa.DialogHelper;
-import com.example.android.loa.Interfaces.OnAmountChange;
-import com.example.android.loa.R;
-import com.example.android.loa.ValidatorHelper;
-import com.example.android.loa.activities.OperationHistoryClientActivity;
-import com.example.android.loa.activities.PhotoEdithActivity;
-import com.example.android.loa.network.ApiClient;
-import com.example.android.loa.network.ApiUtils;
-import com.example.android.loa.network.Error;
-import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.Client;
-import com.example.android.loa.network.models.Item_file;
-
-import java.io.File;
-import java.util.Calendar;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 /*
 public class ClientAdapter2 extends BaseAdapter<Client,ClientAdapter2.ViewHolder> {
     private Context mContext;

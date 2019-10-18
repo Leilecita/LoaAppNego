@@ -9,22 +9,19 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.widget.CardView;
+import androidx.core.app.NavUtils;
+import androidx.cardview.widget.CardView;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
-import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.network.ApiClient;

@@ -1,7 +1,7 @@
 package com.example.android.loa;
 
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 public class LoaApp extends MultiDexApplication {
 

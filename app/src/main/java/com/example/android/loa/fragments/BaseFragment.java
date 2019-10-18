@@ -1,6 +1,6 @@
 package com.example.android.loa.fragments;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.example.android.loa.Interfaces.OnFloatingButton;
 import com.example.android.loa.R;

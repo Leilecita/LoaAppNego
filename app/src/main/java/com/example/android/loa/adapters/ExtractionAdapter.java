@@ -3,12 +3,10 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,29 +21,22 @@ import android.widget.Toast;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Events.RefreshBoxesEvent;
-import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
-import com.example.android.loa.Interfaces.OnListBoxesChange;
 import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
-import com.example.android.loa.activities.CreateClientActivity;
-import com.example.android.loa.activities.ExtractionsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Extraction;
-import com.example.android.loa.network.models.Item_file;
-import com.example.android.loa.network.models.Operation;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.List;
 
-public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>{
     private Context mContext;
     private String mLastDateDecoration;
 
@@ -60,13 +51,11 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
     @Override
     public long getHeaderId(int position) {
         if (position == 0) {
-            return 1;
+                return 0;
         } else {
             return getItem(position).id;
         }
     }
-
-
 
 
     @Override
@@ -88,8 +77,10 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
             textView.setText(dateToShow);
             mLastDateDecoration=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(e.created));
 
-        }else{
+        }
+        else{
             textView.setTextSize(0);
+            textView.setVisibility(View.GONE);
         }
     }
 
@@ -100,6 +91,7 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         mContext = context;
         mLastDateDecoration="";
         mResumAmountOn=amount;
+
     }
 
     public void setLastDateDecoration(String s){

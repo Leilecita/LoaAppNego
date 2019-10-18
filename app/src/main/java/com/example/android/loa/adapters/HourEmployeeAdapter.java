@@ -5,9 +5,9 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +22,15 @@ import android.widget.Toast;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountHoursChange;
-import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
-import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Item_employee;
-import com.example.android.loa.network.models.Operation;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
-import javax.xml.transform.dom.DOMLocator;
 
 public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployeeAdapter.ViewHolder> {
 

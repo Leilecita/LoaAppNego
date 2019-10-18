@@ -3,23 +3,19 @@ package com.example.android.loa.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
-import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.BoxAdapter;
-import com.example.android.loa.adapters.ExtractionAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Box;
-import com.example.android.loa.network.models.Extraction;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 

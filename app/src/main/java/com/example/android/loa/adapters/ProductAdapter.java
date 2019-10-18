@@ -5,14 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +20,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
@@ -32,10 +29,9 @@ import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.StockEvent;
 
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -44,6 +40,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private OnChangeViewStock onChangeViewStock= null;
 
     private Integer prevPosOpenView;
+    private Boolean isModel;
 
     public void setOnChangeViewStock(OnChangeViewStock lister){
         onChangeViewStock=lister;
@@ -54,6 +51,11 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         mContext = context;
 
         prevPosOpenView=-1;
+        isModel=false;
+    }
+
+    public void setIsModel(Boolean model){
+        this.isModel=model;
     }
 
     public void resetPrevOpenView(){
@@ -132,8 +134,15 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         final Product currentProduct=getItem(position);
 
         holder.type.setText(currentProduct.type);
-        holder.brand.setText(currentProduct.brand);
+
         holder.stock.setText(String.valueOf(currentProduct.stock));
+
+        if(isModel){
+            holder.brand.setText(currentProduct.brand+"   "+currentProduct.model);
+        }else{
+            holder.brand.setText(currentProduct.brand);
+        }
+
 
         holder.salir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,13 +160,12 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         optionsItem(holder,currentProduct,position);
 
         holder.line_options.setVisibility(View.GONE);
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(holder.line_options.getVisibility() == View.VISIBLE){
                     holder.line_options.setVisibility(View.GONE);
-
 
                 }else{
                     if(prevPosOpenView!=-1 ){
@@ -196,9 +204,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 if(holder.salir.getVisibility() == View.GONE){
                     holder.updateStock.setVisibility(View.VISIBLE);
                     holder.salir.setVisibility(View.VISIBLE);
-                    if(onChangeViewStock!=null){
-                        onChangeViewStock.OnChangeViewStock();
-                    }
                 }
 
                 lessStock(p,position,holder);
@@ -211,9 +216,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                if(holder.salir.getVisibility() == View.GONE){
                    holder.updateStock.setVisibility(View.VISIBLE);
                    holder.salir.setVisibility(View.VISIBLE);
-                   if(onChangeViewStock!=null){
-                       onChangeViewStock.OnChangeViewStock();
-                   }
                }
                 loadStock(p,position,holder);
             }
@@ -237,7 +239,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
 
     private void lessStock(final Product p, final int position, final ViewHolder holder){
-        holder.detail.setText("Salida venta");
+
+
+        holder.detail.setHint("Elegir detalle");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,6 +250,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         });
 
         holder.load_stock.setHint("-");
+
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,35 +258,41 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 String stockP=holder.load_stock.getText().toString().trim();
                 String detailP=holder.detail.getText().toString().trim();
 
-                if(!stockP.matches("") && ValidatorHelper.get().isTypeInteger(stockP)) {
+                if( ValidatorHelper.get().isTypeInteger(stockP)) {
+                    if(!stockP.matches("") && !detailP.matches("")){
 
-                    StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP),p.stock, detailP);
-                    s.ideal_stock=s.stock_ant + s.stock_in - s.stock_out;
-                    p.stock-=Integer.valueOf(stockP);
+                        StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP),p.stock, detailP);
+                        s.ideal_stock=s.stock_ant + s.stock_in - s.stock_out;
+                        p.stock-=Integer.valueOf(stockP);
 
-                    ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
-                        @Override
-                        public void onSuccess(StockEvent data) {
-                            holder.stock.setText(String.valueOf(p.stock));
-                            holder.load_stock.setText("");
+                        ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
+                            @Override
+                            public void onSuccess(StockEvent data) {
+                                holder.stock.setText(String.valueOf(p.stock));
+                                holder.load_stock.setText("");
 
-                            if(onChangeViewStock!= null){
-                                onChangeViewStock.onReloadTotalQuantityStock();
+                                if(onChangeViewStock!= null){
+                                    onChangeViewStock.onReloadTotalQuantityStock();
+                                }
+
+                                Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
+                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
+
+                                closeItem(holder);
+
+
                             }
 
-                            Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onError(Error error) {
+                                DialogHelper.get().showMessage("Error"," Error al cargar stock",mContext);
+                            }
+                        });
+                    }else{
+                        Toast.makeText(mContext,"Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
+                    }
 
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
-
-                            closeItem(holder);
-                        }
-
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error"," Error al cargar stock",mContext);
-                        }
-                    });
                 }else{
 
                     Toast.makeText(mContext,"Tipo de dato no válido", Toast.LENGTH_SHORT).show();
@@ -290,71 +301,14 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         });
     }
 
-    private void createMenuIn(final ViewHolder holder){
-        PopupMenu popup = new PopupMenu(mContext, holder.itemView);
-        popup.getMenuInflater().inflate(R.menu.menu_stock_in, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.in_buy:
-                        holder.detail.setText("Ingreso compra");
-                        return true;
-                    case R.id.in_dev:
-                        holder.detail.setText("Ingreso dev");
-                        return true;
-                    case R.id.in_dev_luz:
-                        holder.detail.setText("ingreso dev Luz");
-                        return true;
-                    case R.id.in_dev_wrong:
-                        holder.detail.setText("Ingreso dev falla");
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popup.show();
-    }
-
-    private void createMenuOut(final ViewHolder holder){
-
-        PopupMenu popup = new PopupMenu(mContext, holder.itemView);
-        popup.getMenuInflater().inflate(R.menu.menu_stock_out, popup.getMenu());
-
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.out_buy:
-                        holder.detail.setText("Salida venta");
-                        return true;
-                    case R.id.out_dev:
-                        holder.detail.setText("Salida dev");
-                        return true;
-                    case R.id.out_falla:
-                        holder.detail.setText("Salida dev falla");
-                        return true;
-                    case R.id.out_santi:
-                        holder.detail.setText("Salida santi");
-                        return true;
-                    case R.id.out_gifts:
-                        holder.detail.setText("Salida premios");
-                        return true;
-
-                    default:
-                        return false;
-                }
-            }
-        });
-
-        popup.show();
-
-    }
 
     private void loadStock(final Product p, final int position, final ViewHolder holder){
 
-        holder.detail.setText("Ingreso compra");
+        //holder.detail.setHint("Elegir detalle");
+
+        //todo
+        holder.detail.setText("Stock inicial");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,6 +316,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
         holder.load_stock.setHint("+");
+
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -369,41 +324,43 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 String stockP = holder.load_stock.getText().toString().trim();
                 String detailP = holder.detail.getText().toString().trim();
 
-                if (!stockP.matches("") && ValidatorHelper.get().isTypeInteger(stockP)) {
-                    StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP);
-                    s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
-                    p.stock += Integer.valueOf(stockP);
+                if ( ValidatorHelper.get().isTypeInteger(stockP)) {
+                    if(!stockP.matches("") && !detailP.matches("")){
+                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP);
+                        s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
+                        p.stock += Integer.valueOf(stockP);
 
-                    ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
-                        @Override
-                        public void onSuccess(StockEvent data) {
-                            if(onChangeViewStock!= null){
-                                onChangeViewStock.onReloadTotalQuantityStock();
+                        ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
+                            @Override
+                            public void onSuccess(StockEvent data) {
+                                if(onChangeViewStock!= null){
+                                    onChangeViewStock.onReloadTotalQuantityStock();
+                                }
+
+                                holder.stock.setText(String.valueOf(p.stock));
+                                holder.load_stock.setText("");
+
+                                Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
+
+                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
+                                // updateItem(position, p);
+
+                                closeItem(holder);
                             }
-
-
-                          holder.stock.setText(String.valueOf(p.stock));
-                          holder.load_stock.setText("");
-
-
-                          Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
-
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
-                           // updateItem(position, p);
-
-                            closeItem(holder);
-                        }
-
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error", " Error al cargar stock", mContext);
-                        }
-                    });
+                            @Override
+                            public void onError(Error error) {
+                                DialogHelper.get().showMessage("Error", " Error al cargar stock", mContext);
+                            }
+                        });
+                    }else{
+                        Toast.makeText(mContext,"Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(mContext,"Tipo de dato no válido", Toast.LENGTH_SHORT).show();
                 }
             }
+
         });
      }
 
@@ -430,9 +387,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View view) {
 
-                ApiClient.get().deleteProduct(p.id, new GenericCallback<Void>() {
+                ApiClient.get().deleteProduct(p.id, new GenericCallback<SpinnerData>() {
                     @Override
-                    public void onSuccess(Void data) {
+                    public void onSuccess(SpinnerData data) {
                         removeItem(position);
                         Toast.makeText(mContext, "Se ha eliminado el producto "+p.type, Toast.LENGTH_LONG).show();
                     }
@@ -442,7 +399,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         DialogHelper.get().showMessage("Error","Error al eliminar el producto "+p.type,mContext);
                     }
                 });
-
 
                 dialog.dismiss();
             }
@@ -456,6 +412,158 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         dialog.show();
     }
 
+
+  private void createMenuIn(final ViewHolder holder){
+      PopupMenu popup = new PopupMenu(mContext, holder.itemView);
+      popup.getMenuInflater().inflate(R.menu.menu_stock_in, popup.getMenu());
+      popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+          public boolean onMenuItemClick(MenuItem item) {
+              switch (item.getItemId()) {
+                  case R.id.in_buy:
+                      holder.detail.setText("Ingreso compra");
+                      return true;
+                  case R.id.in_error:
+                      holder.detail.setText("Suma por error anterior");
+                  case R.id.in_dev:
+                      holder.detail.setText("Ingreso dev");
+                      return true;
+                  case R.id.in_dev_luz:
+                      holder.detail.setText("ingreso dev Luz");
+                      return true;
+                  case R.id.in_dev_wrong:
+                      holder.detail.setText("Ingreso dev falla");
+                      return true;
+                  default:
+                      return false;
+              }
+          }
+      });
+      popup.show();
+  }
+
+    private void createMenuOut(final ViewHolder holder){
+
+        PopupMenu popup = new PopupMenu(mContext, holder.itemView);
+        popup.getMenuInflater().inflate(R.menu.menu_stock_out, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.out_buy:
+                        holder.detail.setText("Salida venta");
+                        return true;
+                    case R.id.out_error:
+                        holder.detail.setText("Resta por error anterior");
+                        return true;
+                    case R.id.out_dev:
+                        holder.detail.setText("Salida dev");
+                        return true;
+                    case R.id.out_falla:
+                        holder.detail.setText("Salida dev falla");
+                        return true;
+                    case R.id.out_santi:
+                        holder.detail.setText("Salida santi");
+                        return true;
+                    case R.id.out_gifts:
+                        holder.detail.setText("Salida premios");
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        popup.show();
+
+    }
+
+}
+   /*
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View dialogView = inflater.inflate(R.layout.cuad_menu_balance, null);
+
+                TextView load_stock=dialogView.findViewById(R.id.load_stock);
+                TextView less_stock=dialogView.findViewById(R.id.less_stock);
+                TextView balance=dialogView.findViewById(R.id.balance);
+                TextView delete_product=dialogView.findViewById(R.id.delete);
+                TextView title=dialogView.findViewById(R.id.data_product);
+
+                title.setText(currentProduct.type+" "+currentProduct.brand);
+
+                builder.setView(dialogView);
+                final AlertDialog dialog = builder.create();
+                load_stock.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadStock(currentProduct,position);
+                        dialog.dismiss();
+                    }
+                });
+
+                less_stock.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lessStock(currentProduct,position);
+                        dialog.dismiss();
+                    }
+                });
+                balance.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getBalance(currentProduct);
+                        dialog.dismiss();
+                    }
+                });
+
+                delete_product.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteProduct(currentProduct, position);
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialog.show();
+
+
+                */
+
+
+             /*   PopupMenu popup = new PopupMenu(mContext, holder.itemView);
+                popup.getMenuInflater().inflate(R.menu.menu_products, popup.getMenu());
+
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.menu_delete:
+                                deleteProduct(currentProduct, position);
+                                return true;
+                            case R.id.menu_load_stock:
+                                loadStock(currentProduct,position);
+                                return true;
+                            case R.id.menu_solded:
+                                lessStock(currentProduct,position);
+                                return true;
+                            case R.id.menu_balance:
+                                getBalance(currentProduct);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+                popup.show();
+            }
+        });*/
   /*
 
     private void loadStock2(final Product p,final int position){
@@ -690,89 +798,3 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
 
 }*/
-
-
-}
-   /*
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View dialogView = inflater.inflate(R.layout.cuad_menu_balance, null);
-
-                TextView load_stock=dialogView.findViewById(R.id.load_stock);
-                TextView less_stock=dialogView.findViewById(R.id.less_stock);
-                TextView balance=dialogView.findViewById(R.id.balance);
-                TextView delete_product=dialogView.findViewById(R.id.delete);
-                TextView title=dialogView.findViewById(R.id.data_product);
-
-                title.setText(currentProduct.type+" "+currentProduct.brand);
-
-                builder.setView(dialogView);
-                final AlertDialog dialog = builder.create();
-                load_stock.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loadStock(currentProduct,position);
-                        dialog.dismiss();
-                    }
-                });
-
-                less_stock.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lessStock(currentProduct,position);
-                        dialog.dismiss();
-                    }
-                });
-                balance.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getBalance(currentProduct);
-                        dialog.dismiss();
-                    }
-                });
-
-                delete_product.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteProduct(currentProduct, position);
-                        dialog.dismiss();
-
-                    }
-                });
-
-                dialog.show();
-
-
-                */
-
-
-             /*   PopupMenu popup = new PopupMenu(mContext, holder.itemView);
-                popup.getMenuInflater().inflate(R.menu.menu_products, popup.getMenu());
-
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_delete:
-                                deleteProduct(currentProduct, position);
-                                return true;
-                            case R.id.menu_load_stock:
-                                loadStock(currentProduct,position);
-                                return true;
-                            case R.id.menu_solded:
-                                lessStock(currentProduct,position);
-                                return true;
-                            case R.id.menu_balance:
-                                getBalance(currentProduct);
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-
-                popup.show();
-            }
-        });*/

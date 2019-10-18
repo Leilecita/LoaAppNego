@@ -3,15 +3,14 @@ package com.example.android.loa.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
-import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.ExtractionAdapter;

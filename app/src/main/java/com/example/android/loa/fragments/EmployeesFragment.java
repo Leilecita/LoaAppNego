@@ -2,32 +2,27 @@ package com.example.android.loa.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.R;
-import com.example.android.loa.activities.CreateClientActivity;
 import com.example.android.loa.activities.CreateEmployeeActivity;
-import com.example.android.loa.adapters.ClientAdapter;
 import com.example.android.loa.adapters.EmployeeAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class EmployeesFragment  extends BaseFragment implements Paginate.Callbacks{
 
@@ -79,7 +74,7 @@ public class EmployeesFragment  extends BaseFragment implements Paginate.Callbac
             mCurrentPage = 0;
             mAdapter.clear();
             hasMoreItems=true;
-            listEmployees();
+            //listEmployees();
         }
     }
 

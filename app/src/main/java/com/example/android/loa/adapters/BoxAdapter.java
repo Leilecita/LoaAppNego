@@ -1,22 +1,19 @@
 package com.example.android.loa.adapters;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.MathHelper;
@@ -24,15 +21,12 @@ import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BoxPhotoActivity;
 import com.example.android.loa.activities.ExtractionsActivity;
-import com.example.android.loa.activities.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
-import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Box;
-import com.example.android.loa.network.models.Extraction;
 
-import java.util.Calendar;
+import java.sql.Date;
 import java.util.List;
 
 public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
@@ -127,7 +121,14 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         final String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentBox.created));
 
         holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
-        holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
+        //holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
+
+        holder.date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,DateHelper.get().onlyDayMonth(dateToShow)+"/"+ DateHelper.get().getOnlyYear(dateToShow),Toast.LENGTH_SHORT).show();
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

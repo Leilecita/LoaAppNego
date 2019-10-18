@@ -130,7 +130,7 @@
             android:textStyle="bold"
             />
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_stock_events"
         android:layout_below="@+id/balance"
         android:layout_width="match_parent"

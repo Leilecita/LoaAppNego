@@ -4,8 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="4dp"
-    android:paddingTop="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="4dp"
     android:orientation="vertical"
     >
 
@@ -27,13 +28,14 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:text="10-11"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/year"
                 android:paddingLeft="5dp"
+                android:visibility="gone"
                 android:textColor="@color/word"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
@@ -112,7 +114,7 @@
     <TextView
 
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:id="@+id/div"
         style="@style/DivisorCategoryStyle"
         />

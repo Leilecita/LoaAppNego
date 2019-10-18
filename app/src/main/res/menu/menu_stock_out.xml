@@ -6,6 +6,10 @@
         android:title="Salida venta"
 
         android:icon="@android:drawable/ic_menu_delete"/>
+    <item android:id="@+id/out_error"
+        android:title="Salida por error anterior"
+
+        android:icon="@android:drawable/ic_menu_delete"/>
     <item
 
         android:id="@+id/out_santi"

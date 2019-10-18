@@ -2,9 +2,9 @@ package com.example.android.loa.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.loa.CurrentValuesHelper;
@@ -23,11 +22,7 @@ import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.CreateClientActivity;
 import com.example.android.loa.activities.EventHistoryActivity;
-import com.example.android.loa.activities.LoginActivity;
-import com.example.android.loa.activities.MainActivity;
-import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.ClientAdapter;
-import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -128,7 +123,7 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
         mCurrentPage = 0;
         mAdapter.clear();
         hasMoreItems=true;
-        listClients(mQuery);
+      //  listClients(mQuery);
     }
 
     private void changeOrderBy(){
@@ -163,7 +158,6 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
             mCurrentPage = 0;
             mAdapter.clear();
             hasMoreItems=true;
-            listClients("");
         }
     }
 

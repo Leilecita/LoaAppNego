@@ -6,9 +6,8 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import androidx.core.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
-import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.network.ApiClient;
@@ -34,13 +32,8 @@ import com.example.android.loa.network.models.Item_employee;
 
 import java.util.Calendar;
 import java.util.List;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class LoadEmployeeHoursActivity extends BaseActivity {
 

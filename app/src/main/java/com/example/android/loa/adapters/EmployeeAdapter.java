@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,22 +20,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
 import com.example.android.loa.activities.ClientsCreatedByEmployeeActivity;
-import com.example.android.loa.activities.EventHistoryActivity;
 import com.example.android.loa.activities.HoursHistoryEmployeeActivity;
 import com.example.android.loa.activities.LoadEmployeeHoursActivity;
-import com.example.android.loa.activities.OperationHistoryClientActivity;
 import com.example.android.loa.activities.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Employee;
-import com.example.android.loa.network.models.Item_employee;
 
 import java.util.List;
 

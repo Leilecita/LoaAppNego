@@ -14,9 +14,11 @@ import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
+import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerItem;
 import com.example.android.loa.network.models.SpinnerType;
+import com.example.android.loa.network.models.Spinners;
 import com.example.android.loa.network.models.StockEvent;
 import com.example.android.loa.network.models.User;
 import com.example.android.loa.network.models.UserToken;
@@ -196,9 +198,8 @@ public class ApiClient {
     }
 
 
-
-    public void getBoxesByPage(Integer page,String created,final GenericCallback<List<Box>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getBoxesByPage("getBoxes",page,created), callback);
+    public void getBoxesByPage2(Integer page,final GenericCallback<List<Box>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getBoxesByPage2(page),callback);
     }
 
     public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){
@@ -227,10 +228,13 @@ public class ApiClient {
 
 
 
-    public void deleteProduct(Long id, final GenericCallback<Void> callback){
+  /*  public void deleteProduct(Long id, final GenericCallback<Void> callback){
         handleDeleteRequest( ApiUtils.getAPISessionService().deleteProduct(id), callback);
-    }
+    }*/
 
+    public void deleteProduct( Long id,GenericCallback<SpinnerData> callback){
+        handleRequest( ApiUtils.getAPISessionService().deleteProduct("deleteProduct",id), callback);
+    }
 
     public void putProduct(Product p, GenericCallback<Product> callback){
         handleRequest( ApiUtils.getAPISessionService().putProduct(p), callback);
@@ -249,8 +253,12 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getProductsByPageByBrandAndType("getProducts",page,brand,type), callback);
     }
 
-    public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,final GenericCallback<List<Product>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type), callback);
+    public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<Product>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted), callback);
+    }
+
+    public void getDeletedProducts( Integer page,String deleted,final GenericCallback<List<Product>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getDeletedProducts("getDeletedProducts",page,deleted), callback);
     }
 
 
@@ -265,11 +273,20 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().putStockEvent(s), callback);
     }
 
+    public void deleteStockEvent(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPISessionService().deleteStockEvent(id), callback);
+    }
+
+
     public void getSpinner( String type,GenericCallback<List<SpinnerData>> callback){
         handleRequest( ApiUtils.getAPISessionService().getSpinner("spinner",type), callback);
     }
 
-    public void getSpinnerByItemByTypeByBrand( String type, String item, String brand,String type2,GenericCallback<List<SpinnerData>> callback){
+    public void checkExistProduct(String item,String brand,String type,String model, GenericCallback<ResponseData> callback){
+        handleRequest( ApiUtils.getAPISessionService().checkExistProduct(item,brand,type,model,"checkExistProduct"), callback);
+    }
+
+  /*  public void getSpinnerByItemByTypeByBrand( String type, String item, String brand,String type2,GenericCallback<List<SpinnerData>> callback){
         handleRequest( ApiUtils.getAPISessionService().getSpinnerByItemByTypeByBrand("spinner",type,item,brand,type2), callback);
     }
 
@@ -279,10 +296,14 @@ public class ApiClient {
 
     public void getSpinnerItemByItemByTypeByBrandType( String type, String item, String brand,String type2,GenericCallback<List<SpinnerItem>> callback){
         handleRequest( ApiUtils.getAPISessionService().getSpinnerItemByItemByTypeByBrandType("spinner",type,item,brand,type2), callback);
+    }*/
+
+    public void getSpinners(  String item, String brand,String type2,String model,String deleted,GenericCallback<Spinners> callback){
+        handleRequest( ApiUtils.getAPISessionService().getSpinners("getSpinners",item,brand,type2,model,deleted), callback);
     }
 
-    public void getSumStockByFilterProducts( String item, String brand,String type2,GenericCallback<Integer> callback){
-        handleRequest( ApiUtils.getAPISessionService().getSumStockByFilterProducts("sumAllStock",item,brand,type2), callback);
+    public void getSumStockByFilterProducts( String item, String brand,String type2,String model,String deleted,GenericCallback<Integer> callback){
+        handleRequest( ApiUtils.getAPISessionService().getSumStockByFilterProducts("sumAllStock",item,brand,type2,model,deleted), callback);
     }
 
     public void getSpinnerType( String type,GenericCallback<List<SpinnerType>> callback){

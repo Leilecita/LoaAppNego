@@ -4,8 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -27,7 +27,6 @@ import com.paginate.recycler.LoadingListItemSpanLookup;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class HoursHistoryEmployeeActivity extends BaseActivity implements Paginate.Callbacks, OnAmountHoursChange {

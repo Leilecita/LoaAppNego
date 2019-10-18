@@ -1,16 +1,14 @@
 package com.example.android.loa.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -20,10 +18,8 @@ import com.example.android.loa.Interfaces.OnSelectedItem;
 import com.example.android.loa.R;
 
 import com.example.android.loa.network.models.SpinnerData;
-import com.example.android.loa.network.models.SpinnerType;
 
 import java.util.List;
-import java.util.Random;
 
 public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>  {
     private Context mContext;
@@ -115,10 +111,7 @@ public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>
 
         holder.text.setText(current.brand);
 
-        if(current.brand.equals("Salir")){
-            holder.circle.setImageDrawable(getDrawableFirstLetterClose("X",R.color.word_clear));
-
-        }else if(current.brand.equals("Nuevo")){
+      if(current.brand.equals("Nuevo")){
             holder.circle.setImageDrawable(getDrawableFirstLetterClose("+",R.color.word_clear2));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

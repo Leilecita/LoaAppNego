@@ -10,7 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import androidx.core.app.NavUtils;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -220,6 +220,7 @@ public class CreateBoxActivity extends BaseActivity {
                 ApiClient.get().postBox(b, new GenericCallback<Box>() {
                     @Override
                     public void onSuccess(Box data) {
+                        setResult(RESULT_OK);
                         finish();
                         progress.dismiss();
                     }

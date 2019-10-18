@@ -5,15 +5,16 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,7 +23,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
@@ -44,7 +44,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ExtractionsFragment extends BaseFragment implements Paginate.Callbacks,OnExtractionsAmountChange {
@@ -63,6 +62,8 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
     private Paginate paginate;
     private boolean hasMoreItems;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     public void onClickButton(){ addExtraction();  }
     public int getIconButton(){
         return R.drawable.add_white;
@@ -72,7 +73,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         return 0;
     }
 
-    @Override
+   /* @Override
     public void onResume() {
         super.onResume();
         if(!isLoading()) {
@@ -83,7 +84,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             hasMoreItems=true;
             listExtractions();
         }
-    }
+    }*/
 
     private void clearView(){
         mCurrentPage = 0;
@@ -91,7 +92,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         mAdapter.setLastDateDecoration("");
        // mFirstDate.setText("");
         hasMoreItems=true;
-        listExtractions();
+       // listExtractions();
     }
 
     @Override
@@ -132,7 +133,8 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         mRecyclerView.addItemDecoration(headersDecor);
 
         // Add decoration for dividers between list items
-      // mRecyclerView.addItemDecoration(new DividerDecoration(this));
+        //mRecyclerView.addItemDecoration(new DividerDecoration(this));
+
 
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override public void onChanged() {
@@ -141,7 +143,14 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         });
 
        //------------------------
-
+        swipeRefreshLayout =  mRootView.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void
+            onRefresh() {
+                clearView();
+            }
+        });
 
         implementsPaginate();
 
@@ -149,7 +158,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
     }
 
     private void selectDate(){
-
 
                 final DatePickerDialog datePickerDialog;
                 final Calendar c = Calendar.getInstance();
@@ -201,9 +209,14 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
     private void listExtractions(){
         loadingInProgress=true;
+
+        if(mAdapter.getItemCount()==0){
+            swipeRefreshLayout.setRefreshing(true);
+        }
         ApiClient.get().getExtractionsByPage(mCurrentPage, "", new GenericCallback<List<Extraction>>() {
             @Override
             public void onSuccess(List<Extraction> data) {
+
                 if (data.size() == 0) {
                     hasMoreItems = false;
                 }else{
@@ -215,11 +228,12 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                     }
                 }
                 loadingInProgress = false;
-
+                swipeRefreshLayout.setRefreshing(false);
 
             }
             @Override
             public void onError(Error error) {
+                swipeRefreshLayout.setRefreshing(false);
                 loadingInProgress = false;
             }
         });

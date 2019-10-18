@@ -217,7 +217,7 @@ public class DateHelper {
         String part1 = parts[0]; // dia
         String part2 = parts[1]; // mes
         String part = parts[2]; // año
-        return part1 + "/" + part2;
+        return part1 + "-" + part2;
     }
 
     public String getOnlymonth(String date) {
@@ -225,7 +225,7 @@ public class DateHelper {
         String part1 = parts[0]; // dia
         String part2 = parts[1]; // mes
         String part = parts[2]; // año
-        return part + "-" + part2 + "-00 00:00:00";
+        return part + "/" + part2 + "-00 00:00:00";
     }
 
     public String getOnlyYear(String date) {

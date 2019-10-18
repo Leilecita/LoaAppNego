@@ -1,29 +1,23 @@
 package com.example.android.loa.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
-import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.OperationAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
-import com.example.android.loa.network.models.Employee;
-import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Operation;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;

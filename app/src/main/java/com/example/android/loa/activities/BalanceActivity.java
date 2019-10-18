@@ -5,36 +5,26 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.core.app.NavUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
-import com.example.android.loa.adapters.ProductAdapter;
 import com.example.android.loa.adapters.StockEventAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.Employee;
-import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Product;
-import com.example.android.loa.network.models.SpinnerData;
-import com.example.android.loa.network.models.SpinnerType;
 import com.example.android.loa.network.models.StockEvent;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
@@ -66,7 +56,6 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
         mCurrentPage = 0;
         mAdapterStockEvents.clear();
         hasMoreItems=true;
-        list();
     }
     @Override
     public int getLayoutRes() {
@@ -165,7 +154,7 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
             mCurrentPage = 0;
             mAdapterStockEvents.clear();
             hasMoreItems=true;
-            list();
+          //  list();
         }
     }
 
@@ -230,15 +219,41 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
     }
 
 
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_balance, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if ( id == android.R.id.home ) {
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_detail:
+                hideDetail();
+                return true;
+            case android.R.id.home:
+                finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void hideDetail(){
+        if(mAdapterStockEvents.getHideDetail()){
+
+            mAdapterStockEvents.setHideDetail(false);
+            clearView();
+        }else{
+            mAdapterStockEvents.setHideDetail(true);
+            clearView();
+        }
+
+
+    }
+
 
 
 }

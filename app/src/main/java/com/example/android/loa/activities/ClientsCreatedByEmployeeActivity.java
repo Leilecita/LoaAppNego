@@ -3,14 +3,13 @@ package com.example.android.loa.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.ClientAdapter;
-import com.example.android.loa.adapters.EventAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;

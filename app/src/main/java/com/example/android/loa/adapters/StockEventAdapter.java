@@ -1,16 +1,20 @@
 package com.example.android.loa.adapters;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
@@ -20,19 +24,28 @@ import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.StockEvent;
 
-import java.util.Date;
 import java.util.List;
 
 
 public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.ViewHolder>  {
     private Context mContext;
+    private Boolean mHideDetail;
 
     public StockEventAdapter(Context context, List<StockEvent> events){
         setItems(events);
         mContext = context;
+
+        mHideDetail=true;
     }
+
+    public void setHideDetail(boolean val){
+        this.mHideDetail=val;
+    }
+
+    public boolean getHideDetail(){return mHideDetail;}
 
     public StockEventAdapter(){
 
@@ -52,6 +65,10 @@ public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.
         public TextView date;
         public TextView year;
 
+        public TextView detail;
+
+        public LinearLayout line_options;
+
 
         public ViewHolder(View v){
             super(v);
@@ -63,6 +80,10 @@ public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.
             date= v.findViewById(R.id.date);
             year= v.findViewById(R.id.year);
             dif= v.findViewById(R.id.dif);
+
+            detail= v.findViewById(R.id.detail);
+            line_options= v.findViewById(R.id.line_options);
+
         }
     }
 
@@ -92,6 +113,8 @@ public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.
             vh.year.setText(null);
         if(vh.dif!=null)
             vh.dif.setText(null);
+        if(vh.detail!=null)
+            vh.detail.setText(null);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -101,7 +124,7 @@ public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.
 
         final StockEvent current=getItem(position);
 
-             holder.stock_out.setText(String.valueOf(current.stock_out));
+        holder.stock_out.setText(String.valueOf(current.stock_out));
         if(current.stock_out !=0){
             holder.stock_out.setTypeface(holder.stock_in.getTypeface(), Typeface.BOLD);
         }
@@ -118,7 +141,6 @@ public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.
             holder.actual_stock.setTypeface(holder.stock_in.getTypeface(), Typeface.BOLD);
         }
 
-
         if(current.balance_stock == null){
 
             holder.balance_stock.setText("*");
@@ -132,34 +154,102 @@ public class StockEventAdapter extends BaseAdapter<StockEvent,StockEventAdapter.
             holder.stock_in.setText("*");
             holder.stock_out.setText("*");
             holder.actual_stock.setText("*");
-
         }
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View dialogView = inflater.inflate(R.layout.cuad_info_stock_event, null);
-                builder.setView(dialogView);
-
-
-                final TextView detail= dialogView.findViewById(R.id.detail);
-                detail.setText(current.detail);
-
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-
-                return false;
-            }
-        });
+        if(mHideDetail){
+            holder.line_options.setVisibility(View.GONE);
+        }else{
+            holder.detail.setText(current.detail);
+            holder.line_options.setVisibility(View.VISIBLE);
+        }
 
         final String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(current.created));
 
         holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
-        holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
+        //holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
+
+        holder.date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,DateHelper.get().getOnlyDate(dateToShow),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.detail.setText(current.detail);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.line_options.getVisibility() == View.VISIBLE){
+                    holder.line_options.setVisibility(View.GONE);
+                }else{
+                    holder.line_options.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
 
     }
+
+    private void putitem(StockEvent s){
+        ApiClient.get().putStockEvent(s, new GenericCallback<StockEvent>() {
+            @Override
+            public void onSuccess(StockEvent data) {
+
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
+
+/*    private void deleteStockEvent(final StockEvent s, final int position){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.cuad_delete_stock_event, null);
+        builder.setView(dialogView);
+
+        final TextView textVie= dialogView.findViewById(R.id.text);
+        final TextView cancel = dialogView.findViewById(R.id.cancel);
+        final Button ok = dialogView.findViewById(R.id.ok);
+
+        textVie.setText("Ingreso "+s.stock_in+", Salida "+s.stock_out+" Detalle "+s.detail);
+
+        final AlertDialog dialog = builder.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ApiClient.get().deleteStockEvent(s.id, new GenericCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void data) {
+                        removeItem(position);
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+
+                    }
+                });
+
+
+
+                dialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }*/
+
 
     private void balance(final StockEvent currentStockEvent,final Integer position){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);

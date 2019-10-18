@@ -1,10 +1,10 @@
 package com.example.android.loa.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.android.loa.fragments.BaseFragment;
 import com.example.android.loa.fragments.BoxFragment;
@@ -60,7 +60,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         }else if(position==1){
             return "Team";
         }else if(position ==2){
-            return "Extract";
+            return "Extrac";
         }else{
             return "Cajas";
         }

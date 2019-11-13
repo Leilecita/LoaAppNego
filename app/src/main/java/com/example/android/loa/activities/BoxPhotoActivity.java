@@ -23,12 +23,14 @@ import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Box;
+import com.github.chrisbanes.photoview.PhotoView;
 
 
 public class BoxPhotoActivity extends BaseActivity {
 
     private Box mCurrentBox;
     private ImageView photo;
+    private  PhotoView photoView;
 
     public static void start(Context mContext, Long id,String image_url,String dateToShow){
         Intent i=new Intent(mContext, BoxPhotoActivity.class);
@@ -48,10 +50,14 @@ public class BoxPhotoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         showBackArrow();
 
+        photoView = (PhotoView) findViewById(R.id.image_box);
+       // photoView.setImageResource(R.drawable.image);
+
+
         photo= findViewById(R.id.image_box);
         TextView title= findViewById(R.id.title);
         title.setText("Caja del día "+getIntent().getStringExtra("DATE"));
-        Glide.with(this).load(ApiUtils.getImageUrl(getIntent().getStringExtra("PHOTOURL"))).into(photo);
+        Glide.with(this).load(ApiUtils.getImageUrl(getIntent().getStringExtra("PHOTOURL"))).into(photoView);
 
     }
 
@@ -65,7 +71,7 @@ public class BoxPhotoActivity extends BaseActivity {
         ApiClient.get().getBox(getIntent().getLongExtra("ID", -1), new GenericCallback<Box>() {
             @Override
             public void onSuccess(Box data) {
-                Glide.with(BoxPhotoActivity.this).load(ApiUtils.getImageUrl(data.image_url)).into(photo);
+                Glide.with(BoxPhotoActivity.this).load(ApiUtils.getImageUrl(data.image_url)).into(photoView);
             }
 
             @Override

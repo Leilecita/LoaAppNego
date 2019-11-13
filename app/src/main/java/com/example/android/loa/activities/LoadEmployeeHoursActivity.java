@@ -194,7 +194,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                 //Formateo el hora obtenido: antepone el 0 si son menores de 10
                 String horaFormateada =  (hourOfDay < 10)? String.valueOf("0" + hourOfDay) : String.valueOf(hourOfDay);
 
-
                 //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                 String minutoFormateado = (minute < 10)? String.valueOf("0" + minute):String.valueOf(minute);
 

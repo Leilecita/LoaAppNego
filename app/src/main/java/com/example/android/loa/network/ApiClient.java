@@ -203,7 +203,7 @@ public class ApiClient {
     }
 
     public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getEventsByPage(page), callback);
+        handleRequest( ApiUtils.getAPISessionService().getEventsByPage(page,"getStockEventsDay"), callback);
     }
 
     public void getEventsByPageByClientId(Integer page,Long client_id,final GenericCallback<List<Event>> callback ){

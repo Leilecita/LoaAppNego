@@ -414,8 +414,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         cleanInfo();
 
-
-
         clearView();
 
         //ver que onda

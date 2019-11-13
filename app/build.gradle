@@ -70,4 +70,7 @@ dependencies {
 
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3'
     testImplementation 'junit:junit:4.12'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
 }

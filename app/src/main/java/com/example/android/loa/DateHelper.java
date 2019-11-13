@@ -125,6 +125,14 @@ public class DateHelper {
         return formatter.format(currentDate);
     }
 
+    public String actualDateExtractions() {
+        Calendar cal = Calendar.getInstance();
+        Date currentDate = cal.getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        formatter.setTimeZone(TimeZone.getDefault());
+        return formatter.format(currentDate);
+    }
+
     public String serverToUser(String date) {
 
         try {

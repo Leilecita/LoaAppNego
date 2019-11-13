@@ -84,8 +84,6 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         }
     }
 
-
-
     public ExtractionAdapter(Context context, List<Extraction> extractions,Boolean amount) {
         setItems(extractions);
         mContext = context;

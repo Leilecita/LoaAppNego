@@ -3,6 +3,7 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +49,6 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
         public TextView year;
-
         public TextView counted_sale;
         public TextView card;
         public TextView total_amount;
@@ -57,7 +57,6 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
 
         public ViewHolder(View v) {
             super(v);
-
             counted_sale = v.findViewById(R.id.venta_ctdo);
             card = v.findViewById(R.id.card);
             total_amount = v.findViewById(R.id.total_amount);
@@ -65,7 +64,6 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
             dep = v.findViewById(R.id.dep);
             date = v.findViewById(R.id.date);
             year = v.findViewById(R.id.year);
-
         }
     }
 
@@ -92,7 +90,6 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
             vh.rest_box.setText(null);
         if (vh.dep != null)
             vh.dep.setText(null);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -108,6 +105,19 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         holder.total_amount.setText(MathHelper.get().getIntegerQuantity(currentBox.total_box));
         holder.rest_box.setText(MathHelper.get().getIntegerQuantity(currentBox.rest_box));
         holder.dep.setText(MathHelper.get().getIntegerQuantity(currentBox.deposit));
+
+        if (currentBox.rest_box != currentBox.total_box - currentBox.deposit) {
+            holder.rest_box.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+        }else{
+            holder.rest_box.setTextColor(mContext.getResources().getColor(R.color.word));
+        }
+
+
+        if(currentBox.total_box != currentBox.rest_box_ant + currentBox.counted_sale){
+            holder.total_amount.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+        }else{
+            holder.total_amount.setTextColor(mContext.getResources().getColor(R.color.word));
+        }
 
         holder.dep.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,12 +183,14 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                 TextView creditCard=  dialogView.findViewById(R.id.credit_card);
                 TextView total_box=  dialogView.findViewById(R.id.total_box);
                 TextView rest_box=  dialogView.findViewById(R.id.rest_box);
+                TextView rest_box_ant=  dialogView.findViewById(R.id.rest_box_ant);
                 TextView deposit=  dialogView.findViewById(R.id.deposit);
 
                 countedSale.setText(String.valueOf(currentBox.counted_sale));
                 creditCard.setText(String.valueOf(currentBox.credit_card));
                 total_box.setText(String.valueOf(currentBox.total_box));
                 rest_box.setText(String.valueOf(currentBox.rest_box));
+                rest_box_ant.setText(String.valueOf(currentBox.rest_box_ant));
                 deposit.setText(String.valueOf(currentBox.deposit));
                 TextView date=  dialogView.findViewById(R.id.date);
 
@@ -250,6 +262,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         final TextView credit_card= dialogView.findViewById(R.id.credit_card);
         final TextView total_box= dialogView.findViewById(R.id.total_box);
         final TextView rest_box =dialogView.findViewById(R.id.rest_box);
+        final TextView rest_box_ant =dialogView.findViewById(R.id.rest_box_ant);
         final TextView date =dialogView.findViewById(R.id.date);
         final TextView dep =dialogView.findViewById(R.id.deposit);
         final TextView cancel =dialogView.findViewById(R.id.cancel);
@@ -259,7 +272,15 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         credit_card.setText(String.valueOf(MathHelper.get().getIntegerQuantity(b.credit_card)));
         total_box.setText(String.valueOf(MathHelper.get().getIntegerQuantity(b.total_box)));
         rest_box.setText(String.valueOf(MathHelper.get().getIntegerQuantity(b.rest_box)));
+        rest_box_ant.setText(String.valueOf(MathHelper.get().getIntegerQuantity(b.rest_box_ant)));
         dep.setText(String.valueOf(MathHelper.get().getIntegerQuantity(b.deposit)));
+
+        dep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, " Se modifica de la pantalla 'Extracciones' ",Toast.LENGTH_LONG).show();
+            }
+        });
 
         date.setHint(DateHelper.get().getOnlyDate((DateHelper.get().getOnlyDate(b.created))));
         date.setHintTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
@@ -274,14 +295,15 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                         && ValidatorHelper.get().isTypeDouble(credit_card.getText().toString().trim())
                         && ValidatorHelper.get().isTypeDouble(total_box.getText().toString().trim())
                         && ValidatorHelper.get().isTypeDouble(rest_box.getText().toString().trim())
-                        && ValidatorHelper.get().isTypeDouble(dep.getText().toString().trim())){
+                        && ValidatorHelper.get().isTypeDouble(rest_box_ant.getText().toString().trim())
+                       ){
 
                     b.counted_sale=Double.valueOf(counted_sale.getText().toString().trim());
                     b.credit_card=Double.valueOf(credit_card.getText().toString().trim());
                     b.total_box=Double.valueOf(total_box.getText().toString().trim());
                     b.rest_box=Double.valueOf(rest_box.getText().toString().trim());
-                    b.deposit=Double.valueOf(dep.getText().toString().trim());
-
+                    b.rest_box_ant=Double.valueOf(rest_box_ant.getText().toString().trim());
+                    // b.deposit=Double.valueOf(dep.getText().toString().trim());
 
                     ApiClient.get().putBox(b, new GenericCallback<Box>() {
                         @Override

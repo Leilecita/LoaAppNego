@@ -32,5 +32,11 @@
         android:title="Salida dev falla"
         />
 
+    <item
+
+        android:id="@+id/out_stole"
+        android:title="Salida por robo"
+        />
+
 
 </menu>

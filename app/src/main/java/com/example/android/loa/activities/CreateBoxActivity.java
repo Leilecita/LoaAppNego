@@ -8,9 +8,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.core.app.NavUtils;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +28,11 @@ import android.widget.Toast;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
+import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Box;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -39,7 +45,6 @@ import java.util.Calendar;
 
 public class CreateBoxActivity extends BaseActivity {
 
-
     private EditText counted_sale;
     private EditText credit_card;
     private EditText total_amount;
@@ -50,30 +55,49 @@ public class CreateBoxActivity extends BaseActivity {
 
     private String mSelectDate;
 
+    private String mRestBoxDayBefore;
+
+    private Double mTotalExtractionsByDay;
+
     private ImageView date_picker;
     private ImageView mImageView;
 
     private Uri mCropImageUri;
     private String image_path=null;
 
+    private Boolean mDetailNoNUll=false;
+
+    private TextView tot_extractions;
+    private TextView rest_box_day_before;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_create_box;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showBackArrow();
 
-         counted_sale=  findViewById(R.id.counted_sale);
-         credit_card=  findViewById(R.id.credit_card);
-         total_amount=  findViewById(R.id.total_amount);
-         rest_box=  findViewById(R.id.rest_box);
-         deposit=  findViewById(R.id.deposit);
-         detail=  findViewById(R.id.detail);
-         date=  findViewById(R.id.date);
-         date_picker=  findViewById(R.id.date_picker);
+        setTitle(" Caja del día ");
+
+        mRestBoxDayBefore= getIntent().getStringExtra("RESTBOX");
+
+        rest_box_day_before=findViewById(R.id.res_box_day_before);
+        tot_extractions = findViewById(R.id.tot_extract);
+
+        rest_box_day_before.setText(String.valueOf(mRestBoxDayBefore));
+
+        counted_sale=  findViewById(R.id.counted_sale);
+        credit_card=  findViewById(R.id.credit_card);
+        total_amount=  findViewById(R.id.total_amount);
+        rest_box=  findViewById(R.id.rest_box);
+        deposit=  findViewById(R.id.deposit);
+        detail=  findViewById(R.id.detail);
+        date=  findViewById(R.id.date);
+        date_picker=  findViewById(R.id.date_picker);
 
         mSelectDate=DateHelper.get().getActualDate();
 
@@ -110,6 +134,9 @@ public class CreateBoxActivity extends BaseActivity {
                                 date.setText(datePicker);
                                 mSelectDate=datePicker;
                                 deposit.setText("");
+                                getAmountExtractionByDay();
+                                mRestBoxDayBefore="0";
+                                rest_box_day_before.setText("0");
 
                             }
                         }, mYear, mMonth, mDay);
@@ -119,7 +146,7 @@ public class CreateBoxActivity extends BaseActivity {
         });
 
         ImageView takePhoto= findViewById(R.id.select_photo);
-         mImageView= findViewById(R.id.imageview);
+        mImageView= findViewById(R.id.imageview);
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,7 +154,24 @@ public class CreateBoxActivity extends BaseActivity {
             }
         });
 
+        getAmountExtractionByDay();
+        loadInfo();
     }
+
+    private void getAmountExtractionByDay(){
+        ApiClient.get().getTotalExtractionAmount(DateHelper.get().getOnlyDateComplete(DateHelper.get().changeFormatDateUserToServer(mSelectDate)),
+            DateHelper.get().getOnlyDateComplete(DateHelper.get().getNextDay(DateHelper.get().changeFormatDateUserToServer(mSelectDate))), new GenericCallback<AmountResult>() {
+                @Override
+                public void onSuccess(AmountResult data) {
+                    mTotalExtractionsByDay = data.total;
+                    tot_extractions.setText(String.valueOf(data.total));
+                }
+                @Override
+                public void onError(Error error) {
+                }
+            });
+    }
+
 
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
@@ -136,6 +180,7 @@ public class CreateBoxActivity extends BaseActivity {
     @Override
     @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         // handle result of pick image chooser
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri imageUri = CropImage.getPickImageResultUri(this, data);
@@ -194,8 +239,8 @@ public class CreateBoxActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-
-                Double countedSale=Double.valueOf((counted_sale.getText().toString().trim().equals("")?"0":counted_sale.getText().toString().trim()));
+                if(!mDetailNoNUll){
+                      /*  Double countedSale=Double.valueOf((counted_sale.getText().toString().trim().equals("")?"0":counted_sale.getText().toString().trim()));
                 Double creditCard=Double.valueOf(credit_card.getText().toString().trim().equals("")?"0":credit_card.getText().toString().trim());
                 Double totalAmount=Double.valueOf(total_amount.getText().toString().trim().equals("")?"0":total_amount.getText().toString().trim());
 
@@ -203,33 +248,40 @@ public class CreateBoxActivity extends BaseActivity {
                 Double dep=Double.valueOf(deposit.getText().toString().trim().equals("")?"0":deposit.getText().toString().trim());
                 String det=detail.getText().toString().trim();
 
+
                 String picpath="/uploads/preimpresos/person_color.png";
                 Box b= new Box(countedSale,creditCard,totalAmount,restBox,dep,det,picpath);
+                */
 
+                    Box b=loadInfoBox();
 
-                if(image_path!=null){
-                    try {
-                        b.imageData = fileToBase64(image_path);
-                    }catch (Exception e){
+                    if(image_path!=null){
+                        try {
+                            b.imageData = fileToBase64(image_path);
+                        }catch (Exception e){
+                        }
                     }
+                    b.created= DateHelper.get().changeFormatDateUserToServer(mSelectDate);
+
+                    final ProgressDialog progress = ProgressDialog.show(this, "Creando caja del día",
+                            "Aguarde un momento", true);
+                    ApiClient.get().postBox(b, new GenericCallback<Box>() {
+                        @Override
+                        public void onSuccess(Box data) {
+                            setResult(RESULT_OK);
+                            finish();
+                            progress.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error", "No se pudo crear la caja",getBaseContext());
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(this,"Ingrese detalle de caja", Toast.LENGTH_LONG).show();
                 }
-                b.created= DateHelper.get().changeFormatDateUserToServer(mSelectDate);
-
-                final ProgressDialog progress = ProgressDialog.show(this, "Creando caja del día",
-                        "Aguarde un momento", true);
-                ApiClient.get().postBox(b, new GenericCallback<Box>() {
-                    @Override
-                    public void onSuccess(Box data) {
-                        setResult(RESULT_OK);
-                        finish();
-                        progress.dismiss();
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        DialogHelper.get().showMessage("Error", "No se pudo crear la caja",getBaseContext());
-                    }
-                });
                 return true;
 
             case android.R.id.home:
@@ -258,5 +310,118 @@ public class CreateBoxActivity extends BaseActivity {
     }
 
 
+    private void loadInfo(){
+        counted_sale.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if(!counted_sale.getText().toString().trim().equals("") && ValidatorHelper.get().isTypeDouble(counted_sale.getText().toString().trim())){
+                    Double d=Double.valueOf(counted_sale.getText().toString().trim());
+                    Double d2=Double.valueOf(mRestBoxDayBefore);
+
+                    total_amount.setText(String.valueOf(d+d2));
+                    rest_box.setText(String.valueOf(d+d2-mTotalExtractionsByDay));
+                }else{
+                    total_amount.setText("");
+                    rest_box.setText("");
+                }
+            }
+        });
+
+        total_amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!total_amount.getText().toString().trim().equals("") && ValidatorHelper.get().isTypeDouble(total_amount.getText().toString().trim())){
+                    Double total=Double.valueOf(total_amount.getText().toString().trim());
+                    Double restDaybefore=Double.valueOf(mRestBoxDayBefore);
+                    Double countedsale=Double.valueOf(counted_sale.getText().toString().trim());
+
+                    if(total != restDaybefore+countedsale){
+                        total_amount.setTextColor(getResources().getColor(R.color.loa_red));
+                        mDetailNoNUll=true;
+                    }else{
+                        total_amount.setTextColor(getResources().getColor(R.color.word));
+                        mDetailNoNUll=false;
+                    }
+                }
+            }
+        });
+
+        rest_box.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!rest_box.getText().toString().trim().equals("") && ValidatorHelper.get().isTypeDouble(rest_box.getText().toString().trim())){
+                    Double restbox=Double.valueOf(rest_box.getText().toString().trim());
+                    Double total=Double.valueOf(total_amount.getText().toString().trim());
+                    Double totalextr=Double.valueOf(mTotalExtractionsByDay);
+
+                    if(restbox != total-totalextr){
+                        rest_box.setTextColor(getResources().getColor(R.color.loa_red));
+                        mDetailNoNUll=true;
+                    }else{
+                        rest_box.setTextColor(getResources().getColor(R.color.word));
+                        mDetailNoNUll=false;
+                    }
+                }
+            }
+        });
+
+        detail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!detail.getText().toString().trim().equals("") ){
+                   mDetailNoNUll=false;
+                }else{
+                    mDetailNoNUll=true;
+                }
+            }
+        });
+
+    }
+
+    private Box loadInfoBox(){
+
+        Double countedSale=Double.valueOf((counted_sale.getText().toString().trim().equals("")?"0":counted_sale.getText().toString().trim()));
+        Double creditCard=Double.valueOf(credit_card.getText().toString().trim().equals("")?"0":credit_card.getText().toString().trim());
+
+        Double totalAmount= Double.valueOf(total_amount.getText().toString().trim());
+
+        Double restBox= Double.valueOf(rest_box.getText().toString().trim());
+
+        String det=detail.getText().toString().trim();
+
+        String picpath="/uploads/preimpresos/person_color.png";
+        Box b= new Box(countedSale,creditCard,totalAmount,restBox,mTotalExtractionsByDay,det,picpath,Double.valueOf(mRestBoxDayBefore));
+
+        return b;
+    }
 }
 

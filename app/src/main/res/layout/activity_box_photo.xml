@@ -34,14 +34,12 @@
             android:textStyle="bold"
             />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_gravity="center"
-            android:layout_below="@id/title"
-            android:id="@+id/image_box"
-            />
 
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/image_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
     </RelativeLayout>

@@ -469,6 +469,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     case R.id.out_gifts:
                         holder.detail.setText("Salida premios");
                         return true;
+                    case R.id.out_stole:
+                        holder.detail.setText("Salida por robo");
+                        return true;
 
                     default:
                         return false;

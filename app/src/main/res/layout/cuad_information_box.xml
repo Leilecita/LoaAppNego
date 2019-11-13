@@ -62,7 +62,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:padding="4dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -86,7 +86,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:padding="4dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -109,7 +109,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:padding="4dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -132,7 +132,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:padding="4dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -155,12 +155,12 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
                 android:padding="4dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/word"
-                android:text="Deposito "/>
+                android:text="Depo/Extr "/>
 
             <TextView
                 android:id="@+id/deposit"
@@ -179,7 +179,32 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="110dp"
+                android:layout_width="130dp"
+                android:padding="4dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/word"
+                android:text="Resto caja ant"/>
+
+            <TextView
+                android:id="@+id/rest_box_ant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="18sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="130dp"
                 android:padding="4dp"
                 android:textSize="18sp"
                 android:textStyle="bold"

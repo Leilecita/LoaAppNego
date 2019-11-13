@@ -38,7 +38,9 @@
 
             android:theme="@style/Base.Theme.AppCompat"/>
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity"
+            android:configChanges="orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -96,11 +98,13 @@
             />
         <activity
             android:name=".activities.ProductsActivity"
+            android:configChanges="orientation|screenSize"
             android:parentActivityName=".activities.MainActivity"
             />
 
         <activity
             android:name=".activities.BalanceActivity"
+            android:configChanges="orientation|screenSize"
             android:parentActivityName=".activities.MainActivity"
             />
 

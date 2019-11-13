@@ -1,30 +1,25 @@
-
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_mistake"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
-    card_view:contentPadding="10dp"
-    >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="14dp"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="Caja del día"
-            android:textSize="18sp"
-            android:textColor="@color/title_dialog_info"
-            android:gravity="center"
-            android:textStyle="bold"
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,28 +31,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="8dp"
+                android:background="@drawable/rec_find"
                 android:orientation="horizontal"
                 >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/date_picker"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/date_w"/>
+
                 <TextView
                     android:id="@+id/date"
                     android:layout_height="33dp"
                     android:paddingLeft="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:textColor="#5c5c5c"
+                    android:textColor="@color/word"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@drawable/rec_text_edit"
                     android:inputType="textCapWords" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_weight="5"
-                    android:id="@+id/date_picker"
-                    android:layout_height="33dp"
-                    android:src="@drawable/date"
-                    />
 
             </LinearLayout>
 
@@ -66,22 +60,51 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/counted_sale"
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:hint="Venta contado"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rec_find"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/money"/>
+
+                <EditText
+                    android:id="@+id/counted_sale"
+                    android:layout_height="33dp"
+
+                    android:layout_width="match_parent"
+                    android:hint="Venta contado"
+                    android:background="@null"
+                    android:textColor="@color/word"
+                    android:textSize="16sp"
+
+                    android:inputType="textCapWords" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/rec_find"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/card"/>
+
 
             <EditText
                 android:id="@+id/credit_card"
@@ -91,9 +114,76 @@
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
                 android:hint="Tarjeta"
+                android:textColor="@color/word"
+                android:textSize="16sp"
+                android:background="@null"
+                android:inputType="textCapWords" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:layout_marginRight="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:text="Caja total"
+                android:textColor="@color/word"
+                android:textSize="18sp"
+                />
+
+            <EditText
+                android:id="@+id/total_amount"
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:hint=""
                 android:textColor="#5c5c5c"
                 android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
+                android:background="@drawable/rec_find"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:layout_marginRight="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:text="Resto de caja"
+                android:textColor="@color/word"
+                android:textSize="18sp"
+                />
+
+            <EditText
+                android:id="@+id/rest_box"
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:hint=""
+                android:textColor="#5c5c5c"
+                android:textSize="16sp"
+                android:background="@drawable/rec_find"
                 android:inputType="textCapWords" />
         </LinearLayout>
 
@@ -103,33 +193,72 @@
             android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/total_amount"
+            <TextView
                 android:layout_height="33dp"
                 android:layout_weight="1"
                 android:paddingLeft="8dp"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint="Caja total"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
+                android:text="Resto caja ant"
+                android:textColor="@color/word"
+                android:textSize="18sp"
+                />
 
-            <EditText
-                android:id="@+id/rest_box"
+
+            <TextView
                 android:layout_height="33dp"
                 android:layout_weight="1"
                 android:paddingLeft="8dp"
+                android:id="@+id/res_box_day_before"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:text=""
+                android:textColor="@color/word"
+                android:textSize="18sp"
+                />
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint="Resto de caja"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
+                android:text="Tot extracciones"
+                android:textColor="@color/word"
+                android:textSize="18sp"
+                />
+
+
+            <TextView
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:id="@+id/tot_extract"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:text=""
+                android:textColor="@color/word"
+                android:textSize="18sp"
+                />
+
+
+
+
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -168,7 +297,7 @@
                     android:hint="Detalle"
                     android:textColor="#5c5c5c"
                     android:textSize="16sp"
-                    android:background="@drawable/rec_text_edit"
+                    android:background="@drawable/rec_find"
                     android:inputType="textCapWords" />
 
 
@@ -186,24 +315,25 @@
                 android:padding="4dp"
                 android:src="@drawable/camera"
                 android:layout_marginTop="15dp"
-                android:background="@color/colorDialogButton"
+                android:backgroundTint="@color/colorDialogButton"
+                android:background="@drawable/rec_find"
 
                 />
 
         <ImageView
-            android:layout_width="match_parent"
             android:id="@+id/imageview"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="#ffff"
-            android:padding="4dp"
             android:layout_marginTop="10dp"
+            android:padding="4dp"
             android:src="@drawable/camera"
+            android:textColor="#ffff"
 
             />
 
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
 
-
+</ScrollView>
+</RelativeLayout>

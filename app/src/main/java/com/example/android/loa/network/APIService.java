@@ -172,7 +172,7 @@ public interface APIService {
     Observable<Response<List<Box>>> getBoxesByPage2(@Query("page") Integer page);
 
     @GET("events.php")
-    Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page );
+    Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page,@Query("method") String method );
 
     @GET("events.php")
     Observable<Response<List<Event>>> getEventsByPageByClientId(@Query("page") Integer page,@Query("client_id") Long client_id );

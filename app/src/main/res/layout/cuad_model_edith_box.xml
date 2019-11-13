@@ -209,14 +209,14 @@
                 <TextView
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
-                    android:text="T EXT"
+                    android:text="REST C ANT"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/word"
                     />
 
                 <EditText
-                    android:id="@+id/deposit"
+                    android:id="@+id/rest_box_ant"
                     android:layout_weight="1"
                     android:layout_height="33dp"
                     android:paddingLeft="8dp"
@@ -226,6 +226,35 @@
                     android:textColor="@color/colorDialogButton"
                     android:textSize="16sp"
                     android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+                    android:text="T EXT"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/word"
+                    />
+
+                <TextView
+                    android:id="@+id/deposit"
+                    android:layout_weight="1"
+                    android:layout_height="33dp"
+                    android:paddingLeft="8dp"
+                    android:text=""
+                    android:layout_marginRight="8dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/word"
+                    android:textSize="16sp"
                     android:inputType="textCapWords" />
 
             </LinearLayout>

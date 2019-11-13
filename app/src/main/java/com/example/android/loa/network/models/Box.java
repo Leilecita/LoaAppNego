@@ -15,8 +15,10 @@ public class Box {
 
     public String imageData;
 
+    public Double rest_box_ant;
+
     public Box( Double counted_sale, Double credit_card,Double total_box, Double rest_box,
-                Double deposit, String detail,String image_box_url){
+                Double deposit, String detail,String image_box_url,Double rest_box_ant){
 
         this.counted_sale=counted_sale;
         this.credit_card=credit_card;
@@ -25,5 +27,6 @@ public class Box {
         this.deposit=deposit;
         this.detail=detail;
         this.image_url=image_box_url;
+        this.rest_box_ant=rest_box_ant;
     }
 }

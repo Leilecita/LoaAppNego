@@ -107,7 +107,11 @@ public class MainActivity extends BaseActivity {
         }else if(id == R.id.action_stock){
 
             startActivity(new Intent(getBaseContext(), ProductsActivity.class));
+        }else if(id == R.id.action_sale){
+
+            startActivity(new Intent(getBaseContext(), SaleMovementsActivity.class));
         }
+
         return super.onOptionsItemSelected(item);
 
     }

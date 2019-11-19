@@ -14,6 +14,8 @@ import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
+import com.example.android.loa.network.models.ReportItemFileClientEvent;
+import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerItem;
@@ -203,7 +205,7 @@ public class ApiClient {
     }
 
     public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getEventsByPage(page,"getStockEventsDay"), callback);
+        handleRequest( ApiUtils.getAPISessionService().getEventsByPage(page), callback);
     }
 
     public void getEventsByPageByClientId(Integer page,Long client_id,final GenericCallback<List<Event>> callback ){
@@ -314,8 +316,32 @@ public class ApiClient {
     public void getSotckeventsByPageSinceTo( Integer page,String since,String to,Long id_product,final GenericCallback<List<StockEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSotckeventsByPageSinceTo(page,since,to,id_product), callback);
     }
+
+    public void getItemsFileClientEvent(String since, String to, final GenericCallback<List<ReportItemFileClientEvent>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getItemsFileClientEvent("getItemsClientByDate",since,to), callback);
+    }
     public void getSotckeventsByPage( Integer page,Long id_product,final GenericCallback<List<StockEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSotckeventsByPage(page,id_product), callback);
+    }
+
+    public void getReportStockevents( Integer page,String created,String createdTo,String item,final GenericCallback<List<ReportStockEvent>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getReportStockEvents(page,"getStockEventsDay",created,createdTo,item), callback);
+    }
+
+    public void getAmountSalesByDay( String created,final GenericCallback<AmountResult> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getAmountSales("getAmountSaleByDate",created), callback);
+    }
+
+    public void getAmountSalesByDayCard( String created,final GenericCallback<AmountResult> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getAmountSalesCard("getAmountSaleByDateCard",created), callback);
+    }
+
+    public void getAmountItemFile( String created,final GenericCallback<AmountResult> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getAmountItemFile("getAmountItemsFileByDay",created), callback);
+    }
+
+    public void updateItemStockEventReport( Double value, String date,String payment_method, String detail,Long id ,final GenericCallback<ReportStockEvent> callback ){
+        handleRequest( ApiUtils.getAPISessionService().updateItemStockEventReport("updateStockEvent",value,date,payment_method,detail,id), callback);
     }
 
 

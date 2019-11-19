@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:id="@+id/item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content">
+
+
 <LinearLayout
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -148,20 +156,160 @@
                 android:layout_height="40dp"
                 android:hint="Detalle"
                 android:gravity="center_vertical"
+                android:background="@drawable/rec_find"
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/detail"/>
 
-            <EditText
+
+            <LinearLayout
+                android:layout_width="60dp"
                 style="@style/CodeFontInput"
-                android:layout_gravity="center_vertical"
-                android:layout_width="160dp"
-                android:layout_height="40dp"
+                android:background="@drawable/rec_find"
                 android:layout_marginLeft="10dp"
-                android:inputType="number"
-                android:hint="+"
-                android:id="@+id/load_stock"/>
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="@color/word"
+                    android:id="@+id/less_load"
+                    android:layout_gravity="center_vertical"
+                    />
+                <EditText
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:id="@+id/load_stock"/>
+
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="90dp"
+                style="@style/CodeFontInput"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+                android:background="@drawable/rec_find"
+                android:id="@+id/line_value"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ "
+                    android:textColor="@color/word"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <EditText
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text=""
+
+                    android:background="@null"
+
+                    android:inputType="numberDecimal"
+                    android:id="@+id/value"/>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/select_payment_method"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_ef"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:buttonTint="@color/word_clear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:text="Efectivo"
+                    android:gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+
+                    />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_deb"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="25dp"
+                    android:buttonTint="@color/word_clear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:text="Débito"
+                    android:gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+
+                    />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_card"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_marginLeft="25dp"
+                    android:buttonTint="@color/word_clear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/word"
+                    android:text="Tarjeta"
+                    android:gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center"
+
+                    android:textSize="16sp"
+
+                    />
+
+
+
 
         </LinearLayout>
 
@@ -171,25 +319,29 @@
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:paddingTop="6dp"
+
             android:layout_height="wrap_content">
 
-           <Spinner
-               android:layout_width="match_parent"
-               android:paddingTop="8dp"
-               android:layout_weight="1"
-               android:visibility="invisible"
-               android:id="@+id/spinner_bill"
-               android:layout_marginRight="48dp"
-               android:layout_height="38dp">
-
-           </Spinner>
+            <TextView
+                style="@style/CodeFontInput"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/date"
+                android:background="@drawable/rec_find"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:layout_marginRight="40dp"
+                android:visibility="invisible"
+                android:gravity="center_vertical"
+                android:hint=""
+                />
             <Button
                 android:layout_width="match_parent"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:text="ok"
                 android:id="@+id/button_ok"
-
+                android:layout_marginLeft="10dp"
                 android:layout_gravity="right"
                 />
 
@@ -206,3 +358,4 @@
         android:layout_marginTop="6dp"
         style="@style/DivisorCategoryStyle"/>
 </LinearLayout>
+</RelativeLayout>

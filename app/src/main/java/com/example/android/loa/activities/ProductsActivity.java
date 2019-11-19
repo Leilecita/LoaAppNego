@@ -1,5 +1,6 @@
 package com.example.android.loa.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
+import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.Interfaces.OnSelectedItem;
@@ -37,6 +39,7 @@ import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 
+import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
@@ -117,20 +120,11 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     private Boolean mViewModel;
 
-   /* public void changeEnableSwipRefresh(){
-        if(swipeRefreshLayout.isEnabled()){
-            swipeRefreshLayout.setEnabled(false);
-        }else{
-            swipeRefreshLayout.setEnabled(true);
-        }
-    }*/
-
     public void OnChangeViewStock(){
         loadSumAllStockByProduct();
     }
 
     public void scrollToPosition(Integer position){
-
     }
 
     @Override
@@ -376,6 +370,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             }
         });
     }
+
+
     private void changeCircleSelected(){
 
         viewModel();
@@ -583,10 +579,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     public void list2(){
         loadingInProgress=true;
 
-        System.out.println(String.valueOf(mAdapter.getItemCount()));
         if(mAdapter.getItemCount()==0){
-            System.out.println("entra refresh");
-
             swipeRefreshLayout.setRefreshing(true);
         }
         ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", new GenericCallback<List<Product>>() {
@@ -604,7 +597,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 }
                 loadingInProgress = false;
                 swipeRefreshLayout.setRefreshing(false);
-                System.out.println("Corta refresh");
 
                 if(mCurrentPage == 0 && data.size()==0){
                     mEmptyRecyclerView.setVisibility(View.VISIBLE);
@@ -615,7 +607,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onError(Error error) {
                 loadingInProgress = false;
-                System.out.println("Corta refresh x error");
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

@@ -193,6 +193,8 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 final TextView code=  dialogView.findViewById(R.id.code);
                 final CheckBox checkBox =  dialogView.findViewById(R.id.checkBoxCancelar);
 
+
+
                 final TextView cancel=dialogView.findViewById(R.id.cancel);
                 final Button ok=dialogView.findViewById(R.id.ok);
 

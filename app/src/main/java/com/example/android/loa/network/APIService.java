@@ -13,6 +13,8 @@ import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
+import com.example.android.loa.network.models.ReportItemFileClientEvent;
+import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerItem;
@@ -115,6 +117,8 @@ public interface APIService {
     @GET("items_file.php")
     Observable<Response<List<Operation>>> getItemsByClientIdByPage(@Query("method") String method, @Query("page") Integer page, @Query("client_id") Long client_id);
 
+
+
     @POST("items_file.php")
     Observable<Response<Item_file>> postItemFile(@Body Item_file item);
 
@@ -172,7 +176,7 @@ public interface APIService {
     Observable<Response<List<Box>>> getBoxesByPage2(@Query("page") Integer page);
 
     @GET("events.php")
-    Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page,@Query("method") String method );
+    Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page );
 
     @GET("events.php")
     Observable<Response<List<Event>>> getEventsByPageByClientId(@Query("page") Integer page,@Query("client_id") Long client_id );
@@ -225,6 +229,30 @@ public interface APIService {
 
     @GET("stock_events.php")
     Observable<Response<List<StockEvent>>> getSotckeventsByPage(@Query("page") Integer page, @Query("id_product") Long id_product);
+
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportStockEvent>>> getReportStockEvents(@Query("page") Integer page, @Query("method") String method,
+                                                                      @Query("since_s") String created, @Query("to_s") String createdTo, @Query("item") String item);
+
+    @GET("stock_events.php")
+    Observable<Response<AmountResult>> getAmountSales( @Query("method") String method,
+                                                                      @Query("created") String created);
+
+    @GET("stock_events.php")
+    Observable<Response<ReportStockEvent>> updateItemStockEventReport( @Query("method") String method, @Query("value") Double value,
+                                                       @Query("date") String date,@Query("payment_method") String payment_method,@Query("detail") String detail,@Query("id") Long id);
+
+    @GET("stock_events.php")
+    Observable<Response<AmountResult>> getAmountSalesCard( @Query("method") String method,
+                                                       @Query("created") String created);
+
+    @GET("items_file.php")
+    Observable<Response<AmountResult>> getAmountItemFile( @Query("method") String method,
+                                                           @Query("created") String created);
+
+    @GET("items_file.php")
+    Observable<Response<List<ReportItemFileClientEvent>>> getItemsFileClientEvent(  @Query("method") String method,@Query("since") String created, @Query("to") String next);
 
 
    /* @DELETE("products.php")

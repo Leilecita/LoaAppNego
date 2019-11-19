@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
+import com.example.android.loa.DividerDecoration;
 import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.Interfaces.OnExtractionsAmountChange;
 import com.example.android.loa.R;
@@ -133,8 +134,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         mRecyclerView.addItemDecoration(headersDecor);
 
         // Add decoration for dividers between list items
-        //mRecyclerView.addItemDecoration(new DividerDecoration(this));
-
+        mRecyclerView.addItemDecoration(new DividerDecoration(getContext()));
 
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override public void onChanged() {

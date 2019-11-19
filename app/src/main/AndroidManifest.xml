@@ -120,6 +120,11 @@
             android:name=".activities.DeletedProductsActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+
+        <activity
+            android:name=".activities.SaleMovementsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
     </application>
 
 </manifest>

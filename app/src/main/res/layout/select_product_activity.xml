@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listday"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
-    android:id="@+id/listado">
+    android:background="#e5e7e5"
+    >
 
-    <ScrollView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:orientation="vertical">
-
-
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-            android:visibility="gone"
         android:id="@+id/lineFilter"
         android:orientation="vertical">
 
@@ -411,184 +400,184 @@
 
     </LinearLayout>
 
-
-
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/date"
+        android:layout_height="match_parent"
         android:layout_below="@id/lineFilter"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="14dp"
-        android:orientation="horizontal"
-      >
-
-        <LinearLayout
-            android:layout_width="280dp"
-            android:layout_weight="1"
-            android:background="@drawable/rec_find"
-            android:layout_marginLeft="4dp"
-            android:id="@+id/date_picker"
-            android:paddingLeft="6dp"
-            android:layout_gravity="center_vertical"
-            android:paddingRight="6dp"
-            android:layout_marginRight="8dp"
-            android:layout_height="40dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/date_w" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2019/10/10"
-                android:id="@+id/date_sale"
-                android:textSize="18sp"
-                android:textColor="@color/word"
-                android:layout_marginTop="8dp"
-                />
-
-
-
-        </LinearLayout>
+        >
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="2"
+            android:layout_below="@id/lineFilter"
+            android:orientation="vertical"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lineBrandType"
+                android:layout_below="@+id/lineFilter"
+                android:padding="6dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45sp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/select_art"
+                    android:background="@drawable/rec_find"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/art_name"
+                        android:textColor="@color/word"
+                        android:layout_marginLeft="8dp"
+                        android:hint="Articulo"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45sp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/select_brand"
+                    android:background="@drawable/rec_find"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/brand_name"
+                        android:textColor="@color/word"
+                        android:hint="Marca"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45sp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/select_model"
+                    android:background="@drawable/rec_find"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/model_name"
+                        android:textColor="@color/word"
+                        android:hint="Modelo"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:id="@+id/line_recycler"
+                android:layout_below="@+id/lineBrandType"
+                android:layout_height="wrap_content">
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/recycler_view_grid_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:layout_below="@+id/line4"
+                    android:scrollbars="vertical"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/recycler_view_grid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+
+                    android:layout_below="@+id/line4"
+                    android:scrollbars="vertical"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/recycler_view_grid_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:layout_below="@+id/line4"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingLeft="4sp"
-                android:textStyle="bold"
-                android:gravity="center_vertical|right"
-                android:paddingRight="4sp"
-                android:textColor="@color/word"
+                android:id="@+id/empty"
                 android:textSize="18sp"
-                android:text="$"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/line_recycler"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:text="No hay productos para esta selección"
+
 
                 />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/amount"
-                android:layout_gravity="center"
-                android:paddingLeft="4sp"
-                android:gravity="center"
-                android:paddingRight="4sp"
-                android:textColor="@color/ef"
-                android:textSize="18sp"
-                android:text=""
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_products"
+                android:layout_below="@+id/line_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="35dp"
                 />
 
         </LinearLayout>
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <LinearLayout
+        android:layout_width="180dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:background="@drawable/rec_find"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/word"
+            android:text="Cantidad:  "
+            />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:id="@+id/quantity_prod"
+            android:layout_gravity="center"
+            android:textColor="@color/word"
+            android:text=""
+            />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/card_w"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/amount_card"
-                android:layout_gravity="center"
-                android:paddingLeft="4sp"
-                android:gravity="center"
-                android:textColor="@color/card"
-                android:textSize="18sp"
-                android:text=""
-
-                />
-
-        </LinearLayout>
     </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ventas"
-                android:textStyle="bold"
-                android:textSize="17sp"
-                android:padding="6dp"
-                android:textColor="@color/word"
-                android:background="#fff"
-                />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_events"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fichas"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:padding="6dp"
-                android:textColor="@color/word"
-                android:background="#fff"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_items_file_events"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                />
-
-        </LinearLayout>
-
-
-
-
-        </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/empty"
-        android:textSize="17sp"
-        android:visibility="gone"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/date"
-        android:text="No hay ventas para esta seleccion"
-
-
-        />
-        </LinearLayout>
-    </ScrollView>
 </RelativeLayout>
+

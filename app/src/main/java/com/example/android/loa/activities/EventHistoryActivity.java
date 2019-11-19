@@ -51,7 +51,7 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
 
     @Override
     public int getLayoutRes() {
-        return R.layout.event_history_activity;
+        return R.layout.event_history_activity_log;
     }
 
     @Override

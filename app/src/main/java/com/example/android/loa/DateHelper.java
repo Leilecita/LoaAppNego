@@ -66,6 +66,27 @@ public class DateHelper {
         return "dd/MM/yyyy";
     }
 
+    public String getPreviousDay(String date) {
+        try {
+
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date1 = format1.parse(date);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(date1);
+            c.add(Calendar.DATE, -1);
+            date1 = c.getTime();
+
+            return format1.format(date1);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
+    }
+
+
     public String getNextDayBox(String date) {
         try {
 
@@ -132,6 +153,8 @@ public class DateHelper {
         formatter.setTimeZone(TimeZone.getDefault());
         return formatter.format(currentDate);
     }
+
+
 
     public String serverToUser(String date) {
 

@@ -11,6 +11,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_sale"
+        android:title="Ventas"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_stock"
         android:title="STOCK"
         app:showAsAction="always" />

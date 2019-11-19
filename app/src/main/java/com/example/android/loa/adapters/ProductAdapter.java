@@ -2,24 +2,33 @@ package com.example.android.loa.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.BoringLayout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
@@ -31,8 +40,13 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.StockEvent;
+import com.google.android.material.snackbar.Snackbar;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolder>  {
@@ -41,6 +55,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
     private Integer prevPosOpenView;
     private Boolean isModel;
+
+    private String dateSelected="";
+
 
     public void setOnChangeViewStock(OnChangeViewStock lister){
         onChangeViewStock=lister;
@@ -52,6 +69,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         prevPosOpenView=-1;
         isModel=false;
+
     }
 
     public void setIsModel(Boolean model){
@@ -88,6 +106,18 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public Button ok;
 
         public ImageView salir;
+        public TextView value;
+
+        public LinearLayout select_payment_method;
+        public CheckBox check_ef;
+        public CheckBox check_deb;
+        public CheckBox check_card;
+        public TextView date;
+        public TextView less_load;
+        public LinearLayout line_value;
+        public RelativeLayout item;
+
+
 
         public ViewHolder(View v){
             super(v);
@@ -106,6 +136,16 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             detail= v.findViewById(R.id.detail);
             ok= v.findViewById(R.id.button_ok);
             salir= v.findViewById(R.id.salir);
+            value= v.findViewById(R.id.value);
+
+            select_payment_method= v.findViewById(R.id.select_payment_method);
+            check_ef= v.findViewById(R.id.check_ef);
+            check_deb= v.findViewById(R.id.check_deb);
+            check_card= v.findViewById(R.id.check_card);
+            date= v.findViewById(R.id.date);
+            less_load= v.findViewById(R.id.less_load);
+            line_value= v.findViewById(R.id.line_value);
+            item= v.findViewById(R.id.item);
         }
     }
 
@@ -137,6 +177,16 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         holder.stock.setText(String.valueOf(currentProduct.stock));
 
+        dateSelected = getExpandedDate();//DateHelper.get().actualDateExtractions();
+        holder.date.setText(DateHelper.get().getOnlyDate(dateSelected));
+
+        holder.date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDate(holder);
+            }
+        });
+
         if(isModel){
             holder.brand.setText(currentProduct.brand+"   "+currentProduct.model);
         }else{
@@ -163,7 +213,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+              //  holder.item.setBackgroundColor(mContext.getResources().getColor(R.color.select));
                 if(holder.line_options.getVisibility() == View.VISIBLE){
                     holder.line_options.setVisibility(View.GONE);
 
@@ -174,7 +224,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     }
                     prevPosOpenView=position;
                     holder.line_options.setVisibility(View.VISIBLE);
-
                 }
             }
         });
@@ -201,6 +250,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View v) {
 
+
                 if(holder.salir.getVisibility() == View.GONE){
                     holder.updateStock.setVisibility(View.VISIBLE);
                     holder.salir.setVisibility(View.VISIBLE);
@@ -213,6 +263,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         holder.add_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                if(holder.salir.getVisibility() == View.GONE){
                    holder.updateStock.setVisibility(View.VISIBLE);
                    holder.salir.setVisibility(View.VISIBLE);
@@ -238,32 +289,94 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
 
 
+
+    public static void hideSoftKeyboard(Context ctx, View view)
+    {
+        InputMethodManager imm = (InputMethodManager)ctx.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+    }
     private void lessStock(final Product p, final int position, final ViewHolder holder){
 
-
+        holder.detail.setText("");
         holder.detail.setHint("Elegir detalle");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               // hideSoftKeyboard(mContext, v);
                 createMenuOut(holder);
             }
         });
 
-        holder.load_stock.setHint("-");
+
+
+        holder.load_stock.setText("1");
+        holder.less_load.setText("- ");
+
+        holder.select_payment_method.setVisibility(View.VISIBLE);
+        holder.line_value.setVisibility(View.VISIBLE);
+        holder.date.setVisibility(View.VISIBLE);
+
+
+        holder.check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(holder.check_ef.isChecked()){
+                    holder.check_ef.setChecked(true);
+                    holder.check_card.setChecked(false);
+                    holder.check_deb.setChecked(false);
+                }else{
+                    holder.check_ef.setChecked(false);
+
+                }
+            }
+        });
+
+        holder.check_card.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(holder.check_card.isChecked()){
+                    holder.check_card.setChecked(true);
+                    holder.check_ef.setChecked(false);
+                    holder.check_deb.setChecked(false);
+                }else{
+                    holder.check_card.setChecked(false);
+                }
+            }
+        });
+
+        holder.check_deb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(holder.check_deb.isChecked()){
+                    holder.check_deb.setChecked(true);
+                    holder.check_ef.setChecked(false);
+                    holder.check_card.setChecked(false);
+                }else{
+                    holder.check_deb.setChecked(false);
+                }
+            }
+        });
 
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                String payment_method= getPaymentMethod(holder);
+
                 String stockP=holder.load_stock.getText().toString().trim();
                 String detailP=holder.detail.getText().toString().trim();
+                String valuep=holder.value.getText().toString().trim();
 
-                if( ValidatorHelper.get().isTypeInteger(stockP)) {
-                    if(!stockP.matches("") && !detailP.matches("")){
 
-                        StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP),p.stock, detailP);
+                if(!stockP.matches("") && !detailP.matches("") && !valuep.matches("")){
+                    if( ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valuep)) {
+
+                        StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP),p.stock, detailP,Double.valueOf(valuep),payment_method);
                         s.ideal_stock=s.stock_ant + s.stock_in - s.stock_out;
                         p.stock-=Integer.valueOf(stockP);
+
+                        s.created=dateSelected;
+
 
                         ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
                             @Override
@@ -276,8 +389,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                 }
 
                                 Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
-                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
+
+                                hideSoftKeyboard(mContext,holder.itemView);
 
                                 closeItem(holder);
 
@@ -290,32 +403,48 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                             }
                         });
                     }else{
-                        Toast.makeText(mContext,"Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"Tipo de dato no válido", Toast.LENGTH_SHORT).show();
                     }
 
                 }else{
+                    Toast.makeText(mContext,"Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(mContext,"Tipo de dato no válido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    private String getPaymentMethod(ViewHolder holder){
 
+        if(holder.check_deb.isChecked()){
+            return "debito";
+        }else if(holder.check_card.isChecked()){
+            return "tarjeta";
+        }else if(holder.check_ef.isChecked()){
+            return "efectivo";
+        }else{
+            return "efectivo";
+        }
+
+    }
 
     private void loadStock(final Product p, final int position, final ViewHolder holder){
 
-        //holder.detail.setHint("Elegir detalle");
+        holder.line_value.setVisibility(View.GONE);
+        holder.select_payment_method.setVisibility(View.GONE);
+        holder.date.setVisibility(View.INVISIBLE);
 
         //todo
-        holder.detail.setText("Stock inicial");
+        holder.detail.setHint("Elegir detalle");
+       // holder.detail.setText("Stock inicial");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createMenuIn(holder);
             }
         });
-        holder.load_stock.setHint("+");
+
+        holder.less_load.setText("+ ");
 
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -323,10 +452,15 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 String stockP = holder.load_stock.getText().toString().trim();
                 String detailP = holder.detail.getText().toString().trim();
+                String valueP = holder.value.getText().toString().trim();
 
-                if ( ValidatorHelper.get().isTypeInteger(stockP)) {
+                if(valueP.equals("")){
+                    valueP="0.0";
+                }
+
+                if ( ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valueP)) {
                     if(!stockP.matches("") && !detailP.matches("")){
-                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP);
+                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP,Double.valueOf(valueP),"");
                         s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                         p.stock += Integer.valueOf(stockP);
 
@@ -482,322 +616,77 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         popup.show();
 
     }
+    private void selectDate(final ViewHolder holder){
 
-}
-   /*
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        final DatePickerDialog datePickerDialog;
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        // date picker dialog
+        datePickerDialog = new DatePickerDialog(mContext,R.style.datepicker,
+                new DatePickerDialog.OnDateSetListener() {
 
-                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View dialogView = inflater.inflate(R.layout.cuad_menu_balance, null);
-
-                TextView load_stock=dialogView.findViewById(R.id.load_stock);
-                TextView less_stock=dialogView.findViewById(R.id.less_stock);
-                TextView balance=dialogView.findViewById(R.id.balance);
-                TextView delete_product=dialogView.findViewById(R.id.delete);
-                TextView title=dialogView.findViewById(R.id.data_product);
-
-                title.setText(currentProduct.type+" "+currentProduct.brand);
-
-                builder.setView(dialogView);
-                final AlertDialog dialog = builder.create();
-                load_stock.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        loadStock(currentProduct,position);
-                        dialog.dismiss();
-                    }
-                });
-
-                less_stock.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lessStock(currentProduct,position);
-                        dialog.dismiss();
-                    }
-                });
-                balance.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getBalance(currentProduct);
-                        dialog.dismiss();
-                    }
-                });
-
-                delete_product.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteProduct(currentProduct, position);
-                        dialog.dismiss();
-
-                    }
-                });
-
-                dialog.show();
-
-
-                */
-
-
-             /*   PopupMenu popup = new PopupMenu(mContext, holder.itemView);
-                popup.getMenuInflater().inflate(R.menu.menu_products, popup.getMenu());
-
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.menu_delete:
-                                deleteProduct(currentProduct, position);
-                                return true;
-                            case R.id.menu_load_stock:
-                                loadStock(currentProduct,position);
-                                return true;
-                            case R.id.menu_solded:
-                                lessStock(currentProduct,position);
-                                return true;
-                            case R.id.menu_balance:
-                                getBalance(currentProduct);
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-
-                popup.show();
-            }
-        });*/
-  /*
-
-    private void loadStock2(final Product p,final int position){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.load_stock, null);
-        builder.setView(dialogView);
-
-
-        final TextView type= dialogView.findViewById(R.id.type);
-        type.setText(p.type);
-        final TextView brand= dialogView.findViewById(R.id.brand);
-        brand.setText(p.brand);
-        final TextView stockact= dialogView.findViewById(R.id.stockact);
-        stockact.setText(String.valueOf(p.stock));
-        final TextView stock= dialogView.findViewById(R.id.stock);
-        final TextView detail= dialogView.findViewById(R.id.detail);
-        final TextView cancel= dialogView.findViewById(R.id.cancel);
-        final Button ok= dialogView.findViewById(R.id.ok);
-
-
-        final AlertDialog dialog = builder.create();
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String stockP=stock.getText().toString().trim();
-                String detailP=detail.getText().toString().trim();
-
-
-                if(!stockP.matches("") && ValidatorHelper.get().isTypeInteger(stockP)) {
-                    StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock,detailP);
-                    s.ideal_stock=s.stock_ant + s.stock_in - s.stock_out;
-                    p.stock+=Integer.valueOf(stockP);
-
-                    ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
-                        @Override
-                        public void onSuccess(StockEvent data) {
-
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        // set day of month , month and year value in the edit text
+                        String sdayOfMonth = String.valueOf(dayOfMonth);
+                        if (sdayOfMonth.length() == 1) {
+                            sdayOfMonth = "0" + dayOfMonth;
                         }
 
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error"," Error al cargar stock",dialogView.getContext());
+                        String smonthOfYear = String.valueOf(monthOfYear + 1);
+                        if (smonthOfYear.length() == 1) {
+                            smonthOfYear = "0" + smonthOfYear;
                         }
-                    });
 
+                        String time= "10:00:00";
+                        String datePicker=year + "-" + smonthOfYear + "-" +  sdayOfMonth +" "+time ;
 
-                    updateItem(position,p);
+                        holder.date.setText(DateHelper.get().getOnlyDate(datePicker));
+                        dateSelected=datePicker;
+                    }
+                }, mYear, mMonth, mDay);
 
-                    dialog.dismiss();
-                }
-
-            }
-
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
-
+        datePickerDialog.show();
     }
 
-     private void lessStock2(final Product p,final int position){
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.load_stock, null);
-        builder.setView(dialogView);
+    private String getExpandedDate(){
+        String date= DateHelper.get().actualDateExtractions();
+        String time= DateHelper.get().getOnlyTime(date);
 
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 
-        final TextView type= dialogView.findViewById(R.id.type);
-        type.setText(p.type);
-        final TextView brand= dialogView.findViewById(R.id.brand);
-        brand.setText(p.brand);
-        final TextView stockact= dialogView.findViewById(R.id.stockact);
-        stockact.setText(String.valueOf(p.stock));
-        final TextView stock= dialogView.findViewById(R.id.stock);
-        final TextView title= dialogView.findViewById(R.id.title);
-        final TextView title2= dialogView.findViewById(R.id.title2);
-        final TextView detail= dialogView.findViewById(R.id.detail);
-        final TextView cancel= dialogView.findViewById(R.id.cancel);
-        final Button ok= dialogView.findViewById(R.id.ok);
+        try {
+            //Date date1 = sdf.parse("19:28:00");
+            Date date1 = sdf.parse(time);
+            //Date date2 = sdf.parse("21:13:00");
+            Date date2 = sdf.parse("04:13:00");
 
-        title.setText("Salida mercaderia");
-        title2.setText("Cantidad vendida");
+            // Outputs -1 as date1 is before date2
+            System.out.println(date1.compareTo(date2));
 
-        final AlertDialog dialog = builder.create();
+            if(date1.compareTo(date2) < 0){
+                System.out.println(date1.compareTo(date2));
 
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String stockP=stock.getText().toString().trim();
-                String detailP=detail.getText().toString().trim();
-
-                if(!stockP.matches("") && ValidatorHelper.get().isTypeInteger(stockP)) {
-
-                    StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP),p.stock, detailP);
-                    s.ideal_stock=s.stock_ant + s.stock_in - s.stock_out;
-                    p.stock-=Integer.valueOf(stockP);
-
-                    ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
-                        @Override
-                        public void onSuccess(StockEvent data) {
-
-                        }
-
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error"," Error al cargar stock",dialogView.getContext());
-                        }
-                    });
-
-
-                    updateItem(position,p);
-                    dialog.dismiss();
-                }
+                return DateHelper.get().getPreviousDay(date);
+            }else{
+                return date;
             }
+/*
+            // Outputs 1 as date1 is after date1
+            System.out.println(date2.compareTo(date1));
 
-        });
+            date2 = sdf.parse("19:28:00");
+            // Outputs 0 as the dates are now equal
+            System.out.println(date1.compareTo(date2));
+            */
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
-   private void edithProduct(final Product p,final int position, final ViewHolder holder){
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.dialog_edith_product, null);
-        builder.setView(dialogView);
-
-
-        final TextView edit_name= dialogView.findViewById(R.id.edit_name);
-        final TextView edit_price= dialogView.findViewById(R.id.edit_price);
-        final TextView edit_stock= dialogView.findViewById(R.id.edit_stock);
-        final TextView cancel= dialogView.findViewById(R.id.cancel);
-        final Button ok= dialogView.findViewById(R.id.ok);
-
-
-        edit_name.setText(p.getFish_name());
-        edit_name.setTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
-        edit_price.setText(getIntegerQuantity(p.getPrice()));
-        edit_price.setTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
-        edit_stock.setText(getIntegerQuantity(p.getStock()));
-        edit_stock.setTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
-
-        final AlertDialog dialog = builder.create();
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String productName=edit_name.getText().toString().trim();
-                String productPrice=edit_price.getText().toString().trim();
-                String productStock=edit_stock.getText().toString().trim();
-
-                boolean isDataValid=true;
-
-                if(!productName.matches("")){
-                    p.setFish_name(productName);
-                }
-
-                if(!productPrice.matches("")) {
-                    if (ValidatorHelper.get().isTypeDouble(productPrice)) {
-                        p.setPrice(Double.valueOf(productPrice));
-                    }else {
-                        isDataValid=false;
-                        Toast.makeText(dialogView.getContext(), " Tipo de precio no valido ", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                if(!productStock.matches("")) {
-                    if (ValidatorHelper.get().isTypeDouble(productStock)) {
-                        p.setStock(Double.valueOf(productStock));
-                    }else {
-                        isDataValid=false;
-                        Toast.makeText(dialogView.getContext(), " Tipo de stock no valido ", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                if(isDataValid){
-                    updateItem(position,p);
-
-                    ApiClient.get().putProduct(p, new GenericCallback<Product>() {
-                        @Override
-                        public void onSuccess(Product data) {
-                            EventBus.getDefault().post(new EventProductState(p.id,"edited",p.stock));
-                            Toast.makeText(dialogView.getContext(), " El producto "+data.fish_name +" ha sido modificado ", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error"," Error al modificar producto",dialogView.getContext());
-                        }
-                    });
-
-                    dialog.dismiss();
-                }
-
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-    private String getIntegerQuantity(Double val){
-        String[] arr=String.valueOf(val).split("\\.");
-        int[] intArr=new int[2];
-        intArr[0]=Integer.parseInt(arr[0]);
-        intArr[1]=Integer.parseInt(arr[1]);
-
-        if(intArr[1] == 0){
-            return String.valueOf(intArr[0]);
-        }else{
-            return String.valueOf(val);
+        } catch (ParseException e){
+            e.printStackTrace();
         }
-
+        return "dd/MM/yyyy";
     }
-
-}*/
+}

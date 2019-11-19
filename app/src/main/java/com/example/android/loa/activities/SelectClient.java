@@ -1,34 +1,33 @@
-package com.example.android.loa.fragments;
+package com.example.android.loa.activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.android.loa.CurrentValuesHelper;
 import com.example.android.loa.CustomLoadingListItemCreator;
+import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
-import com.example.android.loa.Interfaces.OnAmountChange;
+import com.example.android.loa.Interfaces.OnSelectedClient;
 import com.example.android.loa.R;
-import com.example.android.loa.activities.CreateClientActivity;
-import com.example.android.loa.activities.EventHistoryActivity;
-import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.ClientAdapter;
+import com.example.android.loa.adapters.ExtractionAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.Extraction;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
@@ -36,14 +35,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ClientsFragment extends BaseFragment implements Paginate.Callbacks, OnAmountChange{
+public class SelectClient extends BaseActivity implements Paginate.Callbacks {
 
     private RecyclerView mRecyclerView;
     private ClientAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private View mRootView;
-    private TextView mTotalAmoount;
-    private Button mOrderBy;
+
 
     //pagination
     private boolean loadingInProgress;
@@ -53,50 +50,31 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
     private String mQuery = "";
     private String token = "";
 
-    public void onClickButton(){ activityAddClient(); }
-    public int getIconButton(){
-        return R.drawable.add_file;
-    }
-
-    public int getVisibility(){
-        return 0;
-    }
-
-    private void startActivityStock(Client c){
-        Intent i = new Intent(getContext(), ProductsActivity.class);
-        i.putExtra("ID",c.id);
-        i.putExtra("NAME",c.name);
-        startActivityForResult(i, 1100);
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public int getLayoutRes() {
+        return R.layout.fragment_clients;
+    }
 
-        mRootView=inflater.inflate(R.layout.fragment_clients, container, false);
 
-        mRecyclerView = mRootView.findViewById(R.id.list_users);
-        layoutManager = new LinearLayoutManager(getActivity());
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        showBackArrow();
+
+        setTitle("Clientes");
+
+        mRecyclerView = this.findViewById(R.id.list_users);
+        layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ClientAdapter(getActivity(), new ArrayList<Client>());
-        mAdapter.setOnAmountCangeListener(this);
+        mAdapter = new ClientAdapter(this, new ArrayList<Client>());
+       // mAdapter.setOnSelectedClient(this);
 
-        mTotalAmoount=mRootView.findViewById(R.id.totalAmount);
 
-       // registerForContextMenu(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-        setHasOptionsMenu(true);
+       // setHasOptionsMenu(true);
 
-        mOrderBy=mRootView.findViewById(R.id.orderClientBy);
-        mOrderBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeOrderBy();
-                clearView();
-            }
-        });
-
-        final SearchView searchView= mRootView.findViewById(R.id.searchView);
+        final SearchView searchView= this.findViewById(R.id.searchView);
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,52 +99,8 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
             }
         });
 
-        loadOperationAcum(true);
         implementsPaginate();
 
-        return mRootView;
-    }
-
-    private void clearView(){
-        mCurrentPage = 0;
-        mAdapter.clear();
-        hasMoreItems=true;
-      //  listClients(mQuery);
-    }
-
-    private void changeOrderBy(){
-        if(CurrentValuesHelper.get().getmOrderClientBy().equals("name")){
-            CurrentValuesHelper.get().setmOrderClientBy("debt");
-            mOrderBy.setText("A-B");
-        }else{
-            CurrentValuesHelper.get().setmOrderClientBy("name");
-            mOrderBy.setText("> $");
-        }
-    }
-
-    @Override
-    public void loadOperationAcum(boolean refreshOperations) {
-        ApiClient.get().getTotalAmount(new GenericCallback<AmountResult>() {
-            @Override
-            public void onSuccess(AmountResult data) {
-                mTotalAmoount.setText(String.valueOf(data.total));
-            }
-
-            @Override
-            public void onError(Error error) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!isLoading()) {
-            mCurrentPage = 0;
-            mAdapter.clear();
-            hasMoreItems=true;
-        }
     }
 
     public void listClients(final String query){
@@ -201,23 +135,19 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
 
             @Override
             public void onError(Error error) {
-                    DialogHelper.get().showMessage("Error",error.message+" "+error.result,getContext());
 
                 loadingInProgress = false;
             }
         });
     }
-    private void activityAddClient(){
-        startActivity(new Intent(getContext(), CreateClientActivity.class));
-    }
+
 
     private void implementsPaginate(){
-
         loadingInProgress=false;
         mCurrentPage=0;
         hasMoreItems = true;
 
-        paginate= Paginate.with(mRecyclerView, this)
+        paginate= Paginate.with(mRecyclerView,this)
                 .setLoadingTriggerThreshold(2)
                 .addLoadingListItem(true)
                 .setLoadingListItemCreator(new CustomLoadingListItemCreator())
@@ -229,6 +159,9 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
                 })
                 .build();
     }
+
+
+
 
     @Override
     public void onLoadMore() {
@@ -247,20 +180,15 @@ public class ClientsFragment extends BaseFragment implements Paginate.Callbacks,
 
 
     @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_info, menu);
-        final MenuItem item = menu.findItem(R.id.action_info);
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                startHistoryEventsActivity();
-                return false;
-            }
-        });
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if ( id == android.R.id.home ) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    private void startHistoryEventsActivity(){
-        startActivity(new Intent(getContext(), EventHistoryActivity.class));
-    }
+
 
 }

@@ -10,17 +10,13 @@
     card_view:cardMaxElevation="8dp"
     android:backgroundTint="#ededed"
     card_view:contentPadding="3dp"
-
-
     >
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:orientation="vertical">
-
 
         <TextView
             android:layout_width="match_parent"
@@ -34,13 +30,10 @@
             android:textStyle="bold"
             />
 
-
-
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/image_box"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
 
     </RelativeLayout>
 

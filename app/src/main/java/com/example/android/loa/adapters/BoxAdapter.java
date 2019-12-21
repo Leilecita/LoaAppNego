@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BoxPhotoActivity;
+import com.example.android.loa.activities.BoxPhotoPosnetActivity;
 import com.example.android.loa.activities.ExtractionsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -54,6 +57,9 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         public TextView total_amount;
         public TextView rest_box;
         public TextView dep;
+        public LinearLayout line_photo;
+        public CardView photoposnet;
+        public CardView photobox;
 
         public ViewHolder(View v) {
             super(v);
@@ -64,6 +70,9 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
             dep = v.findViewById(R.id.dep);
             date = v.findViewById(R.id.date);
             year = v.findViewById(R.id.year);
+            line_photo = v.findViewById(R.id.line_photos);
+            photoposnet = v.findViewById(R.id.photoposnet);
+            photobox = v.findViewById(R.id.photobox);
         }
     }
 
@@ -143,7 +152,25 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BoxPhotoActivity.start(mContext,currentBox.id,currentBox.image_url,dateToShow);
+                if(holder.line_photo.getVisibility() == View.GONE){
+                    holder.line_photo.setVisibility(View.VISIBLE);
+                }else{
+                    holder.line_photo.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        holder.photoposnet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BoxPhotoPosnetActivity.start(mContext,currentBox.id,currentBox.image_url_posnet,dateToShow,"posnet");
+            }
+        });
+
+        holder.photobox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BoxPhotoActivity.start(mContext,currentBox.id,currentBox.image_url,dateToShow,"caja");
             }
         });
 

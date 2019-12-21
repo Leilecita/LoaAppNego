@@ -8,6 +8,7 @@ import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Extraction;
+import com.example.android.loa.network.models.Income;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
@@ -15,6 +16,8 @@ import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
+import com.example.android.loa.network.models.ReportMonthBox;
+import com.example.android.loa.network.models.ReportNewBox;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
@@ -64,7 +67,7 @@ public class ApiClient {
     }
 
     public void getItemsEmployeeByPageByEmployeeIdByMonth(Integer page,Long employee_id,String month1,String month2,final GenericCallback<List<Item_employee>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getItemsEmployeeByPageByEmployeeIdByMonth(page,employee_id,month1,month2), callback);
+        handleRequest( ApiUtils.getAPISessionService().getItemsEmployeeByPageByEmployeeIdByMonth("listHours",page,employee_id,month1,month2), callback);
     }
     public void getItemsEmployeeByEmployeeIdByMonth(Long employee_id,String month1,String month2,final GenericCallback<List<Item_employee>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getItemsEmployeeByEmployeeIdByMonth(employee_id,month1,month2), callback);
@@ -173,7 +176,9 @@ public class ApiClient {
     public void getExtractionsByPageAndDate( Integer page,String created,String next,final GenericCallback<List<Extraction>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getExtractionsByPageAndDate(page,created,next), callback);
     }
-
+    public void getPreviousBox( String created,String date,String dateTo,final GenericCallback<ReportNewBox> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getPreviousBox("getLastBox",created,date,dateTo), callback);
+    }
 
     public void getBoxesByPageAndDate( Integer page,String created,String next,final GenericCallback<List<Box>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getBoxesByPageAndDate(page,created,next), callback);
@@ -199,6 +204,20 @@ public class ApiClient {
         handleDeleteRequest( ApiUtils.getAPISessionService().deleteExtraction(id), callback);
     }
 
+    public void postIncome(Income i,GenericCallback<Income> callback){
+        handleRequest( ApiUtils.getAPISessionService().postIncome(i), callback);
+    }
+
+    public void putIncome(Income i, GenericCallback<Income> callback){
+        handleRequest( ApiUtils.getAPISessionService().putIncome(i), callback);
+    }
+    public void deleteIncome(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPISessionService().deleteIncome(id), callback);
+    }
+
+    public void getTotalMonthBoxes(Integer page,final GenericCallback<List<ReportMonthBox>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getTotalMonthBoxes("getBoxesByMonth",page),callback);
+    }
 
     public void getBoxesByPage2(Integer page,final GenericCallback<List<Box>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getBoxesByPage2(page),callback);
@@ -319,6 +338,10 @@ public class ApiClient {
 
     public void getItemsFileClientEvent(String since, String to, final GenericCallback<List<ReportItemFileClientEvent>> callback){
         handleRequest( ApiUtils.getAPISessionService().getItemsFileClientEvent("getItemsClientByDate",since,to), callback);
+    }
+
+    public void getIncomesByDate(String created, String to, final GenericCallback<List<Income>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getIncomesByDate("getIncomes",created,to), callback);
     }
     public void getSotckeventsByPage( Integer page,Long id_product,final GenericCallback<List<StockEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSotckeventsByPage(page,id_product), callback);

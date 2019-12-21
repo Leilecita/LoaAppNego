@@ -1,15 +1,7 @@
 package com.example.android.loa.activities;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,16 +17,15 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Box;
 import com.github.chrisbanes.photoview.PhotoView;
 
-
-public class BoxPhotoActivity extends BaseActivity {
+public class BoxPhotoPosnetActivity extends BaseActivity {
 
     private Box mCurrentBox;
     private ImageView photo;
-    private  PhotoView photoView;
+    private PhotoView photoView;
     private  PhotoView photoViewPosnet;
 
-    public static void start(Context mContext, Long id,String image_url,String dateToShow,String name){
-        Intent i=new Intent(mContext, BoxPhotoActivity.class);
+    public static void start(Context mContext, Long id, String image_url, String dateToShow, String name){
+        Intent i=new Intent(mContext, BoxPhotoPosnetActivity.class);
         i.putExtra("ID",id);
         i.putExtra("PHOTOURL",image_url);
         i.putExtra("DATE",dateToShow);
@@ -54,8 +45,8 @@ public class BoxPhotoActivity extends BaseActivity {
         showBackArrow();
 
         photoView = (PhotoView) findViewById(R.id.image_box);
-       // photoView.setImageResource(R.drawable.image);
-      //  photo= findViewById(R.id.image_box);
+        // photoView.setImageResource(R.drawable.image);
+        //  photo= findViewById(R.id.image_box);
 
         TextView title= findViewById(R.id.title);
         title.setText("Caja del día "+getIntent().getStringExtra("DATE"));
@@ -74,8 +65,7 @@ public class BoxPhotoActivity extends BaseActivity {
         ApiClient.get().getBox(getIntent().getLongExtra("ID", -1), new GenericCallback<Box>() {
             @Override
             public void onSuccess(Box data) {
-                System.out.println("imageurl "+data.image_url);
-                Glide.with(BoxPhotoActivity.this).load(ApiUtils.getImageUrl(data.image_url)).into(photoView);
+                Glide.with(BoxPhotoPosnetActivity.this).load(ApiUtils.getImageUrl(data.image_url_posnet)).into(photoView);
             }
 
             @Override
@@ -96,7 +86,7 @@ public class BoxPhotoActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.edith:
 
-                PhotoEdithActivity.startBox(this,getIntent().getLongExtra("ID",-1));
+                PhotoPosnetEditActivity.startBox(this,getIntent().getLongExtra("ID",-1));
                 return true;
 
             case android.R.id.home:

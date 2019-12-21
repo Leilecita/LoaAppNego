@@ -45,6 +45,11 @@ public class DateHelper {
         return onlyTime(date);
     }
 
+    public String getOnlyTimeHour(String date) {
+        String date2=onlyTime(date);
+        return onlyHourMinut(date2);
+    }
+
     public String getNextDay(String date) {
         try {
 
@@ -154,6 +159,21 @@ public class DateHelper {
         return formatter.format(currentDate);
     }
 
+    public String changeOrderDate(String date) {
+        try {
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date1 = format1.parse(date);
+            SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+            String stringdate2 = format2.format(date1);
+            return stringdate2;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
+    }
+
 
 
     public String serverToUser(String date) {
@@ -231,13 +251,24 @@ public class DateHelper {
     }
 
 
+    public Date parseDate(String date){
+        try {
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format1.setTimeZone(TimeZone.getDefault());
+            Date date1 = format1.parse(date);
+            return date1;
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     private String onlyDate(String date) {
         String[] parts = date.split(" ");
         String part1 = parts[0]; // fecha
         return part1;
     }
 
-    private String onlyDateComplete(String date) {
+    public String onlyDateComplete(String date) {
         String[] parts = date.split(" ");
         String part1 = parts[0]; // fecha
         return part1 + " 00:00:00";
@@ -256,7 +287,7 @@ public class DateHelper {
         String part1 = parts[0]; // dia
         String part2 = parts[1]; // mes
         String part = parts[2]; // año
-        return part + "/" + part2 + "-00 00:00:00";
+        return part + "-" + part2 + "-00 00:00:00";
     }
 
     public String getOnlyYear(String date) {
@@ -288,6 +319,15 @@ public class DateHelper {
         String[] parts = date.split(" ");
         if (parts.length > 1) {
             return parts[1]; // time
+        } else {
+            return "";
+        }
+    }
+
+    public String onlyHourMinut(String time) {
+        String[] parts = time.split(":");
+        if (parts.length > 1) {
+            return parts[0]+":"+parts[1]; // time
         } else {
             return "";
         }

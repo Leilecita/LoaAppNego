@@ -11,6 +11,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_box_month"
+        android:title="Cajas Mensuales"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_sale"
         android:title="Ventas"
         app:showAsAction="always" />

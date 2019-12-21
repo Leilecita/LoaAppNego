@@ -10,14 +10,15 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.core.app.NavUtils;
-import androidx.cardview.widget.CardView;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+import androidx.core.app.NavUtils;
 
 import com.bumptech.glide.Glide;
 import com.example.android.loa.DialogHelper;
@@ -36,34 +37,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class PhotoEdithActivity extends BaseActivity {
+public class PhotoPosnetEditActivity extends BaseActivity {
 
     private ImageView mImageView;
     private Uri mCropImageUri;
     private String image_path = null;
-    private Client mCurrentClient;
-    private Employee mCurrentEmployee;
 
     private Box mCurrentBox;
 
-    private boolean isBox=false;
-    private boolean isClient=false;
-    private boolean isEmployee=false;
-
-    public static void start(Context mContext, Client client) {
-        Intent i = new Intent(mContext, PhotoEdithActivity.class);
-        i.putExtra("ID", client.id);
-        mContext.startActivity(i);
-    }
-
-    public static void startEmployee(Context mContext, Employee employee) {
-        Intent i = new Intent(mContext, PhotoEdithActivity.class);
-        i.putExtra("IDEMPLOYEE", employee.id);
-        mContext.startActivity(i);
-    }
-
     public static void startBox(Context mContext, Long boxid) {
-        Intent i = new Intent(mContext, PhotoEdithActivity.class);
+        Intent i = new Intent(mContext, PhotoPosnetEditActivity.class);
         i.putExtra("IDBOX", boxid);
         mContext.startActivity(i);
     }
@@ -78,57 +61,20 @@ public class PhotoEdithActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showBackArrow();
-        //photo
         mImageView = findViewById(R.id.imageview);
 
-       // clientOrEmployee();
-        isClient();
-        isBox();
-        isEmployee();
+        ApiClient.get().getBox(getIntent().getLongExtra("IDBOX", -1), new GenericCallback<Box>() {
+            @Override
+            public void onSuccess(Box data) {
+                mCurrentBox=data;
+                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentBox.image_url_posnet)).into(mImageView);
+            }
 
+            @Override
+            public void onError(Error error) {
 
-        if(isClient){
-            ApiClient.get().getClient( getIntent().getLongExtra("ID", -1), new GenericCallback<Client>() {
-                @Override
-                public void onSuccess(Client data) {
-                    mCurrentClient=data;
-                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentClient.getImage_url())).into(mImageView);
-                }
-
-                @Override
-                public void onError(Error error) {
-
-                }
-            });
-        }else if(isEmployee){
-            ApiClient.get().getEmployee(getIntent().getLongExtra("IDEMPLOYEE", -1), new GenericCallback<Employee>() {
-                @Override
-                public void onSuccess(Employee data) {
-                    mCurrentEmployee=data;
-                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentEmployee.getImage_url())).into(mImageView);
-                }
-
-                @Override
-                public void onError(Error error) {
-
-                }
-            });
-        }else if(isBox){
-            ApiClient.get().getBox(getIntent().getLongExtra("IDBOX", -1), new GenericCallback<Box>() {
-                @Override
-                public void onSuccess(Box data) {
-                    mCurrentBox=data;
-                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(mCurrentBox.image_url)).into(mImageView);
-                }
-
-                @Override
-                public void onError(Error error) {
-
-                }
-            });
-
-        }
-
+            }
+        });
 
         CardView takePhoto = findViewById(R.id.select_photo);
         takePhoto.setOnClickListener(new View.OnClickListener() {
@@ -138,40 +84,6 @@ public class PhotoEdithActivity extends BaseActivity {
             }
         });
     }
-
-
-    private void isBox(){
-        Long l= getIntent().getLongExtra("IDBOX", -1);
-        if(l>0){
-            isBox=true;
-            System.out.println("box");
-        }
-
-    }
-
-    private void isEmployee(){
-        Long l= getIntent().getLongExtra("IDEMPLOYEE", -1);
-        if(l>0){
-            isEmployee=true;
-            System.out.println("empleado");
-        }
-    }
-
-    private void isClient(){
-        Long l= getIntent().getLongExtra("ID", -1);
-        if(l>0){
-            isClient=true;
-            System.out.println("client");
-        }
-    }
-   /* private void clientOrEmployee(){
-       Long l= getIntent().getLongExtra("ID", -1);
-       if(l <0 ){
-           isClient=false;
-       }else{
-           isClient=true;
-       }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -185,54 +97,18 @@ public class PhotoEdithActivity extends BaseActivity {
             case R.id.action_save:
                 if (image_path != null) {
                     try {
-                        if(isClient){
-                            mCurrentClient.imageData = fileToBase64(image_path);
-                        }else if(isEmployee){
-                            mCurrentEmployee.imageData = fileToBase64(image_path);
-                        }else if(isBox){
-                            mCurrentBox.imageData = fileToBase64(image_path);
-                        }
-
+                        mCurrentBox.imageDataPosnet = fileToBase64(image_path);
                     } catch (Exception e) {
                     }
 
                     final ProgressDialog progress = ProgressDialog.show(this, "Editando foto",
                             "Aguarde un momento", true);
 
-                    if(isClient){
-                        ApiClient.get().putClient(mCurrentClient, new GenericCallback<Client>() {
-                            @Override
-                            public void onSuccess(Client data) {
-                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
-                                finish();
-                                progress.dismiss();
-                            }
 
-                            @Override
-                            public void onError(Error error) {
-                                DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
-                            }
-                        });
-                    }else if(isEmployee){
-
-                        ApiClient.get().putEmployee(mCurrentEmployee, new GenericCallback<Employee>() {
-                            @Override
-                            public void onSuccess(Employee data) {
-                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
-                                finish();
-                                progress.dismiss();
-                            }
-
-                            @Override
-                            public void onError(Error error) {
-                                DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
-                            }
-                        });
-                    }else if(isBox){
                         ApiClient.get().putBox(mCurrentBox, new GenericCallback<Box>() {
                             @Override
                             public void onSuccess(Box data) {
-                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.image_url)).into(mImageView);
+                                Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.image_url_posnet)).into(mImageView);
                                 finish();
                                 progress.dismiss();
                             }
@@ -242,7 +118,6 @@ public class PhotoEdithActivity extends BaseActivity {
                                 DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
                             }
                         });
-                    }
                 }
 
                 return true;

@@ -38,5 +38,11 @@
         android:title="Salida por robo"
         />
 
+    <item
+
+        android:id="@+id/out_luz"
+        android:title="Salida luz"
+        />
+
 
 </menu>

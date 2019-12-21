@@ -30,6 +30,7 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Item_employee;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployeeAdapter.ViewHolder> {
@@ -108,6 +109,14 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
             vh.finish_aft.setText(null);
     }
 
+    private String getHourMinutes(long minutes){
+
+        int hoursf= (int)minutes / 60;
+        int minutesf= (int) minutes % 60;
+
+        return String.valueOf(hoursf)+"."+String.valueOf(minutesf);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final HourEmployeeAdapter.ViewHolder holder, final int position) {
@@ -120,13 +129,30 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         holder.date_day.setText(DateHelper.get().onlyDay(date));
         holder.date_month.setText(DateHelper.get().onlyMonth(date));
 
-        holder.entry.setText(currentItemEmployee.entry);
-        holder.finish.setText(currentItemEmployee.finish);
-        holder.time_worked.setText(String.valueOf(round(currentItemEmployee.time_worked,1)));
 
-        holder.entry_aft.setText(currentItemEmployee.entry_aft);
-        holder.finish_aft.setText(currentItemEmployee.finish_aft);
-        holder.time_worked_aft.setText(String.valueOf(round(currentItemEmployee.time_worked_aft,1)));
+        if (currentItemEmployee.created.compareTo("2019-12-20 23:00:04") > 0) {
+            System.out.println("crated is after actualdateextr");
+
+            holder.entry.setText(DateHelper.get().getOnlyTimeHour(currentItemEmployee.entry));
+            holder.finish.setText(DateHelper.get().getOnlyTimeHour(currentItemEmployee.finish));
+
+            holder.entry_aft.setText(DateHelper.get().getOnlyTimeHour(currentItemEmployee.entry_aft));
+            holder.finish_aft.setText(DateHelper.get().getOnlyTimeHour(currentItemEmployee.finish_aft));
+
+        } else  {
+            holder.entry.setText(currentItemEmployee.entry);
+            holder.finish.setText(currentItemEmployee.finish);
+
+            holder.entry_aft.setText(currentItemEmployee.entry_aft);
+            holder.finish_aft.setText(currentItemEmployee.finish_aft);
+
+        }
+
+        //holder.time_worked.setText(String.valueOf(round(currentItemEmployee.time_worked,1)));
+        holder.time_worked.setText(getHourMinutes(currentItemEmployee.time_worked));
+
+       // holder.time_worked_aft.setText(String.valueOf(round(currentItemEmployee.time_worked_aft,1)));
+        holder.time_worked_aft.setText(getHourMinutes(currentItemEmployee.time_worked_aft));
 
         holder.morning.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -341,14 +367,14 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
                         e.observation=obs.getText().toString().trim();
                         e.entry=entrada.getText().toString().trim();
                         e.finish=salida.getText().toString().trim();
-                        e.time_worked=Double.valueOf(time_worked.getText().toString().trim());
+                        e.time_worked=Long.valueOf(time_worked.getText().toString().trim());
                         // e.time_worked=Double.valueOf(differenceBetweenHours(e.entry,e.finish));
                     }else{
                         e.obs_aft=obs.getText().toString().trim();
                         e.entry_aft=entrada.getText().toString().trim();
                         e.finish_aft=salida.getText().toString().trim();
                         // e.time_worked_aft=Double.valueOf(differenceBetweenHours(e.entry_aft,e.finish_aft));
-                        e.time_worked_aft=Double.valueOf(time_worked.getText().toString().trim());
+                        e.time_worked_aft=Long.valueOf(time_worked.getText().toString().trim());
                     }
 
 

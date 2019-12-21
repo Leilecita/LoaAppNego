@@ -25,8 +25,11 @@ import com.example.android.loa.network.models.Item_employee;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HoursHistoryEmployeeActivity extends BaseActivity implements Paginate.Callbacks, OnAmountHoursChange {
@@ -90,8 +93,6 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
         refactorToMonth(DateHelper.get().getActualDateEmployee());
         loadAmountHours();
 
-
-        //System.out.println(DateHelper.get().getNameMonth("10-12-2019"));
         mSelectMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +111,10 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
     ApiClient.get().getAmountHoursByMonth(monthSince, monthTo, mEmployeeId, new GenericCallback<AmountResult>() {
             @Override
             public void onSuccess(AmountResult data) {
-                mHoursAcum.setText(String.valueOf(data.total));
+                //mHoursAcum.setText(String.valueOf(data.total));
+
+                long v2 = Math.round(data.total);
+                mHoursAcum.setText( getHourMinutes(v2));
             }
 
             @Override
@@ -176,11 +180,18 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
 
     }
 
+    private String getHourMinutes(long minutes){
+
+        int hoursf= (int)minutes / 60;
+        int minutesf= (int) minutes % 60;
+
+        return String.valueOf(hoursf)+"."+String.valueOf(minutesf);
+    }
+
     private void refactorToMonth(String month){
         String monthDate=DateHelper.get().getOnlymonth(DateHelper.get().getOnlyDate(month));
         String nextMonth=DateHelper.get().getNextMonth(month);
         String finalNextMonth=DateHelper.get().getOnlymonth(DateHelper.get().getOnlyDate(nextMonth));
-
 
         monthSince=monthDate;
         monthTo=finalNextMonth;
@@ -233,11 +244,7 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
                 loadingInProgress = false;
             }
         });
-
-
     }
-
-
 
     @Override
     public void onLoadMore() {
@@ -253,7 +260,6 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
     public boolean hasLoadedAllItems() {
         return !hasMoreItems;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

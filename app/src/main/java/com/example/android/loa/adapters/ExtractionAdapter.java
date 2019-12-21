@@ -7,6 +7,8 @@ import android.graphics.Typeface;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>{
@@ -50,10 +53,13 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
 
     @Override
     public long getHeaderId(int position) {
-        if (position == 0) {
-                return 0;
+       // Log.d("ALE","Position: "+position + " COunt: " + getItemCount());
+        if(position>= getItemCount()){
+         //   Log.d("ALE","ERROR Position: "+position + " COunt: " + getItemCount());
+            return -1;
         } else {
-            return getItem(position).id;
+            Date date =  DateHelper.get().parseDate(DateHelper.get().onlyDateComplete(getItem(position).created));
+            return  date.getTime();
         }
     }
 
@@ -67,21 +73,17 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
     }
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        TextView textView = (TextView) holder.itemView;
+        if(position < getItemCount()) {
+            TextView textView = (TextView) holder.itemView;
 
-        final Extraction e=getItem(position);
+            final Extraction e = getItem(position);
 
-        String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(e.created));
+            String dateToShow = DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(e.created));
 
-        if(mLastDateDecoration.equals("") || !mLastDateDecoration.equals(dateToShow)){
             textView.setText(dateToShow);
-            mLastDateDecoration=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(e.created));
+            mLastDateDecoration = DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(e.created));
+        }
 
-        }
-        else{
-            textView.setTextSize(0);
-            textView.setVisibility(View.GONE);
-        }
     }
 
 

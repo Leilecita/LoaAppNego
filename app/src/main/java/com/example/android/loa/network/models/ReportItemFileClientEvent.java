@@ -5,6 +5,7 @@ public class ReportItemFileClientEvent {
         public String name;
         public String description;
         public String item_file_created;
+        public String payment_method;
         public Double value;
 
         public ReportItemFileClientEvent(){}

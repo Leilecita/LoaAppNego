@@ -93,11 +93,11 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
 
         holder.name.setText(currentEmployee.name);
 
-       // if (currentEmployee.image_url == null) {
+        if (currentEmployee.image_url == null) {
             Glide.with(mContext).load(R.drawable.person_color).into(holder.photo);
-        //} else {
-          //  Glide.with(mContext).load(ApiUtils.getImageUrl(currentEmployee.image_url)).into(holder.photo);
-        //}
+        } else {
+            Glide.with(mContext).load(ApiUtils.getImageUrl(currentEmployee.image_url)).into(holder.photo);
+        }
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -139,7 +139,6 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 PhotoEdithActivity.startEmployee(mContext,currentEmployee);
                 dialog.dismiss();
@@ -227,6 +226,14 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         final ImageView call=  dialogView.findViewById(R.id.phone);
         final ImageView history=  dialogView.findViewById(R.id.history);
         final ImageView mens=  dialogView.findViewById(R.id.mens);
+        final TextView photoedit=  dialogView.findViewById(R.id.photoedit);
+
+        photoedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edithPhoto(e);
+            }
+        });
 
         name.setText(e.getName());
         address.setText(e.getAddress());

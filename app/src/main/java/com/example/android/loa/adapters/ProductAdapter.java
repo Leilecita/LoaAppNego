@@ -34,6 +34,7 @@ import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BalanceActivity;
+import com.example.android.loa.activities.SaleMovementsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -57,6 +58,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private Boolean isModel;
 
     private String dateSelected="";
+
+    public void setExtendedDate(String extendedDate){
+        this.dateSelected=extendedDate;
+    }
 
 
     public void setOnChangeViewStock(OnChangeViewStock lister){
@@ -177,7 +182,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         holder.stock.setText(String.valueOf(currentProduct.stock));
 
-        dateSelected = getExpandedDate();//DateHelper.get().actualDateExtractions();
+       // dateSelected = getExpandedDate();//DateHelper.get().actualDateExtractions();
         holder.date.setText(DateHelper.get().getOnlyDate(dateSelected));
 
         holder.date.setOnClickListener(new View.OnClickListener() {
@@ -297,17 +302,15 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
     private void lessStock(final Product p, final int position, final ViewHolder holder){
 
-        holder.detail.setText("");
+        holder.detail.setText("Salida venta");
         holder.detail.setHint("Elegir detalle");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // hideSoftKeyboard(mContext, v);
+                hideSoftKeyboard(mContext, v);
                 createMenuOut(holder);
             }
         });
-
-
 
         holder.load_stock.setText("1");
         holder.less_load.setText("- ");
@@ -315,7 +318,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         holder.select_payment_method.setVisibility(View.VISIBLE);
         holder.line_value.setVisibility(View.VISIBLE);
         holder.date.setVisibility(View.VISIBLE);
-
 
         holder.check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -326,7 +328,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_deb.setChecked(false);
                 }else{
                     holder.check_ef.setChecked(false);
-
                 }
             }
         });
@@ -359,7 +360,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
                 String payment_method= getPaymentMethod(holder);
 
@@ -388,7 +389,16 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                     onChangeViewStock.onReloadTotalQuantityStock();
                                 }
 
-                                Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar
+                                        .make(v, "El stock ha sido modificado", Snackbar.LENGTH_LONG)
+                                        .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
+                                            }
+                                        });
+
+                                snackbar.show();
 
                                 hideSoftKeyboard(mContext,holder.itemView);
 
@@ -436,10 +446,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         //todo
         holder.detail.setHint("Elegir detalle");
-       // holder.detail.setText("Stock inicial");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideSoftKeyboard(mContext,v);
                 createMenuIn(holder);
             }
         });
@@ -448,7 +458,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
                 String stockP = holder.load_stock.getText().toString().trim();
                 String detailP = holder.detail.getText().toString().trim();
@@ -464,6 +474,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                         p.stock += Integer.valueOf(stockP);
 
+                       // s.created=getExpandedDate();
+                        s.created=dateSelected;
+
+
                         ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
                             @Override
                             public void onSuccess(StockEvent data) {
@@ -474,7 +488,18 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                 holder.stock.setText(String.valueOf(p.stock));
                                 holder.load_stock.setText("");
 
-                                Toast.makeText(mContext,"El stock ha sido modificado", Toast.LENGTH_SHORT).show();
+
+                                Snackbar snackbar = Snackbar
+                                        .make(v, "El stock ha sido modificado", Snackbar.LENGTH_LONG)
+                                        .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
+                                            }
+                                        });
+
+                                snackbar.show();
+
 
                                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
@@ -606,6 +631,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     case R.id.out_stole:
                         holder.detail.setText("Salida por robo");
                         return true;
+                    case R.id.out_luz:
+                        holder.detail.setText("Salida luz");
+                        return true;
 
                     default:
                         return false;
@@ -652,41 +680,4 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         datePickerDialog.show();
     }
 
-    private String getExpandedDate(){
-        String date= DateHelper.get().actualDateExtractions();
-        String time= DateHelper.get().getOnlyTime(date);
-
-        String pattern = "HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-
-        try {
-            //Date date1 = sdf.parse("19:28:00");
-            Date date1 = sdf.parse(time);
-            //Date date2 = sdf.parse("21:13:00");
-            Date date2 = sdf.parse("04:13:00");
-
-            // Outputs -1 as date1 is before date2
-            System.out.println(date1.compareTo(date2));
-
-            if(date1.compareTo(date2) < 0){
-                System.out.println(date1.compareTo(date2));
-
-                return DateHelper.get().getPreviousDay(date);
-            }else{
-                return date;
-            }
-/*
-            // Outputs 1 as date1 is after date1
-            System.out.println(date2.compareTo(date1));
-
-            date2 = sdf.parse("19:28:00");
-            // Outputs 0 as the dates are now equal
-            System.out.println(date1.compareTo(date2));
-            */
-
-        } catch (ParseException e){
-            e.printStackTrace();
-        }
-        return "dd/MM/yyyy";
-    }
 }

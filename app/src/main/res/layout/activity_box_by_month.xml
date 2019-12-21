@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/loa_fondo"
+    android:id="@+id/listado">
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:id="@+id/line1"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="55sp"
+            android:id="@+id/date"
+            android:textColor="@color/word"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="MES"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/venta_ctdo"
+            android:textColor="@color/word"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="T CTDO"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/word"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/credit_card"
+            android:layout_height="wrap_content"
+            android:text="T TARJ"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/dep"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/word"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="T T EXT"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/line1"
+        android:layout_marginBottom="50dp"
+        android:layout_height="match_parent">
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/empty"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="No hay pedidos para entregar"
+
+
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_box"
+                    android:scrollbars="vertical"
+                    android:layout_below="@id/lineFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    />
+
+            </FrameLayout>
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+</RelativeLayout>
+

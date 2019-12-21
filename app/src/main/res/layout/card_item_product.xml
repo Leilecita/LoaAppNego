@@ -332,6 +332,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="40dp"
                 android:visibility="invisible"
+                android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:hint=""
                 />

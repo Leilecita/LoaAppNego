@@ -4,7 +4,7 @@ public class Item_employee {
 
     public Long id;
     public Long employee_id;
-    public Double time_worked;
+    public Long time_worked;
     public String turn;
     public String entry;
     public String finish;
@@ -13,13 +13,13 @@ public class Item_employee {
     public String created;
 
 
-    public Double time_worked_aft;
+    public Long time_worked_aft;
     public String entry_aft;
     public String finish_aft;
     public String obs_aft;
 
-    public Item_employee(Long employee_id, Double time_worked, String turn, String date,String observation,String entry,String finish,
-                         Double time_worked_aft, String obs_aft,String entry_aft,String finish_aft
+    public Item_employee(Long employee_id, Long time_worked, String turn, String date,String observation,String entry,String finish,
+                         Long time_worked_aft, String obs_aft,String entry_aft,String finish_aft
     ){
 
         this.employee_id=employee_id;

@@ -51,7 +51,10 @@ import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ProductsActivity extends BaseActivity implements Paginate.Callbacks, OnChangeViewStock, OnSelectedItem {
@@ -80,6 +83,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private LinearLayout zapas;
     private LinearLayout luz;
     private LinearLayout oferta;
+    private LinearLayout all;
 
     private TextView textMan;
     private TextView textWoman;
@@ -89,6 +93,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private TextView textAcc;
     private TextView textLuz;
     private TextView textOferta;
+    private TextView textAll;
 
     private RecyclerView mGridRecyclerView;
     private RecyclerView mGridRecyclerViewType;
@@ -213,6 +218,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         mAdapter=new ProductAdapter(this,new ArrayList<Product>());
         mAdapter.setOnChangeViewStock(this);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setExtendedDate(getExpandedDate());
 
         mGridRecyclerView =  findViewById(R.id.recycler_view_grid);
         gridlayoutmanager=new GridLayoutManager(this,5);
@@ -384,6 +390,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         accesories.setBackgroundResource(R.drawable.circle_unselected);
         luz.setBackgroundResource(R.drawable.circle_unselected);
         oferta.setBackgroundResource(R.drawable.circle_unselected);
+        all.setBackgroundResource(R.drawable.circle_unselected);
 
         textZap.setTextColor(getResources().getColor(R.color.word_clear));
         textTec.setTextColor(getResources().getColor(R.color.word_clear));
@@ -393,6 +400,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         textAcc.setTextColor(getResources().getColor(R.color.word_clear));
         textLuz.setTextColor(getResources().getColor(R.color.word_clear));
         textOferta.setTextColor(getResources().getColor(R.color.word_clear));
+        textAll.setTextColor(getResources().getColor(R.color.word_clear));
 
         textZap.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         textTec.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
@@ -402,6 +410,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         textAcc.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+        textAll.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
 
         listProdListener();
 
@@ -425,6 +434,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         accesories=findViewById(R.id.acces);
         luz=findViewById(R.id.luz);
         oferta=findViewById(R.id.oferta);
+        all=findViewById(R.id.all);
 
         textAcc=findViewById(R.id.textAcc);
         textMan=findViewById(R.id.textMan);
@@ -434,6 +444,19 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         textBoy=findViewById(R.id.textBoy);
         textLuz=findViewById(R.id.textLuz);
         textOferta=findViewById(R.id.textOferta);
+        textAll=findViewById(R.id.textAll);
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Todos";
+                mViewModel=false;
+                changeCircleSelected();
+                all.setBackgroundResource(R.drawable.circle);
+                textAll.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                textAll.setTextColor(getResources().getColor(R.color.word));
+            }
+        });
 
         woman.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -627,7 +650,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 startActivity(new Intent(this,DeletedProductsActivity.class));
                 return true;
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                finish();
+                //NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -920,5 +944,47 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
             // silently fail...
         }
+    }
+
+
+    private String getExpandedDate(){
+
+        System.out.println("Entra a expanded date");
+
+        String date= DateHelper.get().actualDateExtractions();
+        String time= DateHelper.get().getOnlyTime(date);
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            //Date date1 = sdf.parse("19:28:00");
+            Date date1 = sdf.parse(time);
+            //Date date2 = sdf.parse("21:13:00");
+            Date date2 = sdf.parse("04:13:00");
+
+            // Outputs -1 as date1 is before date2
+            System.out.println(date1.compareTo(date2));
+
+            if(date1.compareTo(date2) < 0){
+                System.out.println(date1.compareTo(date2));
+
+                return DateHelper.get().getPreviousDay(date);
+            }else{
+                return date;
+            }
+/*
+            // Outputs 1 as date1 is after date1
+            System.out.println(date2.compareTo(date1));
+
+            date2 = sdf.parse("19:28:00");
+            // Outputs 0 as the dates are now equal
+            System.out.println(date1.compareTo(date2));
+            */
+
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
     }
 }

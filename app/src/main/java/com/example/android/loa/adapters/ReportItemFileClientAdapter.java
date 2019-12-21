@@ -1,6 +1,7 @@
 package com.example.android.loa.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +91,13 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
         holder.name.setText(current.name);
         holder.value.setText(String.valueOf(current.value));
 
+        if(current.payment_method.equals("efectivo")){
+            holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
+
+        }else{
+            holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
+            holder.value.setTypeface(Typeface.DEFAULT_BOLD);
+        }
 
 
 

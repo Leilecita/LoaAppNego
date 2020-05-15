@@ -3,7 +3,6 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
@@ -22,15 +21,14 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
-import com.example.android.loa.activities.BoxPhotoActivity;
-import com.example.android.loa.activities.BoxPhotoPosnetActivity;
-import com.example.android.loa.activities.ExtractionsActivity;
+import com.example.android.loa.activities.photos.BoxPhotoActivity;
+import com.example.android.loa.activities.photos.BoxPhotoPosnetActivity;
+import com.example.android.loa.activities.todelete.ExtractionsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Box;
 
-import java.sql.Date;
 import java.util.List;
 
 public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
@@ -51,7 +49,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView date;
-        public TextView year;
+        public TextView number_date;
         public TextView counted_sale;
         public TextView card;
         public TextView total_amount;
@@ -69,7 +67,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
             rest_box = v.findViewById(R.id.rest_box);
             dep = v.findViewById(R.id.dep);
             date = v.findViewById(R.id.date);
-            year = v.findViewById(R.id.year);
+            number_date = v.findViewById(R.id.number_day);
             line_photo = v.findViewById(R.id.line_photos);
             photoposnet = v.findViewById(R.id.photoposnet);
             photobox = v.findViewById(R.id.photobox);
@@ -87,8 +85,8 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
     private void clearViewHolder(BoxAdapter.ViewHolder vh) {
         if (vh.date != null)
             vh.date.setText(null);
-        if (vh.year != null)
-            vh.year.setText(null);
+        if (vh.number_date != null)
+            vh.number_date.setText(null);
         if (vh.card != null)
             vh.card.setText(null);
         if (vh.counted_sale != null)
@@ -118,14 +116,14 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         if (currentBox.rest_box != currentBox.total_box - currentBox.deposit) {
             holder.rest_box.setTextColor(mContext.getResources().getColor(R.color.loa_red));
         }else{
-            holder.rest_box.setTextColor(mContext.getResources().getColor(R.color.word));
+            holder.rest_box.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryDarkLetter));
         }
 
 
         if(currentBox.total_box != currentBox.rest_box_ant + currentBox.counted_sale){
             holder.total_amount.setTextColor(mContext.getResources().getColor(R.color.loa_red));
         }else{
-            holder.total_amount.setTextColor(mContext.getResources().getColor(R.color.word));
+            holder.total_amount.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryDarkLetter));
         }
 
         holder.dep.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +137,8 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         });
         final String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentBox.created));
 
-        holder.date.setText(DateHelper.get().onlyDayMonth(dateToShow));
-        //holder.year.setText(DateHelper.get().getOnlyYear(dateToShow));
+        holder.date.setText(DateHelper.get().getNameMonth(currentBox.created).substring(0,3));
+        holder.number_date.setText(DateHelper.get().numberDay(currentBox.created));
 
         holder.date.setOnClickListener(new View.OnClickListener() {
             @Override

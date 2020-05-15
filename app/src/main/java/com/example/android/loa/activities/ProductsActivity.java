@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import com.example.android.loa.network.GenericCallback;
 
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerItem;
@@ -75,17 +77,17 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private boolean hasMoreItems;
     private Integer checkSpinner;
 
-    private LinearLayout man;
-    private LinearLayout woman;
-    private LinearLayout boy;
-    private LinearLayout accesories;
-    private LinearLayout tecnico;
-    private LinearLayout zapas;
-    private LinearLayout luz;
-    private LinearLayout oferta;
-    private LinearLayout all;
+    private ImageView man;
+    private ImageView woman;
+    private ImageView boy;
+    private ImageView accesories;
+    private ImageView tecnico;
+    private ImageView zapas;
+    private ImageView luz;
+    private ImageView oferta;
+    private ImageView all;
 
-    private TextView textMan;
+ /*   private TextView textMan;
     private TextView textWoman;
     private TextView textBoy;
     private TextView textTec;
@@ -94,6 +96,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private TextView textLuz;
     private TextView textOferta;
     private TextView textAll;
+    */
 
     private RecyclerView mGridRecyclerView;
     private RecyclerView mGridRecyclerViewType;
@@ -124,6 +127,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private TextView mEmptyRecyclerView;
 
     private Boolean mViewModel;
+
 
     public void OnChangeViewStock(){
         loadSumAllStockByProduct();
@@ -191,6 +195,20 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         loadSumAllStockByProduct();
         clearView();
+    }
+
+    private void getClients(){
+        ApiClient.get().getClients(new GenericCallback<List<ReportSimpelClient>>() {
+            @Override
+            public void onSuccess(List<ReportSimpelClient> data) {
+                mAdapter.setClients(data);
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
     }
 
     private void loadSumAllStockByProduct(){
@@ -275,7 +293,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                         ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
                             @Override
                             public void onSuccess(Spinners data) {
-                                SpinnerData sp1=new SpinnerData("Nuevo");
+                                SpinnerData sp1=new SpinnerData("Nuevo","#64B5F6");
                                 data.brands.add(sp1);
                                 mGridAdapter.pushList(data.brands);
                             }
@@ -301,7 +319,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                         ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
                             @Override
                             public void onSuccess(Spinners data) {
-                                SpinnerType sp1=new SpinnerType("Nuevo");
+                                SpinnerType sp1=new SpinnerType("Nuevo","#64B5F6");
                                 data.types.add(sp1);
                                 mTypeGridAdapter.pushList(data.types);
                             }
@@ -357,6 +375,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         loadSumAllStockByProduct();
 
+        getClients();
+
         implementsPaginate();
     }
 
@@ -382,7 +402,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         viewModel();
 
-        woman.setBackgroundResource(R.drawable.circle_unselected);
+     /*   woman.setBackgroundResource(R.drawable.circle_unselected);
         boy.setBackgroundResource(R.drawable.circle_unselected);
         man.setBackgroundResource(R.drawable.circle_unselected);
         tecnico.setBackgroundResource(R.drawable.circle_unselected);
@@ -392,7 +412,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         oferta.setBackgroundResource(R.drawable.circle_unselected);
         all.setBackgroundResource(R.drawable.circle_unselected);
 
-        textZap.setTextColor(getResources().getColor(R.color.word_clear));
+        */
+
+     /*   textZap.setTextColor(getResources().getColor(R.color.word_clear));
         textTec.setTextColor(getResources().getColor(R.color.word_clear));
         textMan.setTextColor(getResources().getColor(R.color.word_clear));
         textWoman.setTextColor(getResources().getColor(R.color.word_clear));
@@ -411,7 +433,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
         textAll.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-
+*/
         listProdListener();
 
         mGridAdapter.clear();
@@ -435,7 +457,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         luz=findViewById(R.id.luz);
         oferta=findViewById(R.id.oferta);
         all=findViewById(R.id.all);
-
+/*
         textAcc=findViewById(R.id.textAcc);
         textMan=findViewById(R.id.textMan);
         textWoman=findViewById(R.id.textWoman);
@@ -445,6 +467,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         textLuz=findViewById(R.id.textLuz);
         textOferta=findViewById(R.id.textOferta);
         textAll=findViewById(R.id.textAll);
+        */
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -452,9 +475,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Todos";
                 mViewModel=false;
                 changeCircleSelected();
-                all.setBackgroundResource(R.drawable.circle);
-                textAll.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textAll.setTextColor(getResources().getColor(R.color.word));
+                //all.setBackgroundResource(R.drawable.circle);
+              //  textAll.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+               // textAll.setTextColor(getResources().getColor(R.color.word));
             }
         });
 
@@ -464,9 +487,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Dama";
                 mViewModel=false;
                 changeCircleSelected();
-                woman.setBackgroundResource(R.drawable.circle);
-                textWoman.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textWoman.setTextColor(getResources().getColor(R.color.word));
+                //woman.setBackgroundResource(R.drawable.circle);
+               // textWoman.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+               // textWoman.setTextColor(getResources().getColor(R.color.word));
             }
         });
         man.setOnClickListener(new View.OnClickListener() {
@@ -475,9 +498,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Hombre";
                 mViewModel=false;
                 changeCircleSelected();
-                man.setBackgroundResource(R.drawable.circle);
-                textMan.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textMan.setTextColor(getResources().getColor(R.color.word));
+               // man.setBackgroundResource(R.drawable.circle);
+               // textMan.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+               // textMan.setTextColor(getResources().getColor(R.color.word));
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {
@@ -486,10 +509,10 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Niño";
                 mViewModel=false;
                 changeCircleSelected();
-                boy.setBackgroundColor(getResources().getColor(R.color.trasparente));
-                boy.setBackgroundResource(R.drawable.circle);
-                textBoy.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textBoy.setTextColor(getResources().getColor(R.color.word));
+               // boy.setBackgroundColor(getResources().getColor(R.color.trasparente));
+                //boy.setBackgroundResource(R.drawable.circle);
+               // textBoy.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+               // textBoy.setTextColor(getResources().getColor(R.color.word));
             }
         });
         accesories.setOnClickListener(new View.OnClickListener() {
@@ -499,8 +522,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 accesories.setBackgroundResource(R.drawable.circle);
-                textAcc.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textAcc.setTextColor(getResources().getColor(R.color.word));
+              //  textAcc.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+              //  textAcc.setTextColor(getResources().getColor(R.color.word));
             }
         });
         tecnico.setOnClickListener(new View.OnClickListener() {
@@ -509,9 +532,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Tecnico";
                 mViewModel=true;
                 changeCircleSelected();
-                tecnico.setBackgroundResource(R.drawable.circle);
-                textTec.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textTec.setTextColor(getResources().getColor(R.color.word));
+               // tecnico.setBackgroundResource(R.drawable.circle);
+              //  textTec.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+              //  textTec.setTextColor(getResources().getColor(R.color.word));
             }
         });
 
@@ -521,9 +544,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Calzado";
                 mViewModel=true;
                 changeCircleSelected();
-                zapas.setBackgroundResource(R.drawable.circle);
-                textZap.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textZap.setTextColor(getResources().getColor(R.color.word));
+               // zapas.setBackgroundResource(R.drawable.circle);
+               // textZap.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+               // textZap.setTextColor(getResources().getColor(R.color.word));
                 // tecnico.setBackgroundResource(R.drawable.circle_selected);
             }
         });
@@ -534,9 +557,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Luz";
                 mViewModel=false;
                 changeCircleSelected();
-                luz.setBackgroundResource(R.drawable.circle);
-                textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textLuz.setTextColor(getResources().getColor(R.color.word));
+              //  luz.setBackgroundResource(R.drawable.circle);
+              //  textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+              //  textLuz.setTextColor(getResources().getColor(R.color.word));
             }
         });
 
@@ -546,9 +569,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Oferta";
                 mViewModel=false;
                 changeCircleSelected();
-                oferta.setBackgroundResource(R.drawable.circle);
-                textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                textOferta.setTextColor(getResources().getColor(R.color.word));
+               // oferta.setBackgroundResource(R.drawable.circle);
+               // textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+             //   textOferta.setTextColor(getResources().getColor(R.color.word));
             }
         });
     }

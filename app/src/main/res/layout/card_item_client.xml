@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_margin="6dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    android:layout_marginRight="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
-    card_view:cardMaxElevation="4dp"
-    card_view:cardElevation="2dp"
+
     card_view:contentPadding="2dp"
     >
 
@@ -25,21 +27,33 @@
             android:orientation="horizontal"
             android:padding="2dp">
 
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/photo_user"
+            <LinearLayout
                 android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#FFFFFF"/>
+                android:id="@+id/photo_user"
+                android:background="@drawable/bblanco"
+                android:backgroundTint="@color/accesorio"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:text="L"
+                    android:id="@+id/firstLetter"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="19sp" />
+
+
+            </LinearLayout>
 
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#252525"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
                 android:textSize="19sp" />
@@ -83,7 +97,7 @@
 
    <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/photo_user"
+                android:id="@+id/photo_user2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:civ_border_width="2dp"

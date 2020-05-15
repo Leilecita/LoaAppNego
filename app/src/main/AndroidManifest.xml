@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-
     <uses-feature android:name="android.hardware.camera"
         android:required="true"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -57,11 +55,11 @@
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.PhotoEdithActivity"
+            android:name=".activities.photos.PhotoEdithActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.PhotoPosnetEditActivity"
+            android:name=".activities.photos.PhotoPosnetEditActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
@@ -73,11 +71,11 @@
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.ExtractionsActivity"
+            android:name=".activities.todelete.ExtractionsActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.BoxActivity"
+            android:name=".activities.todelete.BoxActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
@@ -98,11 +96,11 @@
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.BoxPhotoActivity"
+            android:name=".activities.photos.BoxPhotoActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.BoxPhotoPosnetActivity"
+            android:name=".activities.photos.BoxPhotoPosnetActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
@@ -131,11 +129,23 @@
             />
 
         <activity
-            android:name=".activities.SaleMovementsActivity"
+            android:name=".activities.todelete.SaleMovementsActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
             android:name=".activities.BoxByMonthActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.EmployeesActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.ClientsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.BoxMovementsActivity"
             android:parentActivityName=".activities.MainActivity"
             />
     </application>

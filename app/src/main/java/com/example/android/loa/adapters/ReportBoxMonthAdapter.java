@@ -86,6 +86,7 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ReportBoxMonthAdapter.ViewHolder holder, final int position){

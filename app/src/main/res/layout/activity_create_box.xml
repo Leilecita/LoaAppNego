@@ -2,12 +2,27 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="18sp"
+        android:id="@+id/te"
+        android:text="Cierre diario de caja"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:fontFamily="@font/opensansregular"
+        android:textColor="@color/colorPrimaryDarkLetter"
+        android:background="@color/background_violet"
+        android:layout_height="@dimen/description_top_bar" />
 
     <ScrollView
 
         android:layout_width="match_parent"
+        android:layout_below="@id/te"
         android:layout_height="wrap_content">
+
 
 
     <LinearLayout
@@ -23,32 +38,77 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="2dp"
+            android:layout_marginRight="8dp"
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rec_find"
+                android:layout_weight="1"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 >
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:id="@+id/date_picker"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/date_w"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.6"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="40dp"
+                        android:id="@+id/date_picker"
+                        android:background="@drawable/bblanco"
+                        android:backgroundTint="@color/background_violet"
+                        android:gravity ="center"
+                        android:layout_height="40dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="MAY"
+                            android:paddingTop="3dp"
+                            android:id="@+id/month"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:textAllCaps="true"
+                            android:textSize="13sp"
+                            android:gravity="center_horizontal"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/day"
+                            android:text="12"
+                            android:paddingTop="13sp"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:textSize="17sp"
+                            android:gravity="center_horizontal"
+                            android:fontFamily="sans-serif"
+                            android:layout_gravity="center"
+
+                            />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_height="33dp"
+                    android:gravity="center_vertical"
+                    android:paddingRight="8dp"
                     android:paddingLeft="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:textColor="@color/word"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="10/10/2020"
+                    android:textColor="@color/colorPrimaryClear"
+                    android:background="@drawable/rec_find"
+                    android:textSize="19sp"
                     android:inputType="textCapWords" />
 
             </LinearLayout>
@@ -160,71 +220,40 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="8dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_height="33dp"
                 android:layout_weight="1"
                 android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:text="Venta tarjeta"
-                android:textColor="@color/word"
-                android:textSize="18sp"
-                />
-
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:id="@+id/credit_card"
-                android:layout_marginRight="8dp"
-                android:layout_width="match_parent"
-                android:text=""
-                android:textColor="@color/word"
-                android:textSize="18sp"
-                />
-
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:layout_marginRight="8dp"
+                android:gravity="center_vertical"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
                 android:text="Venta contado"
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
 
             <TextView
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:paddingLeft="8dp"
+                android:background="@drawable/rec_complette"
+                android:paddingRight="8dp"
                 android:id="@+id/counted_sale"
-                android:layout_marginRight="8dp"
+
                 android:layout_width="match_parent"
-                android:text=""
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:gravity="center_vertical|right"
+                android:text="123123"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
-
-
 
 
         </LinearLayout>
@@ -232,6 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -241,21 +271,24 @@
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
                 android:text="Resto caja ant"
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
 
             <TextView
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:paddingLeft="8dp"
+                android:background="@drawable/rec_complette"
+                android:paddingRight="8dp"
                 android:id="@+id/res_box_day_before"
-                android:layout_marginRight="8dp"
+
                 android:layout_width="match_parent"
-                android:text=""
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:gravity="center_vertical|right"
+                android:text="123123"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
 
@@ -266,6 +299,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
@@ -275,22 +309,24 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:text="Caja total"
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
             <EditText
                 android:id="@+id/total_amount"
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint=""
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:hint="100"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:gravity="center_vertical|right"
+                android:textSize="@dimen/general_text"
                 android:background="@drawable/rec_find"
                 android:inputType="textCapWords" />
         </LinearLayout>
@@ -300,6 +336,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -307,22 +344,24 @@
                 android:layout_weight="1"
                 android:layout_marginRight="8dp"
                 android:layout_width="match_parent"
+                android:gravity="center_vertical"
                 android:text="Tot extracciones"
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
 
             <TextView
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:id="@+id/tot_extract"
-                android:layout_marginRight="8dp"
+                android:background="@drawable/rec_complette"
                 android:layout_width="match_parent"
-                android:text=""
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:gravity="center_vertical|right"
+                android:text="123123"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
 
@@ -333,6 +372,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -340,29 +380,27 @@
                 android:layout_weight="1"
                 android:layout_marginRight="8dp"
                 android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:text="Resto de caja"
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 />
 
             <EditText
                 android:id="@+id/rest_box"
                 android:layout_height="33dp"
                 android:layout_weight="1"
-                android:paddingLeft="8dp"
+                android:gravity="center_vertical|right"
+                android:paddingRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint=""
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:hint="123123"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 android:background="@drawable/rec_find"
                 android:inputType="textCapWords" />
         </LinearLayout>
-
-
-
-
 
 
         <LinearLayout
@@ -386,7 +424,7 @@
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_marginRight="8dp"
                     android:paddingLeft="8dp"
-                    android:textColor="#5c5c5c"
+                    android:textColor="@color/colorPrimaryDarkLetter"
                     android:layout_height="33dp"
                     android:textSize="16sp"
                     android:background="@drawable/rec_text_edit"
@@ -400,18 +438,14 @@
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
                     android:hint="Detalle"
-                    android:textColor="#5c5c5c"
-                    android:textSize="16sp"
+                    android:textColorHint="@color/colorPrimaryClear"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    android:gravity="center_vertical"
                     android:background="@drawable/rec_find"
                     android:inputType="textCapWords" />
-
-
-
             </LinearLayout>
         </LinearLayout>
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -420,91 +454,173 @@
             android:layout_height="wrap_content">
 
 
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="15dp"
-                style="@style/Widget.Design.TextInputLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:text="Foto ventas"
-                android:textColor="@color/word"
-                android:textSize="18sp"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:id="@+id/select_photo"
-                android:layout_height="35dp"
-                android:textColor="#ffff"
-                android:layout_marginRight="4dp"
-                android:padding="4dp"
-                android:src="@drawable/camera"
-                android:backgroundTint="@color/colorDialogButton"
-                android:background="@drawable/rec_find"
-
-                />
-
-            <ImageView
-                android:id="@+id/imageview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:padding="4dp"
-                android:src="@drawable/camera"
-                android:textColor="#ffff"
-
-                />
-
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="8dp"
                 android:layout_marginTop="15dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:text="Foto cierre lote"
-                android:textColor="@color/word"
-                android:textSize="18sp"
-                />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/select_photo_posnet"
-                android:layout_height="35dp"
-                android:textColor="#ffff"
-                android:padding="4dp"
-                android:src="@drawable/camera"
-
                 android:backgroundTint="@color/colorDialogButton"
                 android:background="@drawable/rec_find"
+                android:layout_height="35dp"
+                >
 
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18sp"
+                    android:layout_gravity="center_vertical"
+                    android:text="detalle ventas"
+                    android:textColor="@color/word_clear2"
 
-            <ImageView
-                android:id="@+id/imageview_posnet"
+                    />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffff"
+                    android:layout_marginRight="4dp"
+                    android:padding="4dp"
+                    android:src="@drawable/camera"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:padding="4dp"
-                android:src="@drawable/camera"
-                android:textColor="#ffff"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
 
-                />
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:text="Venta tarjeta"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
 
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp"
+                    android:gravity="center_vertical|right"
+                    android:background="@drawable/rec_complette"
+                    android:id="@+id/credit_card"
+
+                    android:layout_width="match_parent"
+                    android:text="123"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:text="Total cierre lote"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+                <EditText
+                    android:id="@+id/tot_close_lote"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:hint=""
+                    android:textColor="#5c5c5c"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_find"
+                    android:inputType="textCapWords" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/select_photo_posnet"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/colorDialogButton"
+                android:background="@drawable/rec_find"
+                android:layout_height="35dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18sp"
+                    android:layout_gravity="center_vertical"
+                    android:text="cierre lote"
+                    android:textColor="@color/word_clear2"
+
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:textColor="#ffff"
+                    android:padding="4dp"
+                    android:src="@drawable/camera"
+
+                    android:backgroundTint="@color/colorDialogButton"
+                    android:background="@drawable/rec_find"
+
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageview"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:padding="4dp"
+                    android:src="@drawable/camera"
+                    android:textColor="#ffff"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/imageview_posnet"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:padding="4dp"
+                    android:src="@drawable/camera"
+                    android:textColor="#ffff"
+
+                    />
+
+            </LinearLayout>
         </LinearLayout>
-
-
-
-
-
-
     </LinearLayout>
-
-
 </ScrollView>
 </RelativeLayout>

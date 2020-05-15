@@ -8,9 +8,10 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.android.loa.fragments.BaseFragment;
 import com.example.android.loa.fragments.BoxFragment;
-import com.example.android.loa.fragments.ClientsFragment;
-import com.example.android.loa.fragments.EmployeesFragment;
+import com.example.android.loa.fragments.EntriesFragment;
+import com.example.android.loa.fragments.todelete.ClientsFragment;
 import com.example.android.loa.fragments.ExtractionsFragment;
+import com.example.android.loa.fragments.SalesFragment;
 
 import java.util.ArrayList;
 
@@ -23,9 +24,11 @@ public class PageAdapter extends FragmentPagerAdapter {
         super(fm);
         mContext = context;
         mFragments = new ArrayList<>();
-        mFragments.add(new ClientsFragment());
-        mFragments.add(new EmployeesFragment());
+       // mFragments.add(new ClientsFragment());
+       // mFragments.add(new EmployeesFragment());
+        mFragments.add(new SalesFragment());
         mFragments.add(new ExtractionsFragment());
+        mFragments.add(new EntriesFragment());
         mFragments.add(new BoxFragment());
 
         // mFragments.add(new PreimpresoFragment().setChangeListener(this));
@@ -55,14 +58,15 @@ public class PageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-        if(position==0){
-            return "Deudas";
-        }else if(position==1){
-            return "Team";
-        }else if(position ==2){
-            return "Extrac";
-        }else{
-            return "Cajas";
+       if(position ==0){
+           return "Ventas";
+
+        }else if(position == 1){
+           return "Extr";
+        }else if(position == 2){
+           return "Compras";
+       }else{
+           return "Cajas";
         }
     }
 }

@@ -7,11 +7,12 @@ public class Extraction {
     public String description;
     public String type;
     public Double value;
-    public String created;
+    public String created,detail;
 
-    public Extraction(String description, String type, Double value){
+    public Extraction(String description, String type, Double value,String detail){
 
         this.description=description;
+        this.detail=detail;
         this.type=type;
         this.value=value;
     }

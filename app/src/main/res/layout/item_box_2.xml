@@ -4,104 +4,135 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
     android:layout_marginLeft="4dp"
     android:orientation="vertical"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/item_height"
         android:orientation="horizontal"
         >
 
-        <LinearLayout
-            android:layout_width="55sp"
+        <RelativeLayout
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
                 android:id="@+id/date"
-                android:paddingLeft="5dp"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:text="10-11"
-                android:textSize="17sp"
+                android:textAllCaps="true"
+                android:text="MAY"
+                android:textSize="10sp"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/year"
-                android:paddingLeft="5dp"
-                android:visibility="gone"
-                android:textColor="@color/word"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:id="@+id/number_day"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
-                android:text="2019"
-                android:textSize="15sp"
+                android:text="10"
+                android:paddingTop="10dp"
+                android:textSize="13sp"
                 />
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            android:layout_height="wrap_content">
 
+            android:gravity="center"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
             <TextView
                 android:layout_width="match_parent"
                 android:id="@+id/venta_ctdo"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-
-                android:textColor="@color/word"
-                android:textSize="17sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 android:layout_height="wrap_content"
                 android:text="10/9"
                 />
 
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:id="@+id/card"
-                android:textColor="@color/word"
-                android:textSize="17sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="10019"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:gravity="center_horizontal"
-                android:textSize="17sp"
+                android:textSize="@dimen/general_text"
                 android:id="@+id/total_amount"
                 android:layout_height="wrap_content"
                 android:text="11900"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/rest_box"
-                android:textColor="@color/word"
-                android:textSize="17sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:text="111111"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:id="@+id/dep"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
-                android:textSize="17sp"
+                android:textSize="@dimen/general_text"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:text="11233"
@@ -195,11 +226,14 @@
 
 
     </LinearLayout>
-    <TextView
 
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="8dp"
+
+    <TextView
+        android:layout_height="2dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="match_parent"
         android:id="@+id/div"
-        style="@style/DivisorCategoryStyle"
+        android:background="@drawable/line"
         />
 </LinearLayout>

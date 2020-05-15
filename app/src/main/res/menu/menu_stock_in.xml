@@ -11,6 +11,11 @@
         android:title="Ingreso por error anterior"
 
         android:icon="@android:drawable/ic_menu_delete"/>
+
+    <item android:id="@+id/in_balance_stock"
+        android:title="Ingreso balance stock"
+
+        android:icon="@android:drawable/ic_menu_delete"/>
     <item
 
         android:id="@+id/in_dev"

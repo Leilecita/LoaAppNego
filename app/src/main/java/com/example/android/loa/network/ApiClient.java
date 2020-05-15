@@ -15,9 +15,13 @@ import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
+import com.example.android.loa.network.models.ReportEntrie;
+import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
+import com.example.android.loa.network.models.ReportSale;
+import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
@@ -116,6 +120,10 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getClientsByPage(page,query,order), callback);
     }
 
+    public void getClients(final GenericCallback<List<ReportSimpelClient>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getClients("getSimpleClient"), callback);
+    }
+
     public void getClientsByCreator(Integer page,String name,final GenericCallback<List<Client>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getClientsByPageByCreator(page,name), callback);
     }
@@ -172,6 +180,10 @@ public class ApiClient {
 
     public void getExtractionsByPage( Integer page,String created,final GenericCallback<List<Extraction>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getExtractionsByPage(page,created), callback);
+    }
+
+    public void getExtractions( Integer page,String type,String groupby,final GenericCallback<List<ReportExtraction>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getExtractions("getExtractions",page,type,groupby), callback);
     }
     public void getExtractionsByPageAndDate( Integer page,String created,String next,final GenericCallback<List<Extraction>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getExtractionsByPageAndDate(page,created,next), callback);
@@ -349,6 +361,14 @@ public class ApiClient {
 
     public void getReportStockevents( Integer page,String created,String createdTo,String item,final GenericCallback<List<ReportStockEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getReportStockEvents(page,"getStockEventsDay",created,createdTo,item), callback);
+    }
+
+    public void getReportSales( Integer page,String item,String groupby,final GenericCallback<List<ReportSale>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getSales(page,item,groupby,"getSales"), callback);
+    }
+
+    public void getReportEntrie( Integer page,String item,String groupby,final GenericCallback<List<ReportEntrie>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getEntries(page,item,groupby,"getEntries"), callback);
     }
 
     public void getAmountSalesByDay( String created,final GenericCallback<AmountResult> callback ){

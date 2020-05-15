@@ -26,7 +26,7 @@ import com.example.android.loa.R;
 import com.example.android.loa.activities.ClientsCreatedByEmployeeActivity;
 import com.example.android.loa.activities.HoursHistoryEmployeeActivity;
 import com.example.android.loa.activities.LoadEmployeeHoursActivity;
-import com.example.android.loa.activities.PhotoEdithActivity;
+import com.example.android.loa.activities.photos.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
@@ -61,11 +61,13 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView name;
         public ImageView photo;
+        public ImageView info;
 
         public ViewHolder(View v){
             super(v);
             name= v.findViewById(R.id.name);
             photo=v.findViewById(R.id.photo);
+            info=v.findViewById(R.id.info);
         }
     }
 
@@ -114,11 +116,11 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
             }
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
+        holder.info.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 createInfoDialog(currentEmployee,position);
-                return false;
             }
         });
 
@@ -256,7 +258,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HoursHistoryEmployeeActivity.start(mContext,e);
+                 HoursHistoryEmployeeActivity.start(mContext,e.id,e.name);
             }
         });
 

@@ -5,6 +5,7 @@
     android:layout_height="200dp"
     android:orientation="vertical"
     android:background="@drawable/rec_find"
+    android:backgroundTint="@color/background_bottom_shet"
 
     app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_hideable="false"
@@ -81,7 +82,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#ECBAAC"
+                        android:backgroundTint="@color/todos"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">
@@ -121,7 +122,7 @@
                         android:background="@drawable/circle_unselected"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:backgroundTint="#ec7397"
+                        android:backgroundTint="@color/hombre"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">
@@ -160,7 +161,7 @@
                         android:id="@+id/woman"
                         android:layout_gravity="center"
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#73ecc8"
+                        android:backgroundTint="@color/dama"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">
@@ -207,7 +208,7 @@
                         android:gravity="center"
 
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#73d4ec"
+                        android:backgroundTint="@color/niño"
                         android:orientation="horizontal"
                         >
 
@@ -256,7 +257,7 @@
                         android:id="@+id/tecnico"
 
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#ec8c73"
+                        android:backgroundTint="@color/tecnico"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">
@@ -303,7 +304,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#ecc873"
+                        android:backgroundTint="@color/accesorio"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">
@@ -351,7 +352,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#c873ec"
+                        android:backgroundTint="@color/calzado"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
@@ -395,7 +396,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#70C575"
+                        android:backgroundTint="@color/luz"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">
@@ -439,7 +440,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:background="@drawable/circle_unselected"
-                        android:backgroundTint="#20B8CC"
+                        android:backgroundTint="@color/oferta"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp">

@@ -28,6 +28,7 @@ import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
 
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -87,6 +88,11 @@ public class IncomesAdapter  extends BaseAdapter<Income,IncomesAdapter.ViewHolde
          public CheckBox retire_product;
          public CheckBox not_retire;
 
+        public TextView name_edith;
+        public TextView address_edith;
+        public TextView product_value_edith;
+        public TextView phone_edith;
+
         public ViewHolder(View v) {
             super(v);
             description = v.findViewById(R.id.description);
@@ -102,6 +108,11 @@ public class IncomesAdapter  extends BaseAdapter<Income,IncomesAdapter.ViewHolde
             date_edit= v.findViewById(R.id.date_edit);
             done= v.findViewById(R.id.done);
             close= v.findViewById(R.id.close);
+
+            name_edith= v.findViewById(R.id.edith_name);
+            address_edith= v.findViewById(R.id.edith_address);
+            product_value_edith= v.findViewById(R.id.edith_value_product);
+            phone_edith= v.findViewById(R.id.edith_phone);
 
             select_payment_method= v.findViewById(R.id.select_payment_method);
             check_ef= v.findViewById(R.id.check_ef);
@@ -138,8 +149,13 @@ public class IncomesAdapter  extends BaseAdapter<Income,IncomesAdapter.ViewHolde
 
         final Income income = getItem(position);
 
-        holder.value.setText(String.valueOf(income.value));
-        holder.description.setText(income.description);
+        holder.phone_edith.setText(income.phone);
+        holder.name_edith.setText(income.name);
+        holder.address_edith.setText(income.address);
+        holder.product_value_edith.setText(String.valueOf(income.value_product));
+
+        holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(income.value));
+        holder.description.setText(income.name);
 
         if(income.payment_method.equals("efectivo")){
             holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
@@ -224,7 +240,8 @@ public class IncomesAdapter  extends BaseAdapter<Income,IncomesAdapter.ViewHolde
                     }
 
 
-                    Income in= new Income(holder.detail.getText().toString().trim(),"",Double.valueOf(val),getPaymentMethod(holder),retired_product);
+                    Income in= new Income(holder.detail.getText().toString().trim(),"",Double.valueOf(val),getPaymentMethod(holder),retired_product,
+                            "","","",null);
                     in.id=income.id;
                     in.created=item_date;
 

@@ -33,6 +33,10 @@ public class DateHelper {
         return actualDate();
     }
 
+    public String getActualDate2() {
+        return actualDate2();
+    }
+
     public String getOnlyDate(String date) {
         return onlyDate(date);
     }
@@ -151,6 +155,16 @@ public class DateHelper {
         return formatter.format(currentDate);
     }
 
+
+
+    private String actualDate2() {
+        Calendar cal = Calendar.getInstance();
+        Date currentDate = cal.getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        formatter.setTimeZone(TimeZone.getDefault());
+        return formatter.format(currentDate);
+    }
+
     public String actualDateExtractions() {
         Calendar cal = Calendar.getInstance();
         Date currentDate = cal.getTime();
@@ -262,7 +276,7 @@ public class DateHelper {
         }
     }
 
-    private String onlyDate(String date) {
+    public String onlyDate(String date) {
         String[] parts = date.split(" ");
         String part1 = parts[0]; // fecha
         return part1;
@@ -280,6 +294,17 @@ public class DateHelper {
         String part2 = parts[1]; // mes
         String part = parts[2]; // año
         return part1 + "-" + part2;
+    }
+
+    public String getDayMonth(String date) {
+        String[] onlydate=date.split(" ");
+
+        String[] parts = onlydate[0].split("-");
+
+        String part1 = parts[0]; // año
+        String part2 = parts[1]; // mes
+        String part = parts[2]; // dia
+        return part + "-" + part2;
     }
 
     public String getOnlymonth(String date) {
@@ -314,7 +339,22 @@ public class DateHelper {
         return part1;
     }
 
+    public String numberDay(String date2) {
 
+        String date= onlyDate(date2);
+        String[] parts = date.split("-");
+        String part1 = parts[0]; // año
+        String part2 = parts[1]; // mes
+        String part3 = parts[2]; // dia
+
+        if (Integer.valueOf(part3) < 10) {
+
+            return part3.substring(1);
+        } else {
+            return part3;
+        }
+
+    }
     private String onlyTime(String date) {
         String[] parts = date.split(" ");
         if (parts.length > 1) {
@@ -339,13 +379,79 @@ public class DateHelper {
             Calendar cal = Calendar.getInstance();
             cal.setTime(d);
             String monthName = new SimpleDateFormat("MM").format(cal.getTime());
+            String[] monthNames = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre","Enero"};
+            System.out.println(Integer.valueOf(monthName));
+            System.out.println(monthName);
+            System.out.println(monthNames[Integer.valueOf(monthName)]);
 
-            String[] monthNames = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+
             return monthNames[Integer.valueOf(monthName)];
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return "";
     }
+
+
+    public String getNameMonth2(String date) {
+        try {
+            Date d = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            String monthName = new SimpleDateFormat("MM").format(cal.getTime());
+            String[] monthNames = {"","Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+            System.out.println(Integer.valueOf(monthName));
+            System.out.println(monthName);
+            System.out.println(monthNames[Integer.valueOf(monthName)]);
+
+
+            return monthNames[Integer.valueOf(monthName)];
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getNameDay(String input_date){
+        try {
+
+            SimpleDateFormat format1=new SimpleDateFormat("yyyy-MM-dd");
+            Date dt1=format1.parse(input_date);
+
+            DateFormat format2=new SimpleDateFormat("EEE");
+            String finalDay=format2.format(dt1);
+
+           // System.out.println(finalDay.substring(0,3));
+            return getNamSpanish(finalDay.substring(0,3));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+
+    }
+
+    public String getNamSpanish(String dayEnglish) {
+
+        if(dayEnglish.equals("Sun")|| dayEnglish.equals("dom")){
+            return "Dom";
+        }else if(dayEnglish.equals("Mon") || dayEnglish.equals("lun")){
+            return "Lun";
+        }else if(dayEnglish.equals("Tue")|| dayEnglish.equals("mar")){
+            return "Mar";
+        }else if(dayEnglish.equals("Wed")|| dayEnglish.equals("mié")){
+            return "Mie";
+        }else if(dayEnglish.equals("Thu")|| dayEnglish.equals("jue")){
+            return "Jue";
+        }else if(dayEnglish.equals("Fri")|| dayEnglish.equals("vie")){
+            return "Vie";
+        }else if(dayEnglish.equals("Sat")|| dayEnglish.equals("sáb")){
+            return "Sab";
+        }else {
+            return "juernes";
+        }
+
+    }
+
+
 
 }

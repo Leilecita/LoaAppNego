@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/description_top_bar"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp"
+    android:textColor="@color/word"
+    android:background="@color/background_violet">
+
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/bblanco"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:textSize="10sp"
+                android:text="Mar"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:layout_height="match_parent"
+                android:id="@+id/text0"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:paddingTop="9dp"
+                android:textStyle="bold"
+                android:text="12"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:layout_height="match_parent"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="right|center_vertical"
+            android:text="total  "
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:layout_width="250dp"
+            android:id="@+id/total_extr"
+            android:text=""
+            android:layout_gravity="right|center_vertical"
+
+            android:background="@drawable/rec_header_extr"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:paddingRight="12dp"
+            android:gravity="right"
+            android:layout_height="24dp"
+            />
+</LinearLayout>

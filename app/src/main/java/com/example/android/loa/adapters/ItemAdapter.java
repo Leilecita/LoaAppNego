@@ -1,6 +1,7 @@
 package com.example.android.loa.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
@@ -19,12 +20,15 @@ import com.example.android.loa.R;
 
 import com.example.android.loa.network.models.SpinnerData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>  {
     private Context mContext;
 
     private OnSelectedItem onSelectedItem= null;
+
+    private ArrayList<String> mColorsBrand;
 
     public void setOnSelectedItem(OnSelectedItem lister){
         onSelectedItem=lister;
@@ -33,6 +37,8 @@ public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>
     public ItemAdapter(Context context, List<SpinnerData> events){
         setItems(events);
         mContext = context;
+
+        mColorsBrand=new ArrayList<>();
     }
 
     public ItemAdapter(){
@@ -69,20 +75,23 @@ public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>
 
     }
 
-    private Drawable getDrawableFirstLetter(SpinnerData c){
+    private Drawable getDrawableFirstLetter(SpinnerData c,int colorSave){
 
         //get first letter of each String item
         String firstLetter = String.valueOf(c.brand.charAt(0));
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         // generate random color
         int color = generator.getColor(c);
+
+       // System.out.println(String.format("#%06X", (0xFFFFFF & color)));
+
         //int color = generator.getRandomColor();
         TextDrawable drawable = TextDrawable.builder()
                 .beginConfig()
                 .width(100)
                 .height(100)
                 .endConfig()
-                .buildRound(firstLetter, color);
+                .buildRound(firstLetter, colorSave);
         return drawable;
     }
     private Drawable getDrawableFirstLetterClose(String c,int color){
@@ -123,11 +132,9 @@ public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>
             });
 
         }else{
-            holder.circle.setImageDrawable(getDrawableFirstLetter(current));
+           // holder.circle.setImageDrawable(getDrawableFirstLetter(current, Color.parseColor(mColorsBrand.get(position))));
+            holder.circle.setImageDrawable(getDrawableFirstLetter(current, Color.parseColor(current.color)));
         }
-
-
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +144,36 @@ public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>
                 }
             }
         });
+    }
+
+    private void loadColors(){
+
+        mColorsBrand.add("#E57373");
+        mColorsBrand.add("#4DD0E1");
+        mColorsBrand.add("#64B5F6");
+
+        mColorsBrand.add("#D4E157");
+        mColorsBrand.add("#FFB74D");
+        mColorsBrand.add("#FF8A65");
+        mColorsBrand.add("#9575CD");
+
+        mColorsBrand.add("#F06292");
+        mColorsBrand.add("#90A4AE");
+        mColorsBrand.add("#9575CD");
+        mColorsBrand.add("#FFD54F");
+        mColorsBrand.add("#4DB6AC");
+
+        mColorsBrand.add("#9575CD");
+        mColorsBrand.add("#64B5F6");
+        mColorsBrand.add("#90A4AE");
+        mColorsBrand.add("#81C784");
+        mColorsBrand.add("#FF8A65");
+
+        mColorsBrand.add("#4FC3F7");
+        mColorsBrand.add("#BA68C8");
+        mColorsBrand.add("#4DD0E1");
+        mColorsBrand.add("#7986CB");
+
     }
 
 

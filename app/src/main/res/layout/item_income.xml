@@ -9,15 +9,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-
         android:orientation="horizontal"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/image"
+            android:layout_gravity="center"
+            android:src="@drawable/bsecl"
+            android:gravity="center"
+            />
+
+
         <TextView
             android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:textColor="@color/word"
-            android:textSize="18sp"
+            android:layout_weight="1.1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
             android:layout_height="wrap_content"
             android:text="Seña"
             />
@@ -26,8 +37,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:textColor="@color/word"
-            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
             android:paddingLeft="10dp"
             android:layout_height="wrap_content"
             android:id="@+id/description"
@@ -40,8 +52,9 @@
             android:layout_width="70dp"
             android:id="@+id/value"
             android:gravity="right"
-            android:textSize="18sp"
-            android:textColor="@color/ef"
+            android:textSize="@dimen/general_text"
+            android:textColor="@color/loa_green"
+            android:layout_gravity="center_vertical"
             android:paddingRight="5dp"
             android:layout_height="wrap_content"
             android:text="9000"
@@ -74,6 +87,70 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ producto "
+                    />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:id="@+id/edith_value_product"
+                    android:textColor="@color/word_clear"
+                    android:textSize="17sp"
+                    android:background="@drawable/rec_find"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:id="@+id/edith_name"
+                    android:textColor="@color/word_clear"
+                    android:textSize="17sp"
+                    android:background="@drawable/rec_find"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:id="@+id/edith_phone"
+                    android:textColor="@color/word_clear"
+                    android:textSize="17sp"
+                    android:background="@drawable/rec_find"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:id="@+id/edith_address"
+                    android:textColor="@color/word_clear"
+                    android:textSize="17sp"
+                    android:background="@drawable/rec_find"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -320,7 +397,9 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
         android:id="@+id/div"
+        android:visibility="gone"
         style="@style/DivisorCategoryStyle"
+        android:background="@color/colorPrimaryDark"
         />
 
 </LinearLayout>

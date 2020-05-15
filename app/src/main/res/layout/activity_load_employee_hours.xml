@@ -1,32 +1,29 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_mistake"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
-    card_view:contentPadding="6dp"
-    >
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:background="@color/background"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="Fede"
-            android:id="@+id/name_employee"
-            android:textSize="18sp"
-            android:textColor="@color/title_dialog_info"
-            android:gravity="center"
-            android:textStyle="bold"
-            />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/description_top_bar"
+        android:background="@color/background_violet"
+        android:text="Fran"
+        android:id="@+id/name_employee"
+        android:textSize="18sp"
+        android:paddingLeft="16dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimaryDarkLetter"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,181 +34,248 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="8dp"
+                android:layout_weight="1"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.6"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="45dp"
+                        android:id="@+id/date_picker"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bblanco"
+                        android:backgroundTint="@color/background_violet"
+                        android:gravity ="center"
+                        android:paddingTop="4dp"
+                        android:layout_height="45dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="MAY"
+                            android:paddingTop="2dp"
+
+                            android:id="@+id/month"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:gravity="center_horizontal"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/day"
+                            android:text="12"
+                            android:paddingTop="13sp"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:textSize="19sp"
+                            android:gravity="center_horizontal"
+                            android:fontFamily="sans-serif"
+                            android:layout_gravity="center"
+
+                            />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+
                 <TextView
                     android:id="@+id/date"
-                    android:layout_height="33dp"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:paddingLeft="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:textColor="#5c5c5c"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@drawable/rec_text_edit"
+                    android:text="10/10/2020"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:background="@drawable/rec_find"
+                    android:textSize="17sp"
                     android:inputType="textCapWords" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_weight="5"
-                    android:id="@+id/date_picker"
-                    android:layout_height="33dp"
-                    android:src="@drawable/date"
-                    />
 
             </LinearLayout>
 
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:textColor="@color/word"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Turno mañana"
                 />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_weight="2"
-                android:layout_height="20sp"
-                android:id="@+id/edit_morning"
-                android:layout_gravity="center_vertical"
-
-                android:src="@drawable/edituser"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="12dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:text="Entrada "
-                android:layout_gravity="center_vertical"
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
 
-            <TextView
-                android:id="@+id/entry"
-                android:layout_height="33dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:layout_weight="1"
                 android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Salida    "
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
-
-            <TextView
-                android:id="@+id/finish"
-                android:layout_height="33dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+                android:paddingLeft="4dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="35dp"
+                    android:gravity="center_vertical"
+                   android:layout_gravity="center_vertical"
+                    android:layout_height="30dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/monthinmorning"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:gravity="center_horizontal"
+                        android:text="may"
+                        android:textSize="11sp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dayinmorning"
+                        android:textAllCaps="true"
+                        android:text="12"
+                        android:gravity="center_horizontal"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:paddingTop="10sp"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/entry"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/opensanslight"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:hint="hs entrada"
+                    android:textColorHint="@color/clearhintletter"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:layout_weight="1"
                 android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-        </LinearLayout>
+                android:gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="4dp"
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="35dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="30dp">
 
-            <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Cant horas "
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/monthoutmorning"
+                        android:textAllCaps="true"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:text="may"
+                        android:textSize="11sp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dayoutmorning"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textAllCaps="true"
+                        android:text="12"
+                        android:gravity="center_horizontal"
+                        android:textSize="14sp"
+                        android:paddingTop="10sp"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/finish"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="9dp"
+                    android:layout_marginRight="10dp"
+                    android:hint="hs salida"
+                    android:textColorHint="@color/clearhintletter"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:fontFamily="@font/opensanslight"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+
+
+            </LinearLayout>
+
+
+
 
             <TextView
                 android:id="@+id/time_worked"
-                android:layout_height="33dp"
+                android:layout_height="35dp"
                 android:paddingLeft="8dp"
-                android:gravity="center_vertical"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="70sp"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
+                android:gravity="center"
 
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="90sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
+
+                android:fontFamily="@font/opensanslight"
+                android:background="@drawable/rec_find"
+                android:backgroundTint="@color/total_hours_background"
+                android:inputType="textCapWords" />
 
         </LinearLayout>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Observación "
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
-
-
-            <TextView
-                android:id="@+id/observation"
-                android:layout_weight="1"
-                android:layout_height="33dp"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center_vertical"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content">
 
 
@@ -219,148 +283,270 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textStyle="bold"
                 android:text="Turno tarde"
                 />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_weight="2"
-                android:layout_height="20sp"
-                android:id="@+id/edit_afternoon"
-                android:layout_gravity="center_vertical"
 
-                android:src="@drawable/edituser"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="12dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:text="Entrada "
-                android:layout_gravity="center_vertical"
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
 
-            <TextView
-                android:id="@+id/entryT"
-                android:layout_height="33dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:layout_weight="1"
                 android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Salida    "
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
-
-            <TextView
-                android:id="@+id/finishT"
-                android:layout_height="33dp"
-                android:paddingLeft="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="4dp"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="35dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="30dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/monthaftin"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textAllCaps="true"
+                        android:gravity="center_horizontal"
+                        android:text="may"
+                        android:textSize="11sp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dayaftin"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:text="12"
+                        android:gravity="center_horizontal"
+                        android:textSize="14sp"
+                        android:paddingTop="10sp"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/entryT"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:hint="hs entrada"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColorHint="@color/clearhintletter"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:layout_weight="1"
                 android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-        </LinearLayout>
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="30dp"
+                    android:background="@drawable/bblanco"
+                    android:id="@+id/datecurrent"
+                    android:backgroundTint="@color/background_violet"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="30dp">
 
-            <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Cant horas "
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/monthaftout"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textAllCaps="true"
+                        android:gravity="center_horizontal"
+                        android:text="may"
+                        android:textSize="11sp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dayaftout"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:text="12"
+                        android:gravity="center_horizontal"
+                        android:textSize="14sp"
+                        android:paddingTop="10sp"
+                        />
+                </RelativeLayout>
+                <TextView
+                    android:id="@+id/finishT"
+                    android:layout_height="35dp"
+                    android:paddingLeft="8dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:hint="hs salida"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/clearhintletter"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/time_workedT"
-                android:gravity="center_vertical"
-                android:layout_height="33dp"
+                android:gravity="center"
+                android:layout_height="35dp"
                 android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
+
                 style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="70sp"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
+                android:layout_width="90sp"
+                android:backgroundTint="@color/total_hours_background"
+                android:fontFamily="@font/opensanslight"
+
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
                 android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/observationT"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:layout_marginRight="10dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:fontFamily="@font/opensanslight"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textColorHint="@color/clearhintletter"
+                android:textSize="@dimen/general_text"
+                android:hint="Observaciones"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+            <TextView
+                android:id="@+id/time_workedTotal"
+                android:gravity="center"
+                android:layout_height="35dp"
+                android:paddingLeft="8dp"
+
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="90sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:backgroundTint="@color/total_hours_background"
+
+                android:textSize="@dimen/general_text"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/cancel"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:backgroundTint="@color/colorDialogButton"
+            android:background="@drawable/rec_find"
+            android:layout_height="35dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="CANCELAR"
+                android:textColor="#fff"
+
+                />
 
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:id="@+id/save"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="8dp"
+            android:backgroundTint="@color/colorDialogButton"
+            android:background="@drawable/rec_find"
+            android:layout_height="35dp"
+            >
 
             <TextView
-                android:layout_width="95sp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Observación "
-                android:textSize="16sp"
-                android:textColor="@color/word"
-                />
-
-            <TextView
-                android:id="@+id/observationT"
-                android:layout_height="33dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
-
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="GUARDAR"
+                android:textColor="#fff"
+                />
 
         </LinearLayout>
 
-
-
-
-
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>
+
 
 
 

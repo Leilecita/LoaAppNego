@@ -14,9 +14,13 @@ import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
+import com.example.android.loa.network.models.ReportEntrie;
+import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
+import com.example.android.loa.network.models.ReportSale;
+import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
@@ -103,6 +107,10 @@ public interface APIService {
     Observable<Response<List<Client>>> getClientsByPage(@Query("page") Integer page, @Query("query") String query,@Query("order") String order );
 
     @GET("clients.php")
+    Observable<Response<List<ReportSimpelClient>>> getClients(@Query("method") String method);
+
+
+    @GET("clients.php")
     Observable<Response<List<Client>>> getClientsByPageByCreator(@Query("page") Integer page,@Query("employee_creator_id") String name );
 
     @POST("clients.php")
@@ -150,6 +158,9 @@ public interface APIService {
 
     @GET("extractions.php")
     Observable<Response<List<Extraction>>> getExtractionsByPage(@Query("page") Integer page,@Query("since") String created);
+
+    @GET("extractions.php")
+    Observable<Response<List<ReportExtraction>>> getExtractions(@Query("method") String method,@Query("page") Integer page,@Query("type") String type ,@Query("groupby") String groupby );
 
     @GET("extractions.php")
     Observable<Response<List<Extraction>>> getExtractionsByPageAndDate(@Query("page") Integer page,@Query("since") String created,@Query("to") String next );
@@ -324,4 +335,11 @@ public interface APIService {
     Observable<Response<User>> register(@Body User u,@Query("key_access") String key,@Query("method") String method);
 
 
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportSale>>> getSales(@Query("page") Integer page,@Query("item") String item,@Query("groupby") String groupby, @Query("method") String method);
+
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportEntrie>>> getEntries(@Query("page") Integer page, @Query("item") String item, @Query("groupby") String groupby, @Query("method") String method);
 }

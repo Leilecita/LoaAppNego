@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +60,7 @@ public class CreateBoxActivity extends BaseActivity {
 
     private String mSelectDate;
     private String mRestBoxDayBefore;
-    private ImageView date_picker;
+    private RelativeLayout date_picker;
     private ImageView mImageView;
     private ImageView mImageViewPosnet;
 
@@ -81,6 +83,9 @@ public class CreateBoxActivity extends BaseActivity {
     private Double mCountedSale=0.0;
     private Double mCreditCard=0.0;
 
+    private TextView day;
+    private TextView month;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_create_box;
@@ -93,6 +98,9 @@ public class CreateBoxActivity extends BaseActivity {
         showBackArrow();
 
         setTitle(" Caja del día ");
+
+        day=findViewById(R.id.day);
+        month=findViewById(R.id.month);
 
         rest_box_day_before=findViewById(R.id.res_box_day_before);
         tot_extractions = findViewById(R.id.tot_extract);
@@ -107,6 +115,8 @@ public class CreateBoxActivity extends BaseActivity {
 
         mSelectDate=getExpandedDate();
         date.setText(DateHelper.get().getOnlyDate(mSelectDate));
+        day.setText(DateHelper.get().numberDay(mSelectDate));
+        month.setText(DateHelper.get().getNameMonth(mSelectDate).substring(0,3));
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +167,7 @@ public class CreateBoxActivity extends BaseActivity {
             }
         });
 
-        ImageView takePhoto= findViewById(R.id.select_photo);
+        LinearLayout takePhoto= findViewById(R.id.select_photo);
         mImageView= findViewById(R.id.imageview);
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +177,7 @@ public class CreateBoxActivity extends BaseActivity {
             }
         });
 
-        ImageView takePhotoPosnet= findViewById(R.id.select_photo_posnet);
+        LinearLayout takePhotoPosnet= findViewById(R.id.select_photo_posnet);
         mImageViewPosnet=findViewById(R.id.imageview_posnet);
         takePhotoPosnet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -440,7 +450,7 @@ public class CreateBoxActivity extends BaseActivity {
                         total_amount.setTextColor(getResources().getColor(R.color.loa_red));
                         mDetailNoNUll=true;
                     }else{
-                        total_amount.setTextColor(getResources().getColor(R.color.word));
+                        total_amount.setTextColor(getResources().getColor(R.color.colorPrimaryDarkLetter));
                         mDetailNoNUll=false;
                     }
                 }
@@ -469,7 +479,7 @@ public class CreateBoxActivity extends BaseActivity {
                         rest_box.setTextColor(getResources().getColor(R.color.loa_red));
                         mDetailNoNUll=true;
                     }else{
-                        rest_box.setTextColor(getResources().getColor(R.color.word));
+                        rest_box.setTextColor(getResources().getColor(R.color.colorPrimaryDarkLetter));
                         mDetailNoNUll=false;
                     }
                 }

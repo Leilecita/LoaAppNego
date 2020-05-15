@@ -5,16 +5,18 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.BoringLayout;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,20 +36,20 @@ import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BalanceActivity;
-import com.example.android.loa.activities.SaleMovementsActivity;
+import com.example.android.loa.activities.todelete.SaleMovementsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.StockEvent;
 import com.google.android.material.snackbar.Snackbar;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolder>  {
@@ -58,6 +60,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private Boolean isModel;
 
     private String dateSelected="";
+
+    private List<ReportSimpelClient> students;
+    private Long clientId;
+    private String client_name;
 
     public void setExtendedDate(String extendedDate){
         this.dateSelected=extendedDate;
@@ -74,7 +80,21 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         prevPosOpenView=-1;
         isModel=false;
+        clientId=-1l;
+        client_name="";
 
+    }
+
+    public void setClients(List<ReportSimpelClient> cls){
+        students=cls;
+    }
+    public ArrayList<String> getListFromClients(){
+        ArrayList<String> s=new ArrayList<>();
+        s.add("Vacia");
+        for(int i =0;i<students.size();++i){
+            s.add(students.get(i).name);
+        }
+        return s;
     }
 
     public void setIsModel(Boolean model){
@@ -96,19 +116,19 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView type;
         public TextView brand;
+        public TextView model;
         public TextView stock;
 
         public LinearLayout line_options;
 
         public ImageView add_stock;
         public ImageView less_stock;
-        public ImageView get_balance;
-        public ImageView delete_product;
 
         public LinearLayout updateStock;
         public EditText load_stock;
         public TextView detail;
         public Button ok;
+        public Button cancel;
 
         public ImageView salir;
         public TextView value;
@@ -120,8 +140,13 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public TextView date;
         public TextView less_load;
         public LinearLayout line_value;
+        public LinearLayout line_student;
+        public AutoCompleteTextView name;
         public RelativeLayout item;
 
+        public TextView close_select_student;
+        public EditText price_product;
+        public ImageView imageButton;
 
 
         public ViewHolder(View v){
@@ -131,10 +156,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             stock= v.findViewById(R.id.stock);
 
             line_options= v.findViewById(R.id.line_options);
-            delete_product= v.findViewById(R.id.delete_product);
             add_stock= v.findViewById(R.id.add_stock);
             less_stock= v.findViewById(R.id.less_stock);
-            get_balance= v.findViewById(R.id.see_balance);
 
             updateStock= v.findViewById(R.id.update_stock);
             load_stock= v.findViewById(R.id.load_stock);
@@ -151,13 +174,20 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             less_load= v.findViewById(R.id.less_load);
             line_value= v.findViewById(R.id.line_value);
             item= v.findViewById(R.id.item);
+            line_student= v.findViewById(R.id.line_select_student);
+            name= v.findViewById(R.id.name);
+            close_select_student= v.findViewById(R.id.close_select_student);
+            price_product= v.findViewById(R.id.price_product);
+            cancel= v.findViewById(R.id.cancel);
+            model= v.findViewById(R.id.model);
+            imageButton= v.findViewById(R.id.imagebutton);
         }
     }
 
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         // Create a new View
-        View v = LayoutInflater.from(mContext).inflate(R.layout.card_item_product,parent,false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.item_product_new,parent,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -171,6 +201,36 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             vh.stock.setText(null);
     }
 
+    private void loadIcon(ViewHolder holder,final String item){
+
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,item,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        if(item.equals("Hombre")){
+            holder.imageButton.setImageResource(R.drawable.bmancl);
+
+            // holder.color.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
+            // holder.image.setImageResource(R.drawable.man);
+        }else if(item.equals("Dama")){
+            holder.imageButton.setImageResource(R.drawable.bwomcl);
+        }else if(item.equals("Accesorio")){
+            holder.imageButton.setImageResource(R.drawable.bacccl);
+        }else if(item.equals("Niño")){
+            holder.imageButton.setImageResource(R.drawable.bnincl);
+        }else if(item.equals("Tecnico")){
+            holder.imageButton.setImageResource(R.drawable.btecl);
+        }else if(item.equals("Calzado")){
+            holder.imageButton.setImageResource(R.drawable.bcalcl);
+        }else if(item.equals("Luz")){
+            holder.imageButton.setImageResource(R.drawable.bluzcl);
+        }else if(item.equals("Oferta")){
+            holder.imageButton.setImageResource(R.drawable.bofercl);
+        }
+    }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
@@ -178,13 +238,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         final Product currentProduct=getItem(position);
 
+        holder.model.setText(currentProduct.model);
         holder.type.setText(currentProduct.type);
-
         holder.stock.setText(String.valueOf(currentProduct.stock));
-
-       // dateSelected = getExpandedDate();//DateHelper.get().actualDateExtractions();
         holder.date.setText(DateHelper.get().getOnlyDate(dateSelected));
-
         holder.date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,35 +249,54 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
+        loadIcon(holder,currentProduct.item);
+
+        holder.close_select_student.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clientId=-1l;
+                holder.line_student.setVisibility(View.GONE);
+                holder.line_value.setVisibility(View.VISIBLE);
+                holder.select_payment_method.setVisibility(View.VISIBLE);
+                holder.detail.setText("Salida venta");
+            }
+        });
+
+
         if(isModel){
             holder.brand.setText(currentProduct.brand+"   "+currentProduct.model);
         }else{
             holder.brand.setText(currentProduct.brand);
         }
 
-
-        holder.salir.setOnClickListener(new View.OnClickListener() {
+        holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if(holder.salir.getVisibility() == View.VISIBLE){
                 holder.updateStock.setVisibility(View.GONE);
-                holder.salir.setVisibility(View.GONE);
+                holder.line_options.setVisibility(View.GONE);
                 if(onChangeViewStock!=null){
                     onChangeViewStock.OnChangeViewStock();
                 }
             }
+        });
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                deleteProduct(currentProduct,position);
+                return false;
             }
         });
+
         optionsItem(holder,currentProduct,position);
 
         holder.line_options.setVisibility(View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  holder.item.setBackgroundColor(mContext.getResources().getColor(R.color.select));
                 if(holder.line_options.getVisibility() == View.VISIBLE){
                     holder.line_options.setVisibility(View.GONE);
+                    closeItem(holder);
 
                 }else{
                     if(prevPosOpenView!=-1 ){
@@ -235,33 +311,28 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
 
     private void closeItem(ViewHolder holder){
-        if(holder.salir.getVisibility() == View.VISIBLE){
-            holder.updateStock.setVisibility(View.GONE);
-            holder.salir.setVisibility(View.GONE);
-            if(onChangeViewStock!=null){
-                onChangeViewStock.OnChangeViewStock();
-            }
+        holder.detail.setVisibility(View.INVISIBLE);
+        holder.updateStock.setVisibility(View.GONE);
+        holder.line_student.setVisibility(View.GONE);
+        if(onChangeViewStock!=null){
+            onChangeViewStock.OnChangeViewStock();
         }
     }
     private void optionsItem(final ViewHolder holder, final Product p, final Integer position){
 
-        holder.get_balance.setOnClickListener(new View.OnClickListener() {
+      /*  holder.get_balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getBalance(p);
             }
-        });
+        });*/
         holder.less_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                if(holder.salir.getVisibility() == View.GONE){
-                    holder.updateStock.setVisibility(View.VISIBLE);
-                    holder.salir.setVisibility(View.VISIBLE);
-                }
-
+                holder.updateStock.setVisibility(View.VISIBLE);
                 lessStock(p,position,holder);
+                holder.detail.setVisibility(View.VISIBLE);
             }
         });
 
@@ -269,22 +340,13 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View v) {
 
-               if(holder.salir.getVisibility() == View.GONE){
-                   holder.updateStock.setVisibility(View.VISIBLE);
-                   holder.salir.setVisibility(View.VISIBLE);
-               }
+                holder.updateStock.setVisibility(View.VISIBLE);
                 loadStock(p,position,holder);
             }
         });
-        holder.delete_product.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteProduct(p,position);
-            }
-        });
-
 
     }
+
     private void getBalance(Product p ){
         Intent i = new Intent(mContext, BalanceActivity.class);
         i.putExtra("ID", p.id);
@@ -293,6 +355,34 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         mContext.startActivity(i);
     }
 
+    private Long getIdByName(String name){
+        for(int i=0;i < students.size();++i ){
+            if(students.get(i).name.equals(name)){
+                return students.get(i).id;
+            }
+        }
+        return -1l;
+    }
+
+    private void loadNameClients(ViewHolder holder){
+
+        holder.line_student.setVisibility(View.VISIBLE);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext,android.R.layout.select_dialog_item, getListFromClients());
+
+        holder.name.setThreshold(1);
+        holder.name.setAdapter(adapter);
+        holder.name.setTextColor(mContext.getResources().getColor(R.color.word));
+        holder.name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(mContext, "Selected Item is: \t" + item, Toast.LENGTH_LONG).show();
+                hideSoftKeyboard(mContext,view);
+                clientId=getIdByName(item);
+                client_name=item;
+            }
+        });
+    }
 
 
     public static void hideSoftKeyboard(Context ctx, View view)
@@ -301,7 +391,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
     private void lessStock(final Product p, final int position, final ViewHolder holder){
-
+        holder.detail.setVisibility(View.VISIBLE);
         holder.detail.setText("Salida venta");
         holder.detail.setHint("Elegir detalle");
         holder.detail.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +407,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         holder.select_payment_method.setVisibility(View.VISIBLE);
         holder.line_value.setVisibility(View.VISIBLE);
+
         holder.date.setVisibility(View.VISIBLE);
 
         holder.check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -326,6 +417,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_ef.setChecked(true);
                     holder.check_card.setChecked(false);
                     holder.check_deb.setChecked(false);
+                    hideSoftKeyboard(mContext, holder.itemView);
                 }else{
                     holder.check_ef.setChecked(false);
                 }
@@ -339,6 +431,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_card.setChecked(true);
                     holder.check_ef.setChecked(false);
                     holder.check_deb.setChecked(false);
+                    hideSoftKeyboard(mContext, holder.itemView);
                 }else{
                     holder.check_card.setChecked(false);
                 }
@@ -352,6 +445,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_deb.setChecked(true);
                     holder.check_ef.setChecked(false);
                     holder.check_card.setChecked(false);
+                    hideSoftKeyboard(mContext, holder.itemView);
                 }else{
                     holder.check_deb.setChecked(false);
                 }
@@ -368,57 +462,61 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 String detailP=holder.detail.getText().toString().trim();
                 String valuep=holder.value.getText().toString().trim();
 
+                    if(!detailP.equals("Salida ficha") || clientId !=-1l){
 
-                if(!stockP.matches("") && !detailP.matches("") && !valuep.matches("")){
-                    if( ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valuep)) {
+                    if (!stockP.matches("") && !detailP.matches("") && !valuep.matches("")) {
 
-                        StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP),p.stock, detailP,Double.valueOf(valuep),payment_method);
-                        s.ideal_stock=s.stock_ant + s.stock_in - s.stock_out;
-                        p.stock-=Integer.valueOf(stockP);
+                        if (ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valuep)) {
 
-                        s.created=dateSelected;
+                            StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP), p.stock, detailP, Double.valueOf(valuep), payment_method);
+                            s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
+                            p.stock -= Integer.valueOf(stockP);
+                            s.created = dateSelected;
 
+                            if (clientId != -1 && detailP.equals("Salida ficha")) {
+                                s.client_id = clientId;
+                                s.value_for_file = Double.valueOf(holder.price_product.getText().toString().trim());
+                                s.client_name=client_name;
+                            }
 
-                        ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
-                            @Override
-                            public void onSuccess(StockEvent data) {
-                                holder.stock.setText(String.valueOf(p.stock));
-                                holder.load_stock.setText("");
+                            ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
+                                @Override
+                                public void onSuccess(StockEvent data) {
+                                    holder.stock.setText(String.valueOf(p.stock));
+                                    holder.load_stock.setText("");
 
-                                if(onChangeViewStock!= null){
-                                    onChangeViewStock.onReloadTotalQuantityStock();
+                                    if (onChangeViewStock != null) {
+                                        onChangeViewStock.onReloadTotalQuantityStock();
+                                    }
+
+                                    Snackbar snackbar = Snackbar
+                                            .make(v, "El stock ha sido modificado", Snackbar.LENGTH_LONG)
+                                            .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
+                                                }
+                                            });
+
+                                    snackbar.show();
+                                    hideSoftKeyboard(mContext, holder.itemView);
+
+                                    closeItem(holder);
                                 }
 
-                                Snackbar snackbar = Snackbar
-                                        .make(v, "El stock ha sido modificado", Snackbar.LENGTH_LONG)
-                                        .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
-                                            }
-                                        });
-
-                                snackbar.show();
-
-                                hideSoftKeyboard(mContext,holder.itemView);
-
-                                closeItem(holder);
-
-
-                            }
-
-                            @Override
-                            public void onError(Error error) {
-                                DialogHelper.get().showMessage("Error"," Error al cargar stock",mContext);
-                            }
-                        });
-                    }else{
-                        Toast.makeText(mContext,"Tipo de dato no válido", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onError(Error error) {
+                                    DialogHelper.get().showMessage("Error", " Error al cargar stock", mContext);
+                                }
+                            });
+                        } else {
+                            Toast.makeText(mContext, "Tipo de dato no válido", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(mContext, "Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
                     }
-
                 }else{
-                    Toast.makeText(mContext,"Todos los campos deben estar completos", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(mContext, "Debe ingresar un nombre para completar la salida de la ficha", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -435,16 +533,16 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         }else{
             return "efectivo";
         }
-
     }
 
     private void loadStock(final Product p, final int position, final ViewHolder holder){
 
         holder.line_value.setVisibility(View.GONE);
         holder.select_payment_method.setVisibility(View.GONE);
-        holder.date.setVisibility(View.INVISIBLE);
 
-        //todo
+        //// TODO: 2020-05-11
+        holder.detail.setVisibility(View.VISIBLE);
+        holder.detail.setText("");
         holder.detail.setHint("Elegir detalle");
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -584,6 +682,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                       return true;
                   case R.id.in_error:
                       holder.detail.setText("Suma por error anterior");
+                      return true;
+                  case R.id.in_balance_stock:
+                      holder.detail.setText("Ingreso balance stock");
+                      return true;
                   case R.id.in_dev:
                       holder.detail.setText("Ingreso dev");
                       return true;
@@ -619,6 +721,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     case R.id.out_dev:
                         holder.detail.setText("Salida dev");
                         return true;
+                    case R.id.out_balance_stock:
+                        holder.detail.setText("Salida balance stock");
+                        return true;
                     case R.id.out_falla:
                         holder.detail.setText("Salida dev falla");
                         return true;
@@ -627,6 +732,16 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         return true;
                     case R.id.out_gifts:
                         holder.detail.setText("Salida premios");
+                        return true;
+                    case R.id.out_person_file:
+                        holder.detail.setText("Salida ficha");
+
+                        holder.select_payment_method.setVisibility(View.GONE);
+                        holder.line_value.setVisibility(View.GONE);
+                        holder.value.setText("0.0");
+
+                        loadNameClients(holder);
+
                         return true;
                     case R.id.out_stole:
                         holder.detail.setText("Salida por robo");

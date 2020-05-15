@@ -24,11 +24,14 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountHoursChange;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.activities.LoadEmployeeHoursActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Item_employee;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -324,20 +327,6 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         final ImageView date_picker =dialogView.findViewById(R.id.date_picker);
         final Button ok =dialogView.findViewById(R.id.ok);
 
-       /* entrada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obtenerHora(entrada);
-            }
-        });
-
-        salida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obtenerHora(salida);
-            }
-        });
-*/
 
         if(morning){
             title.setText("Horario mañana");
@@ -353,8 +342,46 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
             title.setText("Horario tarde");
         }
 
+       final String dateI=DateHelper.get().getOnlyDate((e.created));
         date.setHint(DateHelper.get().getOnlyDate((DateHelper.get().getOnlyDate(e.created))));
         date.setHintTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
+
+        entrada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog picker;
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                picker = new TimePickerDialog(mContext,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                entrada.setText(dateI+" "+sHour + ":" + sMinute+":00");
+                            }
+                        }, hour, minutes, true);
+                picker.show();
+            }
+        });
+
+        salida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog picker;
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                picker = new TimePickerDialog(mContext,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                salida.setText(dateI+" "+sHour + ":" + sMinute+":00");
+                            }
+                        }, hour, minutes, true);
+                picker.show();
+
+            }
+        });
 
         final AlertDialog dialog = builder.create();
 
@@ -367,14 +394,17 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
                         e.observation=obs.getText().toString().trim();
                         e.entry=entrada.getText().toString().trim();
                         e.finish=salida.getText().toString().trim();
-                        e.time_worked=Long.valueOf(time_worked.getText().toString().trim());
+                       // e.time_worked=Long.valueOf(time_worked.getText().toString().trim());
+
+                        e.time_worked=Long.valueOf(differenceBetweenDate(entrada.getText().toString().trim(),salida.getText().toString().trim()));
                         // e.time_worked=Double.valueOf(differenceBetweenHours(e.entry,e.finish));
                     }else{
                         e.obs_aft=obs.getText().toString().trim();
                         e.entry_aft=entrada.getText().toString().trim();
                         e.finish_aft=salida.getText().toString().trim();
                         // e.time_worked_aft=Double.valueOf(differenceBetweenHours(e.entry_aft,e.finish_aft));
-                        e.time_worked_aft=Long.valueOf(time_worked.getText().toString().trim());
+                       // e.time_worked_aft=Long.valueOf(time_worked.getText().toString().trim());
+                        e.time_worked_aft=Long.valueOf(differenceBetweenDate(entrada.getText().toString().trim(),salida.getText().toString().trim()));
                     }
 
 
@@ -411,6 +441,26 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         dialog.show();
     }
 
+    private long differenceBetweenDate(String monthSince,String monthTo){
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Date dateTo = dateFormat.parse(monthTo);
+            Date dateSince = dateFormat.parse(monthSince);
+
+            long diff = dateTo.getTime() - dateSince.getTime();
+            long seconds = diff / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            long days = hours / 24;
+
+            return minutes;
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return 0l;
+    }
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

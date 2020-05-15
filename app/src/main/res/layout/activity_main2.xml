@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondoprincipal2">
+
+
+    <RelativeLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginBottom="40dp"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/mercaderia"
+
+        android:src="@drawable/mercaderia"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/extractions"
+        android:layout_toLeftOf="@id/box"
+        android:layout_marginTop="130dp"
+        android:layout_height="120dp"
+        android:src="@drawable/extracciones"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/listcajas"
+        android:layout_marginTop="130dp"
+        android:layout_toRightOf="@id/box"
+        android:src="@drawable/listcajas"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/box"
+        android:layout_above="@id/mercaderia"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/cierrecaja"/>
+
+
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/statistics"
+        android:layout_toRightOf="@id/clients"
+        android:layout_marginTop="320dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/bestatistics"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/clients"
+        android:layout_marginTop="18dp"
+        android:layout_centerHorizontal="true"
+
+        android:layout_below="@id/mercaderia"
+        android:src="@drawable/bdebt"/>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/hours"
+        android:layout_toRightOf="@id/statistics"
+        android:layout_marginTop="320dp"
+        android:src="@drawable/bpersonal"/>
+
+
+
+
+
+
+</RelativeLayout>
+</LinearLayout>

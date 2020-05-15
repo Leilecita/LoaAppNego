@@ -7,9 +7,16 @@
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="2dp"
     card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#fff"
+    android:backgroundTint="@color/background"
     card_view:contentPadding="16dp"
     >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="wrap_content">
+
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -42,24 +49,14 @@
 
 
                 <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:textColor="@color/word"
-                    android:id="@+id/date_picker"
-                    android:textSize="20sp"
-                    android:text="Fecha"
-                    android:layout_gravity="center_vertical|left"
-                    android:gravity="center_vertical|left"
-                    />
-
-
-                <TextView
                     android:id="@+id/date"
                     android:layout_height="35dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
                     android:textColor="@color/word"
+                    android:background="@drawable/rec_find"
                     android:text=""
+                    android:paddingLeft="8dp"
                     android:textSize="18sp"
                     android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
@@ -72,34 +69,110 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="70dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:layout_height="35dp"
-                android:textColor="@color/word"
-                android:textSize="20sp"
-                android:text="Detalle"
-                />
 
-            <EditText
-                android:id="@+id/description"
-                android:layout_height="40dp"
-                android:paddingLeft="8dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginRight="40dp"
-                android:layout_gravity="bottom"
-                android:text=""
-                android:textColor="@color/word"
-                android:textSize="18sp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                >
 
-               />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textColor="@color/word"
+                    android:id="@+id/name"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingLeft="8dp"
+                    android:background="@drawable/rec_find"
+                    android:hint="Nombre y apellido"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textColor="@color/word"
+                    android:textSize="20sp"
+                    android:id="@+id/phone"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingLeft="8dp"
+                    android:background="@drawable/rec_find"
+                    android:hint="Teléfono"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textColor="@color/word"
+                    android:textSize="20sp"
+                    android:id="@+id/adress"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingLeft="8dp"
+                    android:background="@drawable/rec_find"
+                    android:hint="Dirección"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:textColor="@color/word"
+                    android:id="@+id/description"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingLeft="8dp"
+                    android:background="@drawable/rec_find"
+                    android:hint="Detalle"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="center_vertical|left"
+                    />
+
+
+            </LinearLayout>
 
         </LinearLayout>
+
+
 
 
 
@@ -116,24 +189,39 @@
                 android:layout_height="40dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:textColor="@color/word"
-                    android:textSize="20sp"
-                    android:text="$"
-                    android:layout_gravity="center_vertical|left"
-                    android:gravity="center_vertical|left"
-                    />
-
 
                 <EditText
                     android:id="@+id/value"
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="1"
                     android:textColor="@color/word"
+                    android:background="@drawable/rec_find"
                     android:text=""
+                    android:inputType="numberDecimal"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="$ seña"
+                    android:paddingLeft="8dp"
                     android:layout_gravity="bottom"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+
+                    />
+
+                <EditText
+                    android:id="@+id/value_product"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:inputType="numberDecimal"
+                    android:layout_weight="1"
+                    android:textColor="@color/word"
+                    android:background="@drawable/rec_find"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="$ producto"
+
+                    android:paddingLeft="8dp"
+                    android:layout_gravity="bottom"
+                    android:layout_height="40dp"
                     android:textSize="18sp"
 
                     />
@@ -318,7 +406,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
 </androidx.cardview.widget.CardView>
 
 

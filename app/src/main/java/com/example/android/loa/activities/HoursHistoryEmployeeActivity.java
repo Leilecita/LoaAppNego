@@ -53,11 +53,11 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
     private Paginate paginate;
     private boolean hasMoreItems;
 
-    public static void start(Context mContext, Employee employee){
+    public static void start(Context mContext, Long id,String name){
         Intent i=new Intent(mContext, HoursHistoryEmployeeActivity.class);
-        i.putExtra("ID",employee.getId());
-        i.putExtra("EMPLOYEENAME",employee.getName());
-        i.putExtra("USERID",employee.getId());
+        i.putExtra("ID",id);
+        i.putExtra("EMPLOYEENAME",name);
+        i.putExtra("USERID",id);
         mContext.startActivity(i);
     }
 
@@ -166,9 +166,11 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
                                 smonthOfYear = "0" + smonthOfYear;
                             }
 
+
                             String time=DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
 
                             String datePicker=sdayOfMonth+"-"+smonthOfYear +"-"+year+" "+time;
+                            System.out.println("ACA FECHA"+datePicker);
                             refactorToMonth(datePicker);
                             clearView();
                             loadAmountHours();
@@ -195,6 +197,7 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
 
         monthSince=monthDate;
         monthTo=finalNextMonth;
+        System.out.println(monthSince);
 
         mSelectMonth.setText(DateHelper.get().getNameMonth(monthSince));
         System.out.println(monthDate);

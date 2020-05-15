@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
     private Item_employee mItemEmployee;
 
     private TextView mDate;
+    private TextView day;
+    private TextView month;
     private String mEdithDate;
     private TextView name;
     private TextView mEntry;
@@ -52,6 +56,25 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
     private TextView mFinishT;
     private TextView mTime_workedT;
     private TextView mObsT;
+
+    private TextView mTime_workedTotal;
+
+    private TextView mDateMornIn;
+    private TextView mDateMornOut;
+    private TextView mDateAftIn;
+    private TextView mDateAftOut;
+
+    private TextView mMonthMornIn;
+    private TextView mMonthMornOut;
+    private TextView mMonthAftIn;
+    private TextView mMonthAftOut;
+
+    private String currentDate;
+    private String currentDateAft;
+    private RelativeLayout currentDateView;
+
+    private LinearLayout cancel;
+    private LinearLayout save;
 
     Calendar c = Calendar.getInstance();
     // Get the system current hour and minute
@@ -94,15 +117,38 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         mTime_workedT.setText(String.valueOf(0));
         mObsT=  findViewById(R.id.observationT);
 
-        mDate=findViewById(R.id.date);
-        mDate.setText(DateHelper.get().getOnlyDate(DateHelper.get().getActualDate()));
+        mTime_workedTotal = findViewById(R.id.time_workedTotal);
+
+        mDateMornIn = findViewById(R.id.dayinmorning);
+        mDateMornOut = findViewById(R.id.dayoutmorning);
+        mDateAftIn = findViewById(R.id.dayaftin);
+        mDateAftOut = findViewById(R.id.dayaftout);
+
+        mMonthMornIn = findViewById(R.id.monthinmorning);
+        mMonthMornOut = findViewById(R.id.monthoutmorning);
+        mMonthAftIn = findViewById(R.id.monthaftin);
+        mMonthAftOut = findViewById(R.id.monthaftout);
+
+        mDate= findViewById(R.id.date);
+        day= findViewById(R.id.day);
+        month= findViewById(R.id.month);
+
+        currentDateView=findViewById(R.id.datecurrent);
+
+        mDate.setText(DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2()));
+        day.setText(DateHelper.get().numberDay(DateHelper.get().getActualDate2()));
+        month.setText(DateHelper.get().getNameMonth2(DateHelper.get().getActualDate2()));
+
+        currentDate=DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2());
+        currentDateAft=DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2());
+
+        loadDates(currentDate+" ");
 
         mEdithDate="";
 
         loadItem(DateHelper.get().changeFormatDateUserToServer(DateHelper.get().getActualDate()));
 
-        ImageView date_picker= findViewById(R.id.date_picker);
-        date_picker.setOnClickListener(new View.OnClickListener() {
+        mDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final DatePickerDialog datePickerDialog;
@@ -131,29 +177,233 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                                 String time=DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
 
                                 String datePicker=year + "-" + smonthOfYear + "-" +  sdayOfMonth +" "+time ;
-                                mDate.setText(datePicker);
+                                mDate.setText(DateHelper.get().getOnlyDate(datePicker));
+
+                                day.setText(DateHelper.get().numberDay(datePicker));
+
+                                month.setText(DateHelper.get().getNameMonth2(datePicker).substring(0,3));
+
+                                currentDate=year + "-" + smonthOfYear + "-" +  sdayOfMonth;
+                                currentDateAft=year + "-" + smonthOfYear + "-" +  sdayOfMonth;
+
+                                loadDates(currentDate+" ");
+
                                 mEdithDate=datePicker;
+
                                 loadItem(datePicker);
+
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
             }
         });
 
-        final ImageView edith_morning=findViewById(R.id.edit_morning);
-        edith_morning.setOnClickListener(new View.OnClickListener() {
+        currentDateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edithHourMorning(true);
+                final DatePickerDialog datePickerDialog;
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(LoadEmployeeHoursActivity.this, R.style.datepicker,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                String sdayOfMonth = String.valueOf(dayOfMonth);
+                                if (sdayOfMonth.length() == 1) {
+                                    sdayOfMonth = "0" + dayOfMonth;
+                                }
+
+                                String smonthOfYear = String.valueOf(monthOfYear + 1);
+                                if (smonthOfYear.length() == 1) {
+                                    smonthOfYear = "0" + smonthOfYear;
+                                }
+
+                                currentDateAft=year + "-" + smonthOfYear + "-" +  sdayOfMonth;
+
+                                mMonthAftOut.setText(DateHelper.get().getNameMonth2(currentDateAft+" "));
+                                mDateAftOut.setText(DateHelper.get().numberDay(currentDateAft+" "));
+
+                                String dateCurrentAft=  mItemEmployee.finish_aft;
+                                mItemEmployee.finish_aft = currentDateAft+" "+DateHelper.get().getOnlyTime(dateCurrentAft);
+
+                                mTime_workedT.setText(getHourMinutes(differenceBetweenDate(mItemEmployee.entry_aft,mItemEmployee.finish_aft))+" hs");
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
             }
         });
-        ImageView edith_afternoon=findViewById(R.id.edit_afternoon);
-        edith_afternoon.setOnClickListener(new View.OnClickListener() {
+
+        mEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edithHourMorning(false);
+                TimePickerDialog picker;
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                picker = new TimePickerDialog(LoadEmployeeHoursActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+
+                                mEntry.setText(sHour + ":" + sMinute+" hs");
+                                mItemEmployee.entry=currentDate+" "+sHour + ":" + sMinute+":00";
+
+                                mMonthMornIn.setText(DateHelper.get().getNameMonth2(mItemEmployee.entry).substring(0,3));
+                                mDateMornIn.setText(DateHelper.get().numberDay(mItemEmployee.entry));
+
+                                mTime_worked.setText(getHourMinutes(differenceBetweenDate(mItemEmployee.entry,mItemEmployee.finish)));
+                            }
+                        }, hour, minutes, true);
+                picker.show();
             }
         });
+
+        mFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog picker;
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                picker = new TimePickerDialog(LoadEmployeeHoursActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+
+                                mFinish.setText(sHour + ":" + sMinute+" hs");
+
+                                mItemEmployee.finish=currentDate+" "+sHour + ":" + sMinute+":00";
+
+                                mItemEmployee.time_worked=differenceBetweenDate(mItemEmployee.entry,mItemEmployee.finish);
+
+                                mTime_worked.setText(getHourMinutes(differenceBetweenDate(mItemEmployee.entry,mItemEmployee.finish))+" hs");
+
+                                mMonthMornOut.setText(DateHelper.get().getNameMonth2(mItemEmployee.finish).substring(0,3));
+                                mDateMornOut.setText(DateHelper.get().numberDay(mItemEmployee.finish));
+
+                            }
+                        }, hour, minutes, true);
+                picker.show();
+            }
+        });
+
+        mEntryT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog picker;
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                picker = new TimePickerDialog(LoadEmployeeHoursActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                mEntryT.setText( sHour + ":" + sMinute+" hs");
+
+                                mItemEmployee.entry_aft=currentDate+" "+sHour + ":" + sMinute+":00";
+
+                                mMonthAftIn.setText(DateHelper.get().getNameMonth2(mItemEmployee.entry_aft).substring(0,3));
+                                mDateAftIn.setText(DateHelper.get().numberDay(mItemEmployee.entry_aft));
+
+                                mTime_workedT.setText(getHourMinutes(differenceBetweenDate(mItemEmployee.entry_aft,mItemEmployee.finish_aft))+" hs");
+
+                            }
+                        }, hour, minutes, true);
+                picker.show();
+            }
+        });
+
+        mFinishT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog picker;
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                picker = new TimePickerDialog(LoadEmployeeHoursActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+
+                                mFinishT.setText(sHour + ":" + sMinute+" hs");
+
+                                mItemEmployee.finish_aft=currentDateAft+" "+sHour + ":" + sMinute+":00";
+
+                                mItemEmployee.time_worked_aft=differenceBetweenDate(mItemEmployee.entry_aft,mItemEmployee.finish_aft);
+
+                                mTime_workedT.setText(getHourMinutes(differenceBetweenDate(mItemEmployee.entry_aft,mItemEmployee.finish_aft))+" hs");
+
+                                mMonthAftOut.setText(DateHelper.get().getNameMonth2(mItemEmployee.finish_aft).substring(0,3));
+                                mDateAftOut.setText(DateHelper.get().numberDay(mItemEmployee.finish_aft));
+
+                            }
+                        }, hour, minutes, true);
+                picker.show();
+            }
+        });
+
+        cancel = findViewById(R.id.cancel);
+        save = findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String date=mDate.getText().toString().trim();
+                if(!mEdithDate.equals(""))
+                    mItemEmployee.created=date;
+/*
+                final ProgressDialog progress = ProgressDialog.show(getBaseContext(), "Cargando horas",
+                        "Aguarde un momento", true);
+
+*/
+
+
+                mItemEmployee.observation=mObsT.getText().toString().trim();
+
+                ApiClient.get().putItemEmployee(mItemEmployee, new GenericCallback<Item_employee>() {
+                    @Override
+                    public void onSuccess(Item_employee data) {
+
+                       // progress.dismiss();
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        DialogHelper.get().showMessage("Error","Error al crear el usuario",LoadEmployeeHoursActivity.this);
+                    }
+                });
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogCancelOrder();
+            }
+        });
+
+    }
+
+    private void loadDates(String date){
+        mDateAftOut.setText(DateHelper.get().numberDay(date));
+        mDateMornOut.setText(DateHelper.get().numberDay(date));
+        mDateMornIn.setText(DateHelper.get().numberDay(date));
+        mDateAftIn.setText(DateHelper.get().numberDay(date));
+
+        mMonthAftOut.setText(DateHelper.get().getNameMonth2(date).substring(0,3));
+        mMonthAftIn.setText(DateHelper.get().getNameMonth2(date).substring(0,3));
+        mMonthMornOut.setText(DateHelper.get().getNameMonth2(date).substring(0,3));
+        mMonthMornIn.setText(DateHelper.get().getNameMonth2(date).substring(0,3));
     }
 
     private void clearView(String date){
@@ -174,6 +424,8 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
                    loadDataItemEmployee();
                }else{
+                   cleanDataItemEmploye();
+
                }
            }
            @Override
@@ -186,158 +438,41 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
     private void loadDataItemEmployee(){
 
-       mEntry.setText(mItemEmployee.entry);
-       mFinish.setText(mItemEmployee.finish);
-       mTime_worked.setText(getHourMinutes(mItemEmployee.time_worked));
-       mObs.setText(mItemEmployee.observation);
 
-       mEntryT.setText(mItemEmployee.entry_aft);
-       mFinishT.setText(mItemEmployee.finish_aft);
+       mEntry.setText(DateHelper.get().getOnlyTime(mItemEmployee.entry));
+       mFinish.setText(DateHelper.get().getOnlyTime(mItemEmployee.finish));
+
+       mTime_worked.setText(getHourMinutes(mItemEmployee.time_worked));
+
+       mEntryT.setText(DateHelper.get().getOnlyTime(mItemEmployee.entry_aft));
+       mFinishT.setText(DateHelper.get().getOnlyTime(mItemEmployee.finish_aft));
+
        mTime_workedT.setText(getHourMinutes(mItemEmployee.time_worked_aft));
+
        mObsT.setText(mItemEmployee.obs_aft);
 
-    }
+       loadDates(DateHelper.get().onlyDate(mItemEmployee.entry)+" ");
 
-    private void edithHourMorning(final boolean isMorning){
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoadEmployeeHoursActivity.this);
-        LayoutInflater inflater = (LayoutInflater)getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.cuad_model_edith_hour, null);
-        builder.setView(dialogView);
+        if(!mItemEmployee.finish_aft.equals("")){
+            currentDateAft=DateHelper.get().onlyDate(mItemEmployee.finish_aft);
 
-        final TextView obs= dialogView.findViewById(R.id.observation);
-        final TextView time_worked= dialogView.findViewById(R.id.time_worked);
-        final TextView title= dialogView.findViewById(R.id.title);
-        final TextView entrada= dialogView.findViewById(R.id.entry);
-        final TextView salida= dialogView.findViewById(R.id.out);
-        final TextView date =dialogView.findViewById(R.id.date);
-        final TextView cancel =dialogView.findViewById(R.id.cancel);
-        final Button ok =dialogView.findViewById(R.id.ok);
-
-        if(isMorning){
-            title.setText("Turno Mañana");
-            obs.setText(String.valueOf(mItemEmployee.observation));
-            entrada.setText(mItemEmployee.entry);
-            salida.setText(mItemEmployee.finish);
-            time_worked.setText(String.valueOf(mItemEmployee.time_worked));
-        }else{
-            title.setText("Turno Tarde");
-            obs.setText(String.valueOf(mItemEmployee.obs_aft));
-            entrada.setText(mItemEmployee.entry_aft);
-            salida.setText(mItemEmployee.finish_aft);
-            time_worked.setText(String.valueOf(mItemEmployee.time_worked_aft));
+            mMonthAftOut.setText(DateHelper.get().getNameMonth2(mItemEmployee.finish_aft).substring(0,3));
+            mDateAftOut.setText(DateHelper.get().numberDay(mItemEmployee.finish_aft));
         }
-
-        final String dateInfo=DateHelper.get().getOnlyDate((DateHelper.get().getOnlyDate(mItemEmployee.created)));
-        date.setHint(DateHelper.get().getOnlyDate((DateHelper.get().getOnlyDate(mItemEmployee.created))));
-
-        date.setHintTextColor(getApplication().getResources().getColor(R.color.colorDialogButton));
-
-        entrada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog picker;
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                picker = new TimePickerDialog(LoadEmployeeHoursActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                entrada.setText(dateInfo+" "+sHour + ":" + sMinute+":00");
-                            }
-                        }, hour, minutes, true);
-                picker.show();
-            }
-        });
-
-        salida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog picker;
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                picker = new TimePickerDialog(LoadEmployeeHoursActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                salida.setText(dateInfo+" "+sHour + ":" + sMinute+":00");
-                            }
-                        }, hour, minutes, true);
-                picker.show();
-
-            }
-        });
-
-
-        final AlertDialog dialog = builder.create();
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                if( ValidatorHelper.get().isTypeDouble(time_worked.getText().toString().trim()) ){
-
-                    if(isMorning){
-
-                        mItemEmployee.observation=obs.getText().toString().trim();
-                        mItemEmployee.entry=entrada.getText().toString().trim();
-                        mItemEmployee.finish=salida.getText().toString().trim();
-
-                        String timeInit=entrada.getText().toString().trim();
-                        String timeFinish=salida.getText().toString().trim();
-
-                        String hoursMinutesDifference=String.valueOf(differenceBetweenDate(timeInit,timeFinish));
-
-                        mItemEmployee.time_worked=differenceBetweenDate(timeInit,timeFinish);
-
-                        System.out.println("diferencia en minutos "+String.valueOf(mItemEmployee.time_worked));
-                        System.out.println("diferencia hours"+gethours(differenceBetweenDate(timeInit,timeFinish)));
-                        System.out.println("diferencia minut "+getMinutes(differenceBetweenDate(timeInit,timeFinish)));
-                        System.out.println("diferencia hor minut "+getHourMinutes(differenceBetweenDate(timeInit,timeFinish)));
-
-
-                        mEntry.setText(timeInit);
-                        mFinish.setText(timeFinish);
-                        mObs.setText(obs.getText().toString().trim());
-                        mTime_worked.setText(getHourMinutes(differenceBetweenDate(timeInit,timeFinish)));
-
-                    }else{
-                        mItemEmployee.obs_aft=obs.getText().toString().trim();
-                        mItemEmployee.entry_aft=entrada.getText().toString().trim();
-                        mItemEmployee.finish_aft=salida.getText().toString().trim();
-
-                        String timeInit=entrada.getText().toString().trim();
-                        String timeFinish=salida.getText().toString().trim();
-
-                        String hoursMinutesDifference=String.valueOf(differenceBetweenDate(timeInit,timeFinish));
-
-                        mItemEmployee.time_worked_aft=differenceBetweenDate(timeInit,timeFinish);
-
-                        mEntryT.setText(timeInit);
-                        mFinishT.setText(timeFinish);
-                        mObsT.setText(obs.getText().toString().trim());
-                        mTime_workedT.setText(getHourMinutes(differenceBetweenDate(timeInit,timeFinish)));
-                    }
-
-                    clearView(mDate.getText().toString().trim());
-                    dialog.dismiss();
-                }else{
-                    Toast.makeText(getBaseContext(),"Tipo de dato no valido",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
     }
+    private void cleanDataItemEmploye(){
+        mEntry.setText("");
+        mFinish.setText("");
+        mTime_worked.setText("");
+
+        mEntryT.setText("");
+
+        mFinishT.setText("");
+        mTime_workedT.setText("");
+        mObsT.setText("");
+    }
+
+
 
     private String getHourMinutes(long minutes){
 
@@ -347,14 +482,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         return String.valueOf(hoursf)+"."+String.valueOf(minutesf);
     }
 
-    private String gethours(long minutes){
-
-        return String.valueOf((int)minutes / 60);
-    }
-
-    private String getMinutes(long minutes){
-        return String.valueOf((int) minutes % 60);
-    }
 
     private long differenceBetweenDate(String monthSince,String monthTo){
 
@@ -407,14 +534,18 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_create, menu);
+        getMenuInflater().inflate(R.menu.menu_list_jours, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
+            case R.id.action_options:
+
+                HoursHistoryEmployeeActivity.start(this,mItemEmployee.employee_id,name.getText().toString().trim());
+
+                /*
                 String date=mDate.getText().toString().trim();
 
                 if(!mEdithDate.equals(""))
@@ -436,7 +567,7 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                     }
                 });
 
-
+*/
                 return true;
 
             case android.R.id.home:
@@ -453,6 +584,35 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         String part1 = parts[0]; // hora
         String part2 = parts[1]; // minuto
         return part1+"."+part2;
+    }
+
+
+    private void selectDate(final TextView t){
+        final DatePickerDialog datePickerDialog;
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        final int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+
+        datePickerDialog = new DatePickerDialog(this,R.style.datepicker,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        String sdayOfMonth = String.valueOf(dayOfMonth);
+                        if (sdayOfMonth.length() == 1) {
+                            sdayOfMonth = "0" + dayOfMonth;
+                        }
+                        String smonthOfYear = String.valueOf(monthOfYear + 1);
+                        if (smonthOfYear.length() == 1) {
+                            smonthOfYear = "0" + smonthOfYear;
+                        }
+                        t.setText(year+"-"+smonthOfYear+"-"+sdayOfMonth);
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 }
 /*

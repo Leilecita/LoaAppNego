@@ -10,8 +10,14 @@
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
     </style>
 
+    <style name="AppTheme.SlidrActivityTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/opensanslight</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">

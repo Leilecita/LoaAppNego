@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.MainActivity"
+    android:background="#c2dbfd">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        style="@style/CategoryTab"
+        android:layout_weight="0"
+        tabTextColor="#787878"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F2F3F2"
+
+            >
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+
+            <LinearLayout
+                android:layout_width="65dp"
+                android:background="@drawable/bblanco"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_alignParentRight="true"
+                android:layout_margin="16dp"
+                android:id="@+id/fab_agregarTod"
+                android:layout_alignParentBottom="true"
+                android:layout_height="65dp">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:padding="12dp"
+                    android:id="@+id/image_button"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/add_white"
+                    />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>
+
+
+<!--
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_agregarTod"
+                android:layout_weight="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+
+                />
+-->

@@ -103,7 +103,41 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="70sp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="0dp"
+                android:textSize="16sp"
+                android:textColor="@color/word"
+                android:text="Fecha"/>
+
+
+            <TextView
+                android:id="@+id/date_out"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="170sp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+            <ImageView
+                android:layout_width="50sp"
+                android:layout_height="33dp"
+                android:src="@drawable/date"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

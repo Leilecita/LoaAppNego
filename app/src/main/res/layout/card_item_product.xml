@@ -351,11 +351,91 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="4dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="6dp"
+        android:id="@+id/line_select_student"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/rec_find"
+                android:id="@+id/name"
+                android:paddingLeft="8dp"
+                android:hint=" Ingrese nombre"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/close_select_student"
+                android:layout_marginLeft="16dp"
+                android:text="X"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            style="@style/CodeFontInput"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/rec_find"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$ "
+                android:textColor="@color/word"
+                android:layout_gravity="center_vertical"
+                />
+
+            <EditText
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="40dp"
+                android:hint="Ingrese precio del producto"
+                android:text=""
+                android:id="@+id/price_product"
+                android:background="@null"
+                android:inputType="numberDecimal"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:text="Este monto se vera reflejado en la ficha elegida"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/line"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_height="1dp"
+        android:visibility="gone"
         android:layout_marginTop="6dp"
         style="@style/DivisorCategoryStyle"/>
 </LinearLayout>

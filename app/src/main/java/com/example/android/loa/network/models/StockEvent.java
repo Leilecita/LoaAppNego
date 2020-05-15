@@ -13,6 +13,10 @@ public class StockEvent {
     public String created;
     public Double value;
     public String payment_method;
+    public String client_name;
+
+    public Long client_id=-1l;
+    public Double value_for_file=0.0;
 
     public StockEvent(Long product_id,Integer stock_in, Integer stock_out,Integer stock_ant,String detail,Double value,String payment_method){
         this.stock_in=stock_in;

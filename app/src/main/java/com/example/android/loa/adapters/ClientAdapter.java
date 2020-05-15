@@ -4,11 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,9 +34,9 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.activities.OperationHistoryClientActivity;
-import com.example.android.loa.activities.PhotoEdithActivity;
-import com.example.android.loa.activities.ProductsActivity;
+import com.example.android.loa.activities.photos.PhotoEdithActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
@@ -74,8 +74,11 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView text_name;
         public TextView text_value;
-        public ImageView photo;
+        public LinearLayout photo;
         public ImageView add;
+        public ImageView photouserrec;
+
+        public TextView firstLetter;
 
         public ViewHolder(View v){
             super(v);
@@ -83,6 +86,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             text_value= v.findViewById(R.id.text_value);
              add=v.findViewById(R.id.add);
              photo=v.findViewById(R.id.photo_user);
+             firstLetter=v.findViewById(R.id.firstLetter);
         }
     }
 
@@ -101,8 +105,12 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             vh.text_name.setText(null);
         if(vh.text_value!=null)
             vh.text_value.setText(null);
-        if(vh.photo!=null)
-            vh.photo.setImageDrawable(null);
+
+        if(vh.firstLetter!=null){
+            vh.firstLetter.setText(null);
+        }
+
+
 
     }
     private Drawable getDrawableFirstLetter(Client c){
@@ -118,9 +126,23 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 .width(100)
                 .height(100)
                 .endConfig()
-                .buildRound(firstLetter, color);
+                .buildRoundRect(firstLetter, color,10);
+        //.buildRound(firstLetter, color);
+
         return drawable;
     }
+
+
+    private int getColor(Integer pos){
+
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+
+        int color = generator.getColor(pos);
+        System.out.println("color "+color+" pos "+pos);
+        return color;
+
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -131,22 +153,24 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         holder.text_name.setText(currentClient.name);
 
-        String search="person_color";
-      //  if(ApiUtils.getImageUrl(currentClient.image_url).toLowerCase().indexOf(search.toLowerCase()) != -1){
+        holder.firstLetter.setText(String.valueOf(currentClient.name.charAt(0)));
 
-            holder.photo.setImageDrawable(getDrawableFirstLetter(currentClient));
+       // holder.photo2.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
 
-       /* }else{
-            Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.image_url)).into(holder.photo);
-        }*/
+
+      //  holder.photo.setBackgroundColor(getColor(position));
+
+
+      //  holder.photo.getBackground().setColorFilter(getColor(position), PorterDuff.Mode.SRC_ATOP);
+
 
 
         Double debt=currentClient.debt;
         if(debt<0){
-            holder.text_value.setText(String.valueOf(Math.abs(debt)));
+            holder.text_value.setText(ValuesHelper.get().getIntegerQuantityByLei(Math.abs(debt)));
             holder.text_value.setTextColor(mContext.getResources().getColor(R.color.loa_red));
         }else{
-            holder.text_value.setText(String.valueOf(debt));
+            holder.text_value.setText(ValuesHelper.get().getIntegerQuantityByLei(debt));
             holder.text_value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
         }
 
@@ -183,65 +207,18 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_debt, null);
+                final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_payment, null);
                 builder.setView(dialogView);
 
                 final TextView value=  dialogView.findViewById(R.id.value);
                 final TextView name=  dialogView.findViewById(R.id.name_user);
                 final TextView date=  dialogView.findViewById(R.id.date);
-                final TextView date_picker=  dialogView.findViewById(R.id.date_picker);
+                final LinearLayout date_picker=  dialogView.findViewById(R.id.date_picker);
                 final TextView description=  dialogView.findViewById(R.id.description);
-                final TextView brand=  dialogView.findViewById(R.id.brand);
-                final TextView size=  dialogView.findViewById(R.id.size);
-                final TextView product_kind=  dialogView.findViewById(R.id.product_kind);
-                final TextView code=  dialogView.findViewById(R.id.code);
-                final CheckBox checkBox =  dialogView.findViewById(R.id.checkBoxCancelar);
 
-                final LinearLayout line_payment=  dialogView.findViewById(R.id.select_payment_method);
                 final CheckBox check_card=  dialogView.findViewById(R.id.check_card);
                 final CheckBox check_deb=  dialogView.findViewById(R.id.check_deb);
                 final CheckBox check_ef=  dialogView.findViewById(R.id.check_ef);
-
-                final CheckBox retire_product=  dialogView.findViewById(R.id.out_product);
-                final CheckBox not_retire=  dialogView.findViewById(R.id.not_out);
-
-                retire_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(retire_product.isChecked()){
-                            retire_product.setChecked(true);
-                            not_retire.setChecked(false);
-                        }else{
-                            retire_product.setChecked(false);
-                        }
-                    }
-                });
-
-                not_retire.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(not_retire.isChecked()){
-                            not_retire.setChecked(true);
-                            retire_product.setChecked(false);
-                        }else{
-                            not_retire.setChecked(false);
-                        }
-                    }
-                });
-
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        hideSoftKeyboard(mContext,buttonView);
-                        if(checkBox.isChecked()){
-                            checkBox.setChecked(true);
-                            line_payment.setVisibility(View.VISIBLE);
-                        }else{
-                            checkBox.setChecked(false);
-                            line_payment.setVisibility(View.GONE);
-                        }
-                    }
-                });
 
                 check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -331,19 +308,11 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                         String valueAmount= value.getText().toString().trim();
                         if(ValidatorHelper.get().isTypeDouble(valueAmount)) {
                             Double val = Double.valueOf(valueAmount);
-                            if(!checkBox.isChecked()){
-                                val = val * (-1);
-                            }
 
                             String desc = description.getText().toString().trim();
-                            String brandT = brand.getText().toString().trim();
-                            String sizeT = size.getText().toString().trim();
-                            String codeT = code.getText().toString().trim();
-                            String  product_kindT= product_kind.getText().toString().trim();
                             String dateToServer=DateHelper.get().changeFormatDateUserToServer( date.getText().toString());
 
                             String payment_method="efectivo";
-                            String retired_product="false";
                             if(check_deb.isChecked()){
                                 payment_method= "debito";
                             }else if(check_card.isChecked()){
@@ -352,13 +321,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                                 payment_method= "efectivo";
                             }
 
-                            if(not_retire.isChecked()){
-                                retired_product="false";
-                            }else if(retire_product.isChecked()){
-                                retired_product="true";
-                            }
-
-                            Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"",brandT,codeT,sizeT,product_kindT,"false",payment_method,retired_product);
+                            Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"","","","","","false",payment_method,"false");
                             //TODO ver fechas
                             item.created=dateToServer;
 
@@ -376,10 +339,6 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
                                     if(onAmountChangeListener!=null){
                                         onAmountChangeListener.loadOperationAcum(true);
-                                    }
-
-                                    if(data.retired_product.equals("true")){
-                                        mContext.startActivity(new Intent(mContext, ProductsActivity.class));
                                     }
                                 }
 
@@ -635,3 +594,228 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
 }
+/*
+
+
+  AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_debt, null);
+                builder.setView(dialogView);
+
+                final TextView value=  dialogView.findViewById(R.id.value);
+                final TextView name=  dialogView.findViewById(R.id.name_user);
+                final TextView date=  dialogView.findViewById(R.id.date);
+                final TextView date_picker=  dialogView.findViewById(R.id.date_picker);
+                final TextView description=  dialogView.findViewById(R.id.description);
+                final TextView brand=  dialogView.findViewById(R.id.brand);
+                final TextView size=  dialogView.findViewById(R.id.size);
+                final TextView product_kind=  dialogView.findViewById(R.id.product_kind);
+                final TextView code=  dialogView.findViewById(R.id.code);
+                final CheckBox checkBox =  dialogView.findViewById(R.id.checkBoxCancelar);
+
+                final LinearLayout line_payment=  dialogView.findViewById(R.id.select_payment_method);
+                final CheckBox check_card=  dialogView.findViewById(R.id.check_card);
+                final CheckBox check_deb=  dialogView.findViewById(R.id.check_deb);
+                final CheckBox check_ef=  dialogView.findViewById(R.id.check_ef);
+
+                final CheckBox retire_product=  dialogView.findViewById(R.id.out_product);
+                final CheckBox not_retire=  dialogView.findViewById(R.id.not_out);
+
+                retire_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(retire_product.isChecked()){
+                            retire_product.setChecked(true);
+                            not_retire.setChecked(false);
+                        }else{
+                            retire_product.setChecked(false);
+                        }
+                    }
+                });
+
+                not_retire.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(not_retire.isChecked()){
+                            not_retire.setChecked(true);
+                            retire_product.setChecked(false);
+                        }else{
+                            not_retire.setChecked(false);
+                        }
+                    }
+                });
+
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        hideSoftKeyboard(mContext,buttonView);
+                        if(checkBox.isChecked()){
+                            checkBox.setChecked(true);
+                            line_payment.setVisibility(View.VISIBLE);
+                        }else{
+                            checkBox.setChecked(false);
+                            line_payment.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+                check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(check_ef.isChecked()){
+                            check_ef.setChecked(true);
+                            check_card.setChecked(false);
+                            check_deb.setChecked(false);
+                        }else{
+                            check_ef.setChecked(false);
+                        }
+                    }
+                });
+
+                check_card.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(check_card.isChecked()){
+                            check_card.setChecked(true);
+                            check_ef.setChecked(false);
+                            check_deb.setChecked(false);
+                        }else{
+                            check_card.setChecked(false);
+                        }
+                    }
+                });
+
+                check_deb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(check_deb.isChecked()){
+                            check_deb.setChecked(true);
+                            check_ef.setChecked(false);
+                            check_card.setChecked(false);
+                        }else{
+                            check_deb.setChecked(false);
+                        }
+                    }
+                });
+
+
+                final TextView cancel=dialogView.findViewById(R.id.cancel);
+                final Button ok=dialogView.findViewById(R.id.ok);
+
+                name.setText(currentClient.getName());
+                date.setText(DateHelper.get().getActualDate());
+
+                date_picker.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final DatePickerDialog datePickerDialog;
+                        final Calendar c = Calendar.getInstance();
+                        int mYear = c.get(Calendar.YEAR); // current year
+                        int mMonth = c.get(Calendar.MONTH); // current month
+                        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                        datePickerDialog = new DatePickerDialog(mContext,R.style.datepicker,
+                                new DatePickerDialog.OnDateSetListener() {
+
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year,
+                                                          int monthOfYear, int dayOfMonth) {
+                                        // set day of month , month and year value in the edit text
+                                        String sdayOfMonth = String.valueOf(dayOfMonth);
+                                        if (sdayOfMonth.length() == 1) {
+                                            sdayOfMonth = "0" + dayOfMonth;
+                                        }
+
+                                        String smonthOfYear = String.valueOf(monthOfYear + 1);
+                                        if (smonthOfYear.length() == 1) {
+                                            smonthOfYear = "0" + smonthOfYear;
+                                        }
+
+                                        String time=DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
+                                        String datePicker=sdayOfMonth + "/" + smonthOfYear + "/" +  year +" "+time;
+                                        date.setText(datePicker);
+                                    }
+                                }, mYear, mMonth, mDay);
+                        datePickerDialog.show();
+                    }
+                });
+
+                final AlertDialog dialog = builder.create();
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        String valueAmount= value.getText().toString().trim();
+                        if(ValidatorHelper.get().isTypeDouble(valueAmount)) {
+                            Double val = Double.valueOf(valueAmount);
+                            if(!checkBox.isChecked()){
+                                val = val * (-1);
+                            }
+
+                            String desc = description.getText().toString().trim();
+                            String brandT = brand.getText().toString().trim();
+                            String sizeT = size.getText().toString().trim();
+                            String codeT = code.getText().toString().trim();
+                            String  product_kindT= product_kind.getText().toString().trim();
+                            String dateToServer=DateHelper.get().changeFormatDateUserToServer( date.getText().toString());
+
+                            String payment_method="efectivo";
+                            String retired_product="false";
+                            if(check_deb.isChecked()){
+                                payment_method= "debito";
+                            }else if(check_card.isChecked()){
+                                payment_method= "tarjeta";
+                            }else if(check_ef.isChecked()){
+                                payment_method= "efectivo";
+                            }
+
+                            if(not_retire.isChecked()){
+                                retired_product="false";
+                            }else if(retire_product.isChecked()){
+                                retired_product="true";
+                            }
+
+                            Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"",brandT,codeT,sizeT,product_kindT,"false",payment_method,retired_product);
+                            //TODO ver fechas
+                            item.created=dateToServer;
+
+                            if(currentClient.debt + val == 0){
+                                item.settled="true";
+                            }
+
+                            item.modify_by=currentClient.employee_creator_id;
+                            ApiClient.get().postItemfile(item, new GenericCallback<Item_file>() {
+                                @Override
+                                public void onSuccess(Item_file data) {
+                                   currentClient.debt+=data.value;
+                                   updateItem(position,currentClient);
+                                   Toast.makeText(mContext, "Transaccion creada para: "+currentClient.getName(), Toast.LENGTH_SHORT).show();
+
+                                    if(onAmountChangeListener!=null){
+                                        onAmountChangeListener.loadOperationAcum(true);
+                                    }
+
+                                    if(data.retired_product.equals("true")){
+                                        mContext.startActivity(new Intent(mContext, ProductsActivity.class));
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Error error) {
+                                    DialogHelper.get().showMessage("Error", "No se pudo crear la transaccion",mContext);
+                                }
+                            });
+                            dialog.dismiss();
+                        }else{
+                            Toast.makeText(dialogView.getContext(), "El valor debe ser numerico, vuelva a ingresarlo", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+ */

@@ -13,6 +13,7 @@ public class ReportStockEvent {
     public Double value;
     public String payment_method;
     public String detail;
+    public String client_name;
 
     public ReportStockEvent(){}
 }

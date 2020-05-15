@@ -300,12 +300,17 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         return listN;
     }
     private String checkEmpty(String text){
-        if(text.equals("")){
-            return "  -";
+        if(text!=null){
+            if(text.equals("")){
+                return "  -";
 
+            }else{
+                return text;
+            }
         }else{
-            return text;
+            return "  -";
         }
+
     }
 
     private void deleteOperation(final Operation op,final Integer position){

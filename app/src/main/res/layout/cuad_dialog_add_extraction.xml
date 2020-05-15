@@ -7,7 +7,7 @@
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="2dp"
     card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
+    android:backgroundTint="@color/background"
     card_view:contentPadding="10dp"
     >
 
@@ -22,7 +22,7 @@
             android:layout_height="30dp"
             android:text="Extracción"
             android:textSize="18sp"
-            android:textColor="@color/title_dialog_info"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:gravity="center"
             android:textStyle="bold"
             />
@@ -46,7 +46,7 @@
                     android:paddingLeft="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:textColor="#5c5c5c"
+                    android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
                     android:layout_weight="1"
@@ -66,26 +66,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:background="@drawable/rec_find"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/description"
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:hint="Descripcion"
-                android:textColor="#5c5c5c"
-                android:textSize="16sp"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
 
             <Spinner
-                android:id="@+id/spinner_type"
+                android:id="@+id/spinner_type1"
                 android:spinnerMode="dropdown"
                 android:layout_width="fill_parent"
                 android:paddingLeft="0dp"
@@ -96,6 +84,44 @@
                 android:layout_height="35dp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rec_find"
+            android:orientation="horizontal">
+
+
+            <Spinner
+                android:id="@+id/spinner_detail"
+                android:spinnerMode="dropdown"
+                android:layout_width="fill_parent"
+                android:paddingLeft="0dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:dropDownVerticalOffset="38dp"
+                android:layout_height="35dp" />
+
+        </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:layout_marginTop="12dp"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:hint="Descripcion"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="16sp"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,7 +141,7 @@
                     android:layout_width="120dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:paddingLeft="8dp"
-                    android:textColor="#5c5c5c"
+                    android:textColor="@color/colorPrimaryDarkLetter"
                     android:layout_height="33dp"
                     android:textSize="16sp"
                     android:background="@drawable/rec_text_edit"

@@ -3,7 +3,10 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,6 +31,7 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -72,6 +76,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         public TextView brand;
         public TextView model;
         public TextView value;
+        public TextView div;
 
 
         public LinearLayout line_edit;
@@ -87,13 +92,15 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         public CheckBox check_deb;
         public CheckBox check_card;
 
+        public TextView cant_stock_out;
         public TextView cant_stock_in;
+        public ImageView imageButton;
 
 
         public ViewHolder(View v){
             super(v);
-            item= v.findViewById(R.id.item);
-            stock_out= v.findViewById(R.id.stock_out);
+            //item= v.findViewById(R.id.item);
+            //stock_out= v.findViewById(R.id.stock_out);
            // stock_in= v.findViewById(R.id.stock_in);
             type= v.findViewById(R.id.type);
             brand= v.findViewById(R.id.brand);
@@ -115,7 +122,11 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             check_deb= v.findViewById(R.id.check_deb);
             check_card= v.findViewById(R.id.check_card);
 
-            cant_stock_in= v.findViewById(R.id.cant_stock_in);
+            cant_stock_out= v.findViewById(R.id.cant_stock_out);
+
+            imageButton= v.findViewById(R.id.imagebutton);
+            model= v.findViewById(R.id.model);
+            div= v.findViewById(R.id.div);
         }
     }
 
@@ -129,13 +140,14 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
     }
 
     private void clearViewHolder(ReportStockEventAdapter.ViewHolder vh){
-        if(vh.cant_stock_in!=null)
-            vh.cant_stock_in.setText(null);
+        if(vh.cant_stock_out!=null)
+            vh.cant_stock_out.setText(null);
         if(vh.stock_out!=null)
             vh.stock_out.setText(null);
 
         if(vh.date!=null)
             vh.date.setText(null);
+
         if(vh.year!=null)
             vh.year.setText(null);
 
@@ -156,6 +168,37 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         }
     }
 
+    private void loadIcon(ViewHolder holder,final String item){
+
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,item,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        if(item.equals("Hombre")){
+            holder.imageButton.setImageResource(R.drawable.bmancl);
+
+           // holder.color.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
+           // holder.image.setImageResource(R.drawable.man);
+        }else if(item.equals("Dama")){
+            holder.imageButton.setImageResource(R.drawable.bwomcl);
+        }else if(item.equals("Accesorio")){
+            holder.imageButton.setImageResource(R.drawable.bacccl);
+        }else if(item.equals("Niño")){
+            holder.imageButton.setImageResource(R.drawable.bnincl);
+        }else if(item.equals("Tecnico")){
+            holder.imageButton.setImageResource(R.drawable.btecl);
+        }else if(item.equals("Calzado")){
+            holder.imageButton.setImageResource(R.drawable.bcalcl);
+        }else if(item.equals("Luz")){
+            holder.imageButton.setImageResource(R.drawable.bluzcl);
+        }else if(item.equals("Oferta")){
+            holder.imageButton.setImageResource(R.drawable.bofercl);
+        }
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -164,39 +207,41 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         final ReportStockEvent current=getItem(position);
 
-        holder.stock_out.setText(String.valueOf(current.stock_out));
 
-        if(current.stock_out > 1){
-            holder.stock_out.setVisibility(View.VISIBLE);
-        }else{
-            holder.stock_out.setVisibility(View.GONE);
-        }
+        loadIcon(holder,current.item);
 
-        holder.value.setText(String.valueOf(current.value));
+        holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
 
-        if(current.stock_in>0){
-           // holder.stock_in.setVisibility(View.VISIBLE);
-           // holder.stock_in.setText("+"+current.stock_in);
+        holder.cant_stock_out.setText(String.valueOf(current.stock_out));
 
+        if(current.detail.equals("Ingreso dev")){
+            holder.cant_stock_out.setText("+"+current.stock_in);
             holder.value.setVisibility(View.INVISIBLE);
-            holder.cant_stock_in.setVisibility(View.VISIBLE);
-            holder.cant_stock_in.setText("+"+current.stock_in);
         }else{
             holder.value.setVisibility(View.VISIBLE);
-            holder.cant_stock_in.setVisibility(View.GONE);
-           // holder.stock_in.setVisibility(View.GONE);
         }
 
-       // holder.model.setText(current.model);
-        holder.item.setText(current.item);
+
+        holder.type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,current.type,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        if(current.model.equals("")){
+            holder.model.setText("-");
+        }else{
+            holder.model.setText(current.model);
+        }
+
         holder.type.setText(current.type);
         holder.brand.setText(current.brand);
 
         if(current.payment_method.equals("efectivo")){
-            holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
-            holder.value.setTypeface(null,Typeface.NORMAL);
         }else{
-            holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
             holder.value.setTypeface(Typeface.DEFAULT_BOLD);
         }
 
@@ -260,7 +305,6 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
                 }else{
                     Toast.makeText(mContext,"Tipo no valido", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 
@@ -276,13 +320,20 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             public void onClick(View v) {
                 if(holder.line_edit.getVisibility() == View.GONE){
                     holder.line_edit.setVisibility(View.VISIBLE);
-
+                    holder.div.setVisibility(View.GONE);
 
                 }else{
                     holder.line_edit.setVisibility(View.GONE);
+                    holder.div.setVisibility(View.VISIBLE);
                 }
+
+
             }
         });
+
+        if(current.client_name!=null){
+            holder.value.setText(current.client_name);
+        }
     }
 
     private void createMenuOut(final ReportStockEventAdapter.ViewHolder holder){

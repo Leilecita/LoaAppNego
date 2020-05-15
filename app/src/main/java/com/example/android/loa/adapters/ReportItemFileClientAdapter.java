@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.R;
 
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 
 import java.util.List;
@@ -27,9 +28,7 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
     public ReportItemFileClientAdapter(Context context, List<ReportItemFileClientEvent> events){
         setItems(events);
         mContext = context;
-
     }
-
 
     public ReportItemFileClientAdapter(){
 
@@ -45,17 +44,12 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
         public TextView detail;
         public TextView value;
 
-
-
         public ViewHolder(View v){
             super(v);
             name= v.findViewById(R.id.name);
             description= v.findViewById(R.id.description);
             value= v.findViewById(R.id.value);
             detail= v.findViewById(R.id.detail);
-
-
-
         }
     }
 
@@ -70,13 +64,10 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
 
     private void clearViewHolder(ReportItemFileClientAdapter.ViewHolder vh){
 
-
         if(vh.name!=null)
             vh.name.setText(null);
-
         if(vh.value!=null)
             vh.value.setText(null);
-
     }
 
 
@@ -87,19 +78,24 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
 
         final ReportItemFileClientEvent current=getItem(position);
 
-        holder.detail.setText("A cuenta");
+        if(current.value>0){
+            holder.detail.setText("A cta");
+        }else{
+            if(current.retired_product.equals("true")){
+                holder.detail.setText("Sale producto");
+            }else {
+                holder.detail.setText("Sale ");
+            }
+        }
+
         holder.name.setText(current.name);
-        holder.value.setText(String.valueOf(current.value));
+        holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
 
         if(current.payment_method.equals("efectivo")){
             holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
-
         }else{
             holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
             holder.value.setTypeface(Typeface.DEFAULT_BOLD);
         }
-
-
-
     }
 }

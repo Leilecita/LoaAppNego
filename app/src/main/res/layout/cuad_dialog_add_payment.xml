@@ -1,0 +1,263 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="2dp"
+    card_view:cardMaxElevation="4dp"
+    android:backgroundTint="@color/background"
+    card_view:contentPadding="16dp"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_user"
+                android:text="Leila"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="12dp"
+                android:id="@+id/date_picker"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_height="40dp"
+                    android:paddingLeft="8dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/rec_text_edit"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:inputType="textCapWords" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_height="40dp"
+                android:paddingLeft="8dp"
+                android:background="@drawable/rec_text_edit"
+                android:layout_weight="1"
+                android:fontFamily="@font/opensanslight"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:hint="Detalle"
+                android:textColorHint="@color/colorPrimaryClearLetter"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
+                android:inputType="textCapWords" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="horizontal">
+
+
+
+                <EditText
+                    android:id="@+id/value"
+                    android:hint="$"
+                    android:paddingLeft="8dp"
+                    android:layout_width="130dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColorHint="@color/colorPrimaryClearLetter"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:background="@drawable/rec_text_edit"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+                    />
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/select_payment_method"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_width="wrap_content"
+                android:id="@+id/check_ef"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="@color/colorPrimaryClearLetter"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:text="Efectivo"
+                android:gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+
+                />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_width="wrap_content"
+                android:id="@+id/check_deb"
+                android:layout_height="wrap_content"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:buttonTint="@color/colorPrimaryClearLetter"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:text="Débito"
+                android:gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="center"
+                android:textSize="15sp"
+
+                />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_width="wrap_content"
+                android:id="@+id/check_card"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:layout_marginLeft="10dp"
+                android:buttonTint="@color/colorPrimaryClearLetter"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:text="Tarjeta"
+                android:gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="center"
+
+                android:textSize="15sp"
+
+                />
+
+
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="La salida de producto se realiza desde la pestaña de stock "
+            android:layout_marginTop="16dp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:src="@drawable/date"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@color/colorDialogButton"
+                android:text="guardar"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+
+

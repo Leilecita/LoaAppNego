@@ -1,16 +1,19 @@
 package com.example.android.loa.activities;
 
 import android.content.Intent;
+
+import com.example.android.loa.activities.todelete.SaleMovementsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
-import androidx.core.app.NavUtils;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.PageAdapter;
@@ -23,6 +26,13 @@ public class MainActivity extends BaseActivity {
     TabLayout mTabLayout;
     FloatingActionButton button;
 
+    ImageView extractions;
+    ImageView box;
+    ImageView listBoxes;
+    ImageView hours;
+    ImageView products;
+    ImageView clients;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +42,59 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        ViewPager viewPager =  findViewById(R.id.viewpager);
+        extractions=findViewById(R.id.extractions);
+        box=findViewById(R.id.box);
+        listBoxes=findViewById(R.id.listcajas);
+        products=findViewById(R.id.mercaderia);
+        hours=findViewById(R.id.hours);
+        clients=findViewById(R.id.clients);
+
+        extractions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "extractions");
+                startActivity(i);
+
+            }
+        });
+        listBoxes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "box");
+                startActivity(i);
+            }
+        });
+
+        box.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "lei");
+                startActivity(i);
+            }
+        });
+        products.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(),ProductsActivity.class));
+            }
+        });
+        hours.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(),EmployeesActivity.class));
+            }
+        });
+        clients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(),ClientsActivity.class));
+            }
+        });
+
+      /*  ViewPager viewPager =  findViewById(R.id.viewpager);
 
         mAdapter = new PageAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
@@ -44,6 +106,7 @@ public class MainActivity extends BaseActivity {
 
         actionFloatingButton();
         setImageButton();
+        setVisivilityButton();
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -53,16 +116,17 @@ public class MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 setImageButton();
                 actionFloatingButton();
+                setVisivilityButton();
             }
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        });
+        });*/
     }
 
     @Override
     public int getLayoutRes() {
-        return R.layout.activity_main;
+        return R.layout.activity_main2;
     }
 
     public void actionFloatingButton(){
@@ -88,6 +152,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public void setVisivilityButton(){
+        int position = mTabLayout.getSelectedTabPosition();
+        Fragment f = mAdapter.getItem(position);
+
+        if( f instanceof BaseFragment){
+            button.setVisibility(((BaseFragment)f).getVisibility());
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main2, menu);
@@ -95,8 +168,6 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
 
         int id = item.getItemId();
         if ( id == R.id.action_logout ) {
@@ -109,10 +180,15 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(getBaseContext(), ProductsActivity.class));
         }else if(id == R.id.action_box_month){
 
-            //startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
+            startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
         }else if(id == R.id.action_sale){
 
             startActivity(new Intent(getBaseContext(), SaleMovementsActivity.class));
+        }else if(id == R.id.action_employees){
+
+            startActivity(new Intent(getBaseContext(), EmployeesActivity.class));
+        }else if(id == R.id.action_clients){
+            startActivity(new Intent(getBaseContext(), ClientsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

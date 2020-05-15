@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    android:background="#E2E4DF"
+    android:background="@color/background"
     >
 
     <LinearLayout
@@ -26,6 +26,7 @@
             <TextView
                 android:layout_width="120dp"
                 style="@style/CodeFontCreate"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Nombre "
                 />
             <EditText
@@ -47,6 +48,7 @@
             <TextView
                 android:layout_width="120dp"
                 style="@style/CodeFontCreate"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Apellido "
                 />
             <EditText
@@ -68,6 +70,7 @@
             <TextView
                 style="@style/CodeFontCreate"
                 android:layout_width="120dp"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Teléfono   "
                 />
             <EditText
@@ -87,6 +90,7 @@
                 style="@style/CodeFontCreate"
                 android:text="Dirección "
                 android:layout_width="120dp"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 />
 
             <EditText

@@ -56,6 +56,29 @@
         android:id="@+id/out_luz"
         android:title="Salida luz"
         />
+    <item
+
+        android:id="@+id/out_bonif"
+        android:title="Salida ficha especial bonificacion"
+        />
+
+    <item
+
+        android:id="@+id/out_local"
+        android:title="paso al stock local "
+        />
+    <item
+
+        android:id="@+id/out_consign"
+        android:title="salida consignacion"
+        />
+
+    <item
+
+        android:id="@+id/out_oferta"
+        android:title="paso al stock oferta"
+        />
+
 
 
 </menu>

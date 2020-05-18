@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.Interfaces.OnSelectedItem;
 import com.example.android.loa.R;
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.ReportMonthBox;
 
@@ -47,6 +48,7 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
         public TextView year;
         public TextView counted_sale;
         public TextView card;
+        public TextView tot;
         public TextView dep;
         public RecyclerView listBoxes;
 
@@ -55,6 +57,7 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
             counted_sale = v.findViewById(R.id.venta_ctdo);
             card = v.findViewById(R.id.card);
             dep = v.findViewById(R.id.dep);
+            tot = v.findViewById(R.id.total_amount);
             month = v.findViewById(R.id.month);
             year = v.findViewById(R.id.year);
             listBoxes = v.findViewById(R.id.list_box);
@@ -79,12 +82,10 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
             vh.card.setText(null);
         if (vh.counted_sale != null)
             vh.counted_sale.setText(null);
-
         if (vh.dep != null)
             vh.dep.setText(null);
+
     }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -93,12 +94,13 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
         clearViewHolder(holder);
 
         final ReportMonthBox current=getItem(position);
-        holder.month.setText(getMonth(current.m).substring(0, 3));
+        holder.month.setText(getMonth(current.m).substring(0,3));
 
         holder.year.setText(current.y);
-        holder.counted_sale.setText(String.valueOf(current.sale));
-        holder.card.setText(String.valueOf(current.card));
-        holder.dep.setText(String.valueOf(current.dep));
+        holder.counted_sale.setText(ValuesHelper.get().getIntegerQuantityByLei(current.sale));
+        holder.card.setText(ValuesHelper.get().getIntegerQuantityByLei(current.card));
+        holder.dep.setText(ValuesHelper.get().getIntegerQuantityByLei(current.dep));
+        holder.tot.setText(ValuesHelper.get().getIntegerQuantityByLei(current.sale + current.card));
 
         final BoxAdapter adapterItemOrder= new BoxAdapter(mContext,new ArrayList<Box>());
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(mContext);
@@ -115,7 +117,6 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
                 }else{
                     holder.listBoxes.setVisibility(View.GONE);
                 }
-
             }
         });
 

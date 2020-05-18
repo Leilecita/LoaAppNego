@@ -373,7 +373,7 @@ public class DateHelper {
         }
     }
 
-    public String getNameMonth(String date) {
+   /* public String getNameMonth(String date) {
         try {
             Date d = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date);
             Calendar cal = Calendar.getInstance();
@@ -390,7 +390,7 @@ public class DateHelper {
             e.printStackTrace();
         }
         return "";
-    }
+    }*/
 
 
     public String getNameMonth2(String date) {

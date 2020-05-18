@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity {
     ImageView products;
     ImageView clients;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,8 @@ public class MainActivity extends BaseActivity {
             finish();
             return;
         }
+
+
 
         extractions=findViewById(R.id.extractions);
         box=findViewById(R.id.box);
@@ -175,7 +178,19 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(getBaseContext(),LoginActivity.class));
             finish();
             return true;
-        }else if(id == R.id.action_stock){
+        }else if(id == R.id.action_box_month){
+
+            startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
+        }
+        else if(id == R.id.action_mov_stock){
+
+            startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
+        } else if(id == R.id.action_incomes){
+
+            startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
+        }
+
+        /*else if(id == R.id.action_stock){
 
             startActivity(new Intent(getBaseContext(), ProductsActivity.class));
         }else if(id == R.id.action_box_month){
@@ -190,7 +205,7 @@ public class MainActivity extends BaseActivity {
         }else if(id == R.id.action_clients){
             startActivity(new Intent(getBaseContext(), ClientsActivity.class));
         }
-
+*/
         return super.onOptionsItemSelected(item);
 
     }

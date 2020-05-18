@@ -6,15 +6,15 @@
     android:orientation="vertical"
     app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="80dp" >
+    app:behavior_peekHeight="@dimen/peek_height" >
 
     <TextView
         android:layout_width="30dp"
         android:layout_marginBottom="4dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/line"
+        style="@style/DivisorCategoryStyle"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:layout_height="2dp" />
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lineFilter"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical">
 
             <HorizontalScrollView
@@ -42,7 +42,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
 
                     android:layout_marginBottom="4dp"
                     android:orientation="horizontal"

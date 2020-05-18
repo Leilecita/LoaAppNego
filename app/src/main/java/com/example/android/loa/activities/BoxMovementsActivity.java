@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -37,6 +38,7 @@ public class BoxMovementsActivity extends BaseActivity {
             return;
         }
 
+
         viewPager =  findViewById(R.id.viewpager);
 
         mAdapter = new PageAdapter(this, getSupportFragmentManager());
@@ -44,9 +46,46 @@ public class BoxMovementsActivity extends BaseActivity {
 
         mTabLayout =  findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(viewPager);
-
+        mTabLayout.setSelectedTabIndicatorHeight(13);
         button= findViewById(R.id.fab_agregarTod);
         image_button= findViewById(R.id.image_button);
+
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(R.layout.tab_text);
+                View v= tab.getCustomView();
+                TextView t= v.findViewById(R.id.text1);
+
+                setTextByPosition(t,i);
+
+            }
+        }
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                View im=tab.getCustomView();
+                TextView t=im.findViewById(R.id.text1);
+                t.setTextColor(getResources().getColor(R.color.white));
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                View im=tab.getCustomView();
+                TextView t=im.findViewById(R.id.text1);
+                t.setTextColor(getResources().getColor(R.color.word_clear));
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
         String name=getIntent().getStringExtra("NAMEFRAGMENT");
         if(name.equals("extractions")){
@@ -95,6 +134,21 @@ public class BoxMovementsActivity extends BaseActivity {
         }
     }
 
+    private void setTextByPosition(TextView t, Integer i) {
+        if (i == 0) {
+            t.setText("ventas");
+            t.setTextColor(getResources().getColor(R.color.white));
+        } else if (i == 1) {
+            t.setText("extracc");
+            t.setTextColor(getResources().getColor(R.color.word_clear));
+        } else if (i == 2) {
+            t.setText("compras");
+            t.setTextColor(getResources().getColor(R.color.word_clear));
+        } else {
+            t.setText("cajas");
+            t.setTextColor(getResources().getColor(R.color.word_clear));
+        }
+    }
     public void selectFragment(int position){
         viewPager.setCurrentItem(position, true);
     }
@@ -132,12 +186,20 @@ public class BoxMovementsActivity extends BaseActivity {
             startActivity(new Intent(getBaseContext(),LoginActivity.class));
             finish();
             return true;
-        }else if(id == R.id.action_stock){
-
-            startActivity(new Intent(getBaseContext(), ProductsActivity.class));
         }else if(id == R.id.action_box_month){
 
             startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+}
+
+/*
+
+else if(id == R.id.action_stock){
+
+            startActivity(new Intent(getBaseContext(), ProductsActivity.class));
         }else if(id == R.id.action_sale){
 
             startActivity(new Intent(getBaseContext(), SaleMovementsActivity.class));
@@ -147,8 +209,4 @@ public class BoxMovementsActivity extends BaseActivity {
         }else if(id == R.id.action_clients){
             startActivity(new Intent(getBaseContext(), ClientsActivity.class));
         }
-
-        return super.onOptionsItemSelected(item);
-
-    }
-}
+ */

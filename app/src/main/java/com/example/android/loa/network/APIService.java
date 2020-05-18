@@ -185,7 +185,7 @@ public interface APIService {
 
 
     @GET("incomes.php")
-    Observable<Response<List<Income>>> getIncomesByDate(@Query("method") String method,@Query("since") String created, @Query("to") String to);
+    Observable<Response<List<Income>>> getIncomes(@Query("method") String method,@Query("page") Integer page);
 
     @PUT("incomes.php")
     Observable<Response<Income>> putIncome(@Body Income i);
@@ -342,4 +342,8 @@ public interface APIService {
 
     @GET("stock_events.php")
     Observable<Response<List<ReportEntrie>>> getEntries(@Query("page") Integer page, @Query("item") String item, @Query("groupby") String groupby, @Query("method") String method);
+
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportStockEvent>>> getEvents(@Query("page") Integer page, @Query("item") String item, @Query("groupby") String groupby, @Query("method") String method);
 }

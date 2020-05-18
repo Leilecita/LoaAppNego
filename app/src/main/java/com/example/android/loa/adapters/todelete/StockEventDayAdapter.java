@@ -1,4 +1,4 @@
-package com.example.android.loa.adapters;
+package com.example.android.loa.adapters.todelete;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.R;
+import com.example.android.loa.adapters.BaseAdapter;
 import com.example.android.loa.network.models.StockEvent;
 
 import java.util.List;

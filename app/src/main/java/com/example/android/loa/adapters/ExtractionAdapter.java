@@ -133,8 +133,6 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         }
 
 
-
-
        /* if(position==0){
             holder.div.setVisibility(View.GONE);
         }else{

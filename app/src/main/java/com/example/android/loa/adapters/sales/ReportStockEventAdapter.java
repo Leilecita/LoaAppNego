@@ -1,18 +1,13 @@
-package com.example.android.loa.adapters;
+package com.example.android.loa.adapters.sales;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -27,23 +22,20 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.DateHelper;
-import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.ValuesHelper;
+import com.example.android.loa.adapters.BaseAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.ReportStockEvent;
-import com.example.android.loa.network.models.StockEvent;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,ReportStockEventAdapter.ViewHolder>  {
+public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,ReportStockEventAdapter.ViewHolder> {
     private Context mContext;
     private Boolean mHideDetail;
 

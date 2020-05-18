@@ -1,7 +1,6 @@
 package com.example.android.loa.adapters;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,13 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.DateHelper;
-import com.example.android.loa.DividerDecoration;
 import com.example.android.loa.R;
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.models.Extraction;
@@ -59,7 +56,7 @@ public class ReportExtractionAdapter  extends BaseAdapter<ReportExtraction,Repor
             LinearLayout linear = (LinearLayout) holder.itemView;
             final ReportExtraction e = getItem(position);
 
-            String dateToShow2 = DateHelper.get().getNameMonth(e.created).substring(0, 3);
+            String dateToShow2 = DateHelper.get().getNameMonth2(e.created).substring(0, 3);
             String numberDay = DateHelper.get().numberDay(e.created);
 
             String text = ValuesHelper.get().getIntegerQuantityByLei(e.amountDay);

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lin_incomes"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:visibility="gone"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/line"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_incomes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="65dp"
+        android:background="@drawable/bblanco"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:id="@+id/fab_agregarTod"
+        android:layout_alignParentBottom="true"
+        android:layout_height="65dp">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:id="@+id/image_button"
+            android:layout_height="match_parent"
+            android:src="@drawable/add_white"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

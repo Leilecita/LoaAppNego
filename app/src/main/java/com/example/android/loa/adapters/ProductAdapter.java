@@ -687,13 +687,24 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                       holder.detail.setText("Ingreso balance stock");
                       return true;
                   case R.id.in_dev:
+                      //holder.detail.setText("Ingreso dev");
                       holder.detail.setText("Ingreso dev");
+                      return true;
+
+                  case R.id.in_dev_wrong:
+                      holder.detail.setText("Ingreso dev falla");
+                      return true;
+                  case R.id.in_consign:
+                      holder.detail.setText("Ingreso consignacion");
                       return true;
                   case R.id.in_dev_luz:
                       holder.detail.setText("ingreso dev Luz");
                       return true;
-                  case R.id.in_dev_wrong:
-                      holder.detail.setText("Ingreso dev falla");
+                  case R.id.in_stock_oferta:
+                      holder.detail.setText("ingreso stock oferta");
+                      return true;
+                  case R.id.in_stock_local:
+                      holder.detail.setText("ingreso stock local");
                       return true;
                   default:
                       return false;
@@ -715,24 +726,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     case R.id.out_buy:
                         holder.detail.setText("Salida venta");
                         return true;
-                    case R.id.out_error:
-                        holder.detail.setText("Resta por error anterior");
-                        return true;
-                    case R.id.out_dev:
-                        holder.detail.setText("Salida dev");
-                        return true;
-                    case R.id.out_balance_stock:
-                        holder.detail.setText("Salida balance stock");
-                        return true;
-                    case R.id.out_falla:
-                        holder.detail.setText("Salida dev falla");
-                        return true;
-                    case R.id.out_santi:
-                        holder.detail.setText("Salida santi");
-                        return true;
-                    case R.id.out_gifts:
-                        holder.detail.setText("Salida premios");
-                        return true;
                     case R.id.out_person_file:
                         holder.detail.setText("Salida ficha");
 
@@ -741,13 +734,45 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         holder.value.setText("0.0");
 
                         loadNameClients(holder);
+                        return true;
 
+                    case R.id.out_falla:
+                        holder.detail.setText("Salida dev falla");
+                        return true;
+                    case R.id.out_balance_stock:
+                        holder.detail.setText("Salida balance stock");
                         return true;
                     case R.id.out_stole:
                         holder.detail.setText("Salida por robo");
                         return true;
+                    case R.id.out_error:
+                        holder.detail.setText("Resta por error anterior");
+                        return true;
+                    case R.id.out_dev:
+                        holder.detail.setText("Salida dev");
+                        return true;
+                    case R.id.out_consign:
+                        holder.detail.setText("Salida articulo consignacion");
+                        return true;
+
+                    case R.id.out_bonif:
+                        holder.detail.setText("Salida ficha especial bonificacion");
+                        return true;
+                    case R.id.out_santi:
+                        holder.detail.setText("Salida santi");
+                        return true;
+                    case R.id.out_gifts:
+                        holder.detail.setText("Salida premios");
+                        return true;
+
                     case R.id.out_luz:
                         holder.detail.setText("Salida luz");
+                        return true;
+                    case R.id.out_local:
+                        holder.detail.setText("paso al stock local");
+                        return true;
+                    case R.id.out_oferta:
+                        holder.detail.setText("paso al stock oferta");
                         return true;
 
                     default:

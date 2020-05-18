@@ -137,7 +137,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         });
         final String dateToShow=DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentBox.created));
 
-        holder.date.setText(DateHelper.get().getNameMonth(currentBox.created).substring(0,3));
+        holder.date.setText(DateHelper.get().getNameMonth2(currentBox.created).substring(0,3));
         holder.number_date.setText(DateHelper.get().numberDay(currentBox.created));
 
         holder.date.setOnClickListener(new View.OnClickListener() {

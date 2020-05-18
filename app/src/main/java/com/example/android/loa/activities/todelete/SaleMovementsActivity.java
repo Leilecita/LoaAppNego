@@ -14,9 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,30 +31,23 @@ import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.IncomesAdapter;
 import com.example.android.loa.adapters.ReportItemFileClientAdapter;
-import com.example.android.loa.adapters.ReportStockEventAdapter;
+import com.example.android.loa.adapters.sales.ReportStockEventAdapter;
 import com.example.android.loa.fragments.BottomSheetFragment;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.Response;
 import com.example.android.loa.network.models.AmountResult;
-import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.Income;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class SaleMovementsActivity extends BaseActivity implements Paginate.Callbacks, BottomSheetFragment.BottomSheetListener, OnAmountSaleChange {
@@ -468,8 +459,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
     private void listIncomes(){
 
         String dateTo=DateHelper.get().getNextDay(mDate);
-
-        ApiClient.get().getIncomesByDate(mDate, dateTo, new GenericCallback<List<Income>>() {
+        /*ApiClient.get().getIncomesByDate(mDate, dateTo, new GenericCallback<List<Income>>() {
             @Override
             public void onSuccess(List<Income> data) {
                 if(data.size() >0){
@@ -483,7 +473,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
             public void onError(Error error) {
 
             }
-        });
+        });*/
     }
     private void listItemsFileClientEvents(){
 

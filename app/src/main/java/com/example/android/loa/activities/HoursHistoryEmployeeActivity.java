@@ -199,7 +199,7 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
         monthTo=finalNextMonth;
         System.out.println(monthSince);
 
-        mSelectMonth.setText(DateHelper.get().getNameMonth(monthSince));
+        mSelectMonth.setText(DateHelper.get().getNameMonth2(monthSince));
         System.out.println(monthDate);
         System.out.println(nextMonth);
         System.out.println(finalNextMonth);

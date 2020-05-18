@@ -352,9 +352,11 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getItemsFileClientEvent("getItemsClientByDate",since,to), callback);
     }
 
-    public void getIncomesByDate(String created, String to, final GenericCallback<List<Income>> callback){
-        handleRequest( ApiUtils.getAPISessionService().getIncomesByDate("getIncomes",created,to), callback);
+    public void getIncomes(Integer page, final GenericCallback<List<Income>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getIncomes("getIncomes",page), callback);
     }
+
+
     public void getSotckeventsByPage( Integer page,Long id_product,final GenericCallback<List<StockEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSotckeventsByPage(page,id_product), callback);
     }
@@ -363,12 +365,17 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getReportStockEvents(page,"getStockEventsDay",created,createdTo,item), callback);
     }
 
+
     public void getReportSales( Integer page,String item,String groupby,final GenericCallback<List<ReportSale>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSales(page,item,groupby,"getSales"), callback);
     }
 
     public void getReportEntrie( Integer page,String item,String groupby,final GenericCallback<List<ReportEntrie>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getEntries(page,item,groupby,"getEntries"), callback);
+    }
+
+    public void getReportEvents( Integer page,String item,String groupby,final GenericCallback<List<ReportStockEvent>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getEvents(page,item,groupby,"getEvents"), callback);
     }
 
     public void getAmountSalesByDay( String created,final GenericCallback<AmountResult> callback ){

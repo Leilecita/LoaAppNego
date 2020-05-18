@@ -27,6 +27,23 @@
         android:id="@+id/in_dev_luz"
         android:title="Ingreso devolucion luz"
         />
+
+    <item
+
+        android:id="@+id/in_consign"
+        android:title="Ingreso consignacion"
+        />
+    <item
+
+        android:id="@+id/in_stock_oferta"
+        android:title="Ingreso stock oferta"
+        />
+    <item
+
+        android:id="@+id/in_stock_local"
+        android:title="Ingreso stock local"
+        />
+
     <item
 
         android:id="@+id/in_dev_wrong"

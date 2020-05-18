@@ -1,6 +1,5 @@
 package com.example.android.loa.fragments;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.R;
-import com.example.android.loa.adapters.ReportEntrieAdapter;
+import com.example.android.loa.adapters.entries.ReportEntrieAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -24,6 +22,7 @@ import com.example.android.loa.network.models.ReportEntrie;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,17 +52,8 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
     private ImageView oferta;
     private ImageView all;
 
-    private LinearLayout income;
-
-    private TextView textMan;
-    private TextView textWoman;
-    private TextView textBoy;
-    private TextView textTec;
-    private TextView textZap;
-    private TextView textAcc;
-    private TextView textLuz;
-    private TextView textOferta;
-    private TextView textAll;
+    private ImageView mes;
+    private ImageView dia;
 
     private String mItem;
     private String mGroupBy;
@@ -89,6 +79,18 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
         mRecyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
 
+        // Add the sticky headers decoration
+        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
+        mRecyclerView.addItemDecoration(headersDecor);
+
+        // Add decoration for dividers between list items
+        //mRecyclerView.addItemDecoration(new DividerDecoration(getContext()));
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecor.invalidateHeaders();
+            }
+        });
         //STICKY
 /*
         // Add the sticky headers decoration
@@ -114,8 +116,8 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
 
         implementsPaginate();
 
-        bts(bsb);
-
+        //bts(bsb);
+        topBarListener(bottomSheet);
         return mRootView;
     }
 
@@ -189,12 +191,14 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
     }
 
 
-
     private void changeCircleSelected(){
-
         clearView();
         listSales();
+    }
 
+    private void clearAndList(){
+        clearView();
+        listSales();
     }
 
     private void bts(BottomSheetBehavior bsb){
@@ -222,7 +226,31 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
         luz=bottomSheet.findViewById(R.id.luz);
         oferta=bottomSheet.findViewById(R.id.oferta);
         all=bottomSheet.findViewById(R.id.all);
+        mes=bottomSheet.findViewById(R.id.mes);
+        dia=bottomSheet.findViewById(R.id.dia);
 
+        mes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGroupBy="month";
+                mAdapter.setGroupBy(mGroupBy);
+                mes.setImageResource(R.drawable.b23);
+                dia.setImageResource(R.drawable.bdiacl);
+                clearAndList();
+
+            }
+        });
+
+        dia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGroupBy="day";
+                mes.setImageResource(R.drawable.mescl2);
+                dia.setImageResource(R.drawable.bdia);
+                mAdapter.setGroupBy(mGroupBy);
+                clearAndList();
+            }
+        });
 
 
         all.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +258,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Todos";
                 changeCircleSelected();
-
             }
         });
 
@@ -239,7 +266,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Dama";
                 changeCircleSelected();
-
             }
         });
         man.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +273,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Hombre";
                 changeCircleSelected();
-
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {
@@ -255,7 +280,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Niño";
                 changeCircleSelected();
-
             }
         });
         accesories.setOnClickListener(new View.OnClickListener() {
@@ -263,7 +287,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Accesorio";
                 changeCircleSelected();
-
             }
         });
         tecnico.setOnClickListener(new View.OnClickListener() {
@@ -271,7 +294,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Tecnico";
                 changeCircleSelected();
-
             }
         });
 
@@ -280,7 +302,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Calzado";
                 changeCircleSelected();
-
             }
         });
 
@@ -289,7 +310,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Luz";
                 changeCircleSelected();
-
             }
         });
 
@@ -298,7 +318,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Oferta";
                 changeCircleSelected();
-
             }
         });
     }

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
-import com.example.android.loa.adapters.StockEventAdapter;
+import com.example.android.loa.adapters.StockEventAdapterBalance;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -35,7 +34,7 @@ import java.util.List;
 public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
 
     private RecyclerView mRecyclerViewStockEvents;
-    private StockEventAdapter mAdapterStockEvents;
+    private StockEventAdapterBalance mAdapterStockEvents;
     private RecyclerView.LayoutManager layoutManager;
 
 
@@ -73,7 +72,7 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
         mRecyclerViewStockEvents =  findViewById(R.id.list_stock_events);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerViewStockEvents.setLayoutManager(layoutManager);
-        mAdapterStockEvents=new StockEventAdapter(this,new ArrayList<StockEvent>());
+        mAdapterStockEvents=new StockEventAdapterBalance(this,new ArrayList<StockEvent>());
 
         mRecyclerViewStockEvents.setAdapter(mAdapterStockEvents);
 

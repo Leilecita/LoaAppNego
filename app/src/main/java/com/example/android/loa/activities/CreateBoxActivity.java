@@ -116,7 +116,7 @@ public class CreateBoxActivity extends BaseActivity {
         mSelectDate=getExpandedDate();
         date.setText(DateHelper.get().getOnlyDate(mSelectDate));
         day.setText(DateHelper.get().numberDay(mSelectDate));
-        month.setText(DateHelper.get().getNameMonth(mSelectDate).substring(0,3));
+        month.setText(DateHelper.get().getNameMonth2(mSelectDate).substring(0,3));
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override

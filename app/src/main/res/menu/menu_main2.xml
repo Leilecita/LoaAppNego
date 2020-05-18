@@ -16,24 +16,16 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_sale"
-        android:title="Ventas"
+        android:id="@+id/action_mov_stock"
+        android:title="Movimientos"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_stock"
-        android:title="STOCK"
+        android:id="@+id/action_incomes"
+        android:title="Señas"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_employees"
-        android:title="TEAM"
-        app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_clients"
-        android:title="Client"
-        app:showAsAction="never" />
 
 
 </menu>

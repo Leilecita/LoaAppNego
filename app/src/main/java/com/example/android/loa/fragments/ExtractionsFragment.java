@@ -90,7 +90,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
     public void onClickButton(){ addExtraction();  }
     public int getIconButton(){
-        return R.drawable.add_white;
+        return R.drawable.add3;
     }
 
     public int getVisibility(){

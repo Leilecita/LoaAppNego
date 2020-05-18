@@ -49,11 +49,11 @@ public class EmployeesActivity extends BaseActivity implements Paginate.Callback
 
         setTitle("Team");
         mRecyclerView = findViewById(R.id.list_employees);
-        gridlayoutmanager=new GridLayoutManager(this,3);
+        gridlayoutmanager=new GridLayoutManager(this,2);
+
         mRecyclerView.setLayoutManager(gridlayoutmanager);
         mAdapter = new EmployeeAdapter(this, new ArrayList<Employee>());
         mRecyclerView.setAdapter(mAdapter);
-
         button= findViewById(R.id.fab_agregarTod);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

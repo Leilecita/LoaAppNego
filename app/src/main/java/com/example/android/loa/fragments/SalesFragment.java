@@ -85,7 +85,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
     private String mGroupBy;
 
     public int getIconButton() {
-        return R.drawable.add_white;
+        return R.drawable.add3;
     }
 
     public int getVisibility() {

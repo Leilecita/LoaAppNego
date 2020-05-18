@@ -20,21 +20,21 @@
 
     <ImageView
         android:layout_width="120dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/extractions"
-
         android:layout_above="@id/mercaderia"
+        android:layout_toLeftOf="@id/box"
         android:layout_marginBottom="-20dp"
+        android:layout_marginRight="5dp"
         android:layout_height="120dp"
         android:src="@drawable/extracciones"/>
 
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/listcajas"
-        android:layout_above="@id/mercaderia"
         android:layout_toRightOf="@+id/box"
+        android:layout_marginLeft="5dp"
+        android:layout_above="@id/mercaderia"
         android:layout_marginBottom="-20dp"
         android:src="@drawable/listcajas"/>
 
@@ -54,7 +54,7 @@
         android:layout_height="120dp"
         android:id="@+id/statistics"
         android:layout_marginTop="-30dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/clients"
         android:layout_below="@id/mercaderia"
         android:src="@drawable/bestatistics"/>
@@ -73,7 +73,7 @@
         android:layout_height="120dp"
         android:layout_below="@id/mercaderia"
         android:layout_marginTop="-30dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
         android:id="@+id/hours"
         android:layout_toLeftOf="@id/clients"
         android:src="@drawable/bpersonal"/>

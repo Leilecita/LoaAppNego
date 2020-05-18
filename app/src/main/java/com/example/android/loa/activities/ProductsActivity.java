@@ -402,6 +402,16 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         viewModel();
 
+        woman.setImageResource(R.drawable.bwomcl);
+        boy.setImageResource(R.drawable.bnincl);
+        man.setImageResource(R.drawable.bmancl);
+        tecnico.setImageResource(R.drawable.btecl);
+        zapas.setImageResource(R.drawable.bcalcl);
+        accesories.setImageResource(R.drawable.bacccl);
+        luz.setImageResource(R.drawable.bluzcl);
+        oferta.setImageResource(R.drawable.bofercl);
+        all.setImageResource(R.drawable.ballcl);
+
      /*   woman.setBackgroundResource(R.drawable.circle_unselected);
         boy.setBackgroundResource(R.drawable.circle_unselected);
         man.setBackgroundResource(R.drawable.circle_unselected);
@@ -457,17 +467,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         luz=findViewById(R.id.luz);
         oferta=findViewById(R.id.oferta);
         all=findViewById(R.id.all);
-/*
-        textAcc=findViewById(R.id.textAcc);
-        textMan=findViewById(R.id.textMan);
-        textWoman=findViewById(R.id.textWoman);
-        textZap=findViewById(R.id.textZapas);
-        textTec=findViewById(R.id.textTec);
-        textBoy=findViewById(R.id.textBoy);
-        textLuz=findViewById(R.id.textLuz);
-        textOferta=findViewById(R.id.textOferta);
-        textAll=findViewById(R.id.textAll);
-        */
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -475,6 +474,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Todos";
                 mViewModel=false;
                 changeCircleSelected();
+                all.setImageResource(R.drawable.ball);
                 //all.setBackgroundResource(R.drawable.circle);
               //  textAll.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                // textAll.setTextColor(getResources().getColor(R.color.word));
@@ -487,6 +487,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Dama";
                 mViewModel=false;
                 changeCircleSelected();
+                woman.setImageResource(R.drawable.bwom);
                 //woman.setBackgroundResource(R.drawable.circle);
                // textWoman.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                // textWoman.setTextColor(getResources().getColor(R.color.word));
@@ -498,6 +499,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Hombre";
                 mViewModel=false;
                 changeCircleSelected();
+                man.setImageResource(R.drawable.bman);
                // man.setBackgroundResource(R.drawable.circle);
                // textMan.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                // textMan.setTextColor(getResources().getColor(R.color.word));
@@ -509,6 +511,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Niño";
                 mViewModel=false;
                 changeCircleSelected();
+                boy.setImageResource(R.drawable.bnin);
                // boy.setBackgroundColor(getResources().getColor(R.color.trasparente));
                 //boy.setBackgroundResource(R.drawable.circle);
                // textBoy.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -521,7 +524,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Accesorio";
                 mViewModel=false;
                 changeCircleSelected();
-                accesories.setBackgroundResource(R.drawable.circle);
+                accesories.setImageResource(R.drawable.bacc);
               //  textAcc.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
               //  textAcc.setTextColor(getResources().getColor(R.color.word));
             }
@@ -532,6 +535,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Tecnico";
                 mViewModel=true;
                 changeCircleSelected();
+                tecnico.setImageResource(R.drawable.btec);
                // tecnico.setBackgroundResource(R.drawable.circle);
               //  textTec.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
               //  textTec.setTextColor(getResources().getColor(R.color.word));
@@ -544,6 +548,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Calzado";
                 mViewModel=true;
                 changeCircleSelected();
+                zapas.setImageResource(R.drawable.bcal);
                // zapas.setBackgroundResource(R.drawable.circle);
                // textZap.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                // textZap.setTextColor(getResources().getColor(R.color.word));
@@ -557,6 +562,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Luz";
                 mViewModel=false;
                 changeCircleSelected();
+                luz.setImageResource(R.drawable.bluz);
               //  luz.setBackgroundResource(R.drawable.circle);
               //  textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
               //  textLuz.setTextColor(getResources().getColor(R.color.word));
@@ -569,6 +575,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mItem="Oferta";
                 mViewModel=false;
                 changeCircleSelected();
+                oferta.setImageResource(R.drawable.bofer);
                // oferta.setBackgroundResource(R.drawable.circle);
                // textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
              //   textOferta.setTextColor(getResources().getColor(R.color.word));

@@ -45,7 +45,7 @@ public class BoxMovementsActivity extends BaseActivity {
 
         mTabLayout =  findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(viewPager);
-        mTabLayout.setSelectedTabIndicatorHeight(13);
+        mTabLayout.setSelectedTabIndicatorHeight(11);
         button= findViewById(R.id.fab_agregarTod);
         image_button= findViewById(R.id.image_button);
 
@@ -157,7 +157,6 @@ public class BoxMovementsActivity extends BaseActivity {
         Fragment f = mAdapter.getItem(position);
 
         if( f instanceof BaseFragment){
-            //button.setBackground(((BaseFragment)f).getIconButton());
             image_button.setImageResource(((BaseFragment)f).getIconButton());
         }
     }
@@ -190,19 +189,3 @@ public class BoxMovementsActivity extends BaseActivity {
 
     }
 }
-
-/*
-
-else if(id == R.id.action_stock){
-
-            startActivity(new Intent(getBaseContext(), ProductsActivity.class));
-        }else if(id == R.id.action_sale){
-
-            startActivity(new Intent(getBaseContext(), SaleMovementsActivity.class));
-        }else if(id == R.id.action_employees){
-
-            startActivity(new Intent(getBaseContext(), EmployeesActivity.class));
-        }else if(id == R.id.action_clients){
-            startActivity(new Intent(getBaseContext(), ClientsActivity.class));
-        }
- */

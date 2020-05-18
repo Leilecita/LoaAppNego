@@ -21,7 +21,4 @@
         android:title="Señas"
         app:showAsAction="never" />
 
-
-
-
 </menu>

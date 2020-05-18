@@ -123,6 +123,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         public ImageView add_stock;
         public ImageView less_stock;
+        public ImageView balance;
+        public ImageView delete;
 
         public LinearLayout updateStock;
         public EditText load_stock;
@@ -181,6 +183,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             cancel= v.findViewById(R.id.cancel);
             model= v.findViewById(R.id.model);
             imageButton= v.findViewById(R.id.imagebutton);
+            balance= v.findViewById(R.id.balance);
+            delete= v.findViewById(R.id.delete);
         }
     }
 
@@ -213,8 +217,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         if(item.equals("Hombre")){
             holder.imageButton.setImageResource(R.drawable.bmancl);
 
-            // holder.color.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
-            // holder.image.setImageResource(R.drawable.man);
         }else if(item.equals("Dama")){
             holder.imageButton.setImageResource(R.drawable.bwomcl);
         }else if(item.equals("Accesorio")){
@@ -320,12 +322,19 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
     private void optionsItem(final ViewHolder holder, final Product p, final Integer position){
 
-      /*  holder.get_balance.setOnClickListener(new View.OnClickListener() {
+        holder.balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getBalance(p);
             }
-        });*/
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteProduct(p,position);
+            }
+        });
         holder.less_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

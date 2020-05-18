@@ -71,12 +71,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:id="@+id/cant_stock_out"
-                        android:layout_weight="1.7"
+                        android:layout_weight="1.6"
                         android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/general_text"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text=""
                         />
 
                     <TextView
@@ -153,7 +153,7 @@
                     android:background="@drawable/line_vertical"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_weight="1.7"
+                    android:layout_weight="1.6"
                     android:gravity="center"
                     android:layout_height="wrap_content"
                     />

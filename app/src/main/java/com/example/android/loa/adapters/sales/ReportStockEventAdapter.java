@@ -175,7 +175,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
            // holder.color.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
            // holder.image.setImageResource(R.drawable.man);
         }else if(item.equals("Dama")){
-            holder.imageButton.setImageResource(R.drawable.bwomcl);
+                holder.imageButton.setImageResource(R.drawable.bwomcl);
         }else if(item.equals("Accesorio")){
             holder.imageButton.setImageResource(R.drawable.bacccl);
         }else if(item.equals("Niño")){

@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
 
 
 
+
         extractions=findViewById(R.id.extractions);
         box=findViewById(R.id.box);
         listBoxes=findViewById(R.id.listcajas);

@@ -68,7 +68,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private Paginate paginate;
     private boolean hasMoreItems;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout bottomSheet;
     private LinearLayout dia;
     private LinearLayout mes;
@@ -78,9 +77,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
     private static final int CREATE_BOX_REQUEST_CODE=2020;
 
-
     public int getIconButton(){
-        return R.drawable.add_white;
+        return R.drawable.add3;
     }
 
     public int getVisibility(){
@@ -143,7 +141,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         rest_box=mRootView.findViewById(R.id.rest_box);
 
         mSelectDate=DateHelper.get().getActualDate();
-
 
         implementsPaginate();
         EventBus.getDefault().register(this);
@@ -211,7 +208,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
             @Override
             public void onError(Error error) {
-                swipeRefreshLayout.setRefreshing(false);
               //  loadingInProgress = false;
             }
         });

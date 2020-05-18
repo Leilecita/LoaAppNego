@@ -20,7 +20,7 @@
             android:maxLines="1"
             android:gravity="center"
             android:textSize="17sp"
-            android:textColor="@color/word_clear"
+            android:textColor="@color/background_violet"
             android:fontFamily="sans-serif"
             tools:ignore="MissingPrefix"
             tools:text="compr" />

@@ -123,72 +123,29 @@
 
 
         </HorizontalScrollView>
-
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:id="@+id/mes"
-            android:src="@drawable/mescl2"
-            android:layout_height="40dp" />
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:id="@+id/dia"
-            android:src="@drawable/bdia"
-            android:layout_height="40dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_height="wrap_content">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/mes"
+                android:src="@drawable/mescl2"
+                android:layout_height="40dp" />
 
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:id="@+id/new_income"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:src="@drawable/bsecl" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Nueva"
-                android:textColor="@color/word_clear"
-                android:textSize="12sp" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/dia"
+                android:src="@drawable/bdia"
+                android:layout_height="40dp" />
 
         </LinearLayout>
-
-
-
 
 
     </LinearLayout>

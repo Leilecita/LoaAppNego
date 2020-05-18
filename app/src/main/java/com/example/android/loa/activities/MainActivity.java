@@ -176,9 +176,6 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(getBaseContext(),LoginActivity.class));
             finish();
             return true;
-        }else if(id == R.id.action_box_month){
-
-            startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
         }
         else if(id == R.id.action_mov_stock){
 
@@ -188,23 +185,6 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
         }
 
-        /*else if(id == R.id.action_stock){
-
-            startActivity(new Intent(getBaseContext(), ProductsActivity.class));
-        }else if(id == R.id.action_box_month){
-
-            startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
-        }else if(id == R.id.action_sale){
-
-            startActivity(new Intent(getBaseContext(), SaleMovementsActivity.class));
-        }else if(id == R.id.action_employees){
-
-            startActivity(new Intent(getBaseContext(), EmployeesActivity.class));
-        }else if(id == R.id.action_clients){
-            startActivity(new Intent(getBaseContext(), ClientsActivity.class));
-        }
-*/
         return super.onOptionsItemSelected(item);
-
     }
 }

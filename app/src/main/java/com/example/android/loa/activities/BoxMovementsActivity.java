@@ -185,9 +185,6 @@ public class BoxMovementsActivity extends BaseActivity {
             startActivity(new Intent(getBaseContext(),LoginActivity.class));
             finish();
             return true;
-        }else if(id == R.id.action_box_month){
-
-            startActivity(new Intent(getBaseContext(), BoxByMonthActivity.class));
         }
         return super.onOptionsItemSelected(item);
 

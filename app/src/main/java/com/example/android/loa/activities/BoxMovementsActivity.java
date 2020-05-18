@@ -13,11 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.android.loa.R;
-import com.example.android.loa.activities.todelete.SaleMovementsActivity;
+import com.example.android.loa.activities.todelete.BoxByMonthActivity;
 import com.example.android.loa.adapters.PageAdapter;
 import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.fragments.BaseFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 public class BoxMovementsActivity extends BaseActivity {

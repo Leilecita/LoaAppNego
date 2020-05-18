@@ -10,10 +10,6 @@
         android:title="Cerrar sesión"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_box_month"
-        android:title="Cajas Mensuales"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_mov_stock"

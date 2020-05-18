@@ -133,7 +133,7 @@
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
-            android:name=".activities.BoxByMonthActivity"
+            android:name=".activities.todelete.BoxByMonthActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity

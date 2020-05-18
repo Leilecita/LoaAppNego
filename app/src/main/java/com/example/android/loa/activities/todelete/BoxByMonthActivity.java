@@ -1,4 +1,4 @@
-package com.example.android.loa.activities;
+package com.example.android.loa.activities.todelete;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.R;
+import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.adapters.ReportBoxMonthAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;

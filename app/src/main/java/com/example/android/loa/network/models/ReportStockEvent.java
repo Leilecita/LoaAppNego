@@ -14,6 +14,7 @@ public class ReportStockEvent {
     public String payment_method;
     public String detail;
     public String client_name;
+    public String observation;
 
     public ReportStockEvent(){}
 }

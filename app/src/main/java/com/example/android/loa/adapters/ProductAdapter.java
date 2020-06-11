@@ -10,6 +10,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BalanceActivity;
+import com.example.android.loa.activities.SalesActivity;
 import com.example.android.loa.activities.todelete.SaleMovementsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -45,6 +47,7 @@ import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.StockEvent;
+import com.example.android.loa.types.Constants;
 import com.google.android.material.snackbar.Snackbar;
 
 
@@ -123,8 +126,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         public ImageView add_stock;
         public ImageView less_stock;
-        public ImageView balance;
-        public ImageView delete;
+        public RelativeLayout balance;
+        public RelativeLayout delete;
 
         public LinearLayout updateStock;
         public EditText load_stock;
@@ -139,6 +142,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public CheckBox check_ef;
         public CheckBox check_deb;
         public CheckBox check_card;
+        public CheckBox check_trans;
+        public CheckBox check_merc_pago;
+
         public TextView date;
         public TextView less_load;
         public LinearLayout line_value;
@@ -149,6 +155,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public TextView close_select_student;
         public EditText price_product;
         public ImageView imageButton;
+        public TextView observation;
 
 
         public ViewHolder(View v){
@@ -172,6 +179,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             check_ef= v.findViewById(R.id.check_ef);
             check_deb= v.findViewById(R.id.check_deb);
             check_card= v.findViewById(R.id.check_card);
+            check_trans= v.findViewById(R.id.check_trans);
+            check_merc_pago= v.findViewById(R.id.check_merc);
+
             date= v.findViewById(R.id.date);
             less_load= v.findViewById(R.id.less_load);
             line_value= v.findViewById(R.id.line_value);
@@ -185,6 +195,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             imageButton= v.findViewById(R.id.imagebutton);
             balance= v.findViewById(R.id.balance);
             delete= v.findViewById(R.id.delete);
+            observation= v.findViewById(R.id.observation);
         }
     }
 
@@ -203,6 +214,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             vh.brand.setText(null);
         if(vh.stock!=null)
             vh.stock.setText(null);
+
     }
 
     private void loadIcon(ViewHolder holder,final String item){
@@ -264,7 +276,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
-
         if(isModel){
             holder.brand.setText(currentProduct.brand+"   "+currentProduct.model);
         }else{
@@ -274,11 +285,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.updateStock.setVisibility(View.GONE);
-                holder.line_options.setVisibility(View.GONE);
-                if(onChangeViewStock!=null){
-                    onChangeViewStock.OnChangeViewStock();
-                }
+                closeItem(holder);
             }
         });
 
@@ -313,9 +320,12 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
 
     private void closeItem(ViewHolder holder){
-        holder.detail.setVisibility(View.INVISIBLE);
+        holder.balance.setVisibility(View.VISIBLE);
+        holder.delete.setVisibility(View.VISIBLE);
+        holder.detail.setVisibility(View.GONE);
         holder.updateStock.setVisibility(View.GONE);
         holder.line_student.setVisibility(View.GONE);
+        holder.value.setText("");
         if(onChangeViewStock!=null){
             onChangeViewStock.OnChangeViewStock();
         }
@@ -338,17 +348,18 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         holder.less_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                holder.balance.setVisibility(View.GONE);
+                holder.delete.setVisibility(View.GONE);
                 holder.updateStock.setVisibility(View.VISIBLE);
                 lessStock(p,position,holder);
-                holder.detail.setVisibility(View.VISIBLE);
             }
         });
 
         holder.add_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                holder.balance.setVisibility(View.GONE);
+                holder.delete.setVisibility(View.GONE);
                 holder.updateStock.setVisibility(View.VISIBLE);
                 loadStock(p,position,holder);
             }
@@ -426,6 +437,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_ef.setChecked(true);
                     holder.check_card.setChecked(false);
                     holder.check_deb.setChecked(false);
+                    holder.check_merc_pago.setChecked(false);
+                    holder.check_trans.setChecked(false);
                     hideSoftKeyboard(mContext, holder.itemView);
                 }else{
                     holder.check_ef.setChecked(false);
@@ -440,6 +453,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_card.setChecked(true);
                     holder.check_ef.setChecked(false);
                     holder.check_deb.setChecked(false);
+                    holder.check_merc_pago.setChecked(false);
+                    holder.check_trans.setChecked(false);
                     hideSoftKeyboard(mContext, holder.itemView);
                 }else{
                     holder.check_card.setChecked(false);
@@ -454,9 +469,43 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     holder.check_deb.setChecked(true);
                     holder.check_ef.setChecked(false);
                     holder.check_card.setChecked(false);
+                    holder.check_merc_pago.setChecked(false);
+                    holder.check_trans.setChecked(false);
                     hideSoftKeyboard(mContext, holder.itemView);
                 }else{
                     holder.check_deb.setChecked(false);
+                }
+            }
+        });
+
+        holder.check_merc_pago.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(holder.check_merc_pago.isChecked()){
+                    holder.check_merc_pago.setChecked(true);
+                    holder.check_ef.setChecked(false);
+                    holder.check_card.setChecked(false);
+                    holder.check_deb.setChecked(false);
+                    holder.check_trans.setChecked(false);
+                    hideSoftKeyboard(mContext, holder.itemView);
+                }else{
+                    holder.check_merc_pago.setChecked(false);
+                }
+            }
+        });
+
+        holder.check_trans.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(holder.check_trans.isChecked()){
+                    holder.check_trans.setChecked(true);
+                    holder.check_ef.setChecked(false);
+                    holder.check_card.setChecked(false);
+                    holder.check_deb.setChecked(false);
+                    holder.check_merc_pago.setChecked(false);
+                    hideSoftKeyboard(mContext, holder.itemView);
+                }else{
+                    holder.check_trans.setChecked(false);
                 }
             }
         });
@@ -470,6 +519,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 String stockP=holder.load_stock.getText().toString().trim();
                 String detailP=holder.detail.getText().toString().trim();
                 String valuep=holder.value.getText().toString().trim();
+                String obserP=holder.observation.getText().toString().trim();
 
                     if(!detailP.equals("Salida ficha") || clientId !=-1l){
 
@@ -477,7 +527,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                         if (ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valuep)) {
 
-                            StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP), p.stock, detailP, Double.valueOf(valuep), payment_method);
+                            StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP), p.stock, detailP, Double.valueOf(valuep), payment_method,
+                                    obserP);
                             s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                             p.stock -= Integer.valueOf(stockP);
                             s.created = dateSelected;
@@ -503,7 +554,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                             .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
+                                                   // mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
+                                                    mContext.startActivity(new Intent(mContext, SalesActivity.class));
                                                 }
                                             });
 
@@ -534,13 +586,17 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private String getPaymentMethod(ViewHolder holder){
 
         if(holder.check_deb.isChecked()){
-            return "debito";
+            return Constants.TYPE_DEBITO;
         }else if(holder.check_card.isChecked()){
-            return "tarjeta";
+            return Constants.TYPE_TARJETA;
         }else if(holder.check_ef.isChecked()){
-            return "efectivo";
+            return Constants.TYPE_EFECTIVO;
+        }else if(holder.check_trans.isChecked()){
+            return Constants.TYPE_TRANSFERENCIA;
+        }else if(holder.check_merc_pago.isChecked()){
+            return Constants.TYPE_MERCADO_PAGO;
         }else{
-            return "efectivo";
+            return Constants.TYPE_EFECTIVO;
         }
     }
 
@@ -570,6 +626,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 String stockP = holder.load_stock.getText().toString().trim();
                 String detailP = holder.detail.getText().toString().trim();
                 String valueP = holder.value.getText().toString().trim();
+                String obserP = holder.observation.getText().toString().trim();
 
                 if(valueP.equals("")){
                     valueP="0.0";
@@ -577,7 +634,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 if ( ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valueP)) {
                     if(!stockP.matches("") && !detailP.matches("")){
-                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP,Double.valueOf(valueP),"");
+                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP,Double.valueOf(valueP),"",
+                                obserP);
                         s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                         p.stock += Integer.valueOf(stockP);
 
@@ -697,9 +755,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                       return true;
                   case R.id.in_dev:
                       //holder.detail.setText("Ingreso dev");
-                      holder.detail.setText("Ingreso dev");
+                      holder.detail.setText("Ingreso por cambio");
                       return true;
-
                   case R.id.in_dev_wrong:
                       holder.detail.setText("Ingreso dev falla");
                       return true;
@@ -707,7 +764,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                       holder.detail.setText("Ingreso consignacion");
                       return true;
                   case R.id.in_dev_luz:
-                      holder.detail.setText("ingreso dev Luz");
+                      holder.detail.setText("ingreso stock Luz");
                       return true;
                   case R.id.in_stock_oferta:
                       holder.detail.setText("ingreso stock oferta");
@@ -731,9 +788,20 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
             public boolean onMenuItemClick(MenuItem item) {
+
+                holder.select_payment_method.setVisibility(View.GONE);
+                holder.line_value.setVisibility(View.GONE);
+                holder.value.setText("0.0");
                 switch (item.getItemId()) {
                     case R.id.out_buy:
                         holder.detail.setText("Salida venta");
+                        holder.select_payment_method.setVisibility(View.VISIBLE);
+                        holder.line_value.setVisibility(View.VISIBLE);
+                        return true;
+                    case R.id.out_buy_with_desc:
+                        holder.detail.setText("Salida venta con desc");
+                        holder.select_payment_method.setVisibility(View.VISIBLE);
+                        holder.line_value.setVisibility(View.VISIBLE);
                         return true;
                     case R.id.out_person_file:
                         holder.detail.setText("Salida ficha");
@@ -758,7 +826,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         holder.detail.setText("Resta por error anterior");
                         return true;
                     case R.id.out_dev:
-                        holder.detail.setText("Salida dev");
+                        holder.detail.setText("Salida por cambio");
                         return true;
                     case R.id.out_consign:
                         holder.detail.setText("Salida articulo consignacion");
@@ -768,20 +836,24 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         holder.detail.setText("Salida ficha especial bonificacion");
                         return true;
                     case R.id.out_santi:
-                        holder.detail.setText("Salida santi");
+                        holder.detail.setText("Salida ficha especial santi");
                         return true;
                     case R.id.out_gifts:
-                        holder.detail.setText("Salida premios");
+                        holder.detail.setText("Salida ficha especial campeonato");
                         return true;
 
                     case R.id.out_luz:
-                        holder.detail.setText("Salida luz");
+                        holder.detail.setText("paso al stock luz");
                         return true;
                     case R.id.out_local:
                         holder.detail.setText("paso al stock local");
                         return true;
                     case R.id.out_oferta:
                         holder.detail.setText("paso al stock oferta");
+                        return true;
+
+                    case R.id.out_regalo:
+                        holder.detail.setText("salida por regalo");
                         return true;
 
                     default:

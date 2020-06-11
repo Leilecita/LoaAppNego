@@ -4,15 +4,18 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.nfc.Tag;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Layout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -116,12 +119,15 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
             vh.value.setText(null);
     }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         clearViewHolder(holder);
 
         final Extraction currentExtraction = getItem(position);
+
 
         holder.day.setText(DateHelper.get().getNameDay(currentExtraction.created));
         holder.number.setText(DateHelper.get().numberDay(currentExtraction.created));
@@ -143,6 +149,29 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         holder.description.setText(currentExtraction.description);
         holder.type.setText(currentExtraction.type);
         holder.detail.setText(currentExtraction.detail);
+
+       /* ViewTreeObserver vto = holder.description.getViewTreeObserver();
+
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Layout l = holder.description.getLayout();
+                if ( l != null){
+                    int lines = l.getLineCount();
+                    if ( lines > 0)
+                        if ( l.getEllipsisCount(lines-1) > 0){
+                            holder.description.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(mContext," is",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            System.out.println("text is ellipsed123");
+                            System.out.println(currentExtraction.description);
+                        }
+                }
+            }
+        });*/
 
 
         if(currentExtraction.type.equals(Constants.TYPE_GASTO_LOCAL)){

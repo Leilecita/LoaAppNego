@@ -61,21 +61,32 @@
                         android:textSize="@dimen/general_text"
                         android:visibility="gone" />
 
-
-
-                    <TextView
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:id="@+id/type"
-                        android:paddingLeft="7dp"
-                        android:textColor="@color/colorPrimaryDarkLetter"
-                        android:textSize="@dimen/general_text"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Buzo canguroasdasd"
-                        />
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/type"
+                                android:paddingLeft="8dp"
+                                android:singleLine="true"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:textSize="@dimen/general_text"
+                                android:gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:text="Buzo canguroasdasd"
+                                />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_weight="1.4"
@@ -148,16 +159,29 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
-                        android:id="@+id/model"
-                        android:textColor="@color/word_clear"
-                        android:textSize="@dimen/small_text"
                         android:layout_weight="1"
-                        android:paddingLeft="7dp"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        />
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/model"
+                                android:textColor="@color/word_clear"
+                                android:textSize="@dimen/small_text"
+                                android:paddingLeft="7dp"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -207,9 +231,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
             android:id="@+id/line_options"
-            android:layout_marginLeft="8dp"
             android:paddingBottom="8dp"
-            android:layout_marginRight="8dp"
             android:visibility="gone"
             android:layout_height="wrap_content">
 
@@ -217,6 +239,7 @@
                 style="@style/CodeFontInput"
                 android:layout_height="35dp"
                 android:hint="Detalle"
+                android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/colorPrimaryDarkLetter"
                 android:textColorHint="@color/colorPrimaryClear"
@@ -224,8 +247,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:visibility="gone"
-                android:paddingLeft="16dp"
-                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:layout_weight="0.6"
                 android:id="@+id/detail"/>
 
 
@@ -233,13 +256,14 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1.5"
                 android:layout_gravity="center"
+                android:id="@+id/balance"
                 android:gravity="center"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="35dp"
-                    android:id="@+id/balance"
-                    android:src="@mipmap/lessstock"
+
+                    android:src="@drawable/blanza"
                     android:padding="10dp"
                     android:layout_height="35dp"
                     android:background="@drawable/circle_product"
@@ -252,14 +276,16 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1.5"
                 android:layout_gravity="center"
+                android:id="@+id/delete"
                 android:gravity="center"
                 android:layout_height="wrap_content">
 
                 <ImageView
                     android:layout_width="35dp"
-                    android:id="@+id/delete"
-                    android:src="@mipmap/lessstock"
-                    android:padding="10dp"
+
+                    android:src="@drawable/tacho"
+
+                    android:padding="12dp"
                     android:layout_height="35dp"
                     android:background="@drawable/circle_product"
                     />
@@ -328,7 +354,7 @@
                     android:background="@drawable/rec_in_products"
                     android:id="@+id/name"
                     android:textColor="@color/colorPrimaryClear"
-                    android:paddingLeft="16dp"
+                    android:paddingLeft="8dp"
                     android:textSize="@dimen/general_text"
                     android:textColorHint="@color/colorPrimaryClear"
                     android:fontFamily="@font/opensanslight"
@@ -409,7 +435,7 @@
                     style="@style/CodeFontInput"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/date"
-                    android:paddingLeft="16dp"
+                    android:paddingLeft="8dp"
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:background="@drawable/rec_in_products"
                     android:layout_width="match_parent"
@@ -496,87 +522,198 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+
+                android:layout_height="wrap_content">
+
+                <EditText
+                    style="@style/CodeFontInput"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/observation"
+                    android:paddingLeft="8dp"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:background="@drawable/rec_in_products"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:hint="Observacion"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:id="@+id/select_payment_method"
                 android:visibility="gone"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
 
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/check_ef"
-                    android:layout_height="wrap_content"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_gravity="center"
-                    android:buttonTint="@color/colorPrimaryClear"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:text="Efectivo"
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:layout_width="wrap_content"
+                            android:id="@+id/check_ef"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:layout_gravity="center"
+                            android:buttonTint="@color/colorPrimaryClear"
 
-                    android:gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:layout_gravity="center"
-                    android:textSize="16sp"
+                            />
 
-                    />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text="Efectivo"
+                            android:gravity="center"
+                            android:layout_marginLeft="6dp"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/check_deb"
-                    android:layout_height="wrap_content"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="25dp"
-                    android:buttonTint="@color/colorPrimaryClear"
+                            />
+                    </LinearLayout>
 
-                    />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:text="Débito"
-                    android:gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:layout_gravity="center"
-                    android:textSize="16sp"
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:layout_width="wrap_content"
+                            android:id="@+id/check_deb"
+                            android:layout_height="wrap_content"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="16dp"
+                            android:buttonTint="@color/colorPrimaryClear"
 
-                    />
+                            />
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/check_card"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_marginLeft="25dp"
-                    android:buttonTint="@color/colorPrimaryClear"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text="Débito"
+                            android:gravity="center"
+                            android:layout_marginLeft="6dp"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
 
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:text="Tarjeta"
-                    android:gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:layout_gravity="center"
-
-                    android:textSize="16sp"
-
-                    />
+                            />
+                    </LinearLayout>
 
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:layout_width="wrap_content"
+                            android:id="@+id/check_card"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:layout_marginLeft="16dp"
+                            android:buttonTint="@color/colorPrimaryClear"
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text="Tarjeta"
+                            android:gravity="center"
+                            android:layout_marginLeft="6dp"
+                            android:layout_gravity="center"
+
+                            android:textSize="16sp"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:layout_width="wrap_content"
+                            android:id="@+id/check_trans"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:layout_marginLeft="16dp"
+                            android:buttonTint="@color/colorPrimaryClear"
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text="Transferencia"
+                            android:gravity="center"
+                            android:layout_marginLeft="6dp"
+                            android:layout_gravity="center"
+
+                            android:textSize="16sp"
+
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:layout_width="wrap_content"
+                            android:id="@+id/check_merc"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:layout_marginLeft="16dp"
+                            android:buttonTint="@color/colorPrimaryClear"
+
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text="Mercado pago"
+                            android:gravity="center"
+                            android:layout_marginLeft="6dp"
+                            android:layout_gravity="center"
+
+                            android:textSize="16sp"
+
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
 
 
             </LinearLayout>

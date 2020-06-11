@@ -137,17 +137,19 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         setHasOptionsMenu(true);
         registerForContextMenu(mRecyclerView);
 
-        mSelectedView="dia";
         rest_box=mRootView.findViewById(R.id.rest_box);
 
         mSelectDate=DateHelper.get().getActualDate();
 
+        mSelectedView="dia";
+        mRecyclerViewMonth.setVisibility(View.GONE);
+        rest_box.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
         implementsPaginate();
+
         EventBus.getDefault().register(this);
 
         bottomSheet = mRootView.findViewById(R.id.bottomSheet);
-        final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
-        //bts(bsb);
         topbarListener(bottomSheet);
 
         return mRootView;
@@ -208,7 +210,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
             @Override
             public void onError(Error error) {
-              //  loadingInProgress = false;
+                loadingInProgress = false;
             }
         });
 
@@ -326,7 +328,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
             if(resultCode == Activity.RESULT_OK){
                 clearView();
             }
-
         }
     }
 

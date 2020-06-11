@@ -20,20 +20,21 @@ public class PageAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private ArrayList<BaseFragment> mFragments;
 
+
     public PageAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
         mFragments = new ArrayList<>();
-       // mFragments.add(new ClientsFragment());
-       // mFragments.add(new EmployeesFragment());
+
         mFragments.add(new SalesFragment());
         mFragments.add(new ExtractionsFragment());
         mFragments.add(new EntriesFragment());
         mFragments.add(new BoxFragment());
 
-        // mFragments.add(new PreimpresoFragment().setChangeListener(this));
-        // mFragments.add(new MistakeFragment());
+
     }
+
+
 
     @Override
     public int getItemPosition(@NonNull Object object) {

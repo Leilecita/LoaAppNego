@@ -193,12 +193,12 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
 
     private void changeCircleSelected(){
         clearView();
-        listSales();
+       // listSales();
     }
 
     private void clearAndList(){
         clearView();
-        listSales();
+        //listSales();
     }
 
     private void bts(BottomSheetBehavior bsb){

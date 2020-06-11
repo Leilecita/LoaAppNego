@@ -6,9 +6,8 @@
         android:id="@+id/barTop"
         android:background="@color/background"
         android:layout_marginBottom="8dp"
-        android:layout_height="@dimen/view_header_height">
-
-
+        android:paddingTop="4dp"
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -96,72 +95,147 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_weight="1.7"
-            android:orientation="vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/moneylogo"
-                    />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:paddingLeft="8dp"
-                    android:textSize="18sp"
-                    android:id="@+id/amount"
-                    android:layout_marginLeft="16dp"
-                    android:text="1900"
-                    android:textColor="@color/price"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/rec_edit"
-                    />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/cardlogo"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:textStyle="bold"
-                    android:text="1900"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:paddingLeft="8dp"
-                    android:id="@+id/amount_card"
-                    android:textSize="18sp"
-                    android:textColor="@color/price"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/rec_edit"
-                    />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/moneylogo"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:paddingLeft="8dp"
+                            android:textSize="18sp"
+                            android:id="@+id/amount"
+                            android:layout_marginLeft="16dp"
+                            android:text="1900   "
+                            android:textColor="@color/price"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/rec_edit"
+                            />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/cardlogo"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textStyle="bold"
+                            android:text="1900"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:paddingLeft="8dp"
+                            android:id="@+id/amount_card"
+                            android:textSize="18sp"
+                            android:textColor="@color/price"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/rec_edit"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/im_tranf"
+                            android:src="@drawable/transf"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:paddingLeft="8dp"
+                            android:textSize="18sp"
+                            android:layout_marginLeft="16dp"
+                            android:text="1900"
+                            android:textColor="@color/price"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/rec_edit"
+                            />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+
+                            android:layout_gravity="center"
+                            android:id="@+id/im_mercp"
+                            android:src="@drawable/mercpag"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textStyle="bold"
+                            android:text="1900"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="16dp"
+                            android:paddingLeft="8dp"
+                            android:textSize="18sp"
+                            android:textColor="@color/price"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/rec_edit"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
 
     </LinearLayout>

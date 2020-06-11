@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -80,6 +82,15 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
             String card=ValuesHelper.get().getIntegerQuantityByLei(e.cardAmount);
             String ef=ValuesHelper.get().getIntegerQuantityByLei(e.efectAmount);
             String cantArt=String.valueOf(e.countSales);
+            String trans=String.valueOf(e.transfAmount);
+            String merc=String.valueOf(e.mercPagoAmount);
+
+            if (Double.compare(e.transfAmount, 0.0) != 0) {
+
+
+            }
+
+
 
             //primer linear
             int count = linear.getChildCount();
@@ -92,6 +103,11 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
             View v8 = null;
             View v9 = null;
             View v10 = null;
+            View v11 = null;
+            View v12 = null;
+            View v13 = null;
+            View v14 = null;
+            View v15 = null;
 
             for (int k = 0; k < count; k++) {
                 v3 = linear.getChildAt(k);
@@ -149,6 +165,114 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
                     }
                     //linear layout
                 }else if(k==2){
+
+                    LinearLayout lines = (LinearLayout) v3;
+                    int countline = lines.getChildCount();
+                    for(int wj=0; wj< countline; wj++){
+                        v13=lines.getChildAt(wj);
+                        if(wj==0){
+
+                            LinearLayout lin= (LinearLayout) v13;
+                            int countlin = lin.getChildCount();
+
+                            for(int f=0; f< countlin; f++){
+                                v8=lin.getChildAt(f);
+
+                                if(f==0){
+                                    LinearLayout l=(LinearLayout) v8;
+                                    int countl = l.getChildCount();
+                                    for(int s=0; s< countl; s++){
+                                        v9=l.getChildAt(s);
+
+                                        //efectivo
+                                        if(s==1){
+                                            TextView t9 = (TextView) v9;
+                                            t9.setText(ef);
+                                        }
+                                    }
+                                }else if(f==1){
+                                    LinearLayout l2=(LinearLayout) v8;
+                                    int countl2 = l2.getChildCount();
+                                    for(int w=0; w< countl2; w++){
+                                        v10=l2.getChildAt(w);
+
+                                        if(w==1){
+                                            TextView t10 = (TextView) v10;
+                                            t10.setText(card);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }else if(wj==1){
+
+                            LinearLayout lin= (LinearLayout) v13;
+                            int countlin = lin.getChildCount();
+
+                            for(int f=0; f< countlin; f++){
+                                v8=lin.getChildAt(f);
+
+                                if(f==0){
+                                    LinearLayout l=(LinearLayout) v8;
+                                    int countl = l.getChildCount();
+
+                                    if (Double.compare(e.transfAmount, 0.0) != 0) {
+                                        l.setVisibility(View.VISIBLE);
+                                    }else{
+                                        l.setVisibility(View.GONE);
+                                    }
+                                    for(int s=0; s< countl; s++){
+                                        v9=l.getChildAt(s);
+
+                                        if(s==0){
+
+                                            ImageView i2=(ImageView) v9;
+                                            i2.setColorFilter(mContext.getResources().getColor(R.color.colorPrimaryDark));
+                                        }
+                                        //trans
+                                        if(s==1){
+                                            TextView t9 = (TextView) v9;
+                                            t9.setText(trans);
+                                        }
+                                    }
+                                }else if(f==1){
+                                    LinearLayout l2=(LinearLayout) v8;
+                                    int countl2 = l2.getChildCount();
+
+                                    if (Double.compare(e.mercPagoAmount, 0.0) != 0) {
+                                        l2.setVisibility(View.VISIBLE);
+                                    }else{
+                                        l2.setVisibility(View.GONE);
+                                    }
+                                    for(int w=0; w< countl2; w++){
+                                        v10=l2.getChildAt(w);
+
+                                        if(w==0){
+
+                                            ImageView i1=(ImageView) v10;
+                                            i1.setColorFilter(mContext.getResources().getColor(R.color.colorPrimaryDark));
+                                        }
+
+                                        if(w==1){
+                                            TextView t10 = (TextView) v10;
+                                            t10.setText(merc);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+    /*
+
+    else if(k==2){
                     LinearLayout lin= (LinearLayout) v3;
                     int countlin = lin.getChildCount();
 
@@ -181,10 +305,7 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
                     }
                 }
             }
-        }
-    }
-
-
+     */
     public List<ReportSale> getListSales(){
         return getList();
     }

@@ -37,6 +37,7 @@ public class BoxMovementsActivity extends BaseActivity {
             return;
         }
 
+        setTitle("Loa surf shop");
 
         viewPager =  findViewById(R.id.viewpager);
 
@@ -46,8 +47,11 @@ public class BoxMovementsActivity extends BaseActivity {
         mTabLayout =  findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(viewPager);
         mTabLayout.setSelectedTabIndicatorHeight(11);
+
         button= findViewById(R.id.fab_agregarTod);
         image_button= findViewById(R.id.image_button);
+
+
 
         for (int i = 0; i < mAdapter.getCount(); i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
@@ -175,6 +179,8 @@ public class BoxMovementsActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_main2, menu);
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -185,7 +191,14 @@ public class BoxMovementsActivity extends BaseActivity {
             finish();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        else if(id == R.id.action_mov_stock){
 
+            startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
+        } else if(id == R.id.action_incomes){
+
+            startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

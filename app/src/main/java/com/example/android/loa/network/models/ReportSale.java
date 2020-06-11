@@ -7,9 +7,10 @@ public class ReportSale {
     public String created;
     public ArrayList<ReportStockEvent> listStockEventSale;
     public ArrayList<ReportItemFileClientEvent> listItems;
-   // public ArrayList<Income> listIncomes;
     public Double efectAmount;
     public Double cardAmount;
+    public Double transfAmount;
+    public Double mercPagoAmount;
     public Integer countSales;
 
     public ReportSale(){}

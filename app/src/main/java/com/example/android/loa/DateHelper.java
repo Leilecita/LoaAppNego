@@ -400,9 +400,9 @@ public class DateHelper {
             cal.setTime(d);
             String monthName = new SimpleDateFormat("MM").format(cal.getTime());
             String[] monthNames = {"","Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-            System.out.println(Integer.valueOf(monthName));
-            System.out.println(monthName);
-            System.out.println(monthNames[Integer.valueOf(monthName)]);
+           // System.out.println(Integer.valueOf(monthName));
+            //System.out.println(monthName);
+            //System.out.println(monthNames[Integer.valueOf(monthName)]);
 
 
             return monthNames[Integer.valueOf(monthName)];

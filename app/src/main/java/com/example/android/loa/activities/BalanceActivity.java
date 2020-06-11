@@ -116,7 +116,7 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
 
                 if(!stockP.matches("") && ValidatorHelper.get().isTypeInteger(stockP)){
 
-                    StockEvent s= new StockEvent(getIntent().getLongExtra("ID",-1),0,0,0,detailP,0.0,"");
+                    StockEvent s= new StockEvent(getIntent().getLongExtra("ID",-1),0,0,0,detailP,0.0,"","");
                     s.ideal_stock=0;
                     s.balance_stock=Integer.valueOf(stockP);
 

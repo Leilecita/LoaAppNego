@@ -43,7 +43,7 @@
                 android:background="@drawable/bblanco"
                 android:backgroundTint="@color/colorPrimary"
                 android:layout_alignParentRight="true"
-                android:layout_margin="16dp"
+                android:layout_margin="30dp"
                 android:id="@+id/fab_agregarTod"
                 android:layout_alignParentBottom="true"
                 android:layout_height="65dp">
@@ -58,8 +58,6 @@
                     />
 
             </LinearLayout>
-
-
 
         </RelativeLayout>
 

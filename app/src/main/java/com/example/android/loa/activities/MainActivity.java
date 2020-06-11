@@ -41,9 +41,7 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-
-
-
+        setTitle("Loa surf shop");
         extractions=findViewById(R.id.extractions);
         box=findViewById(R.id.box);
         listBoxes=findViewById(R.id.listcajas);
@@ -96,34 +94,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-      /*  ViewPager viewPager =  findViewById(R.id.viewpager);
 
-        mAdapter = new PageAdapter(this, getSupportFragmentManager());
-        viewPager.setAdapter(mAdapter);
-
-        mTabLayout =  findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(viewPager);
-
-        button= findViewById(R.id.fab_agregarTod);
-
-        actionFloatingButton();
-        setImageButton();
-        setVisivilityButton();
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-            @Override
-            public void onPageSelected(int position) {
-                setImageButton();
-                actionFloatingButton();
-                setVisivilityButton();
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });*/
     }
 
     @Override
@@ -181,7 +152,7 @@ public class MainActivity extends BaseActivity {
         else if(id == R.id.action_mov_stock){
 
             startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
-        } else if(id == R.id.action_incomes){
+        }else if(id == R.id.action_incomes){
 
             startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
         }

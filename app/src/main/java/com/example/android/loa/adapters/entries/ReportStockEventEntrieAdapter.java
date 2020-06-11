@@ -72,6 +72,7 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
 
         public TextView cant_stock_out;
         public ImageView imageButton;
+        public TextView obs;
 
 
         public ViewHolder(View v){
@@ -102,6 +103,7 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
             imageButton= v.findViewById(R.id.imagebutton);
             model= v.findViewById(R.id.model);
             div= v.findViewById(R.id.div);
+            obs= v.findViewById(R.id.observation);
         }
     }
 
@@ -200,6 +202,7 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
 
         holder.type.setText(current.type);
         holder.brand.setText(current.brand);
+        holder.obs.setText(current.observation);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

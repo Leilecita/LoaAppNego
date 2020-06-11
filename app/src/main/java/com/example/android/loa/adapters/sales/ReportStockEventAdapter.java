@@ -27,10 +27,12 @@ import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.adapters.BaseAdapter;
+import com.example.android.loa.adapters.ProductAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.ReportStockEvent;
+import com.example.android.loa.types.Constants;
 
 import java.util.Calendar;
 import java.util.List;
@@ -83,10 +85,13 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         public CheckBox check_ef;
         public CheckBox check_deb;
         public CheckBox check_card;
+        public CheckBox check_trans;
+        public CheckBox check_merc_pago;
 
         public TextView cant_stock_out;
         public TextView cant_stock_in;
         public ImageView imageButton;
+        public TextView observation;
 
 
         public ViewHolder(View v){
@@ -113,12 +118,15 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             check_ef= v.findViewById(R.id.check_ef);
             check_deb= v.findViewById(R.id.check_deb);
             check_card= v.findViewById(R.id.check_card);
+            check_trans= v.findViewById(R.id.check_trans);
+            check_merc_pago= v.findViewById(R.id.check_merc);
 
             cant_stock_out= v.findViewById(R.id.cant_stock_out);
 
             imageButton= v.findViewById(R.id.imagebutton);
             model= v.findViewById(R.id.model);
             div= v.findViewById(R.id.div);
+            observation= v.findViewById(R.id.observation);
         }
     }
 
@@ -147,18 +155,24 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             vh.value.setText(null);
 
     }
+
     private String getPaymentMethod(ViewHolder holder){
 
         if(holder.check_deb.isChecked()){
-            return "debito";
+            return Constants.TYPE_DEBITO;
         }else if(holder.check_card.isChecked()){
-            return "tarjeta";
+            return Constants.TYPE_TARJETA;
         }else if(holder.check_ef.isChecked()){
-            return "efectivo";
+            return Constants.TYPE_EFECTIVO;
+        }else if(holder.check_trans.isChecked()){
+            return Constants.TYPE_TRANSFERENCIA;
+        }else if(holder.check_merc_pago.isChecked()){
+            return Constants.TYPE_MERCADO_PAGO;
         }else{
-            return "efectivo";
+            return Constants.TYPE_EFECTIVO;
         }
     }
+
 
     private void loadIcon(ViewHolder holder,final String item){
 
@@ -199,7 +213,6 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         final ReportStockEvent current=getItem(position);
 
-
         loadIcon(holder,current.item);
 
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
@@ -213,15 +226,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             holder.value.setVisibility(View.VISIBLE);
         }
 
-
-        holder.type.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext,current.type,Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        holder.observation.setText(current.observation);
 
         if(current.model.equals("")){
             holder.model.setText("-");
@@ -371,12 +376,16 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
     private void load_checks(final ViewHolder holder, ReportStockEvent current){
 
-        if(current.payment_method.equals("debito")){
+        if(current.payment_method.equals(Constants.TYPE_DEBITO)){
             holder.check_deb.setChecked(true);
-        }else if(current.payment_method.equals("tarjeta")){
+        }else if(current.payment_method.equals(Constants.TYPE_TARJETA)){
             holder.check_card.setChecked(true);
-        }else if(current.payment_method.equals("efectivo")){
+        }else if(current.payment_method.equals(Constants.TYPE_EFECTIVO)){
             holder.check_ef.setChecked(true);
+        }else if(current.payment_method.equals(Constants.TYPE_TRANSFERENCIA)){
+            holder.check_trans.setChecked(true);
+        }else if(current.payment_method.equals(Constants.TYPE_MERCADO_PAGO)){
+            holder.check_merc_pago.setChecked(true);
         }
 
         holder.check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -384,12 +393,11 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(holder.check_ef.isChecked()){
                     holder.check_ef.setChecked(true);
-                    holder.payment_method.setText("efectivo");
+                    holder.payment_method.setText(Constants.TYPE_EFECTIVO);
                     holder.check_card.setChecked(false);
                     holder.check_deb.setChecked(false);
                 }else{
                     holder.check_ef.setChecked(false);
-
                 }
             }
         });
@@ -399,7 +407,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(holder.check_card.isChecked()){
                     holder.check_card.setChecked(true);
-                    holder.payment_method.setText("tarjeta");
+                    holder.payment_method.setText(Constants.TYPE_TARJETA);
                     holder.check_ef.setChecked(false);
                     holder.check_deb.setChecked(false);
                 }else{
@@ -413,11 +421,43 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(holder.check_deb.isChecked()){
                     holder.check_deb.setChecked(true);
-                    holder.payment_method.setText("debito");
+                    holder.payment_method.setText(Constants.TYPE_DEBITO);
                     holder.check_ef.setChecked(false);
                     holder.check_card.setChecked(false);
                 }else{
                     holder.check_deb.setChecked(false);
+                }
+            }
+        });
+
+        holder.check_merc_pago.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(holder.check_merc_pago.isChecked()){
+                    holder.check_merc_pago.setChecked(true);
+                    holder.payment_method.setText(Constants.TYPE_MERCADO_PAGO);
+                    holder.check_ef.setChecked(false);
+                    holder.check_card.setChecked(false);
+                    holder.check_deb.setChecked(false);
+                    holder.check_trans.setChecked(false);
+                }else{
+                    holder.check_merc_pago.setChecked(false);
+                }
+            }
+        });
+
+        holder.check_trans.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(holder.check_trans.isChecked()){
+                    holder.check_trans.setChecked(true);
+                    holder.payment_method.setText(Constants.TYPE_TRANSFERENCIA);
+                    holder.check_ef.setChecked(false);
+                    holder.check_card.setChecked(false);
+                    holder.check_deb.setChecked(false);
+                    holder.check_merc_pago.setChecked(false);
+                }else{
+                    holder.check_trans.setChecked(false);
                 }
             }
         });

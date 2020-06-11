@@ -6,48 +6,37 @@
         android:title="Ingreso compra"
 
         android:icon="@android:drawable/ic_menu_delete"/>
-
-    <item android:id="@+id/in_error"
-        android:title="Ingreso por error anterior"
-
-        android:icon="@android:drawable/ic_menu_delete"/>
-
-    <item android:id="@+id/in_balance_stock"
-        android:title="Ingreso balance stock"
-
-        android:icon="@android:drawable/ic_menu_delete"/>
     <item
-
         android:id="@+id/in_dev"
-        android:title="Ingreso devolucion"
+        android:title="Ingreso por cambio"
         android:icon="@android:drawable/ic_menu_recent_history"/>
 
     <item
-
-        android:id="@+id/in_dev_luz"
-        android:title="Ingreso devolucion luz"
+        android:id="@+id/in_dev_wrong"
+        android:title="Ingreso devolucion falla"
         />
+    <item android:id="@+id/in_error"
+        android:title="Ingreso por error anterior"
+        android:icon="@android:drawable/ic_menu_delete"/>
 
     <item
-
         android:id="@+id/in_consign"
         android:title="Ingreso consignacion"
         />
+    <item android:id="@+id/in_balance_stock"
+        android:title="Ingreso balance stock"
+        android:icon="@android:drawable/ic_menu_delete"/>
     <item
-
+        android:id="@+id/in_dev_luz"
+        android:title="Ingreso stock luz"
+        />
+    <item
         android:id="@+id/in_stock_oferta"
         android:title="Ingreso stock oferta"
         />
     <item
-
         android:id="@+id/in_stock_local"
         android:title="Ingreso stock local"
-        />
-
-    <item
-
-        android:id="@+id/in_dev_wrong"
-        android:title="Ingreso devolucion falla"
         />
 
 </menu>

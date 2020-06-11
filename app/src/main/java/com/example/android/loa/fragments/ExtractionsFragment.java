@@ -105,7 +105,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
     private void clearAndList(){
         clearView();
-        listExtractions();
     }
 
     @Override
@@ -288,8 +287,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
     private void listExtractions(){
         loadingInProgress=true;
-
-
 
         ApiClient.get().getExtractions(mCurrentPage, selectedType.getName(),groupByType.getName(),new GenericCallback<List<ReportExtraction>>() {
             @Override

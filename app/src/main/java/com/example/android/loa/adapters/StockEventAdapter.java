@@ -169,11 +169,14 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
         public CheckBox check_ef;
         public CheckBox check_deb;
         public CheckBox check_card;
+        public CheckBox check_transf;
+        public CheckBox check_merc_pago;
 
         public TextView cant_stock_out;
         public TextView cant_stock_in;
         public ImageView imageButton;
         public TextView detailup;
+        public TextView obs;
 
 
         public ViewHolder(View v) {
@@ -205,6 +208,7 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
             imageButton = v.findViewById(R.id.imagebutton);
             model = v.findViewById(R.id.model);
             div = v.findViewById(R.id.div);
+            obs = v.findViewById(R.id.observation);
         }
     }
 
@@ -303,6 +307,7 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
 
         holder.type.setText(current.type);
         holder.brand.setText(current.brand);
+        holder.obs.setText(current.observation);
 
         if (current.payment_method.equals("efectivo")) {
         } else {
@@ -318,7 +323,7 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
 
         holder.payment_method.setText(current.payment_method);
 
-        holder.payment_method.setOnClickListener(new View.OnClickListener() {
+       /* holder.payment_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.select_payment_method.getVisibility() == View.GONE) {
@@ -327,7 +332,7 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
                     holder.select_payment_method.setVisibility(View.GONE);
                 }
             }
-        });
+        });*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

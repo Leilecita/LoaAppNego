@@ -14,5 +14,9 @@ public class Constants {
     public static String TYPE_GROUP_BY_DAY = "day";
 
     public static String TYPE_TARJETA = "tarjeta";
+    public static String TYPE_EFECTIVO = "efectivo";
+    public static String TYPE_DEBITO = "debito";
+    public static String TYPE_MERCADO_PAGO = "mercado pago";
+    public static String TYPE_TRANSFERENCIA = "transferencia";
 
 }

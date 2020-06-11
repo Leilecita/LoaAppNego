@@ -18,7 +18,9 @@ public class StockEvent {
     public Long client_id=-1l;
     public Double value_for_file=0.0;
 
-    public StockEvent(Long product_id,Integer stock_in, Integer stock_out,Integer stock_ant,String detail,Double value,String payment_method){
+    public String observation;
+
+    public StockEvent(Long product_id,Integer stock_in, Integer stock_out,Integer stock_ant,String detail,Double value,String payment_method,String obs){
         this.stock_in=stock_in;
         this.stock_out=stock_out;
         this.stock_ant=stock_ant;
@@ -26,6 +28,7 @@ public class StockEvent {
         this.id_product=product_id;
         this.value=value;
         this.payment_method=payment_method;
+        this.observation=obs;
     }
 
 }

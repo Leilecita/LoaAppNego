@@ -208,17 +208,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         return !hasMoreItems;
     }
 
-
-    private void changeViewStyle(TextView t){
-        t.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        t.setTextColor(getResources().getColor(R.color.word));
-    }
-
-    private void changeViewStyleUnselected(TextView t){
-        t.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        t.setTextColor(getResources().getColor(R.color.word_clear));
-    }
-
     private void changeCircleSelected(){
 
         woman.setImageResource(R.drawable.bwomcl);
@@ -230,18 +219,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         luz.setImageResource(R.drawable.bluzcl);
         oferta.setImageResource(R.drawable.bofercl);
         all.setImageResource(R.drawable.ballcl);
-
-/*
-        changeViewStyleUnselected(textZap);
-        changeViewStyleUnselected(textTec);
-        changeViewStyleUnselected(textMan);
-        changeViewStyleUnselected(textWoman);
-        changeViewStyleUnselected(textBoy);
-        changeViewStyleUnselected(textAcc);
-        changeViewStyleUnselected(textLuz);
-        changeViewStyleUnselected(textOferta);
-        changeViewStyleUnselected(textAll);
-        */
 
        clearAndList();
 
@@ -379,41 +356,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 changeCircleSelected();
                 oferta.setImageResource(R.drawable.bofer);
               //  changeViewStyle(textOferta);
-            }
-        });
-    }
-
-    private void bts(BottomSheetBehavior bsb){
-        bsb.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-                topBarListener(bottomSheet);
-                String nuevoEstado = "";
-
-                switch(newState) {
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-                        nuevoEstado = "STATE_COLLAPSED";
-                        break;
-                    case BottomSheetBehavior.STATE_EXPANDED:
-                        nuevoEstado = "STATE_EXPANDED";
-                        break;
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        nuevoEstado = "STATE_HIDDEN";
-                        break;
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        nuevoEstado = "STATE_DRAGGING";
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        nuevoEstado = "STATE_SETTLING";
-                        break;
-                }
-                Log.i("BottomSheets", "Nuevo estado: " + nuevoEstado);
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.i("BottomSheets", "Offset: " + slideOffset);
             }
         });
     }

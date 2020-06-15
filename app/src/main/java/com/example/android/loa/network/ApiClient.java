@@ -17,6 +17,7 @@ import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
+import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
@@ -72,6 +73,10 @@ public class ApiClient {
 
     public void getItemsEmployeeByPageByEmployeeIdByMonth(Integer page,Long employee_id,String month1,String month2,final GenericCallback<List<Item_employee>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getItemsEmployeeByPageByEmployeeIdByMonth("listHours",page,employee_id,month1,month2), callback);
+    }
+
+    public void getHoursByMonth(Integer page,Long employee_id,final GenericCallback<List<ReportItemEmployee>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getHoursByMonth("getHoursByMonthEmployee",page,employee_id), callback);
     }
     public void getItemsEmployeeByEmployeeIdByMonth(Long employee_id,String month1,String month2,final GenericCallback<List<Item_employee>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getItemsEmployeeByEmployeeIdByMonth(employee_id,month1,month2), callback);
@@ -233,6 +238,10 @@ public class ApiClient {
 
     public void getBoxesByPage2(Integer page,final GenericCallback<List<Box>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getBoxesByPage2(page),callback);
+    }
+
+    public void getBoxesByPageByPeriod(Integer page,String since,String to,final GenericCallback<List<Box>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getBoxesByPageByPeriod("getBoxesByPeriod",page,since,to),callback);
     }
 
     public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){

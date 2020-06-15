@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -45,12 +46,17 @@ import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Item_file;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> {
     private Context mContext;
     private ArrayAdapter<String> adapter;
+
+    List<String> listColor=new ArrayList<>();
+    Random random;
 
     private OnAmountChange onAmountChangeListener = null;
     public void setOnAmountCangeListener(OnAmountChange listener){
@@ -61,6 +67,16 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     public ClientAdapter(Context context, List<Client> clients){
         setItems(clients);
         mContext = context;
+
+        listColor.add("#685c85");
+        listColor.add("#4f426b");
+        listColor.add("#A49FB8");
+        listColor.add("#817699");
+        listColor.add("#a197b8");
+        listColor.add("#9088a3");
+        listColor.add("#C6BCDA");
+        random=new Random();
+
     }
 
     public ClientAdapter(){
@@ -74,9 +90,8 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView text_name;
         public TextView text_value;
-        public LinearLayout photo;
         public ImageView add;
-        public ImageView photouserrec;
+        public ImageView cuad_image;
 
         public TextView firstLetter;
 
@@ -85,7 +100,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
              text_name= v.findViewById(R.id.text_name);
             text_value= v.findViewById(R.id.text_value);
              add=v.findViewById(R.id.add);
-             photo=v.findViewById(R.id.photo_user);
+             cuad_image=v.findViewById(R.id.cuad_image);
              firstLetter=v.findViewById(R.id.firstLetter);
         }
     }
@@ -155,7 +170,10 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         holder.firstLetter.setText(String.valueOf(currentClient.name.charAt(0)));
 
-       // holder.photo2.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
+
+        holder.cuad_image.setColorFilter(Color.parseColor(listColor.get(random.nextInt(listColor.size()))),PorterDuff.Mode.SRC_ATOP);
+
+        // holder.photo2.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
 
 
       //  holder.photo.setBackgroundColor(getColor(position));
@@ -175,7 +193,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         }
 
 
-        holder.photo.setOnClickListener(new View.OnClickListener() {
+       /* holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -200,7 +218,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 dialog.show();
 
             }
-        });
+        });*/
 
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override

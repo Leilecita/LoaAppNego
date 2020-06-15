@@ -1,70 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/listday"
+    android:background="@color/background"
     android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent"
-    android:background="#ededed"
     >
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="@dimen/description_top_bar"
+                android:background="@color/background_violet"
+                android:text="Fran"
+                android:visibility="gone"
+                android:id="@+id/user_trans"
+                android:textSize="18sp"
+                android:paddingLeft="16dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:textStyle="bold"
-                android:layout_marginTop="4dp"
-                android:layout_gravity="center"
-                android:id="@+id/line1">
-
-
-                <TextView
-                    android:id="@+id/user_trans"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/word"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="4dp"
-                    android:paddingLeft="6dp"
-                    />
-
-                <TextView
-                    android:id="@+id/select_month"
-                    android:layout_height="30dp"
-                    style="@style/Widget.Design.TextInputLayout"
-                    android:background="@drawable/rec_find"
-                    android:layout_width="180dp"
-                    android:textColorHint="#1e1e1e"
-                    android:hint="Seleccione mes"
-                    android:textColor="@color/word"
-                    android:gravity="center_vertical"
-                    android:padding="6dp"
-                    android:textSize="15sp"
-                    android:layout_margin="3dp"
-                    android:inputType="textCapWords" />
-
-
-            </LinearLayout>
-
-
+                />
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:padding="2dp"
                 android:id="@+id/list_transactionEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/line1"
-                android:layout_marginBottom="40sp"
-                android:layout_marginTop="0dp" />
+                android:paddingBottom="12dp"
+                android:clipToPadding="false"
+                android:layout_below="@id/user_trans"
+                />
 
 
         </RelativeLayout>
@@ -75,6 +45,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginRight="18dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">

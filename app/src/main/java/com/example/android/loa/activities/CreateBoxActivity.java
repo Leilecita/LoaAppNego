@@ -208,11 +208,11 @@ public class CreateBoxActivity extends BaseActivity {
                 tot_extractions.setText(String.valueOf(data.amountExtractions));
 
                 loadInfo();
+
             }
 
             @Override
             public void onError(Error error) {
-
             }
         });
     }

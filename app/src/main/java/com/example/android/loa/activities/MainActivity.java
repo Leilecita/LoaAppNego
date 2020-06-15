@@ -3,6 +3,7 @@ package com.example.android.loa.activities;
 import android.content.Intent;
 
 import com.example.android.loa.activities.todelete.BoxByMonthActivity;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
@@ -11,7 +12,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.PageAdapter;
@@ -30,6 +33,7 @@ public class MainActivity extends BaseActivity {
     ImageView hours;
     ImageView products;
     ImageView clients;
+    ImageView statistics;
 
 
     @Override
@@ -48,6 +52,7 @@ public class MainActivity extends BaseActivity {
         products=findViewById(R.id.mercaderia);
         hours=findViewById(R.id.hours);
         clients=findViewById(R.id.clients);
+        statistics=findViewById(R.id.statistics);
 
         extractions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +96,13 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(),ClientsActivity.class));
+            }
+        });
+
+        statistics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"todavia no esta implementado, paciencia",Toast.LENGTH_SHORT).show();
             }
         });
 

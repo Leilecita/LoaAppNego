@@ -16,6 +16,7 @@ import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
+import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
@@ -57,6 +58,9 @@ public interface APIService {
     @GET("items_employee_file.php")
     Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeIdByMonth(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id,
                                                                                         @Query("since")String  month1,@Query("to") String month2);
+
+    @GET("items_employee_file.php")
+    Observable<Response<List<ReportItemEmployee>>> getHoursByMonth(@Query("method") String method, @Query("page") Integer page, @Query("employee_id") Long id);
 
     @GET("items_employee_file.php")
     Observable<Response<List<Item_employee>>> getItemsEmployeeByEmployeeIdByMonth(@Query("employee_id") Long id,
@@ -207,6 +211,9 @@ public interface APIService {
 
     @GET("boxes.php")
     Observable<Response<List<Box>>> getBoxesByPage2(@Query("page") Integer page);
+
+    @GET("boxes.php")
+    Observable<Response<List<Box>>> getBoxesByPageByPeriod(@Query("method") String method,@Query("page") Integer page,@Query("since") String since,@Query("to") String to);
 
     @GET("events.php")
     Observable<Response<List<Event>>> getEventsByPage(@Query("page") Integer page );

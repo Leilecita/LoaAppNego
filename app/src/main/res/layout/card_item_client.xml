@@ -27,12 +27,17 @@
             android:orientation="horizontal"
             android:padding="2dp">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="40dp"
                 android:id="@+id/photo_user"
-                android:background="@drawable/bblanco"
-                android:backgroundTint="@color/accesorio"
                 android:layout_height="40dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/cuad_image"
+                    android:src="@drawable/bblanco"
+                    />
 
                 <TextView
                     android:layout_weight="1"
@@ -46,7 +51,7 @@
                     android:textSize="19sp" />
 
 
-            </LinearLayout>
+            </FrameLayout>
 
             <TextView
                 android:layout_weight="1"

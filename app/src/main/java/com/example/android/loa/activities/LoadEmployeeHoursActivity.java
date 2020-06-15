@@ -93,6 +93,38 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         return R.layout.activity_load_employee_hours;
     }
 
+
+
+    private String getExpandedDate(){
+
+        String date= DateHelper.get().actualDateExtractions();
+        String time= DateHelper.get().getOnlyTime(date);
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            //Date date1 = sdf.parse("19:28:00");
+            Date date1 = sdf.parse(time);
+            //Date date2 = sdf.parse("21:13:00");
+            Date date2 = sdf.parse("04:13:00");
+
+            // Outputs -1 as date1 is before date2
+            System.out.println(date1.compareTo(date2));
+
+            if(date1.compareTo(date2) < 0){
+                System.out.println(date1.compareTo(date2));
+
+                return DateHelper.get().getPreviousDay(date);
+            }else{
+                return date;
+            }
+
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +135,8 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
         mItemEmployee = new Item_employee(getIntent().getLongExtra("ID", -1),0l,"","","",
                 "","",0l,"","","");
-        mItemEmployee.created=DateHelper.get().changeFormatDateUserToServer(DateHelper.get().getActualDate());
+       // mItemEmployee.created=DateHelper.get().changeFormatDateUserToServer(DateHelper.get().getActualDate());
+        mItemEmployee.created=getExpandedDate();
 
         mEntry=  findViewById(R.id.entry);
         mFinish=  findViewById(R.id.finish);
@@ -359,12 +392,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                 String date=mDate.getText().toString().trim();
                 if(!mEdithDate.equals(""))
                     mItemEmployee.created=date;
-/*
-                final ProgressDialog progress = ProgressDialog.show(getBaseContext(), "Cargando horas",
-                        "Aguarde un momento", true);
-
-*/
-
 
                 mItemEmployee.observation=mObsT.getText().toString().trim();
 
@@ -372,7 +399,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Item_employee data) {
 
-                       // progress.dismiss();
                         finish();
                     }
 
@@ -545,29 +571,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
                 HoursHistoryEmployeeActivity.start(this,mItemEmployee.employee_id,name.getText().toString().trim());
 
-                /*
-                String date=mDate.getText().toString().trim();
-
-                if(!mEdithDate.equals(""))
-                    mItemEmployee.created=date;
-
-                final ProgressDialog progress = ProgressDialog.show(this, "Cargando horas",
-                        "Aguarde un momento", true);
-
-                ApiClient.get().putItemEmployee(mItemEmployee, new GenericCallback<Item_employee>() {
-                    @Override
-                    public void onSuccess(Item_employee data) {
-                        finish();
-                        progress.dismiss();
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        DialogHelper.get().showMessage("Error","Error al crear el usuario",LoadEmployeeHoursActivity.this);
-                    }
-                });
-
-*/
                 return true;
 
             case android.R.id.home:
@@ -614,59 +617,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
+
+
 }
-/*
- private String differenceBetweenHours(String time1, String time2){
-        try
-        {
-            SimpleDateFormat format = new SimpleDateFormat("hh:mm aa");
-            Date date1 = format.parse(time1);
-            Date date2 = format.parse(time2);
-            long mills = date2.getTime() - date1.getTime();
-            Log.v("Data1", ""+date1.getTime());
-            Log.v("Data2", ""+date2.getTime());
-
-            System.out.println(date1.getTime());
-            System.out.println(date2.getTime());
-
-            int hours = (int) (mills/(1000 * 60 * 60));
-            int mins = (int) (mills/(1000*60)) % 60;
-            hours = (hours < 0 ? -hours : hours);
-
-            String diff = hours + "." + mins; // updated value every1 second
-            System.out.println(diff);
-            return diff;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    private void obtenerHora(final TextView t){
-        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                String horaFormateada =  (hourOfDay < 10)? String.valueOf("0" + hourOfDay) : String.valueOf(hourOfDay);
-
-                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
-                String minutoFormateado = (minute < 10)? String.valueOf("0" + minute):String.valueOf(minute);
-
-                //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
-                String AM_PM;
-                if(hourOfDay < 12) {
-                    AM_PM = "am";
-                } else {
-                    AM_PM = "pm";
-                }
-
-
-                t.setText(horaFormateada+"."+minutoFormateado);
-            }
-        }, hour, minute, false);
-        recogerHora.show();
-    }
- */

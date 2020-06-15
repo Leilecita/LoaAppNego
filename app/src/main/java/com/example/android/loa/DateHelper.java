@@ -323,6 +323,14 @@ public class DateHelper {
         return part3;
     }
 
+    public String getYear(String date) {
+        String[] parts = date.split("-");
+        String part1 = parts[0]; // year
+        String part2 = parts[1]; // mes
+        String part3 = parts[2]; // adia
+        return part1;
+    }
+
     public String onlyMonth(String date) {
         String[] parts = date.split("/");
         String part1 = parts[0]; // dia
@@ -336,6 +344,14 @@ public class DateHelper {
         String part1 = parts[0]; // dia
         String part2 = parts[1]; // mes
         String part3 = parts[2]; // año
+        return part1;
+    }
+
+    public String getDay(String date) {
+        String[] parts = date.split("-");
+        String part1 = parts[2]; // dia
+        String part2 = parts[1]; // mes
+        String part3 = parts[0]; // año
         return part1;
     }
 
@@ -400,9 +416,6 @@ public class DateHelper {
             cal.setTime(d);
             String monthName = new SimpleDateFormat("MM").format(cal.getTime());
             String[] monthNames = {"","Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-           // System.out.println(Integer.valueOf(monthName));
-            //System.out.println(monthName);
-            //System.out.println(monthNames[Integer.valueOf(monthName)]);
 
 
             return monthNames[Integer.valueOf(monthName)];
@@ -411,6 +424,8 @@ public class DateHelper {
         }
         return "";
     }
+
+
 
     public String getNameDay(String input_date){
         try {

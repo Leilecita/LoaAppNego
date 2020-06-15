@@ -1,8 +1,12 @@
 package com.example.android.loa.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
+import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.todelete.BoxActivity;
@@ -33,7 +39,9 @@ import com.example.android.loa.adapters.ReportBoxMonthAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.models.Box;
+import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.ReportMonthBox;
+import com.example.android.loa.network.models.SpinnerData;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.paginate.Paginate;
 import com.example.android.loa.network.GenericCallback;
@@ -71,9 +79,14 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private LinearLayout bottomSheet;
     private LinearLayout dia;
     private LinearLayout mes;
+    private LinearLayout periodo;
 
     private String mSelectedView;
     private TextView rest_box;
+
+    private String mDateSince="";
+    private String mDateTo="";
+
 
     private static final int CREATE_BOX_REQUEST_CODE=2020;
 
@@ -164,6 +177,10 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 mRecyclerViewMonth.setVisibility(View.GONE);
                 rest_box.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
+
+                mAdapterMonth.clear();
+                mAdapter.clear();
+
                 implementsPaginate();
 
             }
@@ -172,25 +189,56 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         mes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("mes");
                 mSelectedView="mes";
                 mRecyclerView.setVisibility(View.GONE);
                 rest_box.setVisibility(View.GONE);
                 mRecyclerViewMonth.setVisibility(View.VISIBLE);
+                mAdapter.clear();
                 implementsPaginate();
+            }
+        });
+
+        periodo=bottomSheet.findViewById(R.id.periodo);
+
+        periodo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               cuadSelectPeriod();
             }
         });
 
     }
 
+    private void listBoxesByPeriod(){
+
+        loadingInProgress=true;
+        ApiClient.get().getBoxesByPageByPeriod(mCurrentPage,mDateSince,mDateTo,new GenericCallback<List<Box>>() {
+            @Override
+            public void onSuccess(List<Box> data) {
+                if (data.size() == 0) {
+                    hasMoreItems = false;
+                }else{
+                    int prevSize = mAdapter.getItemCount();
+                    mAdapter.pushList(data);
+                    mCurrentPage++;
+                    if(prevSize == 0){
+                        layoutManager.scrollToPosition(0);
+                    }
+                }
+                loadingInProgress = false;
+            }
+
+            @Override
+            public void onError(Error error) {
+                loadingInProgress = false;
+            }
+        });
+
+    }
 
     private void listBoxes(){
 
         loadingInProgress=true;
-      /*  if(mAdapter.getItemCount()==0){
-            swipeRefreshLayout.setRefreshing(true);
-        }*/
-
         ApiClient.get().getBoxesByPage2(mCurrentPage,new GenericCallback<List<Box>>() {
             @Override
             public void onSuccess(List<Box> data) {
@@ -205,7 +253,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                     }
                 }
                 loadingInProgress = false;
-                //swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -248,8 +295,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         mCurrentPage=0;
         hasMoreItems = true;
 
-        if(mSelectedView.equals("dia")){
-            paginate= Paginate.with(mRecyclerView, this)
+        if(mSelectedView.equals("mes")){
+            paginate= Paginate.with(mRecyclerViewMonth, this)
                     .setLoadingTriggerThreshold(2)
                     .addLoadingListItem(true)
                     .setLoadingListItemCreator(new CustomLoadingListItemCreator())
@@ -261,7 +308,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                     })
                     .build();
         }else{
-            paginate= Paginate.with(mRecyclerViewMonth, this)
+            paginate= Paginate.with(mRecyclerView, this)
                     .setLoadingTriggerThreshold(2)
                     .addLoadingListItem(true)
                     .setLoadingListItemCreator(new CustomLoadingListItemCreator())
@@ -280,8 +327,10 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     public void onLoadMore() {
         if(mSelectedView.equals("dia")){
             listBoxes();
-        }else{
+        }else if(mSelectedView.equals("mes")){
             listByMonth();
+        }else{
+            listBoxesByPeriod();
         }
 
     }
@@ -370,4 +419,109 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
                 datePickerDialog.show();
             }
+
+
+
+    private void selectPeriodDate(final TextView date, final String which){
+        final DatePickerDialog datePickerDialog;
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR); // current year
+        int mMonth = c.get(Calendar.MONTH); // current month
+        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+        // date picker dialog
+        datePickerDialog = new DatePickerDialog(getActivity(), R.style.datepicker,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        // set day of month , month and year value in the edit text
+                        String sdayOfMonth = String.valueOf(dayOfMonth);
+                        if (sdayOfMonth.length() == 1) {
+                            sdayOfMonth = "0" + dayOfMonth;
+                        }
+
+                        String smonthOfYear = String.valueOf(monthOfYear + 1);
+                        if (smonthOfYear.length() == 1) {
+                            smonthOfYear = "0" + smonthOfYear;
+                        }
+
+                        String d=year + "-" + smonthOfYear + "-" +  sdayOfMonth;
+                        String dToShow=sdayOfMonth + "-" + smonthOfYear + "-" +  year;
+
+                        date.setText(dToShow);
+
+                        if(which.equals("since")){
+                            mDateSince=d+" 00:00:00";
+                        }else{
+                            mDateTo=d+" 00:00:00";
+                        }
+
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+
+    private void cuadSelectPeriod(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.cuad_select_period, null);
+        builder.setView(dialogView);
+
+        final TextView dateSince = dialogView.findViewById(R.id.dateSince);
+        final TextView dateTo = dialogView.findViewById(R.id.dateTo);
+        final TextView cancel = dialogView.findViewById(R.id.cancel);
+        final Button ok = dialogView.findViewById(R.id.ok);
+
+
+        dateSince.setHint(DateHelper.get().getOnlyDate(DateHelper.get().changeOrderDate(mDateSince)));
+        dateTo.setHint(DateHelper.get().getOnlyDate(DateHelper.get().changeOrderDate(mDateTo)));
+
+        dateSince.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectPeriodDate(dateSince,"since");
+            }
+        });
+
+        dateTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectPeriodDate(dateTo,"to");
+            }
+        });
+        final AlertDialog dialog = builder.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            if(!dateSince.getText().toString().trim().equals("") && !dateTo.getText().toString().trim().equals("") ){
+                mSelectedView="periodo";
+                mRecyclerViewMonth.setVisibility(View.GONE);
+                rest_box.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mAdapterMonth.clear();
+                mAdapter.clear();
+                implementsPaginate();
+                dialog.dismiss();
+            }else{
+                Toast.makeText(getContext(),"Las dos fechas deben estar completas", Toast.LENGTH_SHORT).show();
+            }
+
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+
 }

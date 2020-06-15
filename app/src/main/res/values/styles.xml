@@ -52,6 +52,7 @@
         <item name="colorPrimary">#d9d5d5</item>
         <item name="colorPrimaryDark">#ffff</item>
         <item name="colorAccent">@color/colorPrimary</item>
+        <item name="dialogCornerRadius">8dp</item>
     </style>
 
     <style name="ThemeOverlay" parent="Theme.AppCompat.NoActionBar">

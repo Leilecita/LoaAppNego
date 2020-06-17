@@ -2,7 +2,7 @@
     <string name="app_name">Loa</string>
 
     <string-array name="types">
-        <item>Local</item>
+        <item>Type</item>
         <item>Santi</item>
         <item>Mercaderia</item>
         <item>Sueldo</item>

@@ -23,6 +23,7 @@ import com.example.android.loa.network.models.ReportNewBox;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
+import com.example.android.loa.network.models.ReportSumByPeriodBox;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerItem;
@@ -202,6 +203,9 @@ public interface APIService {
 
     @GET("boxes.php")
     Observable<Response<Box>> getBox(@Query("id") Long id);
+
+    @GET("boxes.php")
+    Observable<Response<ReportSumByPeriodBox>> getAmountByPeriod(@Query("method") String m, @Query("since") String since,@Query("to") String to);
 
     @GET("boxes.php")
     Observable<Response<List<Box>>> getBoxesByPage(@Query("method") String m, @Query("page") Integer page,@Query("created") String created );

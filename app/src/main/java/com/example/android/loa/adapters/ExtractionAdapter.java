@@ -3,7 +3,9 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.nfc.Tag;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,12 +43,16 @@ import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.types.Constants;
+import com.example.android.loa.types.ExtractionType;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 
 public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter.ViewHolder> {
@@ -139,40 +147,10 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         }
 
 
-       /* if(position==0){
-            holder.div.setVisibility(View.GONE);
-        }else{
-            holder.div.setVisibility(View.VISIBLE);
-        }*/
-
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(currentExtraction.value));
         holder.description.setText(currentExtraction.description);
         holder.type.setText(currentExtraction.type);
         holder.detail.setText(currentExtraction.detail);
-
-       /* ViewTreeObserver vto = holder.description.getViewTreeObserver();
-
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Layout l = holder.description.getLayout();
-                if ( l != null){
-                    int lines = l.getLineCount();
-                    if ( lines > 0)
-                        if ( l.getEllipsisCount(lines-1) > 0){
-                            holder.description.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(mContext," is",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            System.out.println("text is ellipsed123");
-                            System.out.println(currentExtraction.description);
-                        }
-                }
-            }
-        });*/
-
 
         if(currentExtraction.type.equals(Constants.TYPE_GASTO_LOCAL)){
             holder.value.setTextColor(mContext.getResources().getColor(R.color.local));
@@ -219,7 +197,9 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 });
 
                 TextView desc=  dialogView.findViewById(R.id.description);
+                TextView detail=  dialogView.findViewById(R.id.detail);
                 desc.setText(currentExtraction.description);
+                detail.setText(currentExtraction.detail);
                 TextView value=  dialogView.findViewById(R.id.value);
                 TextView type=  dialogView.findViewById(R.id.type);
                 type.setText(currentExtraction.type);
@@ -227,10 +207,7 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 TextView date=  dialogView.findViewById(R.id.obs_date);
 
                 date.setText(DateHelper.get().changeFormatDate(currentExtraction.created));
-
-                System.out.println(date.getText().toString().trim());
-                System.out.println(currentExtraction.created);
-
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
                 return false;
@@ -288,7 +265,20 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 dialog.dismiss();
             }
         });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+    }
+
+    private static <T extends Enum<ExtractionType>> void enumNameToStringArray(ExtractionType[] values,List<String> spinner_type) {
+        for (ExtractionType value: values) {
+            if(value.getName().equals(Constants.TYPE_ALL)){
+                spinner_type.add("Tipo");
+            }else{
+                spinner_type.add(value.getName());
+            }
+        }
+      //  return spinner_type;
     }
 
     private void edithExtraction(final Extraction e, final Integer position){
@@ -300,29 +290,101 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         builder.setView(dialogView);
 
         final TextView value= dialogView.findViewById(R.id.value);
-        //final TextView type= dialogView.findViewById(R.id.type);
         final TextView description= dialogView.findViewById(R.id.description);
         final TextView date =dialogView.findViewById(R.id.date);
+        final TextView type =dialogView.findViewById(R.id.type);
+        final TextView detail =dialogView.findViewById(R.id.detail);
 
         final TextView cancel =dialogView.findViewById(R.id.cancel);
-        final ImageView date_picker =dialogView.findViewById(R.id.date_picker);
         final Button ok =dialogView.findViewById(R.id.ok);
 
-        final AutoCompleteTextView type = dialogView.findViewById(R.id.autocomplete_region);
-        String[] regions = mContext.getResources().getStringArray(R.array.types);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, regions);
-        type.setAdapter(adapter);
-        type.setHint(e.type);
+        final Spinner spinnerType=  dialogView.findViewById(R.id.spinner_type1);
+        final Spinner spinnerDetail=  dialogView.findViewById(R.id.spinner_detail);
 
-        //type.setText(e.type);
+        //SPINNER DETAIL
+        final List<String> spinner_detail = new ArrayList<>();
+        enumNameToStringArray(ExtractionType.values(),spinner_detail);
+
+        ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(mContext,
+                R.layout.spinner_item,spinner_detail);
+        adapter_detail.setDropDownViewResource(R.layout.spinner_item);
+        spinnerDetail.setAdapter(adapter_detail);
+
+        //SPINNER TYPE
+        final List<String> spinner_type = new ArrayList<>();
+        enumNameToStringArray(ExtractionType.values(),spinner_type);
+
+        ArrayAdapter<String> adapter_type = new ArrayAdapter<String>(mContext,
+                R.layout.spinner_item,spinner_type);
+        adapter_type.setDropDownViewResource(R.layout.spinner_item);
+        spinnerType.setAdapter(adapter_type);
+
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String itemSelected=String.valueOf(spinnerType.getSelectedItem());
+                List<String> array=new ArrayList<>();
+                array.add("Detalle");
+
+                if(itemSelected.equals("Gasto local")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                     array=createArrayGastosLocal();
+                }else if(itemSelected.equals("Gasto personal")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                    array=createArrayGastosPersonales();
+                }else if(itemSelected.equals("Gasto santi")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                     array=createArrayGastosSanti();
+                }else if(itemSelected.equals("Mercaderia")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                    array=createArrayMerc();
+                }else if(itemSelected.equals("Santi extr")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                    array=createArrayExtr();
+
+                }else if(itemSelected.equals("Sueldo")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                       array=createArraySueldos();
+                }
+
+                ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(mContext,
+                        R.layout.spinner_item,array);
+                adapter_detail.setDropDownViewResource(R.layout.spinner_item);
+                spinnerDetail.setAdapter(adapter_detail);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        spinnerDetail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String itemSelected=String.valueOf(spinnerDetail.getSelectedItem());
+                List<String> array=new ArrayList<>();
+                array.add("Detalle");
+
+                if(!itemSelected.equals("Detalle")){
+                    detail.setText(spinnerDetail.getSelectedItem().toString().trim());
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
         description.setText(e.description);
         value.setText(String.valueOf(MathHelper.get().getIntegerQuantity(e.value)));
+
+        type.setText(e.type);
+        detail.setText(e.detail);
 
         date.setHint(DateHelper.get().getOnlyDate((DateHelper.get().getOnlyDate(e.created))));
         date.setHintTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
 
         final AlertDialog dialog = builder.create();
-        date_picker.setOnClickListener(new View.OnClickListener() {
+        date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final DatePickerDialog datePickerDialog;
@@ -372,12 +434,13 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 }
 
                 e.type=type.getText().toString().trim();
+                e.detail=detail.getText().toString().trim();
+               // e.type=spinnerType.getSelectedItem().toString().trim();
                 e.description=description.getText().toString().trim();
 
                 type.setText(e.type);
                 description.setText(e.description);
                 value.setText(String.valueOf(e.value));
-
 
                 ApiClient.get().putExtraction(e, new GenericCallback<Extraction>() {
                     @Override
@@ -388,7 +451,6 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                             onExtractionsAmountChangeListener.reloadExtractionsAmount();
                         }
 
-                       // Toast.makeText(mContext,"La extracción se ha modificado con éxito" ,Toast.LENGTH_LONG).show();
                         EventBus.getDefault().post(new RefreshBoxesEvent("Hey event subscriber!"));
                     }
 
@@ -409,8 +471,63 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
+    }
+
+    private List<String> createArrayGastosSanti(){
+        List<String> spinner_gastos = new ArrayList<>();
+        spinner_gastos.add("Seguro casa");
+        spinner_gastos.add("Seguro auto");
+        spinner_gastos.add("Celular");
+        return spinner_gastos;
+    }
+
+    private List<String> createArrayGastosPersonales(){
+        List<String> spinner_gastos = new ArrayList<>();
+        spinner_gastos.add("Yerba");
+        spinner_gastos.add("Agua");
+        spinner_gastos.add("Kiosco");
+        spinner_gastos.add("Otro");
+        return spinner_gastos;
+    }
+
+    private List<String> createArrayGastosLocal(){
+        List<String> spinner_gastos = new ArrayList<>();
+        spinner_gastos.add("Seguro nego");
+        spinner_gastos.add("Luz");
+        spinner_gastos.add("Tel fijo");
+        spinner_gastos.add("Contador");
+        spinner_gastos.add("Alquiler");
+        spinner_gastos.add("Limpieza");
+        spinner_gastos.add("Encomienda");
+        spinner_gastos.add("Libreria");
+        spinner_gastos.add("Otro");
+        return spinner_gastos;
+    }
+
+    private List<String> createArrayExtr(){
+        List<String> spinner_extr = new ArrayList<>();
+        spinner_extr.add("Deposito");
+        spinner_extr.add("Directo a deposito");
+        spinner_extr.add("Otro");
+        return spinner_extr;
+    }
+
+    private List<String> createArrayMerc(){
+        List<String> spinner_merc = new ArrayList<>();
+        spinner_merc.add("Compra");
+        spinner_merc.add("Otro");
+        return spinner_merc;
+    }
+
+    private List<String> createArraySueldos(){
+        List<String> spinner_suel = new ArrayList<>();
+        spinner_suel.add("Adelanto");
+        spinner_suel.add("Liquidacion total");
+        spinner_suel.add("Otro");
+        return spinner_suel;
     }
 
 }

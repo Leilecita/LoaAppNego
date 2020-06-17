@@ -41,6 +41,7 @@ import com.example.android.loa.network.Error;
 import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.ReportMonthBox;
+import com.example.android.loa.network.models.ReportSumByPeriodBox;
 import com.example.android.loa.network.models.SpinnerData;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.paginate.Paginate;
@@ -80,6 +81,14 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private LinearLayout dia;
     private LinearLayout mes;
     private LinearLayout periodo;
+
+    private LinearLayout line_period_tot;
+    private TextView tot_ctdo;
+    private TextView tot_card;
+    private TextView tot_total_box;
+    private TextView tot_extr;
+    private TextView tot_dep;
+
 
     private String mSelectedView;
     private TextView rest_box;
@@ -133,6 +142,13 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
         mRootView=inflater.inflate(R.layout.fragment_box, container, false);
 
+        line_period_tot=mRootView.findViewById(R.id.line_tot_by_period);
+        tot_ctdo=mRootView.findViewById(R.id.tot_venta_ctdo);
+        tot_card=mRootView.findViewById(R.id.tot_credit_card);
+        tot_dep=mRootView.findViewById(R.id.tot_dep);
+        tot_extr=mRootView.findViewById(R.id.tot_rest_box);
+        tot_total_box=mRootView.findViewById(R.id.tot_total_amount);
+
         //box by month
         mRecyclerViewMonth =  mRootView.findViewById(R.id.list_box_month);
         layoutManagerMonth = new LinearLayoutManager(getActivity());
@@ -166,6 +182,25 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         topbarListener(bottomSheet);
 
         return mRootView;
+    }
+
+    private void getAmountByPeriod(String since, String to){
+        ApiClient.get().getAmountByPeriod(since, to, new GenericCallback<ReportSumByPeriodBox>() {
+            @Override
+            public void onSuccess(ReportSumByPeriodBox data) {
+                tot_ctdo.setText(String.valueOf(data.tot_ctdo));
+                tot_card.setText(String.valueOf(data.tot_card));
+                tot_total_box.setText(String.valueOf(data.tot_box));
+
+                tot_dep.setText(String.valueOf(data.tot_dep));
+                tot_extr.setText(String.valueOf(data.tot_rest_box));
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
     }
 
     private void topbarListener(View bottomSheet){
@@ -326,10 +361,13 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     @Override
     public void onLoadMore() {
         if(mSelectedView.equals("dia")){
+            line_period_tot.setVisibility(View.GONE);
             listBoxes();
         }else if(mSelectedView.equals("mes")){
+            line_period_tot.setVisibility(View.GONE);
             listByMonth();
         }else{
+            line_period_tot.setVisibility(View.VISIBLE);
             listBoxesByPeriod();
         }
 
@@ -506,6 +544,9 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 mAdapterMonth.clear();
                 mAdapter.clear();
                 implementsPaginate();
+
+
+                getAmountByPeriod(mDateSince,mDateTo);
                 dialog.dismiss();
             }else{
                 Toast.makeText(getContext(),"Las dos fechas deben estar completas", Toast.LENGTH_SHORT).show();
@@ -522,6 +563,5 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
 
 }

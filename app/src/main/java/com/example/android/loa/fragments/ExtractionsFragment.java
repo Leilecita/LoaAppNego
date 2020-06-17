@@ -41,9 +41,11 @@ import com.example.android.loa.adapters.ReportExtractionAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Extraction;
 import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.SpinnerData;
+import com.example.android.loa.types.Constants;
 import com.example.android.loa.types.ExtractionType;
 import com.example.android.loa.types.GroupByType;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -87,6 +89,9 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
     private ExtractionType selectedType= ExtractionType.ALL;
     private GroupByType groupByType= GroupByType.DAY;
+
+    private List<String> arrayEmployee;
+    private String nameEmployee=" ";
 
     public void onClickButton(){ addExtraction();  }
     public int getIconButton(){
@@ -143,9 +148,10 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         bottomSheet = mRootView.findViewById(R.id.bottomSheet);
         final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
 
+        //trae los empleados
+        getListEmployees();
 
         topBarListener(bottomSheet);
-       // bts(bsb);
 
         implementsPaginate();
 
@@ -366,6 +372,17 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         return spinner_suel;
     }
 
+    public static <T extends Enum<ExtractionType>> List<String> enumNameToStringArray(ExtractionType[] values,List<String> spinner_type) {
+        for (ExtractionType value: values) {
+            if(value.getName().equals(Constants.TYPE_ALL)){
+                spinner_type.add("Tipo");
+            }else{
+                spinner_type.add(value.getName());
+            }
+        }
+        return spinner_type;
+    }
+
     private void addExtraction(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -376,20 +393,37 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
         final Spinner spinnerType=  dialogView.findViewById(R.id.spinner_type1);
         final Spinner spinnerDetail=  dialogView.findViewById(R.id.spinner_detail);
+        final Spinner spinnerEmployee=  dialogView.findViewById(R.id.spinner_employee);
+        final LinearLayout line_employee=  dialogView.findViewById(R.id.line_spinner_employee);
 
         final TextView date=  dialogView.findViewById(R.id.date);
         final TextView value=  dialogView.findViewById(R.id.value);
         final ImageView date_picker=  dialogView.findViewById(R.id.date_picker);
 
+        //SPINNER EMPLOYEE
+        ArrayAdapter<String> adapter_employee = new ArrayAdapter<String>(getContext(),
+                R.layout.spinner_item,arrayEmployee);
+        adapter_employee.setDropDownViewResource(R.layout.spinner_item);
+        spinnerEmployee.setAdapter(adapter_employee);
+
+        spinnerEmployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String itemSelected= String.valueOf(spinnerEmployee.getSelectedItem());
+                if(!itemSelected.equals("Team")){
+                    nameEmployee=itemSelected;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //SPINNER TYPE
         List<String> spinner_type = new ArrayList<>();
-        spinner_type.add("Tipo");
-        spinner_type.add("Gasto santi");
-        spinner_type.add("Gasto local");
-        spinner_type.add("Gasto personal");
-        spinner_type.add("Mercaderia");
-        spinner_type.add("Santi extr");
-        spinner_type.add("Sueldo");
+        enumNameToStringArray(ExtractionType.values(),spinner_type);
 
         ArrayAdapter<String> adapter_type = new ArrayAdapter<String>(getContext(),
                 R.layout.spinner_item,spinner_type);
@@ -416,7 +450,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
                 }else if(itemSelected.equals("Sueldo")){
                     array=createArraySueldos();
-
+                    line_employee.setVisibility(View.VISIBLE);
                 }
 
                 ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(getContext(),
@@ -480,12 +514,14 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
 
-
                 String type= String.valueOf(spinnerType.getSelectedItem());
 
-                String descr=String.valueOf(spinnerDetail.getSelectedItem());
+                String descr=description.getText().toString().trim();
+                if(type.equals("Sueldo")){
+                    descr=nameEmployee+" "+descr;
+                }
 
-                String detail=description.getText().toString().trim();
+                String detail=String.valueOf(spinnerDetail.getSelectedItem());
 
                 Double valueT=0.0;
                 if(!value.getText().toString().trim().matches("")){
@@ -540,17 +576,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                 .build();
     }
 
-    private void createSpinner(final Spinner spinner) {
-
-        ArrayAdapter<String> adapter_extr = new ArrayAdapter<String>(getContext(),
-                R.layout.spinner_item, getResources().getStringArray(R.array.types));
-
-        adapter_extr.setDropDownViewResource(R.layout.spinner_item);
-        spinner.setAdapter(adapter_extr);
-
-
-    }
-
 
     @Override
     public void onLoadMore() {
@@ -585,20 +610,28 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
 
     }
 
-   /* @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+    private void getListEmployees(){
+
+        ApiClient.get().getEmployees(new GenericCallback<List<Employee>>() {
+            @Override
+            public void onSuccess(List<Employee> data) {
+                loadListEmployee(data);
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.search:
-                selectDate();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    private void loadListEmployee(List<Employee> data){
+        arrayEmployee = new ArrayList<>();
+
+        arrayEmployee.add("Team");
+        for (int i=0;i<data.size();++i){
+            arrayEmployee.add(data.get(i).name);
         }
-    }*/
+    }
 
 }

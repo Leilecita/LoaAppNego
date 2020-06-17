@@ -24,6 +24,7 @@ import com.example.android.loa.network.models.ReportNewBox;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
+import com.example.android.loa.network.models.ReportSumByPeriodBox;
 import com.example.android.loa.network.models.ResponseData;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerItem;
@@ -236,12 +237,17 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getTotalMonthBoxes("getBoxesByMonth",page),callback);
     }
 
+
     public void getBoxesByPage2(Integer page,final GenericCallback<List<Box>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getBoxesByPage2(page),callback);
     }
 
     public void getBoxesByPageByPeriod(Integer page,String since,String to,final GenericCallback<List<Box>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getBoxesByPageByPeriod("getBoxesByPeriod",page,since,to),callback);
+    }
+
+    public void getAmountByPeriod(String since, String to,final GenericCallback<ReportSumByPeriodBox> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getAmountByPeriod("sumBoxesByPeriod",since,to),callback);
     }
 
     public void getEventsByPage(Integer page,final GenericCallback<List<Event>> callback ){

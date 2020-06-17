@@ -89,7 +89,7 @@
                             android:maxLines="1"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorPrimaryDarkLetter"
-                            android:id="@+id/description"
+                            android:id="@+id/detail"
                             android:textSize="@dimen/general_text"
                             />
 
@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/detail"
+                            android:id="@+id/description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingRight="4dp"

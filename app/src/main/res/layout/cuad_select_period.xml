@@ -152,7 +152,7 @@
                 android:layout_weight="1"
                 android:textColor="#ffff"
                 android:padding="4dp"
-                android:text="guardar"/>
+                android:text="ver"/>
 
         </LinearLayout>
 

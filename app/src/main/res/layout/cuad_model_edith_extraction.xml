@@ -1,38 +1,34 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_edith_user"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
-    card_view:contentPadding="4dp"
-
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
 
     >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:text="Editar"
             android:textSize="18sp"
+            android:fontFamily="@font/opensansregular"
             android:textColor="@color/word"
             android:gravity="center"
-            android:textStyle="bold"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:paddingTop="14dp"
             android:orientation="vertical">
 
 
@@ -44,9 +40,9 @@
                 <TextView
                     android:layout_width="90sp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:padding="0dp"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensansregular"
                     android:textColor="@color/word"
                     android:text="Fecha"/>
 
@@ -56,7 +52,7 @@
                     android:layout_height="33dp"
                     android:paddingLeft="8dp"
                     style="@style/Widget.Design.TextInputLayout"
-                    android:layout_width="160sp"
+                    android:layout_width="match_parent"
                     android:textColor="@color/colorDialogButton"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
@@ -66,6 +62,7 @@
                 <ImageView
                     android:layout_width="40sp"
                     android:id="@+id/date_picker"
+                    android:visibility="gone"
                     android:layout_height="33dp"
                     android:src="@drawable/date"/>
 
@@ -74,15 +71,115 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="12dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="90sp"
                 android:layout_height="wrap_content"
-                android:text="Descrpcion "
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:text="Tipo  "
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rec_find"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/general_text"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="6dp"
+                    android:id="@+id/type"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_type1"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="fill_parent"
+                    android:paddingLeft="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="35dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:text="Detalle  "
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rec_find"
+                android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/general_text"
+                android:gravity="center_vertical"
+                android:paddingLeft="6dp"
+                android:id="@+id/detail"
+                />
+
+            <Spinner
+                android:id="@+id/spinner_detail"
+                android:spinnerMode="dropdown"
+                android:layout_width="fill_parent"
+                android:paddingLeft="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:dropDownVerticalOffset="38dp"
+                android:layout_height="35dp" />
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:text="Descr"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
                 android:textColor="@color/word"
                 />
 
@@ -91,44 +188,21 @@
                 android:layout_weight="1"
                 android:layout_height="33dp"
                 android:paddingLeft="8dp"
-                android:layout_marginRight="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
                 android:textColor="@color/colorDialogButton"
-                android:textSize="16sp"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensanslight"
                 android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords" />
 
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="90sp"
-                android:layout_height="wrap_content"
-                android:text="Tipo  "
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
-                />
-
-            <AutoCompleteTextView
-                android:id="@+id/autocomplete_region"
-                android:layout_width="130dp"
-                android:textCursorDrawable="@color/colorDialogButton"
-                android:theme="@style/Autocomplete"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="12dp"
             android:orientation="vertical">
 
 
@@ -142,9 +216,9 @@
                     android:layout_width="90sp"
                     android:layout_height="wrap_content"
                     android:text="Valor "
-                    android:textStyle="bold"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensansregular"
                     android:padding="0dp"
-                    android:textSize="16sp"
                     android:textColor="@color/word"
 
                     />
@@ -153,13 +227,14 @@
                 <EditText
 
                     android:id="@+id/value"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_marginRight="28dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:paddingLeft="8dp"
                     android:textColor="#5c5c5c"
                     android:layout_height="35dp"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:background="@drawable/rec_text_edit"
                     />
 
@@ -176,11 +251,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:id="@+id/cancel"
                 android:layout_weight="1"
                 android:text="CANCELAR"
@@ -192,15 +267,16 @@
             <Button
                 android:layout_width="match_parent"
                 android:id="@+id/ok"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:textColor="#ffff"
                 android:padding="4dp"
-                android:background="@color/colorDialogButton"
+                android:background="@drawable/rec_edit"
+                android:backgroundTint="@color/colorDialogButton"
                 android:text="guardar"/>
 
         </LinearLayout>
 
     </LinearLayout>
+    </LinearLayout>
 
-</androidx.cardview.widget.CardView>

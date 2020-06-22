@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toast_layout_root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/rec_dialog" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/word"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:id="@+id/open"
+        android:fontFamily="@font/opensansregular"
+        android:textSize="@dimen/general_text"
+        android:text="Ver mas info"
+        />
+
+</LinearLayout>
+

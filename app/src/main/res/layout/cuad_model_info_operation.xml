@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view_mistake"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
-    card_view:contentPadding="8dp"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
 
     >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
         android:orientation="vertical">
 
 
@@ -25,24 +22,25 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:text="Informacion transaccion"
-            android:textSize="18sp"
+            android:textSize="@dimen/general_text"
+            android:fontFamily="@font/opensansregular"
             android:textColor="@color/word"
             android:gravity="center"
-            android:textStyle="bold"
             />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="100dp"
                 android:padding="4dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="@dimen/general_text"
                 android:textColor="@color/word"
+                android:fontFamily="@font/opensansregular"
                 android:text="Fecha  "/>
 
             <TextView
@@ -51,21 +49,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="4dp"
-                android:textColor="@color/colorDialogButton"
-                android:textSize="18dp"
-                android:textStyle="italic"/>
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
+               />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="100dp"
+                android:fontFamily="@font/opensansregular"
                 android:padding="4dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="@dimen/general_text"
                 android:textColor="@color/word"
                 android:text="Producto  "/>
 
@@ -76,20 +75,21 @@
                 android:layout_weight="1"
                 android:padding="4dp"
                 android:textColor="@color/colorDialogButton"
-                android:textSize="18dp"
-                android:textStyle="italic"/>
+                android:textSize="@dimen/general_text"
+              />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="100dp"
                 android:padding="4dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="@dimen/general_text"
                 android:textColor="@color/word"
                 android:text="Valor "/>
 
@@ -100,39 +100,40 @@
                 android:layout_weight="1"
                 android:padding="4dp"
                 android:textColor="@color/colorDialogButton"
-                android:textSize="18dp"
-                android:textStyle="italic"/>
+                android:textSize="@dimen/general_text"
+               />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="100dp"
-                android:padding="4dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
-                android:text="Talle "/>
-
-            <TextView
-                android:id="@+id/size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="4dp"
-                android:textColor="@color/colorDialogButton"
-                android:textSize="18dp"
-                android:textStyle="italic"/>
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:padding="4dp"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="@dimen/general_text"
+                android:textColor="@color/word"
+                android:text="Description "/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+               />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -160,5 +161,6 @@
         </LinearLayout>
 
     </LinearLayout>
+    </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+

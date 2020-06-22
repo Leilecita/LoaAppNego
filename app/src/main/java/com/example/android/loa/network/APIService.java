@@ -12,6 +12,7 @@ import com.example.android.loa.network.models.Income;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
+import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
@@ -20,6 +21,7 @@ import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
+import com.example.android.loa.network.models.ReportParallelMoneyMovement;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
@@ -178,12 +180,28 @@ public interface APIService {
     Observable<Response<ReportNewBox>> getPreviousBox(@Query("method") String method, @Query("to") String created, @Query("date") String date, @Query("dateTo") String dateTo);
 
 
-
     @POST("extractions.php")
     Observable<Response<Extraction>> postExtraction(@Body Extraction e);
 
     @DELETE("extractions.php")
     Observable<ResponseBody>  deleteExtraction(@Query("id") Long id);
+
+    //PARALLEL MONEY MOVEMENTS
+
+    @POST("parallel_money_movements.php")
+    Observable<Response<ParallelMoneyMovement>> postMoneyMovement(@Body ParallelMoneyMovement m);
+
+    @DELETE("parallel_money_movements.php")
+    Observable<ResponseBody>  deleteMoneyMovement(@Query("id") Long id);
+
+    @PUT("parallel_money_movements.php")
+    Observable<Response<ParallelMoneyMovement>> putMoneyMovement(@Body ParallelMoneyMovement e);
+
+
+    @GET("parallel_money_movements.php")
+    Observable<Response<List<ReportParallelMoneyMovement>>> getReportMoneyMovements(@Query("method") String m,@Query("page") Integer page, @Query("type") String type ,@Query("groupby") String groupby,@Query("billed") String billed );
+
+    //INCOMES
 
     @POST("incomes.php")
     Observable<Response<Income>> postIncome(@Body Income in);

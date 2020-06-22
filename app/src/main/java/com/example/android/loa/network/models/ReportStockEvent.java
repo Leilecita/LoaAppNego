@@ -15,6 +15,9 @@ public class ReportStockEvent {
     public String detail;
     public String client_name;
     public String observation;
+    public String today_created_client;
+
+    public Long client_id;
 
     public ReportStockEvent(){}
 }

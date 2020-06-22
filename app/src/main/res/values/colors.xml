@@ -19,7 +19,9 @@
     <color name="sueldos">#ff2492</color>
 
     <color name="dia">#F8EAC0</color>
+    <color name="dia_selected">#DACDA8</color>
     <color name="mes">#F7D0DB</color>
+    <color name="mes_selected">#C9A6B0</color>
 
 
 
@@ -47,6 +49,7 @@
     <color name="white">#FFFFFF</color>
 
     <color name="colorPrimaryClear">#C6BCDA</color>
+    <color name="colorPrimaryClearSelect">#AAA1BB</color>
     <color name="violetClear">#F5F2FC</color>
     <color name="colorDialogButton"> #685c85</color>
     <color name="edithText">#310d58</color>

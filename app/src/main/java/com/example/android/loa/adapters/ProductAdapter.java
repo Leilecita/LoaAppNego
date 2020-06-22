@@ -67,6 +67,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private List<ReportSimpelClient> students;
     private Long clientId;
     private String client_name;
+    private String client_created;
 
     public void setExtendedDate(String extendedDate){
         this.dateSelected=extendedDate;
@@ -85,6 +86,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         isModel=false;
         clientId=-1l;
         client_name="";
+        client_created="";
 
     }
 
@@ -375,13 +377,23 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         mContext.startActivity(i);
     }
 
-    private Long getIdByName(String name){
+  /*  private Long getIdByName(String name){
         for(int i=0;i < students.size();++i ){
             if(students.get(i).name.equals(name)){
                 return students.get(i).id;
             }
         }
         return -1l;
+    }*/
+
+    private void loadIdAndCreatedClient(String name){
+        for(int i=0;i < students.size();++i ){
+            if(students.get(i).name.equals(name)){
+                clientId= students.get(i).id;
+                client_created=students.get(i).created;
+                client_name=name;
+            }
+        }
     }
 
     private void loadNameClients(ViewHolder holder){
@@ -398,8 +410,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 String item = parent.getItemAtPosition(position).toString();
                 Toast.makeText(mContext, "Selected Item is: \t" + item, Toast.LENGTH_LONG).show();
                 hideSoftKeyboard(mContext,view);
-                clientId=getIdByName(item);
-                client_name=item;
+                //clientId=getIdByName(item);
+                loadIdAndCreatedClient(item);
+                //client_name=item;
             }
         });
     }
@@ -537,6 +550,13 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                 s.client_id = clientId;
                                 s.value_for_file = Double.valueOf(holder.price_product.getText().toString().trim());
                                 s.client_name=client_name;
+
+                                //chequea si la ficha del cliente fue creada hoy
+                                if(DateHelper.get().onlyDate(client_created).equals(DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2()))){
+                                    s.today_created_client="true";
+                                }else{
+                                    s.today_created_client="false";
+                                }
                             }
 
                             ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
@@ -554,7 +574,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                             .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                   // mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
                                                     mContext.startActivity(new Intent(mContext, SalesActivity.class));
                                                 }
                                             });

@@ -3,6 +3,8 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
@@ -221,6 +223,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
 
                // date.setText(DateHelper.get().serverToUserFormatted(currentBox.created));
                 date.setText(DateHelper.get().changeFormatDate(currentBox.created));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
                 return false;
             }
@@ -272,6 +275,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -356,6 +360,7 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
     }

@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view_mistake"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
-    card_view:contentPadding="8dp"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
 
     >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
         android:orientation="vertical">
 
 
@@ -35,14 +32,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Fecha  "/>
 
             <TextView
@@ -58,15 +56,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Vta contado"/>
 
             <TextView
@@ -82,15 +81,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Tarjeta "/>
 
             <TextView
@@ -105,15 +105,16 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Caja total "/>
 
             <TextView
@@ -128,15 +129,16 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Resto caja "/>
 
             <TextView
@@ -152,14 +154,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Depo/Extr "/>
 
             <TextView
@@ -176,14 +179,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Resto caja ant"/>
 
             <TextView
@@ -201,14 +205,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="130dp"
                 android:padding="4dp"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/word"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:text="Detalle "/>
 
             <TextView
@@ -254,5 +259,6 @@
         </LinearLayout>
 
     </LinearLayout>
+    </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+

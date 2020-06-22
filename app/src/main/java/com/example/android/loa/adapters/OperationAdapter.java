@@ -3,6 +3,8 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,6 +64,8 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         public TextView description;
         public TextView brand;
         public TextView product_kind;
+        public TextView product_model;
+        public TextView product_type;
         public TextView code;
         public TextView settled;
         public LinearLayout text_color;
@@ -76,10 +80,11 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             text_date = v.findViewById(R.id.text_date);
             description = v.findViewById(R.id.description);
             brand = v.findViewById(R.id.brand);
-            code = v.findViewById(R.id.code);
             product_kind = v.findViewById(R.id.product_kind);
             settled = v.findViewById(R.id.settled);
             item_layout = v.findViewById(R.id.item_layout);
+            product_model = v.findViewById(R.id.product_model);
+            product_type = v.findViewById(R.id.product_type);
 
         }
     }
@@ -106,10 +111,12 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             vh.text_date.setText(null);
         if (vh.description != null)
             vh.description.setText(null);
-        if (vh.code != null)
-            vh.code.setText(null);
         if (vh.product_kind != null)
             vh.product_kind.setText(null);
+        if (vh.product_model != null)
+            vh.product_model.setText(null);
+        if (vh.product_type != null)
+            vh.product_type.setText(null);
 
         if (vh.brand != null)
             vh.brand.setText(null);
@@ -134,12 +141,14 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             holder.tot.setTextColor(mContext.getResources().getColor(R.color.loa_green));
         }
 
+        holder.product_type.setText(currentOperation.product_type);
+        holder.product_model.setText(currentOperation.product_model);
+
         holder.text_date.setText(DateHelper.get().getOnlyDate(DateHelper.get().changeFormatDate(currentOperation.created)));
         if(currentOperation.settled.equals("true")){
             holder.settled.setText("SALDADO A 0");
         }
         holder.brand.setText(checkEmpty(currentOperation.brand));
-        holder.code.setText(checkEmpty(currentOperation.code).toUpperCase());
         holder.product_kind.setText(checkEmpty(currentOperation.product_kind));
         holder.previous_balance.setText(String.valueOf(currentOperation.previous_balance));
         if(currentOperation.previous_balance<0){
@@ -157,7 +166,6 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             holder.text_valueOut.setText(String.valueOf(value));
             holder.text_valueOut.setTextColor(mContext.getResources().getColor(R.color.loa_green));
 
-          //  holder.text_valueIn.setText(String.valueOf(value));
         }
         holder.description.setText(checkEmpty(currentOperation.description));
 
@@ -191,8 +199,8 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                     }
                 });
 
-                TextView size=  dialogView.findViewById(R.id.size);
-                size.setText(currentOperation.size);
+                TextView descr=  dialogView.findViewById(R.id.description);
+                descr.setText(currentOperation.description);
                 TextView value=  dialogView.findViewById(R.id.value);
                 TextView prod=  dialogView.findViewById(R.id.product_kind);
                 prod.setText(currentOperation.product_kind);
@@ -202,7 +210,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
 
                 date.setText(DateHelper.get().serverToUserFormatted(currentOperation.created));
 
-
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
                 return false;
@@ -262,6 +270,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
     }
@@ -361,6 +370,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -376,9 +386,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
 
         final TextView edit_valuePositive= dialogView.findViewById(R.id.edit_valuePositive);
         final TextView edit_valueNegative= dialogView.findViewById(R.id.edit_valueNegative);
-        final TextView sizeT=dialogView.findViewById(R.id.size);
         final TextView brandT =dialogView.findViewById(R.id.brand);
-        final TextView codeT =dialogView.findViewById(R.id.code);
         final TextView product_kindT =dialogView.findViewById(R.id.product_kind);
         final TextView descriptionT =dialogView.findViewById(R.id.description);
         final TextView edit_date =dialogView.findViewById(R.id.edit_date);
@@ -393,9 +401,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             descriptionT.setHint(op.description);
         }
 
-        sizeT.setText(op.size);
         brandT.setText(op.brand);
-        codeT.setText(op.code);
         product_kindT.setText(op.product_kind);
 
         value.setText((op.value < 0) ? String.valueOf(op.value) : String.valueOf("+ "+op.value));
@@ -444,10 +450,8 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 String valueTransPositive=edit_valuePositive.getText().toString().trim();
                 String valueTransNegative=edit_valueNegative.getText().toString().trim();
                 String dateTrans=edit_date.getText().toString().trim();
-                String codeOp=codeT.getText().toString().trim();
                 String brandOp=brandT.getText().toString().trim();
                 String productOp=product_kindT.getText().toString().trim();
-                String sizeOp=sizeT.getText().toString().trim();
                 String descOp=descriptionT.getText().toString().trim();
 
                 if(!valueTransPositive.matches("")) {
@@ -464,16 +468,11 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                     }
                 }
 
-                if(!codeOp.matches("")) {
-                    op.code=codeOp;
-                }
 
                 if(!brandOp.matches("")) {
                     op.brand=brandOp;
                 }
-                if(!sizeOp.matches("")) {
-                    op.size=sizeOp;
-                }
+
                 if(!productOp.matches("")) {
                     op.product_kind=productOp;
                 }
@@ -492,8 +491,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 item.created=op.created;
                 item.id=op.item_file_id;
                 item.observation=op.observation;
-                item.size=op.size;
-                item.code=op.code;
+
                 item.brand=op.brand;
                 item.product_kind=op.product_kind;
 
@@ -524,9 +522,8 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
     }
-
-
 }

@@ -167,8 +167,21 @@ public class MainActivity extends BaseActivity {
         }else if(id == R.id.action_incomes){
 
             startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
+        }else if(id == R.id.action_log_events){
+           startHistoryEventsActivity();
+        }else if(id == R.id.action_santi_money){
+            startSantiMoneyMovement();
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startHistoryEventsActivity(){
+        startActivity(new Intent(this, EventHistoryActivity.class));
+    }
+
+    private void startSantiMoneyMovement(){
+        startActivity(new Intent(this, ParallelMoneyMovementsActivity.class));
     }
 }

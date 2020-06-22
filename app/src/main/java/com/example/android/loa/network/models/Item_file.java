@@ -8,6 +8,8 @@ public class Item_file {
     public String observation;
     public String product_kind;
     public String brand;
+    public String product_type;
+    public String product_model;
     public String size;
     public String code;
     public String settled;

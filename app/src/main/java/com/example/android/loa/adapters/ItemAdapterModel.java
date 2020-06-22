@@ -38,8 +38,6 @@ public class ItemAdapterModel extends BaseAdapter<SpinnerModel,ItemAdapter.ViewH
 
     }
 
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView text;
 
@@ -49,7 +47,6 @@ public class ItemAdapterModel extends BaseAdapter<SpinnerModel,ItemAdapter.ViewH
             super(v);
             text= v.findViewById(R.id.text);
             circle= v.findViewById(R.id.circle);
-
         }
     }
 
@@ -131,15 +128,6 @@ public class ItemAdapterModel extends BaseAdapter<SpinnerModel,ItemAdapter.ViewH
                     }
                 }
             });
-
-
-
-
         }
-
-
     }
-
-
-
 }

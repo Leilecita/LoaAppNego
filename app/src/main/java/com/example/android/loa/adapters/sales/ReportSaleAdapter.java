@@ -366,16 +366,13 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
         mAdapter.setItems(current.listStockEventSale);
         holder.recylerSales.setAdapter(mAdapter);
 
-
-
         LinearLayoutManager layoutManagerFile = new LinearLayoutManager(mContext);
         holder.recyclerItemsFile.setLayoutManager(layoutManagerFile);
-        ReportItemFileClientAdapter mAdapterItemFileClient = new ReportItemFileClientAdapter(mContext, new ArrayList<ReportItemFileClientEvent>());
+        ReportItemFileClientAdapter mAdapterItemFileClient = new ReportItemFileClientAdapter(mContext, new ArrayList<ReportItemFileClientEvent>(), current.created);
         mAdapterItemFileClient.setItems(current.listItems);
         holder.recyclerItemsFile.setAdapter(mAdapterItemFileClient);
         if(current.listItems.size()>0){
            holder.lineFile.setVisibility(View.VISIBLE);
-           // holder.lineSales.setVisibility(View.VISIBLE);
         }else{
             holder.lineFile.setVisibility(View.GONE);
         }

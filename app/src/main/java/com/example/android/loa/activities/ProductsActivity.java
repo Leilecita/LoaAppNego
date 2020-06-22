@@ -87,17 +87,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private ImageView oferta;
     private ImageView all;
 
- /*   private TextView textMan;
-    private TextView textWoman;
-    private TextView textBoy;
-    private TextView textTec;
-    private TextView textZap;
-    private TextView textAcc;
-    private TextView textLuz;
-    private TextView textOferta;
-    private TextView textAll;
-    */
-
     private RecyclerView mGridRecyclerView;
     private RecyclerView mGridRecyclerViewType;
     private RecyclerView mGridRecyclerViewModel;
@@ -412,38 +401,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         oferta.setImageResource(R.drawable.bofercl);
         all.setImageResource(R.drawable.ballcl);
 
-     /*   woman.setBackgroundResource(R.drawable.circle_unselected);
-        boy.setBackgroundResource(R.drawable.circle_unselected);
-        man.setBackgroundResource(R.drawable.circle_unselected);
-        tecnico.setBackgroundResource(R.drawable.circle_unselected);
-        zapas.setBackgroundResource(R.drawable.circle_unselected);
-        accesories.setBackgroundResource(R.drawable.circle_unselected);
-        luz.setBackgroundResource(R.drawable.circle_unselected);
-        oferta.setBackgroundResource(R.drawable.circle_unselected);
-        all.setBackgroundResource(R.drawable.circle_unselected);
-
-        */
-
-     /*   textZap.setTextColor(getResources().getColor(R.color.word_clear));
-        textTec.setTextColor(getResources().getColor(R.color.word_clear));
-        textMan.setTextColor(getResources().getColor(R.color.word_clear));
-        textWoman.setTextColor(getResources().getColor(R.color.word_clear));
-        textBoy.setTextColor(getResources().getColor(R.color.word_clear));
-        textAcc.setTextColor(getResources().getColor(R.color.word_clear));
-        textLuz.setTextColor(getResources().getColor(R.color.word_clear));
-        textOferta.setTextColor(getResources().getColor(R.color.word_clear));
-        textAll.setTextColor(getResources().getColor(R.color.word_clear));
-
-        textZap.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textTec.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textMan.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textWoman.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textBoy.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textAcc.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-        textAll.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-*/
         listProdListener();
 
         mGridAdapter.clear();

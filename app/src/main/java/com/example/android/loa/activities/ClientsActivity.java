@@ -28,6 +28,7 @@ import com.example.android.loa.network.models.Client;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
     private RecyclerView.LayoutManager layoutManager;
     private TextView mTotalAmoount;
     private Button mOrderBy;
+    private Button mOrderByDebt;
+    private Button mOrderByCreated;
 
     //pagination
     private boolean loadingInProgress;
@@ -50,6 +53,9 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
     private String token = "";
 
     private LinearLayout button;
+    private StickyRecyclerHeadersDecoration headersDecor;
+
+    private boolean isSticky=false;
 
     @Override
     public int getLayoutRes() {
@@ -72,14 +78,38 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
         button= findViewById(R.id.fab_agregarTod);
 
         setTitle("Ficha deudores");
-        // registerForContextMenu(mRecyclerView);
-
-       // setHasOptionsMenu(true);
 
         mOrderBy=findViewById(R.id.orderClientBy);
         mOrderBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                unselectAll();
+                mOrderBy.setBackground(getResources().getDrawable(R.drawable.button_rec_select));
+                CurrentValuesHelper.get().setmOrderClientBy("name");
+                changeOrderBy();
+                clearView();
+            }
+        });
+
+        mOrderByDebt=findViewById(R.id.orderClientByDebt);
+        mOrderByDebt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unselectAll();
+                mOrderByDebt.setBackground(getResources().getDrawable(R.drawable.button_rec_select));
+                CurrentValuesHelper.get().setmOrderClientBy("debt");
+                changeOrderBy();
+                clearView();
+            }
+        });
+
+        mOrderByCreated=findViewById(R.id.orderClientByCreated);
+        mOrderByCreated.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unselectAll();
+                mOrderByCreated.setBackground(getResources().getDrawable(R.drawable.button_rec_select));
+                CurrentValuesHelper.get().setmOrderClientBy("created");
                 changeOrderBy();
                 clearView();
             }
@@ -113,6 +143,8 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
         loadOperationAcum(true);
         implementsPaginate();
 
+        headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,20 +154,44 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
         });
     }
 
+    private void addSticky(){
+
+        mRecyclerView.addItemDecoration(headersDecor);
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecor.invalidateHeaders();
+            }
+        });
+
+    }
+
+    private void quitSticky(){
+        mRecyclerView.removeItemDecoration(headersDecor);
+    }
+
     private void clearView(){
         mCurrentPage = 0;
         mAdapter.clear();
         hasMoreItems=true;
-        //  listClients(mQuery);
+    }
+
+    private void unselectAll(){
+        mOrderBy.setBackground(getResources().getDrawable(R.drawable.button_rec));
+        mOrderByCreated.setBackground(getResources().getDrawable(R.drawable.button_rec));
+        mOrderByDebt.setBackground(getResources().getDrawable(R.drawable.button_rec));
     }
 
     private void changeOrderBy(){
-        if(CurrentValuesHelper.get().getmOrderClientBy().equals("name")){
-            CurrentValuesHelper.get().setmOrderClientBy("debt");
-            mOrderBy.setText("A-B");
+        if(CurrentValuesHelper.get().getmOrderClientBy().equals("created")){
+            if(!isSticky){
+                addSticky();
+                isSticky=true;
+            }
+
         }else{
-            CurrentValuesHelper.get().setmOrderClientBy("name");
-            mOrderBy.setText("> $");
+            quitSticky();
+            isSticky=false;
         }
     }
 
@@ -241,9 +297,5 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
     }
 
 
-
-    private void startHistoryEventsActivity(){
-        startActivity(new Intent(this, EventHistoryActivity.class));
-    }
 
 }

@@ -123,6 +123,7 @@
 
             </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,12 +194,24 @@
                     />
 
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1.5"
-                    android:textColor="@color/loa_green"
-                    android:layout_height="wrap_content"
-                    />
+                    android:gravity="right"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:visibility="gone"
+                        android:id="@+id/new_client"
+                        android:layout_height="22dp"
+                        android:src="@drawable/newclient"
+                        />
+                </LinearLayout>
+
+
+
+
 
 
 

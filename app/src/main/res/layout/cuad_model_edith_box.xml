@@ -1,23 +1,19 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view_edith_user"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
-    android:backgroundTint="#ededed"
-    card_view:contentPadding="10dp"
-
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
 
     >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -44,8 +40,8 @@
                 <TextView
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:padding="0dp"
+                    android:fontFamily="@font/opensansregular"
                     android:textSize="16sp"
                     android:textColor="@color/word"
                     android:text="Fecha"/>
@@ -82,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:text="CTDO  "
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/opensansregular"
                 android:textColor="@color/word"
                 />
 
@@ -112,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:text="TARJ  "
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/opensansregular"
                 android:textColor="@color/word"
                 />
 
@@ -147,7 +143,7 @@
                     android:layout_width="100sp"
                     android:layout_height="wrap_content"
                     android:text="C TOT "
-                    android:textStyle="bold"
+                    android:fontFamily="@font/opensansregular"
                     android:padding="0dp"
                     android:textSize="16sp"
                     android:textColor="@color/word"
@@ -181,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:text="REST C "
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/opensansregular"
                     android:textColor="@color/word"
                     />
 
@@ -211,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:text="REST C ANT"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/opensansregular"
                     android:textColor="@color/word"
                     />
 
@@ -241,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:text="T EXT"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/opensansregular"
                     android:textColor="@color/word"
                     />
 
@@ -274,7 +270,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:id="@+id/cancel"
                 android:layout_weight="1"
                 android:text="CANCELAR"
@@ -286,15 +282,17 @@
             <Button
                 android:layout_width="match_parent"
                 android:id="@+id/ok"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_weight="1"
                 android:textColor="#ffff"
                 android:padding="4dp"
-                android:background="@color/colorDialogButton"
-                android:text="guardar"/>
+                android:background="@drawable/rec_edit"
+                android:backgroundTint="@color/colorDialogButton"
+                android:text="eliminar"/>
 
         </LinearLayout>
 
     </LinearLayout>
+    </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+

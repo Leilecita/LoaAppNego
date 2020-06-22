@@ -7,27 +7,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.loa.DateHelper;
 import com.example.android.loa.R;
 
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 
+import java.util.Date;
 import java.util.List;
 
 public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClientEvent,ReportItemFileClientAdapter.ViewHolder> {
 
     private Context mContext;
 
-    private String item_date="";
+    private String mCurrentDate="";
 
-    public ReportItemFileClientAdapter(Context context, List<ReportItemFileClientEvent> events){
+    public ReportItemFileClientAdapter(Context context, List<ReportItemFileClientEvent> events,String current_date){
         setItems(events);
         mContext = context;
+        mCurrentDate=current_date;
     }
 
     public ReportItemFileClientAdapter(){
@@ -43,6 +47,7 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
         public TextView description;
         public TextView detail;
         public TextView value;
+        public LinearLayout lin_item_new;
 
         public ViewHolder(View v){
             super(v);
@@ -50,6 +55,7 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
             description= v.findViewById(R.id.description);
             value= v.findViewById(R.id.value);
             detail= v.findViewById(R.id.detail);
+            lin_item_new= v.findViewById(R.id.item_new);
         }
     }
 
@@ -77,6 +83,14 @@ public class ReportItemFileClientAdapter  extends BaseAdapter<ReportItemFileClie
         clearViewHolder(holder);
 
         final ReportItemFileClientEvent current=getItem(position);
+
+        String item_created= DateHelper.get().getOnlyDate(current.client_created);
+        String today= DateHelper.get().getOnlyDate(mCurrentDate);
+        if(item_created.equals(today)){
+            holder.lin_item_new.setVisibility(View.VISIBLE);
+        }else{
+            holder.lin_item_new.setVisibility(View.GONE);
+        }
 
         if(current.value>0){
             holder.detail.setText("A cta");

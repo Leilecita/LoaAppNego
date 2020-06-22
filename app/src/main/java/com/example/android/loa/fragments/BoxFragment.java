@@ -67,20 +67,12 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private RecyclerView mRecyclerView;
     private BoxAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private View mRootView;
 
-    private String mSelectDate;
 
-    //pagination
-    private boolean loadingInProgress;
-    private Integer mCurrentPage;
-    private Paginate paginate;
-    private boolean hasMoreItems;
-
-    private LinearLayout bottomSheet;
-    private LinearLayout dia;
-    private LinearLayout mes;
-    private LinearLayout periodo;
+    //box by period
+    private RecyclerView mRecyclerViewPeriod;
+    private BoxAdapter mAdapterPeriod;
+    private RecyclerView.LayoutManager layoutManagerPeriod;
 
     private LinearLayout line_period_tot;
     private TextView tot_ctdo;
@@ -89,8 +81,23 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private TextView tot_extr;
     private TextView tot_dep;
 
+    //pagination
+    private boolean loadingInProgress;
+    private Integer mCurrentPage;
+    private Paginate paginate;
+    private boolean hasMoreItems;
+
 
     private String mSelectedView;
+    private LinearLayout bottomSheet;
+    private LinearLayout dia;
+    private LinearLayout mes;
+    private LinearLayout periodo;
+
+    private View mRootView;
+
+    private String mSelectDate;
+
     private TextView rest_box;
 
     private String mDateSince="";
@@ -149,14 +156,22 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         tot_extr=mRootView.findViewById(R.id.tot_rest_box);
         tot_total_box=mRootView.findViewById(R.id.tot_total_amount);
 
+        //box by period
+        mRecyclerViewPeriod= mRootView.findViewById(R.id.list_box_period);
+        layoutManagerPeriod = new LinearLayoutManager(getActivity());
+        mRecyclerViewPeriod.setLayoutManager(layoutManagerPeriod);
+        mAdapterPeriod = new BoxAdapter(getActivity(), new ArrayList<Box>());
+        mRecyclerViewPeriod.setAdapter(mAdapterPeriod);
+
+
         //box by month
         mRecyclerViewMonth =  mRootView.findViewById(R.id.list_box_month);
         layoutManagerMonth = new LinearLayoutManager(getActivity());
         mRecyclerViewMonth.setLayoutManager(layoutManagerMonth);
         mAdapterMonth= new ReportBoxMonthAdapter(getActivity(),new ArrayList<ReportMonthBox>());
         mRecyclerViewMonth.setAdapter(mAdapterMonth);
-        /////
 
+        //box by dya
         mRecyclerView = mRootView.findViewById(R.id.list_box);
         layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -166,14 +181,18 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         setHasOptionsMenu(true);
         registerForContextMenu(mRecyclerView);
 
+        mSelectDate=DateHelper.get().getActualDate();
+
+        //cuando se ven las cajas por mes, el rest_box desaparece
         rest_box=mRootView.findViewById(R.id.rest_box);
 
-        mSelectDate=DateHelper.get().getActualDate();
 
         mSelectedView="dia";
         mRecyclerViewMonth.setVisibility(View.GONE);
-        rest_box.setVisibility(View.VISIBLE);
+        mRecyclerViewPeriod.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
+        rest_box.setVisibility(View.VISIBLE);
+
         implementsPaginate();
 
         EventBus.getDefault().register(this);
@@ -203,20 +222,29 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         });
     }
 
+    private void clearAdapters(){
+        mAdapterMonth.clear();
+        mAdapterPeriod.clear();
+        mAdapter.clear();
+    }
+
     private void topbarListener(View bottomSheet){
         dia=bottomSheet.findViewById(R.id.dia);
         dia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if(!mSelectedView.equals("dia")){
                 mSelectedView="dia";
-                mRecyclerViewMonth.setVisibility(View.GONE);
-                rest_box.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.VISIBLE);
 
-                mAdapterMonth.clear();
-                mAdapter.clear();
+                mRecyclerViewMonth.setVisibility(View.GONE);
+                mRecyclerViewPeriod.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                rest_box.setVisibility(View.VISIBLE);
+
+                clearAdapters();
 
                 implementsPaginate();
+            }
 
             }
         });
@@ -224,12 +252,20 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         mes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if(!mSelectedView.equals("mes")){
                 mSelectedView="mes";
+
                 mRecyclerView.setVisibility(View.GONE);
-                rest_box.setVisibility(View.GONE);
+                mRecyclerViewPeriod.setVisibility(View.GONE);
                 mRecyclerViewMonth.setVisibility(View.VISIBLE);
-                mAdapter.clear();
+
+                rest_box.setVisibility(View.GONE);
+
+                clearAdapters();
+
                 implementsPaginate();
+            }
+
             }
         });
 
@@ -238,6 +274,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         periodo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                cuadSelectPeriod();
             }
         });
@@ -253,11 +290,11 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 if (data.size() == 0) {
                     hasMoreItems = false;
                 }else{
-                    int prevSize = mAdapter.getItemCount();
-                    mAdapter.pushList(data);
+                    int prevSize = mAdapterPeriod.getItemCount();
+                    mAdapterPeriod.pushList(data);
                     mCurrentPage++;
                     if(prevSize == 0){
-                        layoutManager.scrollToPosition(0);
+                        layoutManagerPeriod.scrollToPosition(0);
                     }
                 }
                 loadingInProgress = false;
@@ -324,6 +361,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
             }
         });
     }
+
     private void implementsPaginate(){
 
         loadingInProgress=false;
@@ -331,6 +369,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         hasMoreItems = true;
 
         if(mSelectedView.equals("mes")){
+
             paginate= Paginate.with(mRecyclerViewMonth, this)
                     .setLoadingTriggerThreshold(2)
                     .addLoadingListItem(true)
@@ -342,7 +381,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                         }
                     })
                     .build();
-        }else{
+        }else if(mSelectedView.equals("dia")){
+
             paginate= Paginate.with(mRecyclerView, this)
                     .setLoadingTriggerThreshold(2)
                     .addLoadingListItem(true)
@@ -354,8 +394,19 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                         }
                     })
                     .build();
+        }else{
+            paginate= Paginate.with(mRecyclerViewPeriod, this)
+                    .setLoadingTriggerThreshold(2)
+                    .addLoadingListItem(true)
+                    .setLoadingListItemCreator(new CustomLoadingListItemCreator())
+                    .setLoadingListItemSpanSizeLookup(new LoadingListItemSpanLookup() {
+                        @Override
+                        public int getSpanSize() {
+                            return 0;
+                        }
+                    })
+                    .build();
         }
-
     }
 
     @Override
@@ -370,7 +421,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
             line_period_tot.setVisibility(View.VISIBLE);
             listBoxesByPeriod();
         }
-
     }
 
     @Override
@@ -397,14 +447,17 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     }
 
     public void onClickButton(){
-
-        Intent intent = new Intent(getContext(), CreateBoxActivity.class);
-        if(mAdapter.getList().size() >0){
-            intent.putExtra("RESTBOX", String.valueOf(mAdapter.getList().get(0).rest_box));
+        if(mSelectedView.equals("dia")){
+            Intent intent = new Intent(getContext(), CreateBoxActivity.class);
+            if(mAdapter.getList().size() >0){
+                intent.putExtra("RESTBOX", String.valueOf(mAdapter.getList().get(0).rest_box));
+            }else{
+                intent.putExtra("RESTBOX", String.valueOf(0.0));
+            }
+            startActivityForResult(intent,CREATE_BOX_REQUEST_CODE);
         }else{
-            intent.putExtra("RESTBOX", String.valueOf(0.0));
+            Toast.makeText(getContext(), " Debe seleccionar vista por dia para poder crear una caja",Toast.LENGTH_LONG).show();
         }
-        startActivityForResult(intent,CREATE_BOX_REQUEST_CODE);
     }
 
     @Override
@@ -537,12 +590,17 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
             @Override
             public void onClick(View view) {
             if(!dateSince.getText().toString().trim().equals("") && !dateTo.getText().toString().trim().equals("") ){
+
                 mSelectedView="periodo";
+
                 mRecyclerViewMonth.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.GONE);
+                mRecyclerViewPeriod.setVisibility(View.VISIBLE);
+
                 rest_box.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-                mAdapterMonth.clear();
-                mAdapter.clear();
+
+                clearAdapters();
+
                 implementsPaginate();
 
 

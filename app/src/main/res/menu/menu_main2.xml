@@ -13,13 +13,23 @@
 
     <item
         android:id="@+id/action_mov_stock"
-        android:title="Movimientos"
+        android:title="Todos los movimientos"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_log_events"
+        android:title="Log events"
         app:showAsAction="never" />
 
 
     <item
         android:id="@+id/action_incomes"
         android:title="Señas"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_santi_money"
+        android:title="Movimiento paralelos santi"
         app:showAsAction="never" />
 
 </menu>

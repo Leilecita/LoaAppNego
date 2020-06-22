@@ -52,7 +52,6 @@ public class BoxMovementsActivity extends BaseActivity {
         image_button= findViewById(R.id.image_button);
 
 
-
         for (int i = 0; i < mAdapter.getCount(); i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
             if (tab != null) {
@@ -197,8 +196,20 @@ public class BoxMovementsActivity extends BaseActivity {
         } else if(id == R.id.action_incomes){
 
             startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
+        }else if(id == R.id.action_santi_money){
+            startSantiMoneyMovement();
+        }else if(id == R.id.action_log_events){
+            startHistoryEventsActivity();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startSantiMoneyMovement(){
+        startActivity(new Intent(this, ParallelMoneyMovementsActivity.class));
+    }
+
+    private void startHistoryEventsActivity(){
+        startActivity(new Intent(this, EventHistoryActivity.class));
     }
 }

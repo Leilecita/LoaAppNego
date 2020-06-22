@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.network.ApiClient;
@@ -197,7 +198,7 @@ public class CreateClientActivity extends BaseActivity{
 
                     String picpath="/uploads/preimpresos/person_color.png";
                     final Client newClient= new Client(name,address,phone,phone2,picpath,0d,employee);
-
+                    newClient.created=DateHelper.get().getActualDate2();
                     if(image_path!=null){
                         try {
                             newClient.imageData = fileToBase64(image_path);

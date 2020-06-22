@@ -58,11 +58,11 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showBackArrow();
-       // TextView title= findViewById(R.id.title);
-        //title.setText("Historial");
 
         mClientId= getIntent().getLongExtra("ID",-1);
         String name=getIntent().getStringExtra("CLIENTNAME");
+
+        setTitle("Historial "+name);
 
         mRecyclerView =  findViewById(R.id.list_transaction);
         layoutManager = new LinearLayoutManager(this);
@@ -181,7 +181,8 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
                 return true;
 
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                finish();
+               // NavUtils.navigateUpFromSameTask(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

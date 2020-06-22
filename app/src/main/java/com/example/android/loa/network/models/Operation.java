@@ -6,6 +6,8 @@ public class Operation {
     public String description;
     public String observation;
     public String product_kind;
+    public String product_model;
+    public String product_type;
     public String brand;
     public String size;
     public String code;
@@ -15,13 +17,11 @@ public class Operation {
     public String modify_by;
     public String created;
 
-
     public Long client_id;
 
 
-
     public Operation(String name, String description, Double value,Double previous_balance, String created, Long item_file_id,String obs,String settled
-    ,String product_kind,String brand, String size, String code,Long client_id){
+    ,String product_kind,String brand, String size, String code,Long client_id,String product_type, String product_model){
         this.client_id=client_id;
         this.name=name;
         this.description=description;
@@ -35,5 +35,7 @@ public class Operation {
         this.item_file_id=item_file_id;
         this.settled=settled;
         this.previous_balance=previous_balance;
+        this.product_type=product_type;
+        this.product_model=product_model;
     }
 }

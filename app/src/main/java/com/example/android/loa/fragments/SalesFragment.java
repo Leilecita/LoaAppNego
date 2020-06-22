@@ -71,16 +71,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
     private ImageView mes;
     private ImageView dia;
 
- /*   private TextView textMan;
-    private TextView textWoman;
-    private TextView textBoy;
-    private TextView textTec;
-    private TextView textZap;
-    private TextView textAcc;
-    private TextView textLuz;
-    private TextView textOferta;
-    private TextView textAll;
-*/
     private String mItem;
     private String mGroupBy;
 
@@ -135,10 +125,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
     }
 
 
-    private void clearAndList(){
-        clearView();
-        //listSales(); no hace falta porque ya declaras hasmoreitems = true
-    }
+
     private void clearView(){
         mCurrentPage = 0;
         mAdapter.clear();
@@ -151,8 +138,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         ApiClient.get().getReportSales(mCurrentPage, mItem,mGroupBy,new GenericCallback<List<ReportSale>>() {
             @Override
             public void onSuccess(List<ReportSale> data) {
-
-                System.out.println("entra aca"+data.size());
 
                 if (data.size() == 0) {
                     hasMoreItems = false;
@@ -220,7 +205,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         oferta.setImageResource(R.drawable.bofercl);
         all.setImageResource(R.drawable.ballcl);
 
-       clearAndList();
+       clearView();
 
     }
     private void topBarListener(View bottomSheet){
@@ -245,7 +230,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mAdapter.setGroupBy(mGroupBy);
                 mes.setImageResource(R.drawable.b23);
                 dia.setImageResource(R.drawable.bdiacl);
-                clearAndList();
+                clearView();
 
             }
         });
@@ -257,21 +242,9 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mes.setImageResource(R.drawable.mescl2);
                 dia.setImageResource(R.drawable.bdia);
                 mAdapter.setGroupBy(mGroupBy);
-                clearAndList();
+                clearView();
             }
         });
-
-   /*     textAcc=bottomSheet.findViewById(R.id.textAcc);
-        textMan=bottomSheet.findViewById(R.id.textMan);
-        textWoman=bottomSheet.findViewById(R.id.textWoman);
-        textZap=bottomSheet.findViewById(R.id.textZapas);
-        textTec=bottomSheet.findViewById(R.id.textTec);
-        textBoy=bottomSheet.findViewById(R.id.textBoy);
-        textLuz=bottomSheet.findViewById(R.id.textLuz);
-        textOferta=bottomSheet.findViewById(R.id.textOferta);
-        textAll=bottomSheet.findViewById(R.id.textAll);
-*/
-
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,7 +252,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Todos";
                 changeCircleSelected();
                 all.setImageResource(R.drawable.ball);
-                //changeViewStyle(textAll);
             }
         });
 
@@ -289,7 +261,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Dama";
                 changeCircleSelected();
                 woman.setImageResource(R.drawable.bwom);
-               // changeViewStyle(textWoman);
             }
         });
         man.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +269,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Hombre";
                 changeCircleSelected();
                 man.setImageResource(R.drawable.bman);
-              //  changeViewStyle(textMan);
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {
@@ -307,7 +277,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Niño";
                 changeCircleSelected();
                 boy.setImageResource(R.drawable.bnin);
-              //  changeViewStyle(textBoy);
             }
         });
         accesories.setOnClickListener(new View.OnClickListener() {
@@ -316,7 +285,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Accesorio";
                 changeCircleSelected();
                 accesories.setImageResource(R.drawable.bacc);
-              //  changeViewStyle(textAcc);
             }
         });
         tecnico.setOnClickListener(new View.OnClickListener() {
@@ -325,7 +293,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Tecnico";
                 changeCircleSelected();
                 tecnico.setImageResource(R.drawable.btec);
-              //  changeViewStyle(textTec);
             }
         });
 
@@ -335,7 +302,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Calzado";
                 changeCircleSelected();
                 zapas.setImageResource(R.drawable.bcal);
-               // changeViewStyle(textZap);
             }
         });
 
@@ -345,7 +311,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Luz";
                 changeCircleSelected();
                 luz.setImageResource(R.drawable.bluz);
-               // changeViewStyle(textLuz);
             }
         });
 
@@ -355,7 +320,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 mItem="Oferta";
                 changeCircleSelected();
                 oferta.setImageResource(R.drawable.bofer);
-              //  changeViewStyle(textOferta);
             }
         });
     }

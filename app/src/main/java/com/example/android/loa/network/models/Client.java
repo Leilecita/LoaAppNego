@@ -9,9 +9,12 @@ public class Client {
     public String alternative_phone;
     public String employee_creator_id;
     public String image_url;
+    public String created;
     public Double debt;
 
     public String imageData;
+
+    public Client(){}
 
     public Client(String name, String address, String phone, String alternative_phone,String picpath,Double debt,String employee_creator_id){
 

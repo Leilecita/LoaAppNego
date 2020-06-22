@@ -1,0 +1,360 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:text="Editar"
+            android:textSize="18sp"
+            android:fontFamily="@font/opensansregular"
+            android:textColor="@color/word"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="90sp"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensansregular"
+                    android:textColor="@color/word"
+                    android:text="Fecha"/>
+
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_height="33dp"
+                    android:paddingLeft="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/colorDialogButton"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+                <ImageView
+                    android:layout_width="40sp"
+                    android:id="@+id/date_picker"
+                    android:visibility="gone"
+                    android:layout_height="33dp"
+                    android:src="@drawable/date"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:text="Tipo  "
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rec_find"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/general_text"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="6dp"
+                    android:id="@+id/type"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_type1"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="100dp"
+                    android:paddingLeft="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="35dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/line_detail"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:text="Detalle  "
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rec_find"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/general_text"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="6dp"
+                    android:id="@+id/detail"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_detail"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="100dp"
+                    android:paddingLeft="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="4dp"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="35dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:text="Descr"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_weight="1"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensanslight"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="90sp"
+                    android:layout_height="wrap_content"
+                    android:text="Valor "
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensansregular"
+                    android:padding="0dp"
+                    android:textColor="@color/word"
+
+                    />
+
+
+                <EditText
+
+                    android:id="@+id/value"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="28dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:paddingLeft="8dp"
+                    android:textColor="#5c5c5c"
+                    android:layout_height="35dp"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_remito"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:checked="true"
+                    android:layout_gravity="center"
+                    android:buttonTint="@color/colorPrimaryClear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Sin Facturar"
+                    android:gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+
+                    />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_factura"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:buttonTint="@color/colorPrimaryClear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Facturado"
+                    android:gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center"
+
+                    android:textSize="16sp"
+
+                    />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@drawable/rec_edit"
+                android:backgroundTint="@color/colorDialogButton"
+                android:text="guardar"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+

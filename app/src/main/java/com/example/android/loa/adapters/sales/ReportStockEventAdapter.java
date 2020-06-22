@@ -2,8 +2,12 @@ package com.example.android.loa.adapters.sales;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +30,18 @@ import com.example.android.loa.R;
 
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.ValuesHelper;
+import com.example.android.loa.activities.OperationHistoryClientActivity;
+import com.example.android.loa.activities.SalesActivity;
 import com.example.android.loa.adapters.BaseAdapter;
 import com.example.android.loa.adapters.ProductAdapter;
+import com.example.android.loa.adapters.StockEventAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.types.Constants;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.List;
@@ -91,6 +100,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         public TextView cant_stock_out;
         public TextView cant_stock_in;
         public ImageView imageButton;
+        public ImageView new_client;
         public TextView observation;
 
 
@@ -127,6 +137,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             model= v.findViewById(R.id.model);
             div= v.findViewById(R.id.div);
             observation= v.findViewById(R.id.observation);
+            new_client= v.findViewById(R.id.new_client);
         }
     }
 
@@ -212,6 +223,12 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         clearViewHolder(holder);
 
         final ReportStockEvent current=getItem(position);
+
+        if(current.today_created_client.equals("true")){
+            holder.new_client.setVisibility(View.VISIBLE);
+        }else{
+            holder.new_client.setVisibility(View.GONE);
+        }
 
         loadIcon(holder,current.item);
 
@@ -323,14 +340,39 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
                     holder.line_edit.setVisibility(View.GONE);
                     holder.div.setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
 
         if(current.client_name!=null){
             holder.value.setText(current.client_name);
+
+            if(current.client_id != -1) {
+                holder.value.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showInfo(current,holder.itemView);
+                    }
+                });
+            }
         }
+    }
+
+    private void showInfo(final ReportStockEvent current, View view){
+
+        Snackbar snackbar = Snackbar
+                .make(view, current.client_name, Snackbar.LENGTH_LONG)
+                .setAction("Ver mas info", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Client c= new Client();
+                        c.id=current.client_id;
+                        c.name=current.client_name;
+
+                        OperationHistoryClientActivity.start(mContext,c);
+                    }
+                });
+
+        snackbar.show();
     }
 
     private void createMenuOut(final ReportStockEventAdapter.ViewHolder holder){
@@ -501,7 +543,4 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         datePickerDialog.show();
     }
-
-
-
 }

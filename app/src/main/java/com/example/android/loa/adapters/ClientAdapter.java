@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,14 +48,17 @@ import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Item_file;
+import com.example.android.loa.network.models.ReportExtraction;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> {
+public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder>  implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private ArrayAdapter<String> adapter;
 
@@ -62,6 +69,54 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     public void setOnAmountCangeListener(OnAmountChange listener){
         onAmountChangeListener = listener;
     }
+
+
+    @Override
+    public long getHeaderId(int position) {
+        if (position >= getItemCount()) {
+            return -1;
+        } else {
+            Date date = DateHelper.get().parseDate(DateHelper.get().onlyDateComplete(getItem(position).created));
+            return date.getTime();
+        }
+    }
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.view_header_clients, parent, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+        if (position < getItemCount()) {
+
+            LinearLayout linear = (LinearLayout) holder.itemView;
+            final Client e = getItem(position);
+
+            String dateToShow2 = DateHelper.get().getOnlyDate(DateHelper.get().changeOrderDate(e.created));
+           // String dateToShow2 = DateHelper.get().getNameMonth2(e.created).substring(0, 3);
+            String numberDay = DateHelper.get().numberDay(e.created);
+
+            int count = linear.getChildCount();
+            View v = null;
+            View v2 = null;
+
+            for (int k = 0; k < count; k++) {
+                v = linear.getChildAt(k);
+                if (k == 0) {
+
+                    TextView t = (TextView) v;
+                    t.setText(dateToShow2);
+                }
+            }
+        }
+    }
+
 
 
     public ClientAdapter(Context context, List<Client> clients){
@@ -124,39 +179,8 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         if(vh.firstLetter!=null){
             vh.firstLetter.setText(null);
         }
-
-
-
-    }
-    private Drawable getDrawableFirstLetter(Client c){
-
-        //get first letter of each String item
-        String firstLetter = String.valueOf(c.name.charAt(0));
-        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-        // generate random color
-        int color = generator.getColor(c);
-        //int color = generator.getRandomColor();
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .width(100)
-                .height(100)
-                .endConfig()
-                .buildRoundRect(firstLetter, color,10);
-        //.buildRound(firstLetter, color);
-
-        return drawable;
     }
 
-
-    private int getColor(Integer pos){
-
-        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-
-        int color = generator.getColor(pos);
-        System.out.println("color "+color+" pos "+pos);
-        return color;
-
-    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -170,18 +194,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
 
         holder.firstLetter.setText(String.valueOf(currentClient.name.charAt(0)));
 
-
         holder.cuad_image.setColorFilter(Color.parseColor(listColor.get(random.nextInt(listColor.size()))),PorterDuff.Mode.SRC_ATOP);
-
-        // holder.photo2.getBackground().setColorFilter(mContext.getResources().getColor(R.color.hombre), PorterDuff.Mode.SRC_ATOP);
-
-
-      //  holder.photo.setBackgroundColor(getColor(position));
-
-
-      //  holder.photo.getBackground().setColorFilter(getColor(position), PorterDuff.Mode.SRC_ATOP);
-
-
 
         Double debt=currentClient.debt;
         if(debt<0){
@@ -191,34 +204,6 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
             holder.text_value.setText(ValuesHelper.get().getIntegerQuantityByLei(debt));
             holder.text_value.setTextColor(mContext.getResources().getColor(R.color.loa_green));
         }
-
-
-       /* holder.photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-                LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View dialogView = inflater.inflate(R.layout.dialog_edith_photo, null);
-                final ImageView photo_info=  dialogView.findViewById(R.id.image_user);
-                Glide.with(mContext).load(ApiUtils.getImageUrl(currentClient.getImage_url())).into(photo_info);
-                ImageView edit= dialogView.findViewById(R.id.edit_photo);
-
-                builder.setView(dialogView);
-                final AlertDialog dialog = builder.create();
-                edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        PhotoEdithActivity.start(mContext,currentClient);
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
-
-            }
-        });*/
 
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -457,9 +442,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // deleteUser(c,position);
                 Toast.makeText(mContext,"Por seguridad solo lo puede borrar Leila", Toast.LENGTH_SHORT).show();
-               // dialog.dismiss();
             }
         });
 
@@ -476,6 +459,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 });
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -588,6 +572,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

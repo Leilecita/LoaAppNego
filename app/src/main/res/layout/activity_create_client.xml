@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    android:background="#E2E4DF"
+    android:background="@color/background"
     >
 
         <LinearLayout
@@ -30,6 +30,7 @@
                     />
                 <EditText
                     style="@style/CodeFontInput"
+                    android:fontFamily="@font/opensanslight"
                     android:id="@+id/user_name"
                     />
 
@@ -52,6 +53,7 @@
                 <EditText
                     style="@style/CodeFontInput"
                     android:id="@+id/user_phone"
+                    android:fontFamily="@font/opensanslight"
                     />
             </LinearLayout>
 
@@ -70,6 +72,7 @@
                 <EditText
                     style="@style/CodeFontInput"
                     android:id="@+id/alternative_phone"
+                    android:fontFamily="@font/opensanslight"
                     />
             </LinearLayout>
 
@@ -90,6 +93,7 @@
                 <EditText
                     style="@style/CodeFontInput"
                     android:id="@+id/user_address"
+                    android:fontFamily="@font/opensanslight"
                     />
             </LinearLayout>
             <LinearLayout
@@ -107,6 +111,7 @@
                 <Spinner
                     android:layout_width="match_parent"
                     android:id="@+id/employee_creator"
+
                     android:layout_height="35dp">
 
 

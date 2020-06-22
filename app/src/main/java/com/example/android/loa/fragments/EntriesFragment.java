@@ -191,16 +191,6 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
     }
 
 
-    private void changeCircleSelected(){
-        clearView();
-       // listSales();
-    }
-
-    private void clearAndList(){
-        clearView();
-        //listSales();
-    }
-
     private void bts(BottomSheetBehavior bsb){
         bsb.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -214,6 +204,21 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
                 Log.i("BottomSheets", "Offset: " + slideOffset);
             }
         });
+    }
+
+    private void changeCircleSelected(){
+
+        woman.setImageResource(R.drawable.bwomcl);
+        boy.setImageResource(R.drawable.bnincl);
+        man.setImageResource(R.drawable.bmancl);
+        tecnico.setImageResource(R.drawable.btecl);
+        zapas.setImageResource(R.drawable.bcalcl);
+        accesories.setImageResource(R.drawable.bacccl);
+        luz.setImageResource(R.drawable.bluzcl);
+        oferta.setImageResource(R.drawable.bofercl);
+        all.setImageResource(R.drawable.ballcl);
+
+        clearView();
     }
 
     private void topBarListener(View bottomSheet){
@@ -236,7 +241,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
                 mAdapter.setGroupBy(mGroupBy);
                 mes.setImageResource(R.drawable.b23);
                 dia.setImageResource(R.drawable.bdiacl);
-                clearAndList();
+                clearView();
 
             }
         });
@@ -248,7 +253,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
                 mes.setImageResource(R.drawable.mescl2);
                 dia.setImageResource(R.drawable.bdia);
                 mAdapter.setGroupBy(mGroupBy);
-                clearAndList();
+                clearView();
             }
         });
 
@@ -265,7 +270,9 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             @Override
             public void onClick(View v) {
                 mItem="Dama";
+
                 changeCircleSelected();
+                woman.setImageResource(R.drawable.bwom);
             }
         });
         man.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +280,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Hombre";
                 changeCircleSelected();
+                man.setImageResource(R.drawable.bman);
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {
@@ -280,6 +288,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Niño";
                 changeCircleSelected();
+                boy.setImageResource(R.drawable.bnin);
             }
         });
         accesories.setOnClickListener(new View.OnClickListener() {
@@ -287,6 +296,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Accesorio";
                 changeCircleSelected();
+                accesories.setImageResource(R.drawable.bacc);
             }
         });
         tecnico.setOnClickListener(new View.OnClickListener() {
@@ -294,6 +304,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Tecnico";
                 changeCircleSelected();
+                tecnico.setImageResource(R.drawable.btec);
             }
         });
 
@@ -302,6 +313,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Calzado";
                 changeCircleSelected();
+                zapas.setImageResource(R.drawable.bcal);
             }
         });
 
@@ -310,6 +322,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Luz";
                 changeCircleSelected();
+                luz.setImageResource(R.drawable.bluz);
             }
         });
 
@@ -318,6 +331,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             public void onClick(View v) {
                 mItem="Oferta";
                 changeCircleSelected();
+                oferta.setImageResource(R.drawable.bofer);
             }
         });
     }

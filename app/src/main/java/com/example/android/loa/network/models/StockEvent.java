@@ -14,6 +14,7 @@ public class StockEvent {
     public Double value;
     public String payment_method;
     public String client_name;
+    public String today_created_client;
 
     public Long client_id=-1l;
     public Double value_for_file=0.0;
@@ -29,6 +30,8 @@ public class StockEvent {
         this.value=value;
         this.payment_method=payment_method;
         this.observation=obs;
+
+        this.today_created_client="false";
     }
 
 }

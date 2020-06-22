@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -108,10 +110,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         hasMoreItems=true;
     }
 
-    private void clearAndList(){
-        clearView();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,8 +131,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         mRecyclerView.addItemDecoration(headersDecor);
 
         // Add decoration for dividers between list items
-        //mRecyclerView.addItemDecoration(new DividerDecoration(getContext()));
-
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override public void onChanged() {
                 headersDecor.invalidateHeaders();
@@ -175,7 +171,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             public void onClick(View v) {
                 groupByType=GroupByType.MONTH;
 
-                clearAndList();
+                clearView();
                 mAdapter.setGroupBy(groupByType.getName());
             }
         });
@@ -185,7 +181,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             public void onClick(View v) {
                 groupByType=GroupByType.DAY;
                 mAdapter.setGroupBy(groupByType.getName());
-                clearAndList();
+                clearView();
             }
         });
 
@@ -193,7 +189,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.ALL;
-                clearAndList();
+                clearView();
             }
         });
 
@@ -201,14 +197,14 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.GASTO_PERSONAL;
-                clearAndList();
+                clearView();
             }
         });
         spendingsFilterLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.GASTO_LOCAL;
-                clearAndList();
+                clearView();
             }
         });
 
@@ -216,7 +212,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.GASTO_SANTI;
-                clearAndList();
+                clearView();
             }
         });
 
@@ -224,7 +220,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.SANTI;
-                clearAndList();
+                clearView();
             }
         });
 
@@ -232,7 +228,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.SUELDO;
-                clearAndList();
+                clearView();
             }
         });
 
@@ -240,7 +236,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.MERCADERIA;
-                clearAndList();
+                clearView();
             }
         });
 
@@ -372,7 +368,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         return spinner_suel;
     }
 
-    public static <T extends Enum<ExtractionType>> List<String> enumNameToStringArray(ExtractionType[] values,List<String> spinner_type) {
+    private static <T extends Enum<ExtractionType>> List<String> enumNameToStringArray(ExtractionType[] values,List<String> spinner_type) {
         for (ExtractionType value: values) {
             if(value.getName().equals(Constants.TYPE_ALL)){
                 spinner_type.add("Tipo");
@@ -553,6 +549,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
     }

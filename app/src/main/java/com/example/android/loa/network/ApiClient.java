@@ -13,6 +13,7 @@ import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Event;
+import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
@@ -21,6 +22,7 @@ import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
+import com.example.android.loa.network.models.ReportParallelMoneyMovement;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
@@ -167,8 +169,6 @@ public class ApiClient {
     }
 
 
-
-
     public void getItemsByClientIdByPage(Integer page,Long client_id, GenericCallback<List<Operation>> callback){
         handleRequest( ApiUtils.getAPISessionService().getItemsByClientIdByPage("listDebtsByClientId",page,client_id), callback);
     }
@@ -221,6 +221,25 @@ public class ApiClient {
     public void deleteExtraction(Long id, final GenericCallback<Void> callback){
         handleDeleteRequest( ApiUtils.getAPISessionService().deleteExtraction(id), callback);
     }
+
+    //PARALLEL MONEY MOVEMENT
+    public void postMoneyMovement(ParallelMoneyMovement p,GenericCallback<ParallelMoneyMovement> callback){
+        handleRequest( ApiUtils.getAPISessionService().postMoneyMovement(p), callback);
+    }
+
+    public void deleteMoneyMovement(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPISessionService().deleteMoneyMovement(id), callback);
+    }
+
+
+    public void getReportMoneyMovements( Integer page,String type, String groupby,String billed,final GenericCallback<List<ReportParallelMoneyMovement>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getReportMoneyMovements("getMoneyMovements",page,type,groupby,billed), callback);
+    }
+
+    public void putMoneyMovement(ParallelMoneyMovement e, GenericCallback<ParallelMoneyMovement> callback){
+        handleRequest( ApiUtils.getAPISessionService().putMoneyMovement(e), callback);
+    }
+
 
     public void postIncome(Income i,GenericCallback<Income> callback){
         handleRequest( ApiUtils.getAPISessionService().postIncome(i), callback);

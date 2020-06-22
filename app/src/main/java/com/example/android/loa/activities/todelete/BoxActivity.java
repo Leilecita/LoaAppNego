@@ -115,6 +115,7 @@ public class BoxActivity extends BaseActivity implements Paginate.Callbacks {
 
         String d=DateHelper.get().getOnlyDateComplete(mBoxDate);
         String d2= DateHelper.get().getOnlyDateComplete(mBoxNextDate);
+
         ApiClient.get().getBoxesByPageAndDate(mCurrentPage, DateHelper.get().getOnlyDateComplete(mBoxDate),
                 DateHelper.get().getOnlyDateComplete((mBoxNextDate)), new GenericCallback<List<Box>>() {
                     @Override

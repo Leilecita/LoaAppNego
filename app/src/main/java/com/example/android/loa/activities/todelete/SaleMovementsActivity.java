@@ -177,7 +177,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
         mRecyclerViewItemFileClient =  findViewById(R.id.list_items_file_events);
         layoutManagerFile = new LinearLayoutManager(this);
         mRecyclerViewItemFileClient.setLayoutManager(layoutManagerFile);
-        mAdapterItemFileClient = new ReportItemFileClientAdapter(this, new ArrayList<ReportItemFileClientEvent>());
+        mAdapterItemFileClient = new ReportItemFileClientAdapter(this, new ArrayList<ReportItemFileClientEvent>(),"");
         mRecyclerViewItemFileClient.setAdapter(mAdapterItemFileClient);
 
         mRecyclerViewIncomes =  findViewById(R.id.list_incomes);

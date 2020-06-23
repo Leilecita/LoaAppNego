@@ -3,7 +3,6 @@ package com.example.android.loa.activities.todelete;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,8 +27,7 @@ import com.example.android.loa.DateHelper;
 import com.example.android.loa.Interfaces.OnAmountSaleChange;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.BaseActivity;
-import com.example.android.loa.activities.ProductsActivity;
-import com.example.android.loa.adapters.IncomesAdapter;
+import com.example.android.loa.adapters.IncomeAdapter;
 import com.example.android.loa.adapters.ReportItemFileClientAdapter;
 import com.example.android.loa.adapters.sales.ReportStockEventAdapter;
 import com.example.android.loa.fragments.BottomSheetFragment;
@@ -62,7 +60,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
     private RecyclerView.LayoutManager layoutManagerFile;
 
     private RecyclerView mRecyclerViewIncomes;
-    private IncomesAdapter mAdapterIncomes;
+    private IncomeAdapter mAdapterIncomes;
     private RecyclerView.LayoutManager layoutManagerIncome;
 
     private boolean loadingInProgress;
@@ -183,7 +181,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
         mRecyclerViewIncomes =  findViewById(R.id.list_incomes);
         layoutManagerIncome = new LinearLayoutManager(this);
         mRecyclerViewIncomes.setLayoutManager(layoutManagerIncome);
-        mAdapterIncomes = new IncomesAdapter(this, new ArrayList<Income>());
+        mAdapterIncomes = new IncomeAdapter(this, new ArrayList<Income>());
         mRecyclerViewIncomes.setAdapter(mAdapterIncomes);
 
         mSelectDate = findViewById(R.id.date_sale);
@@ -800,25 +798,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
                     String phoneT=phone.getText().toString().trim();
                     Double valueP=Double.valueOf(value_product.getText().toString());
 
-                    Income inc=new Income(descriptionT,"",valueT,payment_method,retired_product,nameT,addressT,phoneT,valueP);
-                    inc.created= DateHelper.get().changeFormatDateUserToServer(date.getText().toString().trim());
 
-                    ApiClient.get().postIncome(inc, new GenericCallback<Income>() {
-                        @Override
-                        public void onSuccess(Income data) {
-                            clearIncomes();
-                            loadValuesAmount();
-                            if(data.retired_product.equals("true")){
-                                startActivity(new Intent(getBaseContext(), ProductsActivity.class));
-                            }
-
-                        }
-
-                        @Override
-                        public void onError(Error error) {
-
-                        }
-                    });
 
                     dialog.dismiss();
 

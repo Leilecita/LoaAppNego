@@ -135,6 +135,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     }
 
     private void clearView(){
+        System.out.println("entra aca");
         if(!isLoading()){
             mCurrentPage = 0;
             mAdapter.clear();
@@ -173,6 +174,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
         //box by dya
         mRecyclerView = mRootView.findViewById(R.id.list_box);
+
         layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new BoxAdapter(getActivity(), new ArrayList<Box>());
@@ -222,11 +224,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         });
     }
 
-    private void clearAdapters(){
-        mAdapterMonth.clear();
-        mAdapterPeriod.clear();
-        mAdapter.clear();
-    }
+
 
     private void topbarListener(View bottomSheet){
         dia=bottomSheet.findViewById(R.id.dia);
@@ -241,8 +239,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 rest_box.setVisibility(View.VISIBLE);
 
-                clearAdapters();
 
+                mAdapter.getList().clear();
                 implementsPaginate();
             }
 
@@ -260,10 +258,11 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 mRecyclerViewMonth.setVisibility(View.VISIBLE);
 
                 rest_box.setVisibility(View.GONE);
+                mAdapterMonth.getList().clear();
 
-                clearAdapters();
 
                 implementsPaginate();
+
             }
 
             }
@@ -311,6 +310,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private void listBoxes(){
 
         loadingInProgress=true;
+
+        System.out.println(mCurrentPage);
         ApiClient.get().getBoxesByPage2(mCurrentPage,new GenericCallback<List<Box>>() {
             @Override
             public void onSuccess(List<Box> data) {
@@ -338,6 +339,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     public void listByMonth(){
         loadingInProgress=true;
 
+        System.out.println(mCurrentPage);
         ApiClient.get().getTotalMonthBoxes(mCurrentPage, new GenericCallback<List<ReportMonthBox>>() {
             @Override
             public void onSuccess(List<ReportMonthBox> data) {
@@ -599,7 +601,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
 
                 rest_box.setVisibility(View.VISIBLE);
 
-                clearAdapters();
+                mAdapterPeriod.getList().clear();
 
                 implementsPaginate();
 

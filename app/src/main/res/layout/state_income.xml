@@ -1,0 +1,491 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Seña "
+                android:textSize="18sp"
+                android:textColor="@color/title_dialog_info"
+                android:gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="Fecha"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_height="35dp"
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:background="@drawable/rec_find"
+                        android:text=""
+                        android:paddingLeft="8dp"
+                        android:textSize="18sp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:inputType="textCapWords" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="Nombre"
+                        android:layout_gravity="center_vertical"
+                        />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:id="@+id/name"
+                        android:textSize="@dimen/general_text"
+                        android:fontFamily="@font/opensanslight"
+                        android:paddingLeft="8dp"
+                        android:background="@drawable/rec_find"
+                        android:hint="Nombre y apellido"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    >
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="Tel"
+                        android:layout_gravity="center_vertical"
+                        />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+
+                        android:id="@+id/phone"
+                        android:textSize="@dimen/general_text"
+                        android:fontFamily="@font/opensanslight"
+                        android:paddingLeft="8dp"
+                        android:background="@drawable/rec_find"
+                        android:hint="Teléfono"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="Dirección"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+
+                        android:id="@+id/adress"
+                        android:textSize="@dimen/general_text"
+                        android:fontFamily="@font/opensanslight"
+                        android:paddingLeft="8dp"
+                        android:background="@drawable/rec_find"
+                        android:hint="Dirección"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="Detalle"
+                        android:layout_gravity="center_vertical"
+                        />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:id="@+id/description"
+                        android:textSize="@dimen/general_text"
+                        android:fontFamily="@font/opensanslight"
+                        android:paddingLeft="8dp"
+                        android:background="@drawable/rec_find"
+                        android:hint="Detalle"
+                        android:layout_gravity="center_vertical|left"
+                        android:gravity="center_vertical|left"
+                        />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal">
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="Seña"
+                        android:layout_gravity="center_vertical"
+                        />
+
+
+                    <EditText
+                        android:id="@+id/value"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:background="@drawable/rec_find"
+                        android:text=""
+                        android:inputType="numberDecimal"
+                        android:textSize="@dimen/general_text"
+                        android:fontFamily="@font/opensanslight"
+                        android:hint="$ seña"
+                        android:paddingLeft="8dp"
+                        android:layout_gravity="bottom"
+                        android:layout_height="40dp"
+
+
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.5"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/word"
+                        android:fontFamily="@font/opensansregular"
+                        android:text="$ producto"
+                        android:layout_gravity="center_vertical"
+                        />
+
+
+                    <EditText
+                        android:id="@+id/value_product"
+                        android:layout_width="match_parent"
+                        android:inputType="numberDecimal"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:background="@drawable/rec_find"
+
+                        android:hint="$ producto"
+
+                        android:paddingLeft="8dp"
+                        android:layout_gravity="bottom"
+                        android:layout_height="40dp"
+                        android:textSize="@dimen/general_text"
+                        android:fontFamily="@font/opensanslight"
+
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/select_payment_method"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/check_ef"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:buttonTint="@color/word_clear"
+
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/word"
+                        android:text="Efectivo"
+                        android:gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+
+                        />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/check_deb"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:buttonTint="@color/word_clear"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/word"
+                        android:text="Débito"
+                        android:gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+
+                        />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/check_card"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_marginLeft="10dp"
+                        android:buttonTint="@color/word_clear"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/word"
+                        android:text="Tarjeta"
+                        android:gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/product"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/out_product"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:buttonTint="@color/word_clear"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/word"
+                        android:text="Retira producto"
+                        android:gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+
+                        />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/not_out"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:buttonTint="@color/word_clear"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/word"
+                        android:text="No retira producto"
+                        android:gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+
+                        />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/cancel"
+                    android:layout_weight="1"
+                    android:text="CANCELAR"
+                    android:gravity="center"
+                    android:textColor="@color/colorDialogButton"
+                    android:textStyle="bold"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:id="@+id/ok"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:textColor="#ffff"
+
+                    android:padding="4dp"
+                    android:background="@drawable/rec_find"
+                    android:backgroundTint="@color/colorDialogButton"
+                    android:text="guardar"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
+
+

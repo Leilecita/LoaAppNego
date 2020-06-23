@@ -17,6 +17,7 @@ import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
+import com.example.android.loa.network.models.ReportIncome;
 import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
@@ -83,7 +84,6 @@ public interface APIService {
 
     @DELETE("items_employee_file.php")
     Observable<ResponseBody>  deleteItemEmployee(@Query("id") Long id);
-
 
 
 
@@ -209,6 +209,9 @@ public interface APIService {
 
     @GET("incomes.php")
     Observable<Response<List<Income>>> getIncomes(@Query("method") String method,@Query("page") Integer page);
+
+    @GET("incomes.php")
+    Observable<Response<List<ReportIncome>>> getReportIncomes(@Query("method") String method, @Query("page") Integer page, @Query("state") String state ,@Query("groupby") String groupby);
 
     @PUT("incomes.php")
     Observable<Response<Income>> putIncome(@Body Income i);

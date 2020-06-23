@@ -3,7 +3,8 @@ package com.example.android.loa.activities;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +23,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.R;
-import com.example.android.loa.adapters.IncomesAdapter;
+import com.example.android.loa.adapters.ReportIncomeAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Income;
+import com.example.android.loa.network.models.ReportIncome;
+import com.example.android.loa.types.Constants;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,9 +41,8 @@ import java.util.List;
 
 public class IncomesListActivity extends BaseActivity implements Paginate.Callbacks{
 
-
     private RecyclerView mRecyclerView;
-    private IncomesAdapter mAdapter;
+    private ReportIncomeAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     //pagination
@@ -47,6 +52,16 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
     private boolean hasMoreItems;
 
     private LinearLayout button;
+    private LinearLayout bottomSheet;
+
+    private String mState;
+    private String mGroupBy;
+
+    private LinearLayout pendients;
+    private LinearLayout done;
+    private ImageView month;
+    private ImageView day;
+    private LinearLayout all;
 
     @Override
     public int getLayoutRes() {
@@ -63,7 +78,7 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
 
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter=new IncomesAdapter(this,new ArrayList<Income>());
+        mAdapter=new ReportIncomeAdapter(this,new ArrayList<ReportIncome>());
         mRecyclerView.setAdapter(mAdapter);
 
         button= findViewById(R.id.fab_agregarTod);
@@ -74,15 +89,93 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
             }
         });
 
+        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
+        mRecyclerView.addItemDecoration(headersDecor);
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecor.invalidateHeaders();
+            }
+        });
+
+        mState="pendient";
+        mGroupBy="month";
+        mAdapter.setGroupBy(mGroupBy);
+
+        bottomSheet = this.findViewById(R.id.bottomSheet);
+        final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
+
+        topBarListener(bottomSheet);
+
         implementsPaginate();
+    }
+
+    private void topBarListener(View bottomSheet){
+        pendients=bottomSheet.findViewById(R.id.pendients);
+        done=bottomSheet.findViewById(R.id.done);
+        all=bottomSheet.findViewById(R.id.all);
+
+      /*  month=bottomSheet.findViewById(R.id.mes);
+        day=bottomSheet.findViewById(R.id.dia);
+
+        month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGroupBy="month";
+                mAdapter.setGroupBy(mGroupBy);
+                month.setImageResource(R.drawable.b23);
+                day.setImageResource(R.drawable.bdiacl);
+                clearView();
+
+            }
+        });
+
+        day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGroupBy="day";
+                month.setImageResource(R.drawable.mescl2);
+                day.setImageResource(R.drawable.bdia);
+                mAdapter.setGroupBy(mGroupBy);
+                clearView();
+            }
+        });
+*/
+
+        pendients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mState="pendient";
+                clearView();
+            }
+        });
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mState="done";
+                clearView();
+            }
+        });
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mState="Todo";
+                clearView();
+               // changeCircleSelected();
+                //all.setImageResource(R.drawable.ball);
+            }
+        });
+
+
     }
 
     private void listIncomes(){
         loadingInProgress=true;
 
-        ApiClient.get().getIncomes(mCurrentPage, new GenericCallback<List<Income>>() {
+        ApiClient.get().getReportIncomes(mCurrentPage, mState,mGroupBy,new GenericCallback<List<ReportIncome>>() {
             @Override
-            public void onSuccess(List<Income> data) {
+            public void onSuccess(List<ReportIncome> data) {
                 if (data.size() == 0) {
                     hasMoreItems = false;
                 }else{
@@ -103,10 +196,7 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
         });
 
     }
-    private void clearAndList(){
-        clearView();
-        listIncomes();
-    }
+
     private void clearView(){
         mCurrentPage = 0;
         mAdapter.clear();
@@ -125,9 +215,8 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
         final CheckBox check_card=  dialogView.findViewById(R.id.check_card);
         final CheckBox check_deb=  dialogView.findViewById(R.id.check_deb);
         final CheckBox check_ef=  dialogView.findViewById(R.id.check_ef);
-
-        final CheckBox retire_product=  dialogView.findViewById(R.id.out_product);
-        final CheckBox not_retire=  dialogView.findViewById(R.id.not_out);
+        final CheckBox check_trans=  dialogView.findViewById(R.id.check_transf);
+        final CheckBox check_merc_pago=  dialogView.findViewById(R.id.check_merc);
 
         date.setText(DateHelper.get().getActualDate());
 
@@ -177,30 +266,6 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
         final TextView cancel=  dialogView.findViewById(R.id.cancel);
         final Button ok=  dialogView.findViewById(R.id.ok);
 
-        retire_product.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(retire_product.isChecked()){
-                    retire_product.setChecked(true);
-                    not_retire.setChecked(false);
-                }else{
-                    retire_product.setChecked(false);
-                }
-            }
-        });
-
-        not_retire.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(not_retire.isChecked()){
-                    not_retire.setChecked(true);
-                    retire_product.setChecked(false);
-                }else{
-                    not_retire.setChecked(false);
-                }
-            }
-        });
-
         check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -208,6 +273,8 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
                     check_ef.setChecked(true);
                     check_card.setChecked(false);
                     check_deb.setChecked(false);
+                    check_merc_pago.setChecked(false);
+                    check_trans.setChecked(false);
                 }else{
                     check_ef.setChecked(false);
                 }
@@ -221,6 +288,8 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
                     check_card.setChecked(true);
                     check_ef.setChecked(false);
                     check_deb.setChecked(false);
+                    check_merc_pago.setChecked(false);
+                    check_trans.setChecked(false);
                 }else{
                     check_card.setChecked(false);
                 }
@@ -234,8 +303,40 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
                     check_deb.setChecked(true);
                     check_ef.setChecked(false);
                     check_card.setChecked(false);
+                    check_merc_pago.setChecked(false);
+                    check_trans.setChecked(false);
                 }else{
                     check_deb.setChecked(false);
+                }
+            }
+        });
+
+        check_merc_pago.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(check_merc_pago.isChecked()){
+                    check_merc_pago.setChecked(true);
+                    check_ef.setChecked(false);
+                    check_card.setChecked(false);
+                    check_deb.setChecked(false);
+                    check_trans.setChecked(false);
+                }else{
+                    check_merc_pago.setChecked(false);
+                }
+            }
+        });
+
+        check_trans.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(check_trans.isChecked()){
+                    check_trans.setChecked(true);
+                    check_ef.setChecked(false);
+                    check_card.setChecked(false);
+                    check_deb.setChecked(false);
+                    check_merc_pago.setChecked(false);
+                }else{
+                    check_trans.setChecked(false);
                 }
             }
         });
@@ -244,7 +345,6 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(retire_product.isChecked() || not_retire.isChecked()){
                     String descriptionT=description.getText().toString().trim();
                     Double valueT=0.0;
                     if(!value.getText().toString().trim().matches("")){
@@ -252,39 +352,31 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
                     }
 
                     String payment_method="efectivo";
-                    String retired_product="false";
 
                     if(check_deb.isChecked()){
-                        payment_method= "debito";
+                        payment_method= Constants.TYPE_DEBITO;
                     }else if(check_card.isChecked()){
-                        payment_method= "tarjeta";
+                        payment_method= Constants.TYPE_TARJETA;
                     }else if(check_ef.isChecked()){
-                        payment_method= "efectivo";
+                        payment_method= Constants.TYPE_EFECTIVO;
+                    }else if(check_merc_pago.isChecked()){
+                        payment_method=Constants.TYPE_MERCADO_PAGO;
+                    }else if(check_trans.isChecked()){
+                        payment_method=Constants.TYPE_TRANSFERENCIA;
                     }
-
-                    if(not_retire.isChecked()){
-                        retired_product="false";
-                    }else if(retire_product.isChecked()){
-                        retired_product="true";
-                    }
-
 
                     String nameT=name.getText().toString().trim();
                     String addressT=address.getText().toString().trim();
                     String phoneT=phone.getText().toString().trim();
                     Double valueP=Double.valueOf(value_product.getText().toString());
 
-                    Income inc=new Income(descriptionT,"",valueT,payment_method,retired_product,nameT,addressT,phoneT,valueP);
+                    Income inc=new Income(descriptionT,valueT,payment_method,"false",nameT,phoneT,addressT,valueP);
                     inc.created= DateHelper.get().changeFormatDateUserToServer(date.getText().toString().trim());
 
                     ApiClient.get().postIncome(inc, new GenericCallback<Income>() {
                         @Override
                         public void onSuccess(Income data) {
-                            clearAndList();
-
-                            if(data.retired_product.equals("true")){
-                                startActivity(new Intent(getBaseContext(), ProductsActivity.class));
-                            }
+                            clearView();
 
                         }
 
@@ -296,12 +388,8 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
 
                     dialog.dismiss();
 
-                }else{
-                    Toast.makeText(getBaseContext(),"Debe seleccionar si retira o no el producto", Toast.LENGTH_LONG).show();
-                }
-
-
             }
+
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,6 +397,7 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

@@ -81,7 +81,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
     private MoneyMovementType selectedMovementType = MoneyMovementType.ALL;
 
-    private GroupByType groupByType= GroupByType.DAY;
+    private GroupByType groupByType= GroupByType.MONTH;
 
     private BilledType billedType= BilledType.ALL;
 
@@ -96,7 +96,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         super.onCreate(savedInstanceState);
         showBackArrow();
 
-        setTitle("Movimiento paralelos Santi");
+        setTitle("Movimientos paralelos Santi");
 
         mRecyclerView =  findViewById(R.id.list_report_moeny_movements);
         layoutManager = new LinearLayoutManager(this);
@@ -104,6 +104,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         mAdapter=new ReportMovementMoneyAdapter(this,new ArrayList<ReportParallelMoneyMovement>());
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setGroupBy(Constants.TYPE_GROUP_BY_MONTH);
         createMoneyEvent=this.findViewById(R.id.fab_agregarTod);
         createMoneyEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,8 +151,8 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         mercaderia=bottomSheet.findViewById(R.id.mercaderia);
         all=bottomSheet.findViewById(R.id.all);
 
-        monthFilter=bottomSheet.findViewById(R.id.mes);
-        dayFilter=bottomSheet.findViewById(R.id.dia);
+       // monthFilter=bottomSheet.findViewById(R.id.mes);
+        //dayFilter=bottomSheet.findViewById(R.id.dia);
 
         sinFacturar=bottomSheet.findViewById(R.id.sin_facturar);
         facturado=bottomSheet.findViewById(R.id.facturado);
@@ -187,7 +188,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
             }
         });
 
-        monthFilter.setOnClickListener(new View.OnClickListener() {
+       /* monthFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 unselectDayMonth();
@@ -207,7 +208,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
                 dayFilter.getBackground().setColorFilter(getResources().getColor(R.color.dia_selected), PorterDuff.Mode.SRC_IN);
                 clearView();
             }
-        });
+        });*/
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override

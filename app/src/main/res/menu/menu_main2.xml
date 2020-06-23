@@ -29,7 +29,7 @@
 
     <item
         android:id="@+id/action_santi_money"
-        android:title="Movimiento paralelos santi"
+        android:title="Movimientos paralelos santi"
         app:showAsAction="never" />
 
 </menu>

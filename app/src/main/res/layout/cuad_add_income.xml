@@ -1,24 +1,21 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view_mistake"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="2dp"
-    card_view:cardMaxElevation="4dp"
+    android:background="@drawable/rec_dialog"
     android:backgroundTint="@color/background"
-    card_view:contentPadding="16dp"
     >
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:fillViewport="true"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
+        android:orientation="vertical">
 
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginRight="10dp"
@@ -28,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Seña "
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textColor="@color/title_dialog_info"
             android:gravity="center"
             />
@@ -57,7 +54,8 @@
                     android:background="@drawable/rec_find"
                     android:text=""
                     android:paddingLeft="8dp"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:gravity="center_vertical"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapWords" />
@@ -87,8 +85,8 @@
                     android:layout_height="35dp"
                     android:textColor="@color/word"
                     android:id="@+id/name"
-                    android:textSize="20sp"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:paddingLeft="8dp"
                     android:background="@drawable/rec_find"
                     android:hint="Nombre y apellido"
@@ -110,9 +108,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:textColor="@color/word"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:id="@+id/phone"
-                    android:fontFamily="sans-serif-light"
+
                     android:paddingLeft="8dp"
                     android:background="@drawable/rec_find"
                     android:hint="Teléfono"
@@ -132,9 +131,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
                     android:textColor="@color/word"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:id="@+id/adress"
-                    android:fontFamily="sans-serif-light"
+
                     android:paddingLeft="8dp"
                     android:background="@drawable/rec_find"
                     android:hint="Dirección"
@@ -158,8 +158,8 @@
                     android:layout_height="35dp"
                     android:textColor="@color/word"
                     android:id="@+id/description"
-                    android:textSize="20sp"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:paddingLeft="8dp"
                     android:background="@drawable/rec_find"
                     android:hint="Detalle"
@@ -199,12 +199,13 @@
                     android:background="@drawable/rec_find"
                     android:text=""
                     android:inputType="numberDecimal"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:hint="$ seña"
                     android:paddingLeft="8dp"
                     android:layout_gravity="bottom"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
+
 
                     />
 
@@ -216,164 +217,203 @@
                     android:layout_weight="1"
                     android:textColor="@color/word"
                     android:background="@drawable/rec_find"
-                    android:fontFamily="sans-serif-light"
+                    android:textSize="@dimen/general_text"
+                    android:fontFamily="@font/opensanslight"
                     android:hint="$ producto"
 
                     android:paddingLeft="8dp"
                     android:layout_gravity="bottom"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
+
 
                     />
 
 
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:id="@+id/select_payment_method"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
 
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/check_ef"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:buttonTint="@color/word_clear"
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_ef"
+                                android:layout_height="wrap_content"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_gravity="center"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Efectivo"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+                                android:textSize="16sp"
+
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_deb"
+                                android:layout_height="wrap_content"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Débito"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+                                android:textSize="16sp"
+
+                                />
+                        </LinearLayout>
 
 
-                    />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_card"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/word"
-                    android:text="Efectivo"
-                    android:gravity="center"
-                    android:layout_marginLeft="2dp"
-                    android:layout_gravity="center"
-                    android:textSize="16sp"
+                                />
 
-                    />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Tarjeta"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/check_deb"
-                    android:layout_height="wrap_content"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:buttonTint="@color/word_clear"
+                                android:textSize="16sp"
 
-                    />
+                                />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/word"
-                    android:text="Débito"
-                    android:gravity="center"
-                    android:layout_marginLeft="2dp"
-                    android:layout_gravity="center"
-                    android:textSize="16sp"
+                        </LinearLayout>
 
-                    />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_transf"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
 
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/check_card"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_marginLeft="10dp"
-                    android:buttonTint="@color/word_clear"
+                                />
 
-                    />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Transferencia"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/word"
-                    android:text="Tarjeta"
-                    android:gravity="center"
-                    android:layout_marginLeft="2dp"
-                    android:layout_gravity="center"
+                                android:textSize="16sp"
 
-                    android:textSize="16sp"
+                                />
 
-                    />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_merc"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Mercado pago"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+
+                                android:textSize="16sp"
+
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
 
+                </HorizontalScrollView>
 
 
             </LinearLayout>
 
-            <LinearLayout
+
+            <TextView
                 android:layout_width="match_parent"
-                android:id="@+id/product"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_marginTop="8dp"
+                android:textSize="@dimen/general_text"
+                android:layout_height="wrap_content"
+                android:text="Obs : Con seña no se pueden retirar productos, solo se dejan guardados hasta completar el valor total."
+                />
 
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/out_product"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:buttonTint="@color/word_clear"
-
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/word"
-                    android:text="Retira producto"
-                    android:gravity="center"
-                    android:layout_marginLeft="2dp"
-                    android:layout_gravity="center"
-                    android:textSize="16sp"
-
-                    />
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:layout_width="wrap_content"
-                    android:id="@+id/not_out"
-                    android:layout_height="wrap_content"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:buttonTint="@color/word_clear"
-
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/word"
-                    android:text="No retira producto"
-                    android:gravity="center"
-                    android:layout_marginLeft="2dp"
-                    android:layout_gravity="center"
-                    android:textSize="16sp"
-
-                    />
-
-
-
-            </LinearLayout>
 
         </LinearLayout>
         <LinearLayout
@@ -400,14 +440,16 @@
                 android:textColor="#ffff"
 
                 android:padding="4dp"
-                android:background="@color/colorDialogButton"
+                android:background="@drawable/rec_find"
+                android:backgroundTint="@color/colorDialogButton"
                 android:text="guardar"/>
 
         </LinearLayout>
 
     </LinearLayout>
-    </ScrollView>
-</androidx.cardview.widget.CardView>
+    </LinearLayout>
+    </LinearLayout>
+
 
 
 

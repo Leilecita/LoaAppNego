@@ -18,6 +18,7 @@ import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
+import com.example.android.loa.network.models.ReportIncome;
 import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
@@ -386,8 +387,9 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getItemsFileClientEvent("getItemsClientByDate",since,to), callback);
     }
 
-    public void getIncomes(Integer page, final GenericCallback<List<Income>> callback){
-        handleRequest( ApiUtils.getAPISessionService().getIncomes("getIncomes",page), callback);
+
+    public void getReportIncomes(Integer page,String state, String groupby, final GenericCallback<List<ReportIncome>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getReportIncomes("getIncomes",page,state,groupby), callback);
     }
 
 

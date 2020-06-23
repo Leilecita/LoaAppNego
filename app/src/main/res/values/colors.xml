@@ -45,16 +45,14 @@
     <color name="letter_tot_hours">#7a6d96</color>
 
 
-
     <color name="white">#FFFFFF</color>
 
     <color name="colorPrimaryClear">#C6BCDA</color>
+    <color name="colorPrimaryClearTr">#90DCD1F0</color>
     <color name="colorPrimaryClearSelect">#AAA1BB</color>
     <color name="violetClear">#F5F2FC</color>
     <color name="colorDialogButton"> #685c85</color>
     <color name="edithText">#310d58</color>
-
-
 
 
     <color name="word">#252525</color>

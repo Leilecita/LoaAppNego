@@ -164,6 +164,15 @@
             android:name=".activities.ParallelMoneyMovementsActivity"
             android:parentActivityName=".activities.ParallelMoneyMovementsActivity"
             />
+        <activity
+            android:name=".activities.GeneralBalanceByItemTypeActivity"
+            android:parentActivityName=".activities.GeneralBalanceByItemTypeActivity"
+            />
+
+        <activity
+            android:name=".activities.GeneralBalanceActivity"
+            android:parentActivityName=".activities.GeneralBalanceByItemTypeActivity"
+            />
     </application>
 
 </manifest>

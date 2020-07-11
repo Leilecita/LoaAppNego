@@ -1,7 +1,5 @@
 package com.example.android.loa.network;
 
-import android.widget.Spinner;
-
 import com.example.android.loa.network.models.AmountResult;
 import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
@@ -14,9 +12,9 @@ import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
-import com.example.android.loa.network.models.QuantityProducts;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
+import com.example.android.loa.network.models.GeneralStock;
 import com.example.android.loa.network.models.ReportIncome;
 import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
@@ -49,19 +47,10 @@ import rx.Observable;
 
 public interface APIService {
 
+    //ITEM_EMPLOYEE
+
     @PUT("items_employee_file.php")
     Observable<Response<Item_employee>> putItemEmployee(@Body Item_employee e);
-
-    @GET("items_employee_file.php")
-    Observable<Response<Item_employee>> getItemEmployee(@Query("id") Long id);
-
-
-    @GET("items_employee_file.php")
-    Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeId(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id);
-
-    @GET("items_employee_file.php")
-    Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeIdByMonth(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id,
-                                                                                        @Query("since")String  month1,@Query("to") String month2);
 
     @GET("items_employee_file.php")
     Observable<Response<List<ReportItemEmployee>>> getHoursByMonth(@Query("method") String method, @Query("page") Integer page, @Query("employee_id") Long id);
@@ -70,22 +59,10 @@ public interface APIService {
     Observable<Response<List<Item_employee>>> getItemsEmployeeByEmployeeIdByMonth(@Query("employee_id") Long id,
                                                                                         @Query("since")String  month1,@Query("to") String month2);
 
-    @GET("items_employee_file.php")
-    Observable<Response<Item_employee>> getItemEmployeeByDateAndEmployeeid(@Query("employee_id") Long id,
-                                                                                        @Query("date")String  month1);
-
-
-
-    @GET("items_employee_file.php")
-    Observable<Response<AmountResult>> getAmountHoursByMonth(@Query("method") String method,@Query("since")String  month1,@Query("to") String month2,@Query("employee_id") Long id);
-
-    @POST("items_employee_file.php")
-    Observable<Response<Item_employee>> postItemEmploye(@Body  Item_employee e);
-
     @DELETE("items_employee_file.php")
     Observable<ResponseBody>  deleteItemEmployee(@Query("id") Long id);
 
-
+    //EMPLOYEE
 
     @PUT("employees.php")
     Observable<Response<Employee>> putEmployee(@Body Employee e);
@@ -103,6 +80,8 @@ public interface APIService {
 
     @DELETE("employees.php")
     Observable<ResponseBody>  deleteEmployee(@Query("id") Long id);
+
+    //CLIENTS
 
     @PUT("clients.php")
     Observable<Response<Client>> putClient(@Body Client c);
@@ -126,22 +105,17 @@ public interface APIService {
     @DELETE("clients.php")
     Observable<ResponseBody>  deleteClient(@Query("id") Long id);
 
+    //ITEMS_FILE
+
     @PUT("items_file.php")
     Observable<Response<Item_file>> putItemFile(@Body Item_file item);
-
-    @GET("items_file.php")
-    Observable<Response<Item_file>> getItemFile(@Query("id") Long id);
 
     @GET("items_file.php")
     Observable<Response<List<Operation>>> getItemsByClientIdByPage(@Query("method") String method, @Query("page") Integer page, @Query("client_id") Long client_id);
 
 
-
     @POST("items_file.php")
     Observable<Response<Item_file>> postItemFile(@Body Item_file item);
-
-    @GET("items_file.php")
-    Observable<Response<AmountResult>> getOperationAcum(@Query("method") String method, @Query("client_id") Long client_id);
 
     @GET("items_file.php")
     Observable<Response<AmountResult>> getTotalAmount(@Query("method") String method);
@@ -149,8 +123,7 @@ public interface APIService {
     @DELETE("items_file.php")
     Observable<ResponseBody>  deleteItemFile(@Query("id") Long id,@Query("modify") String modify);
 
-    @DELETE("items_file.php")
-    Observable<ResponseBody>  deleteItemFileByModify(@Query("method") String method,@Query("modify") String modify,@Query("id") Long id);
+
 
 
     @GET("extractions.php")
@@ -208,9 +181,6 @@ public interface APIService {
 
 
     @GET("incomes.php")
-    Observable<Response<List<Income>>> getIncomes(@Query("method") String method,@Query("page") Integer page);
-
-    @GET("incomes.php")
     Observable<Response<List<ReportIncome>>> getReportIncomes(@Query("method") String method, @Query("page") Integer page, @Query("state") String state ,@Query("groupby") String groupby);
 
     @PUT("incomes.php")
@@ -227,9 +197,6 @@ public interface APIService {
 
     @GET("boxes.php")
     Observable<Response<ReportSumByPeriodBox>> getAmountByPeriod(@Query("method") String m, @Query("since") String since,@Query("to") String to);
-
-    @GET("boxes.php")
-    Observable<Response<List<Box>>> getBoxesByPage(@Query("method") String m, @Query("page") Integer page,@Query("created") String created );
 
     @GET("boxes.php")
     Observable<Response<List<ReportMonthBox>>> getTotalMonthBoxes(@Query("method") String m, @Query("page") Integer page);
@@ -252,18 +219,12 @@ public interface APIService {
     @DELETE("boxes.php")
     Observable<ResponseBody>  deleteBox(@Query("id") Long id);
 
-    @PUT("products.php")
-    Observable<Response<Product>> putProduct(@Body Product p);
-
-    @GET("products.php")
-    Observable<Response<Product>> getProduct(@Query("id") Long id);
-
-    @GET("products.php")
-    Observable<Response<List<Product>>> getProductsByPageByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("brand") String brand,@Query("type") String type);
-
     @GET("products.php")
     Observable<Response<List<Product>>> getProductsByPageByItemByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("item") String item,@Query("brand") String brand,@Query("type") String type,
             @Query("model") String model, @Query("deleted") String deleted);
+
+    @GET("products.php")
+    Observable<Response<List<Product>>> getProductsByItemType(@Query("method") String method,@Query("item") String item,@Query("type") String type);
 
     @GET("products.php")
     Observable<Response<List<Product>>> getDeletedProducts(@Query("method") String method,@Query("page") Integer page,@Query("deleted") String item);
@@ -272,12 +233,26 @@ public interface APIService {
     @GET("products.php")
     Observable<Response<Integer>> getSumStockByFilterProducts(@Query("method") String method, @Query("item") String item,
                                                                      @Query("brand") String brand, @Query("type") String type2,@Query("model") String model, @Query("deleted") String deleted);
-    @GET("products.php")
-    Observable<Response<List<Product>>> getProductsByPage(@Query("page") Integer page);
+
 
 
     @POST("products.php")
     Observable<Response<Product>> postProduct(@Body Product p);
+
+
+
+    //GENERAL STOCK EVENTS
+
+    @GET("stock_general_events.php")
+    Observable<Response<List<GeneralStock>>> getGeneralStockEvents(@Query("method") String method,@Query("page") Integer page, @Query("item") String item, @Query("type") String type);
+
+    @POST("stock_general_events.php")
+    Observable<Response<GeneralStock>> postGeneralStockEvent(@Body GeneralStock s);
+
+    @PUT("stock_general_events.php")
+    Observable<Response<GeneralStock>> putGeneralStock(@Body GeneralStock s);
+
+    //STOCK EVENTS
 
     @POST("stock_events.php")
     Observable<Response<StockEvent>> postStockEvent(@Body StockEvent s,@Query("balance") String balance);
@@ -291,6 +266,15 @@ public interface APIService {
     @GET("stock_events.php")
     Observable<Response<List<StockEvent>>> getSotckeventsByPageSinceTo(@Query("page") Integer page,@Query("since") String created,@Query("to") String next, @Query("id_product") Long id_product);
 
+    @GET("stock_events.php")
+    Observable<Response<List<ReportStockEvent>>> getStockeventsSales(@Query("method") String method, @Query("created") String created,@Query("item") String item,@Query("groupby") String groupby);
+
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportStockEvent>>> getStockeventsEntries(@Query("method") String method, @Query("created") String created,@Query("item") String item,@Query("groupby") String groupby);
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportItemFileClientEvent>>> getSotckeventsFileSales(@Query("method") String method,@Query("created") String created,@Query("groupby") String groupby);
 
     @GET("stock_events.php")
     Observable<Response<List<StockEvent>>> getSotckeventsByPage(@Query("page") Integer page, @Query("id_product") Long id_product);
@@ -312,40 +296,20 @@ public interface APIService {
     Observable<Response<AmountResult>> getAmountSalesCard( @Query("method") String method,
                                                        @Query("created") String created);
 
-    @GET("items_file.php")
-    Observable<Response<AmountResult>> getAmountItemFile( @Query("method") String method,
-                                                           @Query("created") String created);
-
-    @GET("items_file.php")
-    Observable<Response<List<ReportItemFileClientEvent>>> getItemsFileClientEvent(  @Query("method") String method,@Query("since") String created, @Query("to") String next);
-
-
-   /* @DELETE("products.php")
-    Observable<ResponseBody>  deleteProduct(@Query("id") Long id);*/
 
     @GET("products.php")
     Observable<Response<SpinnerData>> deleteProduct(@Query("method") String method,@Query("id") Long id_product);
-
-
-    @GET("products.php")
-    Observable<Response<List<SpinnerData>>> getSpinnerByItemByTypeByBrand(@Query("method") String method,@Query("tt") String type,@Query("item") String item,
-                                                                          @Query("brand") String brand,  @Query("type") String type2);
-
-    @GET("products.php")
-    Observable<Response<List<SpinnerType>>> getSpinnerByItemByTypeByBrandType(@Query("method") String method,@Query("tt") String type,@Query("item") String item,
-                                                                          @Query("brand") String brand,  @Query("type") String type2);
-
-    @GET("products.php")
-    Observable<Response<List<SpinnerItem>>> getSpinnerItemByItemByTypeByBrandType(@Query("method") String method, @Query("tt") String type, @Query("item") String item,
-                                                                                  @Query("brand") String brand, @Query("type") String type2);
 
     @GET("products.php")
     Observable<Response<Spinners>> getSpinners(@Query("method") String method, @Query("item") String item,
                                                 @Query("brand") String brand, @Query("type") String type2, @Query("model") String model, @Query("deleted") String deleted);
 
+    @GET("products.php")
+    Observable<Response<List<SpinnerType>>> getTypes(@Query("method") String method, @Query("item") String item);
 
     @GET("products.php")
-    Observable<Response<List<SpinnerData>>> getSpinner(@Query("method") String method,@Query("tt") String type);
+    Observable<Response<List<SpinnerItem>>> getItems(@Query("method") String method);
+
 
     @GET("products.php")
     Observable<Response<ResponseData>> checkExistProduct(@Query("item") String item,@Query("brand") String brand,@Query("type") String type,@Query("model") String model,@Query("method") String method);
@@ -379,3 +343,83 @@ public interface APIService {
     @GET("stock_events.php")
     Observable<Response<List<ReportStockEvent>>> getEvents(@Query("page") Integer page, @Query("item") String item, @Query("groupby") String groupby, @Query("method") String method);
 }
+
+
+/*
+
+    @GET("items_employee_file.php")
+    Observable<Response<Item_employee>> getItemEmployeeByDateAndEmployeeid(@Query("employee_id") Long id,
+                                                                                        @Query("date")String  month1);
+
+    @GET("boxes.php")
+    Observable<Response<List<Box>>> getBoxesByPage(@Query("method") String m, @Query("page") Integer page,@Query("created") String created );
+
+
+    @PUT("products.php")
+    Observable<Response<Product>> putProduct(@Body Product p);
+
+    @GET("products.php")
+    Observable<Response<Product>> getProduct(@Query("id") Long id);
+
+      @GET("products.php")
+    Observable<Response<List<SpinnerData>>> getSpinner(@Query("method") String method,@Query("tt") String type);
+
+    @GET("products.php")
+    Observable<Response<List<Product>>> getProductsByPageByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("brand") String brand,@Query("type") String type);
+
+
+   @DELETE("items_file.php")
+    Observable<ResponseBody>  deleteItemFileByModify(@Query("method") String method,@Query("modify") String modify,@Query("id") Long id);
+
+    @GET("items_employee_file.php")
+    Observable<Response<AmountResult>> getAmountHoursByMonth(@Query("method") String method,@Query("since")String  month1,@Query("to") String month2,@Query("employee_id") Long id);
+
+    @POST("items_employee_file.php")
+    Observable<Response<Item_employee>> postItemEmploye(@Body  Item_employee e);
+
+
+  @GET("items_employee_file.php")
+    Observable<Response<Item_employee>> getItemEmployee(@Query("id") Long id);
+
+
+    @GET("items_employee_file.php")
+    Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeId(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id);
+
+    @GET("items_employee_file.php")
+    Observable<Response<List<Item_employee>>> getItemsEmployeeByPageByEmployeeIdByMonth(@Query("method") String method,@Query("page") Integer page,@Query("employee_id") Long id,
+                                                                                        @Query("since")String  month1,@Query("to") String month2);
+
+     @GET("stock_events.php")
+    Observable<Response<List<ReportStockEvent>>> getStockeventsSalesPaginator(@Query("method") String method, @Query("created") String created,@Query("item") String item,@Query("groupby") String groupby, @Query("page") Integer page);
+
+                                                                                         @GET("incomes.php")
+    Observable<Response<List<Income>>> getIncomes(@Query("method") String method,@Query("page") Integer page);
+
+/*
+    @GET("products.php")
+    Observable<Response<List<SpinnerData>>> getSpinnerByItemByTypeByBrand(@Query("method") String method,@Query("tt") String type,@Query("item") String item,
+                                                                          @Query("brand") String brand,  @Query("type") String type2);
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerType>>> getSpinnerByItemByTypeByBrandType(@Query("method") String method,@Query("tt") String type,@Query("item") String item,
+                                                                          @Query("brand") String brand,  @Query("type") String type2);
+
+    @GET("products.php")
+    Observable<Response<List<SpinnerItem>>> getSpinnerItemByItemByTypeByBrandType(@Query("method") String method, @Query("tt") String type, @Query("item") String item,
+                                                                                  @Query("brand") String brand, @Query("type") String type2);
+
+                                                                                    @GET("items_file.php")
+    Observable<Response<AmountResult>> getAmountItemFile( @Query("method") String method,
+                                                           @Query("created") String created);
+
+    @GET("items_file.php")
+    Observable<Response<List<ReportItemFileClientEvent>>> getItemsFileClientEvent(  @Query("method") String method,@Query("since") String created, @Query("to") String next);
+
+
+   /* @DELETE("products.php")
+    Observable<ResponseBody>  deleteProduct(@Query("id") Long id);
+
+        @GET("products.php")
+    Observable<Response<List<Product>>> getProductsByPage(@Query("page") Integer page);
+    */
+

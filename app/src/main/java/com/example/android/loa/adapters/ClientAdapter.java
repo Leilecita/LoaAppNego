@@ -42,6 +42,7 @@ import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.activities.OperationHistoryClientActivity;
 import com.example.android.loa.activities.photos.PhotoEdithActivity;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
@@ -49,6 +50,7 @@ import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.ReportExtraction;
+import com.example.android.loa.network.models.StockEvent;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 
@@ -69,7 +71,6 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
     public void setOnAmountCangeListener(OnAmountChange listener){
         onAmountChangeListener = listener;
     }
-
 
     @Override
     public long getHeaderId(int position) {
@@ -181,8 +182,6 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         }
     }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position){
@@ -222,6 +221,35 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 final CheckBox check_card=  dialogView.findViewById(R.id.check_card);
                 final CheckBox check_deb=  dialogView.findViewById(R.id.check_deb);
                 final CheckBox check_ef=  dialogView.findViewById(R.id.check_ef);
+
+                final TextView text_balance=  dialogView.findViewById(R.id.text_balance);
+                final LinearLayout line_balance=  dialogView.findViewById(R.id.line_balance);
+                final CheckBox check_balance=  dialogView.findViewById(R.id.check_balance);
+
+                if(SessionPrefs.get(mContext).getName().equals("santi") || SessionPrefs.get(mContext).getName().equals("lei")){
+                    line_balance.setVisibility(View.VISIBLE);
+                }
+
+
+                check_balance.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(check_balance.isChecked()){
+                            text_balance.setVisibility(View.VISIBLE);
+                            description.setText("Balance a 0 FUERA LOCAL");
+                            if(currentClient.debt< 0){
+                                value.setText(String.valueOf(Math.abs(currentClient.debt)));
+                            }else{
+                                value.setText(String.valueOf(-currentClient.debt));
+                            }
+
+                        }else{
+                            text_balance.setVisibility(View.GONE);
+                            description.setText("");
+                            value.setText("");
+                        }
+                    }
+                });
 
                 check_ef.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -324,12 +352,17 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                                 payment_method= "efectivo";
                             }
 
+
                             Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"","","","","","false",payment_method,"false");
                             //TODO ver fechas
                             item.created=dateToServer;
 
                             if(currentClient.debt + val == 0){
                                 item.settled="true";
+                            }
+
+                            if(check_balance.isChecked()){
+                                item.balance="true";
                             }
 
                             item.modify_by=currentClient.employee_creator_id;
@@ -350,6 +383,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                                     DialogHelper.get().showMessage("Error", "No se pudo crear la transaccion",mContext);
                                 }
                             });
+
                             dialog.dismiss();
                         }else{
                             Toast.makeText(dialogView.getContext(), "El valor debe ser numerico, vuelva a ingresarlo", Toast.LENGTH_LONG).show();
@@ -363,6 +397,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                         dialog.dismiss();
                     }
                 });
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });

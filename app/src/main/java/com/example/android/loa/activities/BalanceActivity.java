@@ -4,6 +4,8 @@ package com.example.android.loa.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -144,6 +146,7 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
     @Override

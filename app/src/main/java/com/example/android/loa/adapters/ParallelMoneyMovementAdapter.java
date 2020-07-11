@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Events.RefreshBoxesEvent;
+import com.example.android.loa.Interfaces.OnAmountChange;
+import com.example.android.loa.Interfaces.OnRefreshList;
 import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValuesHelper;
@@ -49,6 +52,11 @@ import java.util.List;
 public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovement,ParallelMoneyMovementAdapter.ViewHolder> {
     private Context mContext;
     private String groupby;
+
+    private OnRefreshList onRefreshlistListener = null;
+    public void setOnRefreshlistListener(OnRefreshList listener){
+        onRefreshlistListener = listener;
+    }
 
     public ParallelMoneyMovementAdapter(Context context, List<ParallelMoneyMovement> movements) {
         setItems(movements);
@@ -235,6 +243,9 @@ public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovem
 
                         Toast.makeText(mContext, "Se elimina el movimiento " + e.description, Toast.LENGTH_LONG).show();
                         removeItem(position);
+                        if(onRefreshlistListener!=null){
+                            onRefreshlistListener.onRefreshList();
+                        }
                     }
 
                     @Override
@@ -264,6 +275,7 @@ public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovem
                 spinner_type.add(value.getName());
             }
         }
+        spinner_type.add("Otro");
     }
 
     private static <T extends Enum<MoneyMovementPaymentType>> void enumNameToStringArray(MoneyMovementPaymentType[] values, List<String> spinner_type) {
@@ -282,10 +294,12 @@ public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovem
 
         final TextView value = dialogView.findViewById(R.id.value);
         final TextView description = dialogView.findViewById(R.id.description);
+        final TextView other_type = dialogView.findViewById(R.id.other_type);
         final TextView date = dialogView.findViewById(R.id.date);
         final TextView type = dialogView.findViewById(R.id.type);
         final TextView detail = dialogView.findViewById(R.id.detail);
         final LinearLayout line_detail = dialogView.findViewById(R.id.line_detail);
+        final LinearLayout line_other_type = dialogView.findViewById(R.id.line_other_type);
 
         final TextView cancel = dialogView.findViewById(R.id.cancel);
         final Button ok = dialogView.findViewById(R.id.ok);
@@ -298,8 +312,10 @@ public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovem
 
         if(e.billed.equals(BilledType.SIN_FACTURAR.getName())){
             check_remito.setChecked(true);
+            check_factura.setChecked(false);
         }else if(e.billed.equals(BilledType.FACTURADO.getName())){
             check_factura.setChecked(true);
+            check_remito.setChecked(false);
         }
 
         check_remito.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -353,6 +369,12 @@ public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovem
                     line_detail.setVisibility(View.VISIBLE);
                 }else{
                     line_detail.setVisibility(View.GONE);
+                }
+
+                if(itemSelected.equals("Otro")){
+                    line_other_type.setVisibility(View.VISIBLE);
+                }else{
+                    line_other_type.setVisibility(View.GONE);
                 }
 
                 ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(mContext,
@@ -413,10 +435,18 @@ public class ParallelMoneyMovementAdapter extends BaseAdapter<ParallelMoneyMovem
                 description.setText(e.description);
                 value.setText(String.valueOf(e.value));
 
+                if(e.type.equals("Otro")){
+                    e.type=other_type.getText().toString().trim();
+                }
+
                 ApiClient.get().putMoneyMovement(e, new GenericCallback<ParallelMoneyMovement>() {
                     @Override
                     public void onSuccess(ParallelMoneyMovement data) {
-                        updateItem(position, e);
+
+                        updateItem(position, data);
+                        if(onRefreshlistListener!=null){
+                            onRefreshlistListener.onRefreshList();
+                        }
                     }
 
                     @Override

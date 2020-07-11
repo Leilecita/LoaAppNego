@@ -3,6 +3,10 @@ package com.example.android.loa.activities;
 import android.content.Intent;
 
 import com.example.android.loa.activities.todelete.BoxByMonthActivity;
+import com.example.android.loa.network.ApiClient;
+import com.example.android.loa.network.Error;
+import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.ReportSimpelClient;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -20,6 +24,8 @@ import com.example.android.loa.R;
 import com.example.android.loa.adapters.PageAdapter;
 import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.fragments.BaseFragment;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -44,6 +50,28 @@ public class MainActivity extends BaseActivity {
             finish();
             return;
         }
+
+        ApiClient.get().getClients(new GenericCallback<List<ReportSimpelClient>>() {
+            @Override
+            public void onSuccess(List<ReportSimpelClient> data) {
+
+            }
+
+            @Override
+            public void onError(Error error) {
+                System.out.println(error.message);
+                System.out.println(error.result);
+                if(error.message.equals("Session invalida")){
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                }
+            }
+        });
+
+
+
+        System.out.println(SessionPrefs.get(this).getToken());
+        System.out.println(SessionPrefs.get(this).getName());
 
         setTitle("Loa surf shop");
         extractions=findViewById(R.id.extractions);
@@ -170,7 +198,11 @@ public class MainActivity extends BaseActivity {
         }else if(id == R.id.action_log_events){
            startHistoryEventsActivity();
         }else if(id == R.id.action_santi_money){
-            startSantiMoneyMovement();
+            if(SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei")){
+                startSantiMoneyMovement();
+            }else{
+                Toast.makeText(this,"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
+            }
         }
 
 

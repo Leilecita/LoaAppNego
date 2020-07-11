@@ -15,10 +15,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
+import com.example.android.loa.Interfaces.OnRefreshList;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.ReportMovementMoneyAdapter;
 import com.example.android.loa.network.ApiClient;
@@ -47,7 +50,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ParallelMoneyMovementsActivity extends BaseActivity implements Paginate.Callbacks {
+public class ParallelMoneyMovementsActivity extends BaseActivity implements Paginate.Callbacks, OnRefreshList {
 
     private RecyclerView mRecyclerView;
     private ReportMovementMoneyAdapter mAdapter;
@@ -85,6 +88,10 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
     private BilledType billedType= BilledType.ALL;
 
+    public void onRefreshList(){
+        clearView();
+    }
+
 
     @Override
     public int getLayoutRes() {
@@ -103,6 +110,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter=new ReportMovementMoneyAdapter(this,new ArrayList<ReportParallelMoneyMovement>());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnRefreshlistListener(this);
 
         mAdapter.setGroupBy(Constants.TYPE_GROUP_BY_MONTH);
         createMoneyEvent=this.findViewById(R.id.fab_agregarTod);
@@ -330,6 +338,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
                 spinner_type.add(value.getName());
             }
         }
+        spinner_type.add("Otro");
     }
 
     private static <T extends Enum<MoneyMovementPaymentType>> void enumNameToStringArray(MoneyMovementPaymentType[] values, List<String> spinner_detail) {
@@ -350,6 +359,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         builder.setView(dialogView);
 
         final TextView description=  dialogView.findViewById(R.id.description);
+        final EditText other_type=  dialogView.findViewById(R.id.other_type);
         final Spinner spinnerType=  dialogView.findViewById(R.id.spinner_type1);
         final Spinner spinnerDetail=  dialogView.findViewById(R.id.spinner_detail);
         final LinearLayout line_detail=  dialogView.findViewById(R.id.line_detail);
@@ -413,6 +423,12 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
                     line_detail.setVisibility(View.GONE);
                 }
 
+                if(itemSelected.equals("Otro")){
+                    other_type.setVisibility(View.VISIBLE);
+                }else{
+                    other_type.setVisibility(View.GONE);
+                }
+
                 ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(getApplicationContext(),
                         R.layout.spinner_item,spinner_detail);
                 adapter_detail.setDropDownViewResource(R.layout.spinner_item);
@@ -442,6 +458,9 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
             public void onClick(View v) {
 
                 String type= String.valueOf(spinnerType.getSelectedItem());
+                if(type.equals("Otro")){
+                    type=other_type.getText().toString().trim();
+                }
                 String descr=description.getText().toString().trim();
 
                 String detail=String.valueOf(spinnerDetail.getSelectedItem());

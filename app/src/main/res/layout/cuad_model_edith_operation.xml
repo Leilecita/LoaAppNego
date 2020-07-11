@@ -154,7 +154,7 @@
 
                 android:textColor="@color/colorPrimaryDarkLetter"
                 />
-            <EditText
+            <TextView
                 android:id="@+id/brand"
                 android:layout_height="33dp"
                 android:paddingLeft="8dp"
@@ -162,11 +162,9 @@
                 android:layout_weight="1"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:hint="Marca"
                 android:fontFamily="@font/opensanslight"
                 android:textColor="@color/colorDialogButton"
                 android:textSize="@dimen/general_text"
-                android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords" />
 
 
@@ -186,7 +184,7 @@
                 android:fontFamily="@font/opensansregular"
                 android:textColor="@color/word" />
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/product_kind"
@@ -196,7 +194,6 @@
                 android:textSize="16sp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:textColor="@color/colorDialogButton"
-                android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords"
 
                 />
@@ -216,7 +213,7 @@
                 android:textSize="@dimen/general_text"
                 android:textColor="@color/word" />
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:id="@+id/description"
                 android:layout_weight="1"
@@ -226,12 +223,20 @@
                 android:textSize="@dimen/general_text"
                 style="@style/Widget.Design.TextInputLayout"
                 android:textColor="@color/colorDialogButton"
-                android:background="@drawable/rec_text_edit"
                 android:inputType="textCapWords"
 
                 />
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensanslight"
+            android:text="Obs: Para modificar datos del producto, hacer desde la planilla de ventas."
+            android:textSize="@dimen/general_text"
+            android:textColor="@color/colorDialogButton"
 
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

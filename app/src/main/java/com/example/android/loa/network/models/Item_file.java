@@ -18,6 +18,7 @@ public class Item_file {
     public String modify_by,payment_method;
     public String created;
     public String retired_product;
+    public String balance;
 
     public Item_file(){}
 

@@ -45,8 +45,6 @@ public class ItemAdapterType extends BaseAdapter<SpinnerType,ItemAdapter.ViewHol
 
     }
 
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView text;
 
@@ -174,7 +172,4 @@ public class ItemAdapterType extends BaseAdapter<SpinnerType,ItemAdapter.ViewHol
         mColorsType.add("#7986CB");
 
     }
-
-
-
 }

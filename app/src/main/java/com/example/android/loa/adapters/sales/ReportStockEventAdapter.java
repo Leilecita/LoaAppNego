@@ -266,6 +266,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         holder.detail.setText(current.detail);
 
+
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -384,23 +385,54 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
+
+                    case R.id.out_buy_with_desc:
+                        holder.detail.setText("Salida venta con desc");
+                        return true;
+                    case R.id.out_person_file:
+                        holder.detail.setText("Salida ficha");
+                        return true;
+                    case R.id.out_balance_stock:
+                        holder.detail.setText("Salida balance stock");
+                        return true;
+                    case R.id.out_dev:
+                        holder.detail.setText("Salida por cambio");
+                        return true;
+                    case R.id.out_consign:
+                        holder.detail.setText("Salida articulo consignacion");
+                        return true;
+
+                    case R.id.out_bonif:
+                        holder.detail.setText("Salida ficha especial bonificacion");
+                        return true;
+                    case R.id.out_santi:
+                        holder.detail.setText("Salida ficha especial santi");
+                        return true;
+                    case R.id.out_gifts:
+                        holder.detail.setText("Salida ficha especial campeonato");
+                        return true;
+
+                    case R.id.out_luz:
+                        holder.detail.setText("paso al stock luz");
+                        return true;
+                    case R.id.out_local:
+                        holder.detail.setText("paso al stock local");
+                        return true;
+                    case R.id.out_oferta:
+                        holder.detail.setText("paso al stock oferta");
+                        return true;
+
+                    case R.id.out_regalo:
+                        holder.detail.setText("salida por regalo");
+                        return true;
                     case R.id.out_buy:
                         holder.detail.setText("Salida venta");
                         return true;
                     case R.id.out_error:
                         holder.detail.setText("Resta por error anterior");
                         return true;
-                    case R.id.out_dev:
-                        holder.detail.setText("Salida dev");
-                        return true;
                     case R.id.out_falla:
                         holder.detail.setText("Salida dev falla");
-                        return true;
-                    case R.id.out_santi:
-                        holder.detail.setText("Salida santi");
-                        return true;
-                    case R.id.out_gifts:
-                        holder.detail.setText("Salida premios");
                         return true;
                     case R.id.out_stole:
                         holder.detail.setText("Salida por robo");

@@ -398,7 +398,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             descriptionT.setHint(" - ");
             descriptionT.setHintTextColor(mContext.getResources().getColor(R.color.colorDialogButton));
         }else{
-            descriptionT.setHint(op.description);
+            descriptionT.setText(op.description);
         }
 
         brandT.setText(op.brand);

@@ -36,6 +36,20 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Ingreso / egreso de dinero "
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/date"
+            />
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +99,7 @@
                 android:fontFamily="@font/opensanslight"
                 android:layout_marginRight="8dp"
                 android:layout_width="match_parent"
-                android:hint="Detalle"
+                android:hint="Detalle de pago"
                 android:textColorHint="@color/colorPrimaryClearLetter"
                 android:textColor="@color/colorPrimaryDarkLetter"
                 android:textSize="@dimen/general_text"
@@ -122,9 +136,62 @@
                     />
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/line_balance"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/check_balance"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:buttonTint="@color/colorPrimaryClearLetter"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:text="Balance a 0"
+                        android:gravity="center"
+                        android:layout_marginLeft="2dp"
+                        android:layout_gravity="center"
+                        android:textSize="15sp"
+
+                        />
+
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="'Balance a 0' , lleva el saldo de cuenta a 0 sin reflejar el ingreso / egreso de dinero en la caja del día. "
+                android:layout_marginTop="16dp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
+                android:id="@+id/text_balance"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:src="@drawable/date"
+                />
+
+
 
         </LinearLayout>
         <LinearLayout
@@ -213,6 +280,8 @@
 
 
         </LinearLayout>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:text="La salida de producto se realiza desde la pestaña de stock "
@@ -224,6 +293,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/date"
             />
+
 
 
 

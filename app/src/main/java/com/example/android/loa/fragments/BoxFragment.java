@@ -36,6 +36,7 @@ import com.example.android.loa.activities.todelete.BoxActivity;
 import com.example.android.loa.activities.CreateBoxActivity;
 import com.example.android.loa.adapters.BoxAdapter;
 import com.example.android.loa.adapters.ReportBoxMonthAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.models.Box;
@@ -67,7 +68,6 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private RecyclerView mRecyclerView;
     private BoxAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
 
     //box by period
     private RecyclerView mRecyclerViewPeriod;
@@ -250,21 +250,25 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         mes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if(!mSelectedView.equals("mes")){
-                mSelectedView="mes";
 
-                mRecyclerView.setVisibility(View.GONE);
-                mRecyclerViewPeriod.setVisibility(View.GONE);
-                mRecyclerViewMonth.setVisibility(View.VISIBLE);
+                if(SessionPrefs.get(getContext()).getName().equals("santi") || SessionPrefs.get(getContext()).getName().equals("lei")) {
+                    if (!mSelectedView.equals("mes")) {
+                        mSelectedView = "mes";
 
-                rest_box.setVisibility(View.GONE);
-                mAdapterMonth.getList().clear();
+                        mRecyclerView.setVisibility(View.GONE);
+                        mRecyclerViewPeriod.setVisibility(View.GONE);
+                        mRecyclerViewMonth.setVisibility(View.VISIBLE);
+
+                        rest_box.setVisibility(View.GONE);
+                        mAdapterMonth.getList().clear();
 
 
-                implementsPaginate();
+                        implementsPaginate();
 
-            }
-
+                    }
+                }else{
+                    Toast.makeText(getContext(),"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -273,8 +277,11 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         periodo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-               cuadSelectPeriod();
+                if(SessionPrefs.get(getContext()).getName().equals("santi") || SessionPrefs.get(getContext()).getName().equals("lei")) {
+                    cuadSelectPeriod();
+                }else{
+                    Toast.makeText(getContext(),"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

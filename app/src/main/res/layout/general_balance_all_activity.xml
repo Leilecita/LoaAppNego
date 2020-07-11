@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:background="@color/background"
+android:descendantFocusability="blocksDescendants"
+android:layout_height="match_parent"
+android:id="@+id/listado">
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listday"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/background"
+        android:layout_height="match_parent"
+        android:background="#ededed"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/balance"
+            android:paddingLeft="12dp"
+
+            android:gravity="center_vertical"
+            android:layout_height="60dp"
+            android:background="@color/background_violet"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:fontFamily="@font/opensansregular"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="0.9"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"
+                android:text="Stock real"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:fontFamily="@font/opensansregular"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:text="Resultado"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:text="Dif"
+                android:fontFamily="@font/opensansregular"
+                />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_general_stock_events"
+            android:layout_below="@+id/balance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="80dp"
+            />
+
+
+    </RelativeLayout>
+<!-- Bottom Sheet -->
+<include layout="@layout/bottom_shet_balance" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

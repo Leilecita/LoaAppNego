@@ -44,7 +44,7 @@ public class ReportExtractionAdapter  extends BaseAdapter<ReportExtraction,Repor
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_header_extr, parent, false);
+                .inflate(R.layout.view_header_extr2, parent, false);
         return new RecyclerView.ViewHolder(view) {
         };
     }

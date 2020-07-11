@@ -118,17 +118,6 @@ public class SalesActivity extends BaseActivity implements Paginate.Callbacks {
         oferta.setImageResource(R.drawable.bofercl);
         all.setImageResource(R.drawable.ballcl);
 
-/*
-        changeViewStyleUnselected(textZap);
-        changeViewStyleUnselected(textTec);
-        changeViewStyleUnselected(textMan);
-        changeViewStyleUnselected(textWoman);
-        changeViewStyleUnselected(textBoy);
-        changeViewStyleUnselected(textAcc);
-        changeViewStyleUnselected(textLuz);
-        changeViewStyleUnselected(textOferta);
-        changeViewStyleUnselected(textAll);
-        */
 
         clearAndList();
 

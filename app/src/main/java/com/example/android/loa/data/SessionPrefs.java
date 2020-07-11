@@ -61,8 +61,12 @@ public class SessionPrefs {
         editor.apply();
     }
 
-    public  String getToken(){
+    public String getToken(){
         return mPrefs.getString(PREF_USER_TOKEN, null);
+    }
+
+    public String getName(){
+        return mPrefs.getString(PREF_USER_NAME, null);
     }
 
     public void setToken(String token){
@@ -70,6 +74,13 @@ public class SessionPrefs {
         editor.putString(PREF_USER_TOKEN, token);
         editor.apply();
         mIsLoggedIn=true;
+    }
+
+    public void setName(String token){
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putString(PREF_USER_NAME, token);
+        editor.apply();
+      //  mIsLoggedIn=true;
     }
 
 }

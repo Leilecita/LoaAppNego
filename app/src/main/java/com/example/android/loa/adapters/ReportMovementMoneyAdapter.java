@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.DateHelper;
+import com.example.android.loa.Interfaces.OnRefreshList;
 import com.example.android.loa.R;
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.models.Extraction;
@@ -31,6 +32,10 @@ public class ReportMovementMoneyAdapter  extends BaseAdapter<ReportParallelMoney
     private Context mContext;
     private String groupby;
 
+    private OnRefreshList onRefreshlistListener = null;
+    public void setOnRefreshlistListener(OnRefreshList listener){
+        onRefreshlistListener = listener;
+    }
 
     @Override
     public long getHeaderId(int position) {
@@ -158,6 +163,7 @@ public class ReportMovementMoneyAdapter  extends BaseAdapter<ReportParallelMoney
         holder.listExtr.setAdapter(mvmtAdapter);
         mvmtAdapter.setItems(current.listMoneyMovements);
 
+        mvmtAdapter.setOnRefreshlistListener(onRefreshlistListener);
 
         if(groupby.equals("month")){
             mvmtAdapter.setGroupby("month");

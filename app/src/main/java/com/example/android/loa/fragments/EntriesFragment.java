@@ -91,22 +91,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
                 headersDecor.invalidateHeaders();
             }
         });
-        //STICKY
-/*
-        // Add the sticky headers decoration
-        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
-        mRecyclerView.addItemDecoration(headersDecor);
 
-        // Add decoration for dividers between list items
-        mRecyclerView.addItemDecoration(new DividerDecoration(getContext()));
-
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
-                headersDecor.invalidateHeaders();
-            }
-        });
-*/
-        //------------------------
 
         mItem="Todos";
         mGroupBy="day";
@@ -208,6 +193,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
 
     private void changeCircleSelected(){
 
+
         woman.setImageResource(R.drawable.bwomcl);
         boy.setImageResource(R.drawable.bnincl);
         man.setImageResource(R.drawable.bmancl);
@@ -217,6 +203,8 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
         luz.setImageResource(R.drawable.bluzcl);
         oferta.setImageResource(R.drawable.bofercl);
         all.setImageResource(R.drawable.ballcl);
+
+        mAdapter.setItem(mItem);
 
         clearView();
     }
@@ -262,6 +250,7 @@ public class EntriesFragment extends BaseFragment implements Paginate.Callbacks 
             @Override
             public void onClick(View v) {
                 mItem="Todos";
+
                 changeCircleSelected();
             }
         });

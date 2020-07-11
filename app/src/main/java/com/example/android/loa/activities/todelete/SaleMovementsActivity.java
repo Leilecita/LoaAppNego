@@ -475,7 +475,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
     }
     private void listItemsFileClientEvents(){
 
-        String dateTo=DateHelper.get().getNextDay(mDate);
+      /*  String dateTo=DateHelper.get().getNextDay(mDate);
 
         ApiClient.get().getItemsFileClientEvent(mDate, dateTo, new GenericCallback<List<ReportItemFileClientEvent>>() {
             @Override
@@ -492,7 +492,7 @@ public class SaleMovementsActivity extends BaseActivity implements Paginate.Call
             public void onError(Error error) {
 
             }
-        });
+        });*/
     }
     private void listReportStockEvents(){
         loadingInProgress=true;

@@ -25,14 +25,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
+import com.example.android.loa.Interfaces.OnLoadList;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.sales.ReportSaleAdapter;
+import com.example.android.loa.adapters.sales.ReportStockEventAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Income;
 import com.example.android.loa.network.models.ReportSale;
+import com.example.android.loa.network.models.ReportStockEvent;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
@@ -54,6 +58,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
     private Integer mCurrentPage;
     private Paginate paginate;
     private boolean hasMoreItems;
+
 
     private LinearLayout bottomSheet;
 
@@ -91,28 +96,25 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new ReportSaleAdapter(getActivity(), new ArrayList<ReportSale>());
-
         mRecyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
+
+
 
         // Add the sticky headers decoration
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
         mRecyclerView.addItemDecoration(headersDecor);
-
-        // Add decoration for dividers between list items
-        //mRecyclerView.addItemDecoration(new DividerDecoration(getContext()));
 
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override public void onChanged() {
                 headersDecor.invalidateHeaders();
             }
         });
-        //STICKY
-        //------------------------
 
         mItem="Todos";
         mGroupBy="day";
         mAdapter.setGroupBy(mGroupBy);
+        mAdapter.setItem(mItem);
 
         bottomSheet = mRootView.findViewById(R.id.bottomSheet);
         final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
@@ -126,11 +128,14 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
 
 
 
+
+
     private void clearView(){
         mCurrentPage = 0;
         mAdapter.clear();
         hasMoreItems=true;
     }
+
 
     private void listSales(){
         loadingInProgress=true;
@@ -178,6 +183,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
                 .build();
     }
 
+
     @Override
     public void onLoadMore() {
         listSales();
@@ -205,7 +211,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         oferta.setImageResource(R.drawable.bofercl);
         all.setImageResource(R.drawable.ballcl);
 
-       clearView();
+        clearView();
 
     }
     private void topBarListener(View bottomSheet){
@@ -226,11 +232,18 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         mes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            if(SessionPrefs.get(getContext()).getName().equals("santi") || SessionPrefs.get(getContext()).getName().equals("lei")){
                 mGroupBy="month";
                 mAdapter.setGroupBy(mGroupBy);
+
                 mes.setImageResource(R.drawable.b23);
                 dia.setImageResource(R.drawable.bdiacl);
                 clearView();
+            }else{
+                Toast.makeText(getContext(),"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
+            }
+
 
             }
         });
@@ -251,6 +264,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Todos";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 all.setImageResource(R.drawable.ball);
             }
         });
@@ -260,6 +274,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Dama";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 woman.setImageResource(R.drawable.bwom);
             }
         });
@@ -268,6 +283,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Hombre";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 man.setImageResource(R.drawable.bman);
             }
         });
@@ -276,6 +292,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Niño";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 boy.setImageResource(R.drawable.bnin);
             }
         });
@@ -284,6 +301,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Accesorio";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 accesories.setImageResource(R.drawable.bacc);
             }
         });
@@ -292,6 +310,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Tecnico";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 tecnico.setImageResource(R.drawable.btec);
             }
         });
@@ -301,6 +320,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Calzado";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 zapas.setImageResource(R.drawable.bcal);
             }
         });
@@ -310,6 +330,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Luz";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 luz.setImageResource(R.drawable.bluz);
             }
         });
@@ -319,6 +340,7 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
             public void onClick(View v) {
                 mItem="Oferta";
                 changeCircleSelected();
+                mAdapter.setItem(mItem);
                 oferta.setImageResource(R.drawable.bofer);
             }
         });

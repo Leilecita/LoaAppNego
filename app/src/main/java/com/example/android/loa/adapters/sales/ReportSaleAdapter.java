@@ -1,15 +1,17 @@
 package com.example.android.loa.adapters.sales;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +25,9 @@ import com.example.android.loa.R;
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.adapters.BaseAdapter;
 import com.example.android.loa.adapters.ReportItemFileClientAdapter;
+import com.example.android.loa.network.ApiClient;
+import com.example.android.loa.network.Error;
+import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportStockEvent;
@@ -32,9 +37,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>  {
     private Context mContext;
     private String mGroupBy="day";
+    private String mItem="Todos";
+
 
     public ReportSaleAdapter(Context context, List<ReportSale> sales){
         setItems(sales);
@@ -43,6 +50,9 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
 
     public void setGroupBy(String group){
         this.mGroupBy=group;
+    }
+    public void setItem(String item){
+        this.mItem=item;
     }
 
     public ReportSaleAdapter(){
@@ -89,8 +99,6 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
 
 
             }
-
-
 
             //primer linear
             int count = linear.getChildCount();
@@ -269,43 +277,6 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
         }
     }
 
-
-    /*
-
-    else if(k==2){
-                    LinearLayout lin= (LinearLayout) v3;
-                    int countlin = lin.getChildCount();
-
-                    for(int f=0; f< countlin; f++){
-                        v8=lin.getChildAt(f);
-
-                        if(f==0){
-                            LinearLayout l=(LinearLayout) v8;
-                            int countl = l.getChildCount();
-                            for(int s=0; s< countl; s++){
-                                v9=l.getChildAt(s);
-                                //efectivo
-                                if(s==1){
-                                    TextView t9 = (TextView) v9;
-                                    t9.setText(ef);
-                                }
-                            }
-                        }else if(f==1){
-                            LinearLayout l2=(LinearLayout) v8;
-                            int countl2 = l2.getChildCount();
-                            for(int w=0; w< countl2; w++){
-                                v10=l2.getChildAt(w);
-
-                                if(w==1){
-                                    TextView t10 = (TextView) v10;
-                                    t10.setText(card);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-     */
     public List<ReportSale> getListSales(){
         return getList();
     }
@@ -321,9 +292,8 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
         public TextView amountCard;
         public TextView countSales;
         public LinearLayout content;
-        public LinearLayout lineIncomes;
         public LinearLayout lineFile;
-
+        public LinearLayout viewMore;
 
         public ViewHolder(View v){
             super(v);
@@ -336,8 +306,8 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
             amountCard=v.findViewById(R.id.amount_card);
             content=v.findViewById(R.id.barTop);
             lineFile=v.findViewById(R.id.lin_files);
-           // lineIncomes=v.findViewById(R.id.lin_incomes);
             countSales=v.findViewById(R.id.counted_sale);
+            viewMore=v.findViewById(R.id.view_more);
         }
     }
 
@@ -353,6 +323,42 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
 
     }
 
+
+    private void listSales(String created, final ReportStockEventAdapter mAdapter){
+
+        ApiClient.get().getStockeventsSales(created,mItem,mGroupBy, new GenericCallback<List<ReportStockEvent>>() {
+            @Override
+            public void onSuccess(List<ReportStockEvent> data) {
+                mAdapter.setItems(data);
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+
+    }
+    private void listSalesItems(String created, final ReportItemFileClientAdapter mAdapter,final ViewHolder holder){
+        ApiClient.get().getStockeventsFileSales(created,mGroupBy, new GenericCallback<List<ReportItemFileClientEvent>>() {
+            @Override
+            public void onSuccess(List<ReportItemFileClientEvent> data) {
+                mAdapter.setItems(data);
+                if(data.size()>0){
+                    holder.lineFile.setVisibility(View.VISIBLE);
+                }else{
+                    holder.lineFile.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ReportSaleAdapter.ViewHolder holder, final int position) {
@@ -362,22 +368,44 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         holder.recylerSales.setLayoutManager(layoutManager);
-        ReportStockEventAdapter mAdapter = new ReportStockEventAdapter(mContext, new ArrayList<ReportStockEvent>());
-        mAdapter.setItems(current.listStockEventSale);
+        final ReportStockEventAdapter mAdapter = new ReportStockEventAdapter(mContext, new ArrayList<ReportStockEvent>());
+       // mAdapter.setItems(current.listStockEventSale);
         holder.recylerSales.setAdapter(mAdapter);
 
         LinearLayoutManager layoutManagerFile = new LinearLayoutManager(mContext);
         holder.recyclerItemsFile.setLayoutManager(layoutManagerFile);
-        ReportItemFileClientAdapter mAdapterItemFileClient = new ReportItemFileClientAdapter(mContext, new ArrayList<ReportItemFileClientEvent>(), current.created);
-        mAdapterItemFileClient.setItems(current.listItems);
+        final ReportItemFileClientAdapter mAdapterItemFileClient = new ReportItemFileClientAdapter(mContext, new ArrayList<ReportItemFileClientEvent>(), current.created);
+        // mAdapterItemFileClient.setItems(current.listItems);
         holder.recyclerItemsFile.setAdapter(mAdapterItemFileClient);
-        if(current.listItems.size()>0){
-           holder.lineFile.setVisibility(View.VISIBLE);
+
+        if(position==0){
+            holder.viewMore.setVisibility(View.GONE);
+
+            listSales(current.created, mAdapter);
+            listSalesItems(current.created,mAdapterItemFileClient,holder);
         }else{
-            holder.lineFile.setVisibility(View.GONE);
+            holder.viewMore.setVisibility(View.VISIBLE);
         }
 
-      //  holder.month.setText(DateHelper.get().getNameMonth(current.created).substring(0,3));
+        holder.viewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                holder.viewMore.setVisibility(View.GONE);
+
+                listSales(current.created,mAdapter);
+                listSalesItems(current.created,mAdapterItemFileClient,holder);
+            }
+        });
+
+
+
+
+    }
+}
+
+
+//  holder.month.setText(DateHelper.get().getNameMonth(current.created).substring(0,3));
 
        /* if(mGroupBy.equals("day")){
             holder.numberDay.setText(DateHelper.get().numberDay(current.created));
@@ -387,9 +415,6 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
             holder.numberDay.setVisibility(View.GONE);
         }*/
 
-      //  holder.amount.setText(ValuesHelper.get().getIntegerQuantityByLei(current.efectAmount));
-       // holder.amountCard.setText(ValuesHelper.get().getIntegerQuantityByLei(current.cardAmount));
-       // holder.countSales.setText(String.valueOf(current.countSales));
-
-    }
-}
+//  holder.amount.setText(ValuesHelper.get().getIntegerQuantityByLei(current.efectAmount));
+// holder.amountCard.setText(ValuesHelper.get().getIntegerQuantityByLei(current.cardAmount));
+// holder.countSales.setText(String.valueOf(current.countSales));

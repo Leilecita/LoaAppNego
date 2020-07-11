@@ -3,6 +3,8 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
@@ -152,63 +154,6 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
 
     private void loadHours(final Employee e){
         start(mContext,e);
-
-     /*   AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.cuad_dialog_add_hours, null);
-
-        builder.setView(dialogView);
-
-        final TextView name=  dialogView.findViewById(R.id.name_employee);
-        name.setText(e.name);
-        final TextView turn=  dialogView.findViewById(R.id.turn);
-        final TextView entry=  dialogView.findViewById(R.id.entry);
-        final TextView finish=  dialogView.findViewById(R.id.finish);
-        final TextView date=  dialogView.findViewById(R.id.date);
-        date.setText(DateHelper.get().getActualDate());
-        final TextView time_worked=  dialogView.findViewById(R.id.time_worked);
-        final TextView obs=  dialogView.findViewById(R.id.observation);
-
-        final TextView cancel=  dialogView.findViewById(R.id.cancel);
-        final Button ok=  dialogView.findViewById(R.id.ok);
-
-        final AlertDialog dialog = builder.create();
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String turnT=turn.getText().toString().trim();
-                Double time_workedT=Double.valueOf(time_worked.getText().toString().trim());
-                String obsT=obs.getText().toString().trim();
-                String entryT=entry.getText().toString().trim();
-                String finishT=finish.getText().toString().trim();
-                String dateT=date.getText().toString().trim();
-
-                Item_employee i=new Item_employee(e.id,time_workedT,turnT,dateT,obsT,entryT,finishT);
-
-                ApiClient.get().postItemEmploye(i, new GenericCallback<Item_employee>() {
-                    @Override
-                    public void onSuccess(Item_employee data) {
-                        Toast.makeText(mContext, "Horas cargadas para : "+e.getName(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-
-                    }
-                });
-                dialog.dismiss();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();*/
-
     }
 
     private void createInfoDialog(final Employee e, final int position){
@@ -226,16 +171,14 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         final ImageView delete=  dialogView.findViewById(R.id.deleteuser);
         final ImageView edituser=  dialogView.findViewById(R.id.edituser);
         final ImageView call=  dialogView.findViewById(R.id.phone);
-        final ImageView history=  dialogView.findViewById(R.id.history);
         final ImageView mens=  dialogView.findViewById(R.id.mens);
-        final TextView photoedit=  dialogView.findViewById(R.id.photoedit);
 
-        photoedit.setOnClickListener(new View.OnClickListener() {
+       /* photoedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 edithPhoto(e);
             }
-        });
+        });*/
 
         name.setText(e.getName());
         address.setText(e.getAddress());
@@ -255,12 +198,12 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
             }
         });
 
-        history.setOnClickListener(new View.OnClickListener() {
+       /* history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                  HoursHistoryEmployeeActivity.start(mContext,e.id,e.name);
             }
-        });
+        });*/
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,8 +220,10 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteUser(e,position);
-                dialog.dismiss();
+
+                Toast.makeText(mContext," Pedir a administrador para poder borrar empleado", Toast.LENGTH_LONG).show();
+                //deleteUser(e,position);
+                //dialog.dismiss();
             }
         });
 
@@ -295,6 +240,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
                 });
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
     }
@@ -360,6 +306,7 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

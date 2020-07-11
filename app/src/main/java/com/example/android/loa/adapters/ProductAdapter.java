@@ -51,8 +51,11 @@ import com.example.android.loa.types.Constants;
 import com.google.android.material.snackbar.Snackbar;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolder>  {
@@ -69,9 +72,35 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private String client_name;
     private String client_created;
 
-    public void setExtendedDate(String extendedDate){
-        this.dateSelected=extendedDate;
+    private String getExpandedDate(){
+
+        String date= DateHelper.get().actualDateExtractions();
+        String time= DateHelper.get().getOnlyTime(date);
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            Date date1 = sdf.parse(time);
+            Date date2 = sdf.parse("04:13:00");
+
+            if(date1.compareTo(date2) < 0){
+                System.out.println(date1.compareTo(date2));
+
+                return DateHelper.get().getPreviousDay(date);
+            }else{
+                return date;
+            }
+
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
     }
+
+   /* public void setExtendedDate(String extendedDate){
+        this.dateSelected=getExpandedDate();
+    }*/
 
 
     public void setOnChangeViewStock(OnChangeViewStock lister){
@@ -230,7 +259,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         if(item.equals("Hombre")){
             holder.imageButton.setImageResource(R.drawable.bmancl);
-
         }else if(item.equals("Dama")){
             holder.imageButton.setImageResource(R.drawable.bwomcl);
         }else if(item.equals("Accesorio")){
@@ -257,7 +285,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         holder.model.setText(currentProduct.model);
         holder.type.setText(currentProduct.type);
         holder.stock.setText(String.valueOf(currentProduct.stock));
-        holder.date.setText(DateHelper.get().getOnlyDate(dateSelected));
+        holder.date.setText(DateHelper.get().getOnlyDate(getExpandedDate()));
         holder.date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -544,7 +572,12 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                     obserP);
                             s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                             p.stock -= Integer.valueOf(stockP);
-                            s.created = dateSelected;
+                            if(!dateSelected.equals("")){
+                                s.created = dateSelected;
+                            }else{
+                                s.created= getExpandedDate();
+                            }
+
 
                             if (clientId != -1 && detailP.equals("Salida ficha")) {
                                 s.client_id = clientId;
@@ -659,7 +692,13 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         p.stock += Integer.valueOf(stockP);
 
                        // s.created=getExpandedDate();
-                        s.created=dateSelected;
+
+                        if(!dateSelected.equals("")){
+                            s.created=dateSelected;
+                        }else{
+                            s.created=getExpandedDate();
+                        }
+
 
 
                         ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
@@ -909,7 +948,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                             smonthOfYear = "0" + smonthOfYear;
                         }
 
-                        String time= "10:00:00";
+                        String time= DateHelper.get().getOnlyTime(DateHelper.get().getActualDate2());
                         String datePicker=year + "-" + smonthOfYear + "-" +  sdayOfMonth +" "+time ;
 
                         holder.date.setText(DateHelper.get().getOnlyDate(datePicker));

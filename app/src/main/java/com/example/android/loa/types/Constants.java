@@ -2,6 +2,16 @@ package com.example.android.loa.types;
 
 public class Constants {
 
+    public static String ITEM_TODOS = "Todos";
+    public static String ITEM_DAMA = "Dama";
+    public static String ITEM_HOMBRE = "Hombre";
+    public static String ITEM_NINIO = "Niño";
+    public static String ITEM_CALZADO = "Calzado";
+    public static String ITEM_OFERTA = "Oferta";
+    public static String ITEM_LUZ = "Luz";
+    public static String ITEM_ACCESORIO = "Accesorio";
+    public static String ITEM_TECNICO = "Tecnico";
+
     public static String TYPE_ALL = "Todo";
     public static String TYPE_GASTO_SANTI = "Gasto santi";
     public static String TYPE_GASTO_PERSONAL = "Gasto personal";

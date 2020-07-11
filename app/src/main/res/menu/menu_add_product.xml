@@ -13,5 +13,11 @@
         android:title="Productos eliminados"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/general_balance"
+        android:icon="@drawable/add_white"
+        android:title="Balance total general"
+        app:showAsAction="never" />
+
 
 </menu>

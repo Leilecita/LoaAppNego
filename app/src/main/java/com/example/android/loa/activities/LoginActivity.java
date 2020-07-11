@@ -147,6 +147,7 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
 
                     Toast.makeText(getBaseContext(),"el usuario ha iniciado sesion"+data.token, Toast.LENGTH_SHORT).show();
                     SessionPrefs.get(LoginActivity.this).setToken(data.token);
+                    SessionPrefs.get(LoginActivity.this).setName(data.name);
                 }
 
                 @Override

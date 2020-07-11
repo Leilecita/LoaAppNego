@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listday"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/background"
+    android:layout_height="match_parent"
+    android:background="#ededed"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/line1"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="4dp"
+        android:layout_height="@dimen/description_top_bar"
+        android:background="@color/background_violet"
+        android:paddingLeft="12dp"
+       >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artículo :  "
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="18sp"
+            android:fontFamily="@font/opensansregular"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remera "
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:id="@+id/item_product"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:text="Remera "
+            android:textSize="18sp"
+            android:id="@+id/type_product"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:text="120 "
+            android:textSize="18sp"
+            android:id="@+id/quantity_prod"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/line1"
+        android:id="@+id/balance"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:fontFamily="@font/opensansregular"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="0.9"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:text="Stock ideal"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:fontFamily="@font/opensansregular"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:fontFamily="@font/opensansregular"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:text="Resultado"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:text="Dif"
+            android:fontFamily="@font/opensansregular"
+            />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_general_stock_events"
+        android:layout_below="@+id/balance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/balance_item"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textColor="#ffff"
+        android:padding="4dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rec_find"
+        android:backgroundTint="@color/colorDialogButton"
+        android:text="Generar nuevo balance"/>
+
+
+
+</RelativeLayout>

@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.BaseAdapter;
+import com.example.android.loa.network.ApiClient;
+import com.example.android.loa.network.Error;
+import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.ReportEntrie;
 
 import com.example.android.loa.network.models.ReportStockEvent;
@@ -30,6 +33,7 @@ import java.util.List;
 public class ReportEntrieAdapter extends BaseAdapter<ReportEntrie,ReportEntrieAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private String mGroupBy="day";
+    private String mItem="Todos";
 
 
     public ReportEntrieAdapter(Context context, List<ReportEntrie> sales){
@@ -39,6 +43,9 @@ public class ReportEntrieAdapter extends BaseAdapter<ReportEntrie,ReportEntrieAd
 
     public void setGroupBy(String group){
         this.mGroupBy=group;
+    }
+    public void setItem(String item){
+        this.mItem=item;
     }
 
     public ReportEntrieAdapter(){
@@ -165,12 +172,14 @@ public class ReportEntrieAdapter extends BaseAdapter<ReportEntrie,ReportEntrieAd
 
         public TextView month;
         public TextView numberDay;
+        public LinearLayout viewMore;
 
 
         public ViewHolder(View v){
             super(v);
             recylerEntries=v.findViewById(R.id.list_events);
             content=v.findViewById(R.id.content);
+            viewMore=v.findViewById(R.id.view_more);
           //  countEntries=v.findViewById(R.id.entries);
 
           //  month=v.findViewById(R.id.month);
@@ -190,6 +199,21 @@ public class ReportEntrieAdapter extends BaseAdapter<ReportEntrie,ReportEntrieAd
 
     }
 
+    private void listEntries(String created,final ReportStockEventEntrieAdapter mAdapter){
+        ApiClient.get().getStockeventsEntries(created, mItem, mGroupBy, new GenericCallback<List<ReportStockEvent>>() {
+            @Override
+            public void onSuccess(List<ReportStockEvent> data) {
+                mAdapter.setItems(data);
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ReportEntrieAdapter.ViewHolder holder, final int position) {
@@ -199,10 +223,31 @@ public class ReportEntrieAdapter extends BaseAdapter<ReportEntrie,ReportEntrieAd
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         holder.recylerEntries.setLayoutManager(layoutManager);
-        ReportStockEventEntrieAdapter mAdapter = new ReportStockEventEntrieAdapter(mContext, new ArrayList<ReportStockEvent>());
-        mAdapter.setItems(current.listEntries);
+        final ReportStockEventEntrieAdapter mAdapter = new ReportStockEventEntrieAdapter(mContext, new ArrayList<ReportStockEvent>());
+       // mAdapter.setItems(current.listEntries);
         holder.recylerEntries.setAdapter(mAdapter);
 
+        if(position==0){
+            holder.viewMore.setVisibility(View.GONE);
+
+            listEntries(current.created,mAdapter);
+        }else{
+            holder.viewMore.setVisibility(View.VISIBLE);
+        }
+
+        holder.viewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                holder.viewMore.setVisibility(View.GONE);
+
+                listEntries(current.created,mAdapter);
+
+            }
+        });
+
+    }
+}
 //        holder.month.setText(DateHelper.get().getNameMonth2(current.created).substring(0,3));
 
       /*  if(mGroupBy.equals("day")){
@@ -215,5 +260,3 @@ public class ReportEntrieAdapter extends BaseAdapter<ReportEntrie,ReportEntrieAd
 
         holder.countEntries.setText(String.valueOf(current.countEntries));
 */
-    }
-}

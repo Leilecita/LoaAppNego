@@ -1,12 +1,12 @@
 package com.example.android.loa.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.core.app.NavUtils;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +40,6 @@ import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 
-import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ResponseData;
@@ -116,6 +115,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private TextView mEmptyRecyclerView;
 
     private Boolean mViewModel;
+
+    private ImageView balance;
 
 
     public void OnChangeViewStock(){
@@ -217,6 +218,21 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         super.onCreate(savedInstanceState);
         showBackArrow();
 
+        balance = findViewById(R.id.balance);
+        balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mItem.equals("Todos") && !mType.equals("Todos") && !mQuantityPordByFilter.getText().toString().matches("")){
+                    Intent i = new Intent(getBaseContext(), GeneralBalanceByItemTypeActivity.class);
+                    i.putExtra("TYPE", mType);
+                    i.putExtra("ITEM", mItem);
+                    i.putExtra("CANT", mQuantityPordByFilter.getText().toString().trim());
+                    getBaseContext().startActivity(i);
+                }
+            }
+        });
+
+
         mViewModel=false;
         setTitle("Productos");
         mRecyclerView =  findViewById(R.id.list_products);
@@ -225,7 +241,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         mAdapter=new ProductAdapter(this,new ArrayList<Product>());
         mAdapter.setOnChangeViewStock(this);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setExtendedDate(getExpandedDate());
+       // mAdapter.setExtendedDate(getExpandedDate());
 
         mGridRecyclerView =  findViewById(R.id.recycler_view_grid);
         gridlayoutmanager=new GridLayoutManager(this,5);
@@ -432,9 +448,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 all.setImageResource(R.drawable.ball);
-                //all.setBackgroundResource(R.drawable.circle);
-              //  textAll.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-               // textAll.setTextColor(getResources().getColor(R.color.word));
+
             }
         });
 
@@ -445,9 +459,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 woman.setImageResource(R.drawable.bwom);
-                //woman.setBackgroundResource(R.drawable.circle);
-               // textWoman.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-               // textWoman.setTextColor(getResources().getColor(R.color.word));
+
             }
         });
         man.setOnClickListener(new View.OnClickListener() {
@@ -457,9 +469,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 man.setImageResource(R.drawable.bman);
-               // man.setBackgroundResource(R.drawable.circle);
-               // textMan.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-               // textMan.setTextColor(getResources().getColor(R.color.word));
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {
@@ -469,10 +478,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 boy.setImageResource(R.drawable.bnin);
-               // boy.setBackgroundColor(getResources().getColor(R.color.trasparente));
-                //boy.setBackgroundResource(R.drawable.circle);
-               // textBoy.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-               // textBoy.setTextColor(getResources().getColor(R.color.word));
             }
         });
         accesories.setOnClickListener(new View.OnClickListener() {
@@ -482,8 +487,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 accesories.setImageResource(R.drawable.bacc);
-              //  textAcc.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-              //  textAcc.setTextColor(getResources().getColor(R.color.word));
             }
         });
         tecnico.setOnClickListener(new View.OnClickListener() {
@@ -493,9 +496,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=true;
                 changeCircleSelected();
                 tecnico.setImageResource(R.drawable.btec);
-               // tecnico.setBackgroundResource(R.drawable.circle);
-              //  textTec.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-              //  textTec.setTextColor(getResources().getColor(R.color.word));
             }
         });
 
@@ -506,10 +506,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=true;
                 changeCircleSelected();
                 zapas.setImageResource(R.drawable.bcal);
-               // zapas.setBackgroundResource(R.drawable.circle);
-               // textZap.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-               // textZap.setTextColor(getResources().getColor(R.color.word));
-                // tecnico.setBackgroundResource(R.drawable.circle_selected);
             }
         });
 
@@ -520,9 +516,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 luz.setImageResource(R.drawable.bluz);
-              //  luz.setBackgroundResource(R.drawable.circle);
-              //  textLuz.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-              //  textLuz.setTextColor(getResources().getColor(R.color.word));
             }
         });
 
@@ -533,9 +526,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mViewModel=false;
                 changeCircleSelected();
                 oferta.setImageResource(R.drawable.bofer);
-               // oferta.setBackgroundResource(R.drawable.circle);
-               // textOferta.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-             //   textOferta.setTextColor(getResources().getColor(R.color.word));
             }
         });
     }
@@ -635,6 +625,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
             case R.id.action_deleted_products:
                 startActivity(new Intent(this,DeletedProductsActivity.class));
+                return true;
+            case R.id.general_balance:
+                startActivity(new Intent(this,GeneralBalanceActivity.class));
                 return true;
             case android.R.id.home:
                 finish();
@@ -871,6 +864,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

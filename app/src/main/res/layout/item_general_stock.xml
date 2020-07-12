@@ -70,33 +70,30 @@
                 android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content">
 
-                <HorizontalScrollView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1.2"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="4dp"
+                        android:paddingLeft="8dp"
+                        android:text=""
 
-                        <TextView
-                            android:id="@+id/type"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="4dp"
-                            android:layout_marginLeft="8dp"
-                            android:paddingLeft="8dp"
-                            android:ellipsize="end"
-                            android:singleLine="true"
-                            android:maxLines="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:textColor="@color/colorPrimaryDarkLetter"
-                            android:textSize="@dimen/general_text" />
+                        android:maxLines="2"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textSize="@dimen/general_text" />
 
-                    </LinearLayout>
-                </HorizontalScrollView>
+                </LinearLayout>
+
+
 
 
 
@@ -108,8 +105,34 @@
                     android:background="@drawable/line_vertical"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:id="@+id/stock"
-                    android:layout_weight="1.7"
+                    android:id="@+id/ideal_stock"
+                    android:layout_weight="1.9"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/general_text"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    />
+
+                <TextView
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layerType="software"
+                    android:background="@drawable/line_vertical"/>
+
+                <TextView
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layerType="software"
+                    android:background="@drawable/line_vertical"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/real_stock"
+                    android:layout_weight="1.9"
+                    android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/general_text"
@@ -126,33 +149,38 @@
 
 
 
-                <ImageView
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_weight="1.7"
-                    android:id="@+id/result"
-                    android:gravity="right"
-                    android:paddingRight="5dp"
+                    android:id="@+id/dif"
+                    android:layout_weight="1.9"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/general_text"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="123"
                     />
-
-
                 <TextView
                     android:layout_width="2dp"
                     android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:layerType="software"
                     android:background="@drawable/line_vertical"/>
-                <TextView
+
+
+                <ImageView
                     android:layout_width="match_parent"
-                    android:id="@+id/dif"
-                    android:layout_weight="1.7"
-                    android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/general_text"
+                    android:layout_weight="1.9"
+                    android:src="@drawable/correct"
+                    android:id="@+id/result"
+                    android:layout_gravity="center_vertical"
+
+                    android:gravity="right|center_vertical"
                     android:layout_height="wrap_content"
                     android:text=""
                     />
+
+
 
 
 
@@ -164,6 +192,23 @@
 
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="4dp"
+        android:id="@+id/information"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="@dimen/small_text"
+            android:layout_height="wrap_content"
+            android:text="Los valores que se muestran a continuacion puede que no coincidan con la fecha del stock general"
+
+            />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -185,3 +230,68 @@
 
 
 </LinearLayout>
+
+
+<!--
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1.2"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="4dp"
+                            android:paddingLeft="8dp"
+                            android:text="asdasdasdasdasdasdasdasdasdasdasd"
+
+                            android:maxLines="2"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:textSize="@dimen/general_text" />
+
+                    </LinearLayout>
+
+
+
+
+
+                      <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.2"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="4dp"
+                            android:paddingLeft="8dp"
+
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:maxLines="1"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:textSize="@dimen/general_text" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
+
+-->

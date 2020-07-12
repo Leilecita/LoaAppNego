@@ -32,6 +32,8 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.Interfaces.OnSelectedItem;
 import com.example.android.loa.R;
+import com.example.android.loa.activities.balances.GeneralBalanceActivity;
+import com.example.android.loa.activities.balances.GeneralBalanceByItemTypeActivity;
 import com.example.android.loa.adapters.ItemAdapter;
 import com.example.android.loa.adapters.ItemAdapterModel;
 import com.example.android.loa.adapters.ItemAdapterType;
@@ -146,6 +148,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         brand_name.setHint("Marca");
         art_name.setHint("Articulo");
         model_name.setHint("Modelo");
+
+        balance.setVisibility(View.GONE);
     }
 
     public void onSelectedItem(String brand, String type, String selection){
@@ -165,6 +169,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             if(!type.equals("Nuevo")){
                 mType=type;
                 art_name.setText(type);
+                balance.setVisibility(View.VISIBLE);
             }
             if(type.equals("Nuevo")){
                 addProduct();
@@ -627,7 +632,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 startActivity(new Intent(this,DeletedProductsActivity.class));
                 return true;
             case R.id.general_balance:
-                startActivity(new Intent(this,GeneralBalanceActivity.class));
+                startActivity(new Intent(this, GeneralBalanceActivity.class));
                 return true;
             case android.R.id.home:
                 finish();

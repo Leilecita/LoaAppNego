@@ -215,6 +215,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:padding="4dp"
+            android:visibility="gone"
             android:id="@+id/balance"
             android:layout_gravity="center"
             android:src="@drawable/balance"

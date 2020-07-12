@@ -1,4 +1,4 @@
-package com.example.android.loa.activities;
+package com.example.android.loa.activities.balances;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.R;
+import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.adapters.GeneralStockEventAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -35,7 +36,6 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
     private GeneralStockEventAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-
     private boolean loadingInProgress;
     private Integer mCurrentPage;
     private Paginate paginate;
@@ -46,7 +46,6 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
     private TextView mQuantityGeneralProduct;
     private TextView mItemText;
     private TextView mTypeText;
-
 
     @Override
     public int getLayoutRes() {
@@ -61,13 +60,11 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
 
         setTitle("Stock producto general");
 
-
         mRecyclerView = findViewById(R.id.list_general_stock_events);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new GeneralStockEventAdapter(this, new ArrayList<GeneralStock>());
         mRecyclerView.setAdapter(mAdapter);
-
 
         Button generate_balance= findViewById(R.id.balance_item);
         generate_balance.setOnClickListener(new View.OnClickListener() {
@@ -90,9 +87,7 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
         mTypeText=findViewById(R.id.type_product);
         mTypeText.setText(getIntent().getStringExtra("TYPE"));
 
-
         implementsPaginate();
-
     }
 
     private void balance(){
@@ -152,8 +147,7 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
                     resultP="mal";
                 }
 
-
-                GeneralStock g=new GeneralStock(mItem,mType,Integer.valueOf(stockP),resultP,Integer.valueOf(difP));
+                GeneralStock g=new GeneralStock(mItem,mType,Integer.valueOf(mQuantityGeneralProduct.getText().toString().trim()),Integer.valueOf(stockP),resultP,Integer.valueOf(difP));
 
                 ApiClient.get().postGeneralStockEvent(g, new GenericCallback<GeneralStock>() {
                     @Override
@@ -167,7 +161,6 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
                     }
                 });
                     dialog.dismiss();
-
             }
 
         });

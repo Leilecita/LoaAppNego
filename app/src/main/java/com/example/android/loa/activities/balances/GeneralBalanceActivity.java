@@ -1,4 +1,4 @@
-package com.example.android.loa.activities;
+package com.example.android.loa.activities.balances;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.Interfaces.OnSelectedItem;
 import com.example.android.loa.Interfaces.OnSelectedProductItem;
 import com.example.android.loa.R;
+import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.adapters.GeneralStockEventAdapter;
 import com.example.android.loa.adapters.ItemAdapterType;
 import com.example.android.loa.adapters.ItemProductAdapter;
@@ -22,6 +23,7 @@ import com.example.android.loa.network.models.GeneralStock;
 import com.example.android.loa.network.models.SpinnerItem;
 import com.example.android.loa.network.models.SpinnerType;
 
+import com.example.android.loa.types.Constants;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
@@ -60,13 +62,18 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
 
     public void onSelectedItem(String brand, String type, String selection){
         mType=type;
+        clearTypes();
         clearView();
     }
 
     public void onSelectedProductItem(String item){
+
+        if(mItem.equals(Constants.ITEM_TODOS)){
+            mType=Constants.ITEM_TODOS;
+        }
         mItem=item;
-        clearView();
         clearTypes();
+        clearView();
     }
 
     @Override
@@ -211,11 +218,11 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
 
 
 
-    private void topBarListener(View bottomSheet){
+    private void topBarListener(View bottomSheet) {
 
         //filters Type
-        mGridRecyclerView =  bottomSheet.findViewById(R.id.list_types);
-        gridlayoutmanager=new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+        mGridRecyclerView = bottomSheet.findViewById(R.id.list_types);
+        gridlayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mGridRecyclerView.setLayoutManager(gridlayoutmanager);
         mGridAdapter = new ItemAdapterType(this, new ArrayList<SpinnerType>());
         mGridRecyclerView.setAdapter(mGridAdapter);
@@ -223,126 +230,11 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
 
         //filtersItem
 
-        mGridRecyclerViewItem =  bottomSheet.findViewById(R.id.list_items);
-        gridlayoutmanagerItem=new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+        mGridRecyclerViewItem = bottomSheet.findViewById(R.id.list_items);
+        gridlayoutmanagerItem = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mGridRecyclerViewItem.setLayoutManager(gridlayoutmanagerItem);
         mGridProductAdapter = new ItemProductAdapter(this, new ArrayList<SpinnerItem>());
         mGridRecyclerViewItem.setAdapter(mGridProductAdapter);
         mGridProductAdapter.setOnSelectedProductItem(this);
-
-
-/*
-        man=bottomSheet.findViewById(R.id.man);
-        woman=bottomSheet.findViewById(R.id.woman);
-        boy=bottomSheet.findViewById(R.id.boy);
-        tecnico=bottomSheet.findViewById(R.id.tecnico);
-        zapas=bottomSheet.findViewById(R.id.zapas);
-        accesories=bottomSheet.findViewById(R.id.acces);
-        luz=bottomSheet.findViewById(R.id.luz);
-        oferta=bottomSheet.findViewById(R.id.oferta);
-        all=bottomSheet.findViewById(R.id.all);
-
-
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Todos";
-                changeCircleSelected();
-                all.setImageResource(R.drawable.ball);
-            }
-        });
-
-        woman.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Dama";
-                changeCircleSelected();
-                woman.setImageResource(R.drawable.bwom);
-            }
-        });
-        man.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Hombre";
-                changeCircleSelected();
-                man.setImageResource(R.drawable.bman);
-            }
-        });
-        boy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Niño";
-                changeCircleSelected();
-                boy.setImageResource(R.drawable.bnin);
-            }
-        });
-        accesories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Accesorio";
-                changeCircleSelected();
-                accesories.setImageResource(R.drawable.bacc);
-            }
-        });
-        tecnico.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Tecnico";
-                changeCircleSelected();
-                tecnico.setImageResource(R.drawable.btec);
-            }
-        });
-
-        zapas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Calzado";
-                changeCircleSelected();
-                zapas.setImageResource(R.drawable.bcal);
-            }
-        });
-
-        luz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Luz";
-                changeCircleSelected();
-                luz.setImageResource(R.drawable.bluz);
-            }
-        });
-
-        oferta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Oferta";
-                changeCircleSelected();
-                oferta.setImageResource(R.drawable.bofer);
-            }
-        });
-
-        */
     }
-
-    /*
-     private void changeCircleSelected(){
-
-        woman.setImageResource(R.drawable.bwomcl);
-        boy.setImageResource(R.drawable.bnincl);
-        man.setImageResource(R.drawable.bmancl);
-        tecnico.setImageResource(R.drawable.btecl);
-        zapas.setImageResource(R.drawable.bcalcl);
-        accesories.setImageResource(R.drawable.bacccl);
-        luz.setImageResource(R.drawable.bluzcl);
-        oferta.setImageResource(R.drawable.bofercl);
-        all.setImageResource(R.drawable.ballcl);
-
-        mType="Todos";
-        clearView();
-        clearTypes();
-
-
-    }
-     */
-
-
 }

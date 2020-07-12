@@ -110,7 +110,7 @@
             />
 
         <activity
-            android:name=".activities.BalanceActivity"
+            android:name=".activities.balances.BalanceActivity"
             android:configChanges="orientation|screenSize"
             android:parentActivityName=".activities.MainActivity"
             />
@@ -165,13 +165,13 @@
             android:parentActivityName=".activities.ParallelMoneyMovementsActivity"
             />
         <activity
-            android:name=".activities.GeneralBalanceByItemTypeActivity"
-            android:parentActivityName=".activities.GeneralBalanceByItemTypeActivity"
+            android:name=".activities.balances.GeneralBalanceByItemTypeActivity"
+            android:parentActivityName=".activities.balances.GeneralBalanceByItemTypeActivity"
             />
 
         <activity
-            android:name=".activities.GeneralBalanceActivity"
-            android:parentActivityName=".activities.GeneralBalanceByItemTypeActivity"
+            android:name=".activities.balances.GeneralBalanceActivity"
+            android:parentActivityName=".activities.balances.GeneralBalanceByItemTypeActivity"
             />
     </application>
 

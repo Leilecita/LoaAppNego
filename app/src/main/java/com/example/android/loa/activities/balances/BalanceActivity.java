@@ -1,4 +1,4 @@
-package com.example.android.loa.activities;
+package com.example.android.loa.activities.balances;
 
 
 import android.app.AlertDialog;
@@ -21,6 +21,7 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.adapters.StockEventAdapterBalance;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;

@@ -52,7 +52,7 @@
                 />
 
             <EditText
-                android:id="@+id/stock"
+                android:id="@+id/real_stock"
                 android:layout_weight="1"
                 android:layout_height="33dp"
                 android:paddingLeft="8dp"

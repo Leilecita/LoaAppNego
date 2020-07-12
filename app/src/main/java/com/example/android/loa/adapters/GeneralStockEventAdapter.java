@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,14 +29,13 @@ import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.GeneralStock;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.types.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralStockEventAdapter.ViewHolder> {
     private Context mContext;
-
-
 
     public GeneralStockEventAdapter(Context context, List<GeneralStock> events) {
         setItems(events);
@@ -46,9 +46,6 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
 
     }
 
-
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView number;
@@ -56,13 +53,15 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
 
         public TextView item;
         public TextView type;
-        public TextView stock;
+        public TextView ideal_stock;
+        public TextView real_stock;
         public ImageView result;
         public TextView dif;
         public TextView div;
         public ImageView imageButton;
 
         public RecyclerView listProd;
+        public LinearLayout info;
 
 
         public ViewHolder(View v) {
@@ -72,13 +71,15 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
             item = v.findViewById(R.id.item);
             month = v.findViewById(R.id.month);
             number = v.findViewById(R.id.number);
-            stock = v.findViewById(R.id.stock);
+            ideal_stock = v.findViewById(R.id.ideal_stock);
+            real_stock = v.findViewById(R.id.real_stock);
             result = v.findViewById(R.id.result);
             dif = v.findViewById(R.id.dif);
             imageButton = v.findViewById(R.id.imagebutton);
 
             div = v.findViewById(R.id.div);
             listProd = v.findViewById(R.id.list_stock_events);
+            info = v.findViewById(R.id.information);
 
         }
     }
@@ -106,21 +107,21 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
             }
         });
 
-        if (item.equals("Hombre")) {
+        if (item.equals(Constants.ITEM_HOMBRE)) {
             holder.imageButton.setImageResource(R.drawable.bmancl);
-        } else if (item.equals("Dama")) {
+        } else if (item.equals(Constants.ITEM_DAMA)) {
             holder.imageButton.setImageResource(R.drawable.bwomcl);
-        } else if (item.equals("Accesorio")) {
+        } else if (item.equals(Constants.ITEM_ACCESORIO)) {
             holder.imageButton.setImageResource(R.drawable.bacccl);
-        } else if (item.equals("Niño")) {
+        } else if (item.equals(Constants.ITEM_NINIO)) {
             holder.imageButton.setImageResource(R.drawable.bnincl);
-        } else if (item.equals("Tecnico")) {
+        } else if (item.equals(Constants.ITEM_TECNICO)) {
             holder.imageButton.setImageResource(R.drawable.btecl);
-        } else if (item.equals("Calzado")) {
+        } else if (item.equals(Constants.ITEM_CALZADO)) {
             holder.imageButton.setImageResource(R.drawable.bcalcl);
-        } else if (item.equals("Luz")) {
+        } else if (item.equals(Constants.ITEM_LUZ)) {
             holder.imageButton.setImageResource(R.drawable.bluzcl);
-        } else if (item.equals("Oferta")) {
+        } else if (item.equals(Constants.ITEM_OFERTA)) {
             holder.imageButton.setImageResource(R.drawable.bofercl);
         }
     }
@@ -135,7 +136,6 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
 
         loadIcon(holder, current.item);
 
-
         holder.month.setText((DateHelper.get().getNameMonth2(DateHelper.get().onlyDate(current.created))).substring(0,3));
         holder.number.setText(DateHelper.get().numberDay(current.created));
 
@@ -149,7 +149,8 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
             holder.result.setImageResource(R.drawable.wrong);
         }
 
-        holder.stock.setText(String.valueOf(current.stock));
+        holder.ideal_stock.setText(String.valueOf(current.ideal_stock));
+        holder.real_stock.setText(String.valueOf(current.real_stock));
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -174,9 +175,11 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
                 }
 
                 if(holder.listProd.getVisibility() == View.VISIBLE){
+                    holder.info.setVisibility(View.GONE);
                     holder.listProd.setVisibility(View.GONE);
                 }else{
                     holder.listProd.setVisibility(View.VISIBLE);
+                    holder.info.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -208,13 +211,13 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
         final View dialogView = inflater.inflate(R.layout.cuad_edith_general_balance, null);
         builder.setView(dialogView);
 
-        final EditText stock_real= dialogView.findViewById(R.id.stock);
+        final EditText stock_real= dialogView.findViewById(R.id.real_stock);
         final EditText dif= dialogView.findViewById(R.id.dif);
 
         final TextView cancel =dialogView.findViewById(R.id.cancel);
         final Button ok =dialogView.findViewById(R.id.ok);
 
-        stock_real.setText(String.valueOf(g.stock));
+        stock_real.setText(String.valueOf(g.real_stock));
         dif.setText(String.valueOf(g.difference));
         final AlertDialog dialog = builder.create();
 
@@ -232,7 +235,7 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
                     result="mal";
                 }
 
-                GeneralStock gToPut=new GeneralStock(g.item,g.type,Integer.valueOf(stockT),result,Integer.valueOf(difT));
+                GeneralStock gToPut=new GeneralStock(g.item,g.type,g.ideal_stock,Integer.valueOf(stockT),result,Integer.valueOf(difT));
                 gToPut.id=g.id;
 
                 ApiClient.get().putGeneralStock(gToPut, new GenericCallback<GeneralStock>() {

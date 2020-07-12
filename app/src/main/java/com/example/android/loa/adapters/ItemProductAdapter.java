@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android.loa.Interfaces.OnSelectedItem;
 import com.example.android.loa.Interfaces.OnSelectedProductItem;
 import com.example.android.loa.R;
 import com.example.android.loa.network.models.SpinnerItem;
@@ -124,23 +123,23 @@ public class ItemProductAdapter extends BaseAdapter<SpinnerItem,ItemProductAdapt
     }
 
     private void loadClear(ViewHolder holder,SpinnerItem current){
-        if(current.item.equals("Hombre")){
+        if(current.item.equals(Constants.ITEM_HOMBRE)){
             holder.circle.setImageResource(R.drawable.bmancl);
-        }else if(current.item.equals("Todos")){
-            holder.circle.setImageResource(R.drawable.ball);
-        }else if(current.item.equals("Dama")){
+        }else if(current.item.equals(Constants.ITEM_TODOS)){
+            holder.circle.setImageResource(R.drawable.ballcl);
+        }else if(current.item.equals(Constants.ITEM_DAMA)){
             holder.circle.setImageResource(R.drawable.bwomcl);
-        }else if(current.item.equals("Niño")){
+        }else if(current.item.equals(Constants.ITEM_NINIO)){
             holder.circle.setImageResource(R.drawable.bnincl);
-        }else if(current.item.equals("Accesorio")){
+        }else if(current.item.equals(Constants.ITEM_ACCESORIO)){
             holder.circle.setImageResource(R.drawable.bacccl);
-        }else if(current.item.equals("Tecnico")){
+        }else if(current.item.equals(Constants.ITEM_TECNICO)){
             holder.circle.setImageResource(R.drawable.btecl);
-        }else if(current.item.equals("Calzado")){
+        }else if(current.item.equals(Constants.ITEM_CALZADO)){
             holder.circle.setImageResource(R.drawable.bcalcl);
-        }else if(current.item.equals("Oferta")){
+        }else if(current.item.equals(Constants.ITEM_OFERTA)){
             holder.circle.setImageResource(R.drawable.bofercl);
-        }else if(current.item.equals("Luz")){
+        }else if(current.item.equals(Constants.ITEM_LUZ)){
             holder.circle.setImageResource(R.drawable.bluzcl);
         }
 

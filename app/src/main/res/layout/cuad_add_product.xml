@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dialog_margin_bottom"
         android:layout_marginTop="@dimen/dialog_margin_top"
-        android:layout_marginLeft="@dimen/dialog_margin_left"
-        android:layout_marginRight="@dimen/dialog_margin_right"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -27,46 +27,75 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-
-
-
-            <Spinner
-                android:id="@+id/spinner_item"
-                android:layout_width="match_parent"
-                android:spinnerMode="dropdown"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="4dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:dropDownVerticalOffset="38dp"
-                android:layout_height="33dp" />
-
-            <EditText
-                android:id="@+id/item"
-                android:layout_height="33dp"
-                android:paddingLeft="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Item"
                 android:textSize="16sp"
+                android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:hint="Ingrese nuevo item"
-                android:background="@drawable/rec_text_edit"
-                android:inputType="textCapWords" />
+                android:textColor="@color/word"
+                />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/spinner_item"
+                    android:layout_width="match_parent"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="33dp" />
+
+                <EditText
+                    android:id="@+id/item"
+                    android:layout_height="33dp"
+                    android:paddingLeft="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:textColor="#5c5c5c"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:hint="Ingrese nuevo item"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+            </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Producto"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/word"
+                />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
 
             <Spinner
                 android:id="@+id/spinner_type"
@@ -93,14 +122,28 @@
 
         </LinearLayout>
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Marca"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/word"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
                 android:orientation="vertical">
-
-
 
                     <Spinner
                         android:id="@+id/spinner_brand"
@@ -109,7 +152,6 @@
                         android:layout_marginLeft="3dp"
                         android:layout_marginTop="4dp"
                         android:layout_weight="1"
-                        android:textAlignment="center"
                         android:dropDownHeight="100dp"
                         android:layout_gravity="center_vertical"
                         android:dropDownVerticalOffset="38dp"
@@ -133,10 +175,28 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Modelo"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/word"
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
@@ -148,7 +208,6 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight="1"
-                android:textAlignment="center"
                 android:dropDownHeight="100dp"
                 android:layout_gravity="center_vertical"
                 android:dropDownVerticalOffset="38dp"
@@ -170,6 +229,7 @@
                 />
 
 
+        </LinearLayout>
         </LinearLayout>
 
             <LinearLayout

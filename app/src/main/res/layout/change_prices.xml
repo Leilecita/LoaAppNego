@@ -1,0 +1,252 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_height="33dp"
+                android:id="@+id/info"
+                android:fontFamily="@font/opensansregular"
+                android:layout_width="match_parent"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="17sp"
+                android:gravity="center_vertical"
+               />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Productos seleccionados "
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <TextView
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                android:id="@+id/cant"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/opensansregular"
+                android:layout_width="100dp"
+                android:textColor="@color/price"
+                android:textSize="17sp"
+                android:gravity="center_vertical"
+                android:hint=""
+                android:focusable="true"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1.5"
+                android:background="@drawable/rec_text_edit"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/opensansregular"
+                    android:textSize="22sp"
+                    android:text="%"
+                    android:paddingLeft="12dp"
+                    >
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/porcentaje"
+                    android:layout_height="50dp"
+                    android:paddingLeft="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:layout_width="80dp"
+                    android:background="@null"
+                    android:textColor="@color/price"
+                    android:textSize="22sp"
+                    android:gravity="center_vertical"
+                    android:hint=""
+                    android:text="5"
+                    android:focusable="true"
+                    android:inputType="numberDecimal" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.5"
+                    android:layout_gravity="center"
+                    android:id="@+id/add"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:id="@+id/image_add"
+                        android:src="@drawable/positive_white"
+                        android:padding="9dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circle_selected_prod"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.5"
+                    android:layout_gravity="center"
+                    android:id="@+id/less"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:src="@mipmap/lessstock"
+                        android:id="@+id/image_less"
+                        android:padding="9dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circle_product"
+                        />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Cambiar precio a"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <EditText
+                android:id="@+id/price"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/opensansregular"
+                android:layout_width="100dp"
+                android:textColor="@color/price"
+                android:textSize="17sp"
+                android:gravity="center_vertical"
+                android:hint=""
+                android:text=""
+                android:focusable="true"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@drawable/rec_find"
+                android:backgroundTint="@color/colorDialogButton"
+                android:text="cambiar"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+

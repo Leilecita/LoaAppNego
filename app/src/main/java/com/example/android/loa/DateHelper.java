@@ -389,6 +389,8 @@ public class DateHelper {
         }
     }
 
+
+
    /* public String getNameMonth(String date) {
         try {
             Date d = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(date);
@@ -468,5 +470,44 @@ public class DateHelper {
     }
 
 
+    private String getExpandedDate(){
 
+        System.out.println("Entra a expanded date");
+
+        String date= DateHelper.get().actualDateExtractions();
+        String time= DateHelper.get().getOnlyTime(date);
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            //Date date1 = sdf.parse("19:28:00");
+            Date date1 = sdf.parse(time);
+            //Date date2 = sdf.parse("21:13:00");
+            Date date2 = sdf.parse("04:13:00");
+
+            // Outputs -1 as date1 is before date2
+            System.out.println(date1.compareTo(date2));
+
+            if(date1.compareTo(date2) < 0){
+                System.out.println(date1.compareTo(date2));
+
+                return DateHelper.get().getPreviousDay(date);
+            }else{
+                return date;
+            }
+/*
+            // Outputs 1 as date1 is after date1
+            System.out.println(date2.compareTo(date1));
+
+            date2 = sdf.parse("19:28:00");
+            // Outputs 0 as the dates are now equal
+            System.out.println(date1.compareTo(date2));
+            */
+
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
+    }
 }

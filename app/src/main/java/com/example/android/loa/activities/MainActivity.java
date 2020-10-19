@@ -2,12 +2,10 @@ package com.example.android.loa.activities;
 
 import android.content.Intent;
 
-import com.example.android.loa.activities.todelete.BoxByMonthActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.ReportSimpelClient;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
@@ -16,7 +14,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -67,8 +64,6 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-
-
 
         System.out.println(SessionPrefs.get(this).getToken());
         System.out.println(SessionPrefs.get(this).getName());
@@ -203,6 +198,10 @@ public class MainActivity extends BaseActivity {
             }else{
                 Toast.makeText(this,"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
             }
+        }else if(id == R.id.action_price_events){
+            startActivity(new Intent(getBaseContext(), PriceEventsActivity.class));
+        }else if(id == R.id.action_product_prices){
+            startActivity(new Intent(getBaseContext(), PriceManagerActivity.class));
         }
 
 

@@ -1,5 +1,6 @@
 package com.example.android.loa.adapters.sales;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -26,6 +28,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.DateHelper;
+import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 
 import com.example.android.loa.ValidatorHelper;
@@ -35,10 +38,12 @@ import com.example.android.loa.activities.SalesActivity;
 import com.example.android.loa.adapters.BaseAdapter;
 import com.example.android.loa.adapters.ProductAdapter;
 import com.example.android.loa.adapters.StockEventAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
+import com.example.android.loa.network.models.GeneralStock;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.types.Constants;
 import com.google.android.material.snackbar.Snackbar;
@@ -236,12 +241,23 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         holder.cant_stock_out.setText(String.valueOf(current.stock_out));
 
-        if(current.detail.equals("Ingreso dev")){
+        if(current.detail.equals("Ingreso dev") || current.detail.equals("Suma por error anterior")){
             holder.cant_stock_out.setText("+"+current.stock_in);
             holder.value.setVisibility(View.INVISIBLE);
         }else{
             holder.value.setVisibility(View.VISIBLE);
         }
+
+        holder.value_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(SessionPrefs.get(mContext).getName().equals("santi") || SessionPrefs.get(mContext).getName().equals("lei")){
+                    edithValue(current,position);
+                }else{
+                    Toast.makeText(mContext,"El precio solo lo puede editar el administrador",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         holder.observation.setText(current.observation);
 
@@ -356,6 +372,57 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
                 });
             }
         }
+    }
+
+    private void edithValue(final ReportStockEvent current, final Integer pos){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final View dialogView = inflater.inflate(R.layout.edith_value, null);
+            builder.setView(dialogView);
+
+            final EditText value= dialogView.findViewById(R.id.value);
+            final TextView descr= dialogView.findViewById(R.id.description);
+
+            final TextView cancel =dialogView.findViewById(R.id.cancel);
+            final Button ok =dialogView.findViewById(R.id.ok);
+
+            value.setText(String.valueOf(current.value));
+            descr.setText(String.valueOf(current.item+" "+ current.brand));
+            final AlertDialog dialog = builder.create();
+
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String valueT=value.getText().toString().trim();
+
+                    ApiClient.get().updateItemStockEventReport(Double.valueOf(valueT), item_date,current.payment_method,
+                           current.detail,current.stock_event_id, new GenericCallback<ReportStockEvent>() {
+                                @Override
+                                public void onSuccess(ReportStockEvent data) {
+                                    updateItem(pos,data);
+                                }
+
+                                @Override
+                                public void onError(Error error) {
+
+                                }
+                            });
+
+                    dialog.dismiss();
+                }
+            });
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+
     }
 
     private void showInfo(final ReportStockEvent current, View view){

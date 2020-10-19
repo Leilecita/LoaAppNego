@@ -25,21 +25,12 @@ import android.widget.Toast;
 
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
-import com.example.android.loa.Events.RefreshBoxesEvent;
-import com.example.android.loa.Events.RefreshListHours;
-import com.example.android.loa.Interfaces.OnAmountHoursChange;
+
 import com.example.android.loa.R;
-import com.example.android.loa.ValidatorHelper;
-import com.example.android.loa.activities.LoadEmployeeHoursActivity;
-import com.example.android.loa.activities.todelete.SaleMovementsActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
-import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Item_employee;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

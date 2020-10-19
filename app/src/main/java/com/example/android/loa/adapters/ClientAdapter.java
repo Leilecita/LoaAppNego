@@ -477,7 +477,11 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"Por seguridad solo lo puede borrar Leila", Toast.LENGTH_SHORT).show();
+                if(SessionPrefs.get(mContext).getName().equals("santi") ||SessionPrefs.get(mContext).getName().equals("leila")){
+                    deleteUser(c,position);
+                }else{
+                    Toast.makeText(mContext,"Por seguridad solo lo puede borrar Leila", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -543,6 +547,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
     }

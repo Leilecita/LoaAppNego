@@ -4,7 +4,7 @@
     android:id="@+id/listday"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@color/background"
+
     >
 
     <LinearLayout
@@ -119,6 +119,8 @@
 
     </LinearLayout>
 
+
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -128,18 +130,86 @@
         >
 
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_below="@id/lineFilter"
     android:orientation="vertical"
     android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:paddingTop="40dp"
+        android:id="@+id/line_recycler"
+        android:layout_below="@+id/lineBrandType"
+        android:layout_height="wrap_content">
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/recycler_view_grid_model"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:scrollbars="vertical"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/recycler_view_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+
+            android:scrollbars="vertical"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/recycler_view_grid_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:scrollbars="vertical"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/empty"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/line_recycler"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:text="No hay productos para esta selección"
+
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_products"
+        android:layout_below="@+id/line_recycler"
+        android:layout_width="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="35dp"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lineBrandType"
         android:layout_below="@+id/lineFilter"
-        android:padding="6dp"
+        android:background="@color/background_transparent"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -147,21 +217,22 @@
             android:layout_height="35sp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:id="@+id/select_art"
             android:background="@drawable/rec_find"
             android:orientation="horizontal">
 
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/art_name"
-              android:textColorHint="@color/letter_cuad_in"
-              android:textColor="@color/colorPrimaryDarkLetter"
-              android:layout_marginLeft="8dp"
-              android:hint="Articulo"
-              android:textSize="16sp"
-              android:layout_gravity="center"
-              />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/art_name"
+                android:textColorHint="@color/letter_cuad_in"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:layout_marginLeft="8dp"
+                android:hint="Articulo"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                />
 
         </LinearLayout>
 
@@ -192,7 +263,6 @@
             android:layout_width="match_parent"
             android:layout_height="35sp"
             android:layout_weight="1"
-            android:visibility="gone"
             android:layout_marginRight="5dp"
             android:id="@+id/select_model"
             android:background="@drawable/rec_find"
@@ -222,70 +292,6 @@
 
             />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:id="@+id/line_recycler"
-        android:layout_below="@+id/lineBrandType"
-        android:layout_height="wrap_content">
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/recycler_view_grid_model"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:layout_below="@+id/line4"
-            android:scrollbars="vertical"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/recycler_view_grid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-
-            android:layout_below="@+id/line4"
-            android:scrollbars="vertical"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_centerHorizontal="true"
-            android:id="@+id/recycler_view_grid_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:layout_below="@+id/line4"
-            android:scrollbars="vertical"/>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/empty"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/line_recycler"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal"
-        android:text="No hay productos para esta selección"
-
-
-        />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_products"
-        android:layout_below="@+id/line_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="35dp"
-        />
-
-</LinearLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <LinearLayout
         android:layout_width="180dp"
         android:orientation="horizontal"
@@ -314,94 +320,27 @@
             />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="65dp"
+        android:background="@drawable/bblanco"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:id="@+id/add_prod"
+        android:layout_alignParentBottom="true"
+        android:layout_height="65dp">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:padding="18dp"
+            android:id="@+id/image_button"
+            android:layout_height="match_parent"
+            android:src="@drawable/add3"
+            />
+
+    </LinearLayout>
 </RelativeLayout>
 
 
-<!--
-  <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:orientation="horizontal"
-                android:padding="4dp"
-                >
-
-
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:id="@+id/all"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ball"/>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:id="@+id/man"
-                        android:layout_height="40dp"
-                        android:src="@drawable/bmancl"/>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:id="@+id/woman"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/bwomcl"/>
-
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:id="@+id/boy"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/bnincl"/>
-
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:id="@+id/tecnico"
-                        android:layout_height="40dp"
-                        android:src="@drawable/btecl"/>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:id="@+id/acces"
-                        android:src="@drawable/bacccl"/>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:id="@+id/zapas"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/bcalcl"/>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:id="@+id/luz"
-                        android:src="@drawable/bluzcl"/>
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_height="40dp"
-                        android:id="@+id/oferta"
-                        android:src="@drawable/bofercl"/>
-
-            </LinearLayout>
--->

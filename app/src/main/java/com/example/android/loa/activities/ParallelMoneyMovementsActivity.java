@@ -351,7 +351,6 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         }
     }
 
-
     private void createMovement(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -1,0 +1,374 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Producto nuevo"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Item"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <Spinner
+                    android:id="@+id/spinner_item"
+                    android:layout_width="match_parent"
+                    android:spinnerMode="dropdown"
+
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="33dp" />
+
+                <EditText
+                    android:id="@+id/item"
+                    android:fontFamily="@font/opensanslight"
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:background="@drawable/rec_text_edit"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    android:hint="Ingrese nuevo item"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/colorPrimaryClearLetter"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Producto"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_type"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/rec_find"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:layout_alignParentTop="true"
+                    android:paddingLeft="8dp"
+                    android:layout_centerHorizontal="true"
+                    android:dropDownVerticalOffset="38dp"
+                    android:ems="10" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="20dp"
+                    android:id="@+id/all_types"
+                    android:src="@drawable/down"
+                   />
+
+                <Spinner
+                    android:id="@+id/spinner_type"
+                    android:layout_width="match_parent"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="33dp" />
+                <EditText
+                    android:id="@+id/type"
+                    android:layout_height="33dp"
+                    android:paddingLeft="8dp"
+                    android:fontFamily="@font/opensanslight"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:textColor="@color/colorPrimaryClearLetter"
+                    android:textSize="16sp"
+                    android:hint="Ingrese producto nuevo"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Marca"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_brand"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/rec_find"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:layout_alignParentTop="true"
+                    android:paddingLeft="8dp"
+                    android:layout_centerHorizontal="true"
+                    android:ems="10" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="20dp"
+                    android:id="@+id/all_brands"
+                    android:src="@drawable/down"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinner_brand"
+                    android:layout_width="match_parent"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:dropDownHeight="100dp"
+                    android:layout_gravity="center_vertical"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="35dp" />
+
+
+                <EditText
+                    android:id="@+id/brand"
+                    android:hint="Ingrese marca nueva "
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:visibility="gone"
+                    android:textColor="@color/colorPrimaryClearLetter"
+                    android:layout_height="33dp"
+                    android:fontFamily="@font/opensanslight"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:inputType="textCapWords"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Modelo"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_model"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/rec_find"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:layout_alignParentTop="true"
+                    android:paddingLeft="8dp"
+                    android:layout_centerHorizontal="true"
+                    android:ems="10" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="20dp"
+                    android:id="@+id/all_models"
+                    android:src="@drawable/down"
+                    >
+
+                </ImageView>
+                <Spinner
+                    android:id="@+id/spinner_model"
+                    android:layout_width="60dp"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginLeft="3dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="4dp"
+                    android:dropDownHeight="100dp"
+                    android:layout_gravity="center_vertical"
+                    android:dropDownVerticalOffset="38dp"
+                    android:layout_height="35dp" />
+
+
+                <EditText
+                    android:id="@+id/model"
+                    android:hint="Ingrese modelo nuevo "
+                    android:layout_width="match_parent"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/colorPrimaryClearLetter"
+                    android:visibility="gone"
+                    android:fontFamily="@font/opensanslight"
+                    android:layout_height="33dp"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:inputType="textCapWords"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
+                android:text="Cargar el stock presionando sobre el nuevo articulo"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+        </LinearLayout>
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@drawable/rec_find"
+                android:backgroundTint="@color/colorDialogButton"
+                android:text="guardar"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+

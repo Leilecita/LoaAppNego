@@ -21,6 +21,9 @@ import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
 import com.example.android.loa.network.models.ReportParallelMoneyMovement;
+import com.example.android.loa.network.models.ReportPriceEvent;
+import com.example.android.loa.network.models.ReportPrices;
+import com.example.android.loa.network.models.ReportProduct;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
@@ -224,6 +227,10 @@ public interface APIService {
             @Query("model") String model, @Query("deleted") String deleted);
 
     @GET("products.php")
+    Observable<Response<List<ReportProduct>>> getProductsByPageByItemByBrandAndTypePriceManager(@Query("method") String method, @Query("page") Integer page, @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
+                                                                                                @Query("model") String model, @Query("deleted") String deleted);
+
+    @GET("products.php")
     Observable<Response<List<Product>>> getProductsByItemType(@Query("method") String method,@Query("item") String item,@Query("type") String type);
 
     @GET("products.php")
@@ -236,8 +243,14 @@ public interface APIService {
 
 
 
+    @GET("products.php")
+    Observable<Response<ResponseData>> updatePrices(@Query("method") String method,  @Query("selected_products") String prods, @Query("number") Double price);
+
     @POST("products.php")
     Observable<Response<Product>> postProduct(@Body Product p);
+
+    @PUT("products.php")
+    Observable<Response<Product>> putProduct(@Body Product p);
 
 
 
@@ -322,7 +335,6 @@ public interface APIService {
     Observable<Response<User>> postUser(@Body User u);
 
 
-
     @GET("login.php")
     Observable<Response<UserToken>> login(@Query("name") String name, @Query("hash_password") String password,
                                           @Query("method") String method);
@@ -331,6 +343,10 @@ public interface APIService {
     Observable<Response<User>> register(@Body User u,@Query("key_access") String key,@Query("method") String method);
 
 
+    //price_events
+
+    @GET("price_events.php")
+    Observable<Response<List<ReportPriceEvent>>> getPriceEvents(@Query("page") Integer page, @Query("method") String method);
 
     @GET("stock_events.php")
     Observable<Response<List<ReportSale>>> getSales(@Query("page") Integer page,@Query("item") String item,@Query("groupby") String groupby, @Query("method") String method);

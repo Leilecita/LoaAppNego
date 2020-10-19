@@ -127,7 +127,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_weight="1.5"
-                        android:id="@+id/product_price"
+                        android:id="@+id/original_product_price"
                         android:gravity="right"
                         android:textColor="@color/price"
                         android:textSize="@dimen/general_text"
@@ -261,11 +261,11 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="35dp"
+                    android:layout_width="40dp"
 
-                    android:src="@drawable/blanza"
+                    android:src="@drawable/bal_clear"
                     android:padding="10dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/circle_product"
                     />
 
@@ -276,17 +276,15 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1.5"
                 android:layout_gravity="center"
-                android:id="@+id/delete"
+                android:id="@+id/edith"
                 android:gravity="center"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="35dp"
-
-                    android:src="@drawable/tacho"
-
-                    android:padding="12dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:src="@drawable/edit_clear"
+                    android:padding="9dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/circle_product"
                     />
 
@@ -299,8 +297,8 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/addstock"
                     android:id="@+id/add_stock"
                     android:padding="10dp"
@@ -317,11 +315,11 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="35dp"
+                    android:layout_width="40dp"
                     android:id="@+id/less_stock"
                     android:src="@mipmap/lessstock"
                     android:padding="10dp"
-                    android:layout_height="35dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/circle_product"
                     />
 
@@ -458,7 +456,7 @@
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:background="@drawable/rec_in_products"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:layout_height="35dp"
                     android:gravity="center_vertical"
                     android:hint=""
@@ -468,7 +466,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.4"
                     style="@style/CodeFontInput"
                     android:background="@drawable/rec_in_products"
                     android:layout_marginLeft="25dp"
@@ -495,15 +493,11 @@
                         android:inputType="number"
                         android:id="@+id/load_stock"/>
 
-
                 </LinearLayout>
-
-
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.4"
                     style="@style/CodeFontInput"
                     android:visibility="gone"
                     android:background="@drawable/rec_in_products"

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,49 +213,82 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
         final View dialogView = inflater.inflate(R.layout.cuad_edith_general_balance, null);
         builder.setView(dialogView);
 
+        final TextView ideal_stock= dialogView.findViewById(R.id.ideal_stock);
         final EditText stock_real= dialogView.findViewById(R.id.real_stock);
-        final EditText dif= dialogView.findViewById(R.id.dif);
+        final TextView dif= dialogView.findViewById(R.id.dif);
 
         final TextView cancel =dialogView.findViewById(R.id.cancel);
         final Button ok =dialogView.findViewById(R.id.ok);
 
+        ideal_stock.setText(String.valueOf(g.ideal_stock));
+
         stock_real.setText(String.valueOf(g.real_stock));
+
         dif.setText(String.valueOf(g.difference));
         final AlertDialog dialog = builder.create();
+
+
+        stock_real.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if(!stock_real.getText().toString().trim().equals("") ){
+
+                    Integer i=Integer.valueOf(stock_real.getText().toString().trim());
+                    Integer i2=g.ideal_stock;
+
+                    dif.setText(String.valueOf(i-i2));
+                }else{
+
+                }
+            }
+        });
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String stockT=stock_real.getText().toString().trim();
-                String difT=dif.getText().toString().trim();
 
-               String result;
+                if(!stock_real.getText().toString().matches("")){
+                    String stockT=stock_real.getText().toString().trim();
+                    String difT=dif.getText().toString().trim();
 
-                if(Integer.valueOf(difT) == 0){
-                    result="bien";
+                    String result;
+
+                    if(Integer.valueOf(difT) == 0){
+                        result="bien";
+                    }else{
+                        result="mal";
+                    }
+
+                    GeneralStock gToPut=new GeneralStock(g.item,g.type,g.ideal_stock,Integer.valueOf(stockT),result,Integer.valueOf(difT));
+                    gToPut.id=g.id;
+
+                    ApiClient.get().putGeneralStock(gToPut, new GenericCallback<GeneralStock>() {
+                        @Override
+                        public void onSuccess(GeneralStock data) {
+
+                            updateItem(position,data);
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error","No se pudo modificar la operación",mContext);
+                        }
+                    });
+                    dialog.dismiss();
+
                 }else{
-                    result="mal";
+                    Toast.makeText(mContext,"El campo Stock real debe estar completo", Toast.LENGTH_LONG).show();
                 }
 
-                GeneralStock gToPut=new GeneralStock(g.item,g.type,g.ideal_stock,Integer.valueOf(stockT),result,Integer.valueOf(difT));
-                gToPut.id=g.id;
-
-                ApiClient.get().putGeneralStock(gToPut, new GenericCallback<GeneralStock>() {
-                    @Override
-                    public void onSuccess(GeneralStock data) {
-
-                        updateItem(position,data);
-                    }
-
-                    @Override
-                    public void onError(Error error) {
-                        DialogHelper.get().showMessage("Error","No se pudo modificar la operación",mContext);
-                    }
-                });
 
 
-
-                dialog.dismiss();
             }
         });
 

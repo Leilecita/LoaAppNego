@@ -59,7 +59,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
     private Paginate paginate;
     private boolean hasMoreItems;
 
-
     private LinearLayout bottomSheet;
 
     private ImageView man;
@@ -98,8 +97,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
         mAdapter = new ReportSaleAdapter(getActivity(), new ArrayList<ReportSale>());
         mRecyclerView.setAdapter(mAdapter);
         setHasOptionsMenu(true);
-
-
 
         // Add the sticky headers decoration
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);

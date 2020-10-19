@@ -67,12 +67,12 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
     }
 
     public void onSelectedProductItem(String item){
+        System.out.println("item"+item);
 
         if(mItem.equals(Constants.ITEM_TODOS)){
             mType=Constants.ITEM_TODOS;
         }
         mItem=item;
-        clearTypes();
         clearView();
     }
 
@@ -157,11 +157,14 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
     }
 
     private void list() {
+
+        System.out.println("acaaa");
         loadingInProgress = true;
 
         ApiClient.get().getGeneralStockEvents(mCurrentPage, mItem, mType, new GenericCallback<List<GeneralStock>>() {
             @Override
             public void onSuccess(List<GeneralStock> data) {
+                System.out.println("acaaa"+data.size());
                 if (data.size() == 0) {
                     hasMoreItems = false;
                 } else {

@@ -86,7 +86,7 @@ android:id="@+id/listado">
                 android:textSize="16sp"
                 android:fontFamily="@font/opensansregular"
                 android:textColor="@color/colorPrimaryDarkLetter"
-                android:text="Res"
+                android:text="Dif"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@ android:id="@+id/listado">
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textColor="@color/colorPrimaryDarkLetter"
-                android:text="Dif"
+                android:text="Res"
                 android:fontFamily="@font/opensansregular"
                 />
         </LinearLayout>

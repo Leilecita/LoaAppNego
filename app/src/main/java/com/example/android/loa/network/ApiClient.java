@@ -23,6 +23,9 @@ import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
 import com.example.android.loa.network.models.ReportParallelMoneyMovement;
+import com.example.android.loa.network.models.ReportPriceEvent;
+import com.example.android.loa.network.models.ReportPrices;
+import com.example.android.loa.network.models.ReportProduct;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.example.android.loa.network.models.ReportStockEvent;
@@ -264,12 +267,20 @@ public class ApiClient {
 
     //products
 
+    public void putProduct(Product p, GenericCallback<Product> callback){
+        handleRequest( ApiUtils.getAPISessionService().putProduct(p), callback);
+    }
+
     public void deleteProduct( Long id,GenericCallback<SpinnerData> callback){
         handleRequest( ApiUtils.getAPISessionService().deleteProduct("deleteProduct",id), callback);
     }
 
     public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<Product>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted), callback);
+    }
+
+    public void getProductsByPageByItemByBrandAndTypePriceManager( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<ReportProduct>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndTypePriceManager("getProductsWithPreviousPrices",page,item,brand,type,model,deleted), callback);
     }
 
     public void getProductsByItemType(String item,String type,final GenericCallback<List<Product>> callback ){
@@ -283,6 +294,7 @@ public class ApiClient {
     public void postGeneralStockEvent(GeneralStock s,GenericCallback<GeneralStock> callback){
         handleRequest( ApiUtils.getAPISessionService().postGeneralStockEvent(s), callback);
     }
+
 
     //stock_events
 
@@ -311,6 +323,10 @@ public class ApiClient {
 
     public void getSumStockByFilterProducts( String item, String brand,String type2,String model,String deleted,GenericCallback<Integer> callback){
         handleRequest( ApiUtils.getAPISessionService().getSumStockByFilterProducts("sumAllStock",item,brand,type2,model,deleted), callback);
+    }
+
+    public void updatePrices( String selected_products, Double price, GenericCallback<ResponseData> callback){
+        handleRequest( ApiUtils.getAPISessionService().updatePrices("updatePrices",selected_products, price), callback);
     }
 
     public void getGeneralStockEvents( Integer page,String item,String type,final GenericCallback<List<GeneralStock>> callback ){
@@ -349,6 +365,7 @@ public class ApiClient {
     }
 
 
+
     public void getReportEntrie( Integer page,String item,String groupby,final GenericCallback<List<ReportEntrie>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getEntries(page,item,groupby,"getEntries"), callback);
     }
@@ -369,8 +386,10 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().updateItemStockEventReport("updateStockEvent",value,date,payment_method,detail,id), callback);
     }
 
-
-
+    //PRICE_EVENTS
+    public void getPriceEvents( Integer page,final GenericCallback<List<ReportPriceEvent>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getPriceEvents(page,"getPriceEvents"), callback);
+    }
     public void login(String name,String password, GenericCallback<UserToken> callback){
         handleRequest( ApiUtils.getAPIService().login(name,password,"login"), callback);
     }

@@ -116,6 +116,7 @@
 
                 <EditText
                     style="@style/CodeFontInput"
+                    android:inputType="number"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/stock"/>
 

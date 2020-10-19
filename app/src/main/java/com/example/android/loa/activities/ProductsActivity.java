@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -107,18 +108,20 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     //para crear products
     private List<String> mTypes;
+    private List<String> mTypesAutoCompl;
     private List<String> mBrands;
+    private List<String> mBrandsAutoCompl;
     private List<String> mItems;
     private List<String> mModels;
 
+    //top selectcion
     private TextView mQuantityPordByFilter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView mEmptyRecyclerView;
 
-    private Boolean mViewModel;
-
     private ImageView balance;
+    private LinearLayout addProduct;
 
 
     public void OnChangeViewStock(){
@@ -223,6 +226,13 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         super.onCreate(savedInstanceState);
         showBackArrow();
 
+        addProduct = findViewById(R.id.add_prod);
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addProduct2();
+            }
+        });
         balance = findViewById(R.id.balance);
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,7 +248,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         });
 
 
-        mViewModel=false;
         setTitle("Productos");
         mRecyclerView =  findViewById(R.id.list_products);
         layoutManager = new LinearLayoutManager(this);
@@ -282,6 +291,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         brand_name=findViewById(R.id.brand_name);
         model_name=findViewById(R.id.model_name);
 
+
         mQuantityPordByFilter=findViewById(R.id.quantity_prod);
 
         mType="Todos";
@@ -323,9 +333,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                     if(mTypeGridAdapter.getList().size() > 0){
                         mTypeGridAdapter.clear();
                     }else{
+
                         mGridAdapter.clear();
                         mModelGridAdapter.clear();
-
                         ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
                             @Override
                             public void onSuccess(Spinners data) {
@@ -376,7 +386,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void
             onRefresh() {
-
              clearAndList();
             }
         });
@@ -396,8 +405,15 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onSuccess(Spinners data) {
                 mItems=createArrayItem(data.items);
+
                 mBrands=createArrayBrand(data.brands);
+                mBrandsAutoCompl = mBrands;
+                mBrandsAutoCompl.remove(0);
+
                 mTypes=createArrayType(data.types);
+                mTypesAutoCompl = mTypes;
+                mTypesAutoCompl.remove(0);
+
                 mModels=createArrayModel(data.models);
             }
             @Override
@@ -409,8 +425,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
 
     private void changeCircleSelected(){
-
-        viewModel();
 
         woman.setImageResource(R.drawable.bwomcl);
         boy.setImageResource(R.drawable.bnincl);
@@ -450,7 +464,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Todos";
-                mViewModel=false;
                 changeCircleSelected();
                 all.setImageResource(R.drawable.ball);
 
@@ -461,7 +474,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Dama";
-                mViewModel=false;
                 changeCircleSelected();
                 woman.setImageResource(R.drawable.bwom);
 
@@ -471,7 +483,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Hombre";
-                mViewModel=false;
                 changeCircleSelected();
                 man.setImageResource(R.drawable.bman);
             }
@@ -480,7 +491,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Niño";
-                mViewModel=false;
                 changeCircleSelected();
                 boy.setImageResource(R.drawable.bnin);
             }
@@ -489,7 +499,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Accesorio";
-                mViewModel=false;
                 changeCircleSelected();
                 accesories.setImageResource(R.drawable.bacc);
             }
@@ -498,7 +507,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Tecnico";
-                mViewModel=true;
                 changeCircleSelected();
                 tecnico.setImageResource(R.drawable.btec);
             }
@@ -508,7 +516,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Calzado";
-                mViewModel=true;
                 changeCircleSelected();
                 zapas.setImageResource(R.drawable.bcal);
             }
@@ -518,7 +525,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Luz";
-                mViewModel=false;
                 changeCircleSelected();
                 luz.setImageResource(R.drawable.bluz);
             }
@@ -528,22 +534,12 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
                 mItem="Oferta";
-                mViewModel=false;
                 changeCircleSelected();
                 oferta.setImageResource(R.drawable.bofer);
             }
         });
     }
 
-    private void viewModel(){
-        if(mViewModel){
-            select_model.setVisibility(View.VISIBLE);
-            mAdapter.setIsModel(true);
-        }else{
-            select_model.setVisibility(View.GONE);
-            mAdapter.setIsModel(false);
-        }
-    }
     private void listProdListener(){
         mRecyclerView.setVisibility(View.VISIBLE);
     }
@@ -677,7 +673,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         final Spinner spinnerModel=dialogView.findViewById(R.id.spinner_model);
 
-        if(mViewModel){
+       // if(mViewModel){
 
             //---------------- models
             ArrayAdapter<String> adapterModel = new ArrayAdapter<String>(this,
@@ -700,9 +696,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                     model.setText("");
                 }
             });
-        }else{
-            spinnerModel.setVisibility(View.GONE);
-        }
+       // }else{
+        //    spinnerModel.setVisibility(View.GONE);
+      //  }
 
         //---------------- brands
         ArrayAdapter<String> adapterBrand = new ArrayAdapter<String>(this,
@@ -873,6 +869,135 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         dialog.show();
     }
 
+    private void addProduct2(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.cuad_add_product_2, null);
+        builder.setView(dialogView);
+
+        final EditText item= dialogView.findViewById(R.id.item);
+        final Button ok= dialogView.findViewById(R.id.ok);
+        final TextView cancel= dialogView.findViewById(R.id.cancel);
+
+        ImageView all_model = dialogView.findViewById(R.id.all_models);
+        ImageView all_brands = dialogView.findViewById(R.id.all_brands);
+        ImageView all_types = dialogView.findViewById(R.id.all_types);
+
+        final AutoCompleteTextView auto_type = dialogView.findViewById(R.id.auto_type);
+        final AutoCompleteTextView auto_brand = dialogView.findViewById(R.id.auto_brand);
+        final AutoCompleteTextView auto_model = dialogView.findViewById(R.id.auto_model);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, R.layout.item_auto, mTypesAutoCompl);
+        auto_type.setThreshold(1);//will start working from first character
+        auto_type.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+        auto_type.setDropDownBackgroundDrawable(this.getResources().getDrawable(R.drawable.rec_text_edit));
+        all_types.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auto_type.showDropDown();
+            }
+        });
+
+        ArrayAdapter<String> adapterBrand = new ArrayAdapter<String>
+                (this, R.layout.item_auto, mBrandsAutoCompl);
+        auto_brand.setThreshold(1);//will start working from first character
+        auto_brand.setAdapter(adapterBrand);//setting the adapter data into the AutoCompleteTextView
+        auto_brand.setDropDownBackgroundDrawable(this.getResources().getDrawable(R.drawable.rec_text_edit));
+        all_brands.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auto_brand.showDropDown();
+            }
+        });
+
+        ArrayAdapter<String> adapterModelAuto = new ArrayAdapter<String>
+                (this, R.layout.item_auto, mModels);
+        auto_model.setThreshold(1);//will start working from first character
+        auto_model.setAdapter(adapterModelAuto);//setting the adapter data into the AutoCompleteTextView
+        auto_model.setDropDownBackgroundDrawable(this.getResources().getDrawable(R.drawable.rec_text_edit));
+        all_model.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auto_model.showDropDown();
+            }
+        });
+
+
+
+        //------------- items
+        ArrayAdapter<String> adapterItem = new ArrayAdapter<String>(this,
+                R.layout.spinner_item, mItems);
+        adapterItem.setDropDownViewResource(R.layout.spinner_item);
+        final Spinner spinner_item=dialogView.findViewById(R.id.spinner_item);
+        spinner_item.setAdapter(adapterItem);
+        spinner_item.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selected=spinner_item.getSelectedItem().toString().trim();
+                if(selected.equals("Nuevo")){
+                    item.setVisibility(View.VISIBLE);
+                    spinner_item.setVisibility(View.GONE);
+                }else{
+                    item.setText(selected);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                item.setText("");
+            }
+        });
+
+        limitHeighSpinner(spinner_item);
+
+        final AlertDialog dialog = builder.create();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!auto_type.getText().toString().trim().equals("") & !auto_brand.getText().toString().trim().equals("")  & !item.getText().toString().trim().equals("")){
+
+                    String typeProduct = auto_type.getText().toString().trim();
+                    String brandProduct = auto_brand.getText().toString().trim();
+                    String itemProduct = item.getText().toString().trim();
+                    String modelProduct = auto_model.getText().toString().trim();
+
+                    //Product newProduct= new Product(itemProduct,typeProduct,brandProduct,modelProduct,0);
+
+                    ApiClient.get().checkExistProduct(itemProduct,brandProduct,typeProduct,modelProduct ,new GenericCallback<ResponseData>() {
+                        @Override
+                        public void onSuccess(ResponseData data) {
+                            if(data.res.equals("existe")){
+                                Toast.makeText(dialogView.getContext(),"Este tipo de producto ya existe ", Toast.LENGTH_LONG).show();
+                            }else if(data.res.equals("creado")){
+                                Toast.makeText(dialogView.getContext(),"Producto creado", Toast.LENGTH_LONG).show();
+                                clearAndList();
+                                loadSpinners();
+                                dialog.dismiss();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error",error.message,ProductsActivity.this);
+                            dialog.dismiss();
+                        }
+                    });
+                }else{
+                    Toast.makeText(ProductsActivity.this,"Todos los campos deben estar completos",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
     private List<String> createArrayType(List<SpinnerType> list){
         List<String> listN=new ArrayList<>();
         listN.add("");
@@ -884,6 +1009,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         listN.add("Nuevo");
         return listN;
     }
+
     private List<String> createArrayBrand(List<SpinnerData> list){
         List<String> listN=new ArrayList<>();
         listN.add("");
@@ -909,7 +1035,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     private List<String> createArrayItem(List<SpinnerItem> list){
         List<String> listN=new ArrayList<>();
-
         listN.add("Hombre");
         listN.add("Dama");
         listN.add("Niño");
@@ -930,47 +1055,5 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
             // silently fail...
         }
-    }
-
-
-    private String getExpandedDate(){
-
-        System.out.println("Entra a expanded date");
-
-        String date= DateHelper.get().actualDateExtractions();
-        String time= DateHelper.get().getOnlyTime(date);
-
-        String pattern = "HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-
-        try {
-            //Date date1 = sdf.parse("19:28:00");
-            Date date1 = sdf.parse(time);
-            //Date date2 = sdf.parse("21:13:00");
-            Date date2 = sdf.parse("04:13:00");
-
-            // Outputs -1 as date1 is before date2
-            System.out.println(date1.compareTo(date2));
-
-            if(date1.compareTo(date2) < 0){
-                System.out.println(date1.compareTo(date2));
-
-                return DateHelper.get().getPreviousDay(date);
-            }else{
-                return date;
-            }
-/*
-            // Outputs 1 as date1 is after date1
-            System.out.println(date2.compareTo(date1));
-
-            date2 = sdf.parse("19:28:00");
-            // Outputs 0 as the dates are now equal
-            System.out.println(date1.compareTo(date2));
-            */
-
-        } catch (ParseException e){
-            e.printStackTrace();
-        }
-        return "dd/MM/yyyy";
     }
 }

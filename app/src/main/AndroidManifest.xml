@@ -127,11 +127,6 @@
             android:name=".activities.DeletedProductsActivity"
             android:parentActivityName=".activities.MainActivity"
             />
-
-        <activity
-            android:name=".activities.todelete.SaleMovementsActivity"
-            android:parentActivityName=".activities.MainActivity"
-            />
         <activity
             android:name=".activities.todelete.BoxByMonthActivity"
             android:parentActivityName=".activities.MainActivity"
@@ -172,6 +167,14 @@
         <activity
             android:name=".activities.balances.GeneralBalanceActivity"
             android:parentActivityName=".activities.balances.GeneralBalanceByItemTypeActivity"
+            />
+        <activity
+            android:name=".activities.PriceEventsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.PriceManagerActivity"
+            android:parentActivityName=".activities.MainActivity"
             />
     </application>
 

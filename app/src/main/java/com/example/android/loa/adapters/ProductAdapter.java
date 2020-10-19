@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +38,7 @@ import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.balances.BalanceActivity;
 import com.example.android.loa.activities.SalesActivity;
-import com.example.android.loa.activities.todelete.SaleMovementsActivity;
+import com.example.android.loa.fragments.SalesFragment;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -83,7 +85,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
             if(date1.compareTo(date2) < 0){
                 System.out.println(date1.compareTo(date2));
-
                 return DateHelper.get().getPreviousDay(date);
             }else{
                 return date;
@@ -94,10 +95,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         }
         return "dd/MM/yyyy";
     }
-
-   /* public void setExtendedDate(String extendedDate){
-        this.dateSelected=getExpandedDate();
-    }*/
 
 
     public void setOnChangeViewStock(OnChangeViewStock lister){
@@ -155,7 +152,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public ImageView add_stock;
         public ImageView less_stock;
         public RelativeLayout balance;
-        public RelativeLayout delete;
+        public RelativeLayout edith;
 
         public LinearLayout updateStock;
         public EditText load_stock;
@@ -164,7 +161,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public Button cancel;
 
         public ImageView salir;
-        public TextView value;
+        public TextView value_sale;
 
         public LinearLayout select_payment_method;
         public CheckBox check_ef;
@@ -185,6 +182,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         public ImageView imageButton;
         public TextView observation;
 
+        public TextView original_product_price;
 
         public ViewHolder(View v){
             super(v);
@@ -201,7 +199,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             detail= v.findViewById(R.id.detail);
             ok= v.findViewById(R.id.button_ok);
             salir= v.findViewById(R.id.salir);
-            value= v.findViewById(R.id.value);
+            value_sale = v.findViewById(R.id.value);
 
             select_payment_method= v.findViewById(R.id.select_payment_method);
             check_ef= v.findViewById(R.id.check_ef);
@@ -222,8 +220,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             model= v.findViewById(R.id.model);
             imageButton= v.findViewById(R.id.imagebutton);
             balance= v.findViewById(R.id.balance);
-            delete= v.findViewById(R.id.delete);
+            edith= v.findViewById(R.id.edith);
             observation= v.findViewById(R.id.observation);
+
+            original_product_price= v.findViewById(R.id.original_product_price);
         }
     }
 
@@ -242,12 +242,12 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             vh.brand.setText(null);
         if(vh.stock!=null)
             vh.stock.setText(null);
-
     }
 
-    private void loadIcon(ViewHolder holder,final String item){
+    //private void loadIcon(ViewHolder holder,final String item){
+    private void loadIcon(ImageView imageButton,final String item){
 
-        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext,item,Toast.LENGTH_SHORT).show();
@@ -255,21 +255,21 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         });
 
         if(item.equals("Hombre")){
-            holder.imageButton.setImageResource(R.drawable.bmancl);
+            imageButton.setImageResource(R.drawable.bmancl);
         }else if(item.equals("Dama")){
-            holder.imageButton.setImageResource(R.drawable.bwomcl);
+            imageButton.setImageResource(R.drawable.bwomcl);
         }else if(item.equals("Accesorio")){
-            holder.imageButton.setImageResource(R.drawable.bacccl);
+            imageButton.setImageResource(R.drawable.bacccl);
         }else if(item.equals("Niño")){
-            holder.imageButton.setImageResource(R.drawable.bnincl);
+           imageButton.setImageResource(R.drawable.bnincl);
         }else if(item.equals("Tecnico")){
-            holder.imageButton.setImageResource(R.drawable.btecl);
+            imageButton.setImageResource(R.drawable.btecl);
         }else if(item.equals("Calzado")){
-            holder.imageButton.setImageResource(R.drawable.bcalcl);
+           imageButton.setImageResource(R.drawable.bcalcl);
         }else if(item.equals("Luz")){
-            holder.imageButton.setImageResource(R.drawable.bluzcl);
+           imageButton.setImageResource(R.drawable.bluzcl);
         }else if(item.equals("Oferta")){
-            holder.imageButton.setImageResource(R.drawable.bofercl);
+           imageButton.setImageResource(R.drawable.bofercl);
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -278,6 +278,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         clearViewHolder(holder);
 
         final Product currentProduct=getItem(position);
+
+        holder.original_product_price.setText(String.valueOf(currentProduct.price));
+        holder.value_sale.setText(String.valueOf(currentProduct.price));
 
         holder.model.setText(currentProduct.model);
         holder.type.setText(currentProduct.type);
@@ -290,7 +293,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
-        loadIcon(holder,currentProduct.item);
+        loadIcon(holder.imageButton,currentProduct.item);
 
         holder.close_select_student.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,11 +351,11 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
     private void closeItem(ViewHolder holder){
         holder.balance.setVisibility(View.VISIBLE);
-        holder.delete.setVisibility(View.VISIBLE);
+        holder.edith.setVisibility(View.VISIBLE);
         holder.detail.setVisibility(View.GONE);
         holder.updateStock.setVisibility(View.GONE);
         holder.line_student.setVisibility(View.GONE);
-        holder.value.setText("");
+        holder.value_sale.setText("");
         if(onChangeViewStock!=null){
             onChangeViewStock.OnChangeViewStock();
         }
@@ -366,17 +369,19 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+        holder.edith.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteProduct(p,position);
+                edithProductPrice(p,position,holder);
+                //optionsProduct(p,position,holder);
+                //deleteProduct(p,position);
             }
         });
         holder.less_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.balance.setVisibility(View.GONE);
-                holder.delete.setVisibility(View.GONE);
+                holder.edith.setVisibility(View.GONE);
                 holder.updateStock.setVisibility(View.VISIBLE);
                 lessStock(p,position,holder);
             }
@@ -386,7 +391,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View v) {
                 holder.balance.setVisibility(View.GONE);
-                holder.delete.setVisibility(View.GONE);
+                holder.edith.setVisibility(View.GONE);
                 holder.updateStock.setVisibility(View.VISIBLE);
                 loadStock(p,position,holder);
             }
@@ -449,6 +454,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
     }
     private void lessStock(final Product p, final int position, final ViewHolder holder){
+
         holder.detail.setVisibility(View.VISIBLE);
         holder.detail.setText("Salida venta");
         holder.detail.setHint("Elegir detalle");
@@ -556,7 +562,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 String stockP=holder.load_stock.getText().toString().trim();
                 String detailP=holder.detail.getText().toString().trim();
-                String valuep=holder.value.getText().toString().trim();
+                String valuep=holder.value_sale.getText().toString().trim();
                 String obserP=holder.observation.getText().toString().trim();
 
                     if(!detailP.equals("Salida ficha") || clientId !=-1l){
@@ -574,7 +580,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                             }else{
                                 s.created= getExpandedDate();
                             }
-
 
                             if (clientId != -1 && detailP.equals("Salida ficha")) {
                                 s.client_id = clientId;
@@ -674,7 +679,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 String stockP = holder.load_stock.getText().toString().trim();
                 String detailP = holder.detail.getText().toString().trim();
-                String valueP = holder.value.getText().toString().trim();
+                String valueP = holder.value_sale.getText().toString().trim();
                 String obserP = holder.observation.getText().toString().trim();
 
                 if(valueP.equals("")){
@@ -714,7 +719,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                         .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                mContext.startActivity(new Intent(mContext, SaleMovementsActivity.class));
+                                                mContext.startActivity(new Intent(mContext, SalesFragment.class));
                                             }
                                         });
 
@@ -742,6 +747,86 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         });
      }
+
+    private void edithProductPrice(final Product p, final int position, final ViewHolder holder){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.edith_product, null);
+        builder.setView(dialogView);
+
+        final EditText price = dialogView.findViewById(R.id.price);
+        final ImageView im = dialogView.findViewById(R.id.imagebutton);
+        final RelativeLayout delete = dialogView.findViewById(R.id.delete);
+
+        loadIcon(im,p.item);
+
+        final TextView original_price = dialogView.findViewById(R.id.original_product_price);
+        final TextView type = dialogView.findViewById(R.id.type);
+        final TextView brand = dialogView.findViewById(R.id.brand);
+        final TextView model = dialogView.findViewById(R.id.model);
+        final TextView cancel = dialogView.findViewById(R.id.cancel);
+        final Button ok = dialogView.findViewById(R.id.ok);
+
+        model.setText(p.model);
+        brand.setText(p.brand);
+        type.setText(p.type);
+        original_price.setText(String.valueOf(p.price));
+
+        price.setText(String.valueOf(p.price));
+        price.setSelection(price.getText().length());
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteProduct(p,position);
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!price.getText().toString().trim().matches("")){
+
+                    Product edithedProduct = new Product(p.id, Double.valueOf(price.getText().toString().trim()));
+
+                    ApiClient.get().putProduct(edithedProduct, new GenericCallback<Product>() {
+                        @Override
+                        public void onSuccess(Product data) {
+                            p.price = data.price;
+                            holder.original_product_price.setText(String.valueOf(data.price));
+                            holder.value_sale.setText(String.valueOf(data.price));
+
+                            Toast.makeText(mContext,"El precio ha sido cambiado", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+
+                        }
+                    });
+
+                    dialog.dismiss();
+
+                }else{
+                    Toast.makeText(mContext, "El campo precio debe estar completo", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
 
     private void deleteProduct(final Product p,final int position){
 
@@ -788,6 +873,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 dialog.dismiss();
             }
         });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -846,7 +932,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 holder.select_payment_method.setVisibility(View.GONE);
                 holder.line_value.setVisibility(View.GONE);
-                holder.value.setText("0.0");
+                holder.value_sale.setText("0.0");
                 switch (item.getItemId()) {
                     case R.id.out_buy:
                         holder.detail.setText("Salida venta");
@@ -863,7 +949,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                         holder.select_payment_method.setVisibility(View.GONE);
                         holder.line_value.setVisibility(View.GONE);
-                        holder.value.setText("0.0");
+                        holder.value_sale.setText("0.0");
 
                         loadNameClients(holder);
                         return true;
@@ -882,6 +968,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         return true;
                     case R.id.out_dev:
                         holder.detail.setText("Salida por cambio");
+                        holder.select_payment_method.setVisibility(View.VISIBLE);
+                        holder.line_value.setVisibility(View.VISIBLE);
                         return true;
                     case R.id.out_consign:
                         holder.detail.setText("Salida articulo consignacion");
@@ -957,3 +1045,47 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
 
 }
+
+
+/*
+
+   private void optionsProduct(final Product p,final int position, final ViewHolder holder){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.options_rpoduct, null);
+        builder.setView(dialogView);
+
+        final RelativeLayout delete = dialogView.findViewById(R.id.delete);
+        final RelativeLayout price = dialogView.findViewById(R.id.price);
+        final TextView item = dialogView.findViewById(R.id.item);
+        final TextView type = dialogView.findViewById(R.id.type);
+        final TextView brand = dialogView.findViewById(R.id.brand);
+        final TextView model = dialogView.findViewById(R.id.model);
+
+        item.setText(p.item);
+        model.setText(p.model);
+        brand.setText(p.brand);
+        type.setText(p.type);
+
+        final AlertDialog dialog = builder.create();
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteProduct(p,position);
+                dialog.dismiss();
+            }
+        });
+
+        price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edithProductPrice(p,position,holder);
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+ */

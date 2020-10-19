@@ -1,0 +1,340 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Producto"
+            android:textSize="17sp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textColor="@color/word_clear"
+            android:textStyle="bold"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:layout_height="@dimen/item_height">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/imagebutton"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/ballcl"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:id="@+id/stock_out"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:gravity="left"
+                        android:visibility="gone"
+                        android:textSize="17sp"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        />
+
+                    <TextView
+                        android:id="@+id/stock_in"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text=""
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/general_text"
+                        android:visibility="gone" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/type"
+                                android:paddingLeft="8dp"
+                                android:singleLine="true"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:textSize="@dimen/general_text"
+                                android:gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:text="Buzo canguroasdasd"
+                                />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1.4"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:gravity="center"
+                        android:textSize="@dimen/general_text"
+                        android:paddingLeft="2dp"
+                        android:id="@+id/brand"
+                        android:layout_height="wrap_content"
+                        android:text="captain"
+                        />
+
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layerType="software"
+                        android:background="@drawable/line_vertical"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/stock"
+                        android:layout_weight="1.7"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/general_text"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        />
+
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layerType="software"
+                        android:background="@drawable/line_vertical"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1.5"
+                        android:id="@+id/original_product_price"
+                        android:gravity="right"
+                        android:textColor="@color/price"
+                        android:textSize="@dimen/general_text"
+                        android:paddingRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="$."
+                        />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/padding_top"
+                android:id="@+id/line2"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="2dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:id="@+id/model"
+                                android:textColor="@color/word_clear"
+                                android:textSize="@dimen/small_text"
+                                android:paddingLeft="7dp"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1.4"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layerType="software"
+                        android:background="@drawable/line_vertical"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1.7"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layerType="software"
+                        android:background="@drawable/line_vertical"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1.5"
+                        android:layout_height="wrap_content"
+                        />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Cambiar precio"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <EditText
+                android:id="@+id/price"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/opensansregular"
+                android:layout_width="100dp"
+                android:textColor="@color/price"
+                android:textSize="17sp"
+                android:gravity="center_vertical"
+                android:hint=""
+                android:text=""
+                android:focusable="true"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1.5"
+                android:layout_gravity="center"
+                android:id="@+id/delete"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="35dp"
+
+                    android:src="@drawable/delete_viol"
+                    android:padding="10dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/circle_product"
+                    />
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@drawable/rec_find"
+                android:backgroundTint="@color/colorDialogButton"
+                android:text="guardar"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+

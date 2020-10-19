@@ -32,4 +32,14 @@
         android:title="Movimientos paralelos santi"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_price_events"
+        android:title="Log precios"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_product_prices"
+        android:title="Administrador de precios"
+        app:showAsAction="never" />
+
 </menu>

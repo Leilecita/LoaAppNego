@@ -275,14 +275,12 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
 
         final ReportStockEvent current = getItem(position);
 
-
         loadIcon(holder, current.item);
 
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
 
         holder.cant_stock_out.setText(String.valueOf(current.stock_out));
         holder.detailup.setText(current.detail);
-
         if (current.detail.equals("Ingreso dev")) {
             holder.cant_stock_out.setText("+" + current.stock_in);
             holder.value.setVisibility(View.INVISIBLE);

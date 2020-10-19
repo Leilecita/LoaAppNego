@@ -275,8 +275,8 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().deleteProduct("deleteProduct",id), callback);
     }
 
-    public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<Product>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted), callback);
+    public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,String model,String deleted, String query,final GenericCallback<List<Product>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted, query), callback);
     }
 
     public void getProductsByPageByItemByBrandAndTypePriceManager( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<ReportProduct>> callback ){

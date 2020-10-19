@@ -7,11 +7,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +62,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class ProductsActivity extends BaseActivity implements Paginate.Callbacks, OnChangeViewStock, OnSelectedItem {
 
@@ -78,6 +81,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private Paginate paginate;
     private boolean hasMoreItems;
     private Integer checkSpinner;
+
+    private String mQuery = "";
+    private String token = "";
 
     private ImageView man;
     private ImageView woman;
@@ -248,6 +254,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         });
 
 
+
+
         setTitle("Productos");
         mRecyclerView =  findViewById(R.id.list_products);
         layoutManager = new LinearLayoutManager(this);
@@ -415,6 +423,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 mTypesAutoCompl.remove(0);
 
                 mModels=createArrayModel(data.models);
+
             }
             @Override
             public void onError(Error error) {
@@ -556,7 +565,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     private void clearAndList(){
         clearView();
-        list2();
+        list2(mQuery);
     }
 
     private void implementsPaginate(){
@@ -577,32 +586,46 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 .build();
     }
 
-    public void list2(){
+    public void list2(final String query){
+        this.mQuery = query;
+        final String newToken = UUID.randomUUID().toString();
+        this.token =  newToken;
+
         loadingInProgress=true;
 
         if(mAdapter.getItemCount()==0){
             swipeRefreshLayout.setRefreshing(true);
         }
-        ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", new GenericCallback<List<Product>>() {
+        ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", query,new GenericCallback<List<Product>>() {
             @Override
             public void onSuccess(List<Product> data) {
-                if (data.size() == 0) {
-                    hasMoreItems = false;
-                }else{
-                    int prevSize = mAdapter.getItemCount();
-                    mAdapter.pushList(data);
-                    mCurrentPage++;
-                    if(prevSize == 0){
-                        layoutManager.scrollToPosition(0);
-                    }
-                }
-                loadingInProgress = false;
-                swipeRefreshLayout.setRefreshing(false);
 
-                if(mCurrentPage == 0 && data.size()==0){
-                    mEmptyRecyclerView.setVisibility(View.VISIBLE);
+                if(token.equals(newToken)){
+                    Log.e("TOKEN", "Llega token: " + newToken);
+                    System.out.println("IMPRIME"+mCurrentPage+" data size "+data.size());
+                    if (query == mQuery) {
+
+                        if (data.size() == 0) {
+                            hasMoreItems = false;
+                        }else{
+                            int prevSize = mAdapter.getItemCount();
+                            mAdapter.pushList(data);
+                            mCurrentPage++;
+                            if(prevSize == 0){
+                                layoutManager.scrollToPosition(0);
+                            }
+                        }
+                        loadingInProgress = false;
+                        swipeRefreshLayout.setRefreshing(false);
+
+                        if(mCurrentPage == 0 && data.size()==0){
+                            mEmptyRecyclerView.setVisibility(View.VISIBLE);
+                        }else{
+                            mEmptyRecyclerView.setVisibility(View.GONE);
+                        }
+                    }
                 }else{
-                    mEmptyRecyclerView.setVisibility(View.GONE);
+                    Log.e("TOKEN", "Descarta token: " + newToken);
                 }
             }
             @Override
@@ -617,6 +640,44 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add_product, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.expandActionView();
+        final android.widget.SearchView searchView = (android.widget.SearchView) searchItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("Ingrese nombre");
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.requestFocus();
+            }
+        });
+
+        searchView.setOnCloseListener(new android.widget.SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                return false;
+            }
+        });
+
+        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.trim().toLowerCase().equals(mQuery)) {
+                    mCurrentPage = 0;
+                    mAdapter.clear();
+
+                    list2(newText.trim().toLowerCase());
+                }
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu);
+
         return true;
     }
 
@@ -640,7 +701,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     @Override
     public void onLoadMore() {
-        list2();
+        list2(mQuery);
     }
 
     @Override

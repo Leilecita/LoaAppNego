@@ -5,7 +5,12 @@
     tools:context=".activities.ProductsActivity">
 
 
-
+    <item
+        android:id="@+id/action_search"
+        android:layout_width="match_parent"
+        android:title="find"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_deleted_products"

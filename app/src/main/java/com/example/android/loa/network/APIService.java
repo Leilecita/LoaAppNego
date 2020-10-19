@@ -224,7 +224,7 @@ public interface APIService {
 
     @GET("products.php")
     Observable<Response<List<Product>>> getProductsByPageByItemByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("item") String item,@Query("brand") String brand,@Query("type") String type,
-            @Query("model") String model, @Query("deleted") String deleted);
+            @Query("model") String model, @Query("deleted") String deleted, @Query("query") String query);
 
     @GET("products.php")
     Observable<Response<List<ReportProduct>>> getProductsByPageByItemByBrandAndTypePriceManager(@Query("method") String method, @Query("page") Integer page, @Query("item") String item, @Query("brand") String brand, @Query("type") String type,

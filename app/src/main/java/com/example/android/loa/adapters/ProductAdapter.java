@@ -913,6 +913,9 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                   case R.id.in_stock_local:
                       holder.detail.setText("ingreso stock local");
                       return true;
+                  case R.id.in_update_app:
+                      holder.detail.setText("ingreso actualizacion app");
+                      return true;
                   default:
                       return false;
               }

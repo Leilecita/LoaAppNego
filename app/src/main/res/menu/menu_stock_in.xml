@@ -20,6 +20,11 @@
         android:icon="@android:drawable/ic_menu_delete"/>
 
     <item
+        android:id="@+id/in_update_app"
+        android:title="Ingreso actualizacion app"
+        />
+
+    <item
         android:id="@+id/in_consign"
         android:title="Ingreso consignacion"
         />

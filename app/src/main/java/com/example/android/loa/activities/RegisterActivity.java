@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.android.loa.R;
@@ -51,6 +52,8 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     private TextInputLayout mFloatLabelPhone;
     private TextInputLayout mFloatLabelKey;
 
+    private LinearLayout home;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_register;
@@ -59,6 +62,15 @@ public class RegisterActivity extends BaseActivity implements LoaderManager.Load
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         mFloatLabelUserId =  findViewById(R.id.float_label_user_id);
         mFloatLabelPassword =  findViewById(R.id.float_label_password);

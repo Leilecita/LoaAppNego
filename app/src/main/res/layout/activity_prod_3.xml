@@ -201,23 +201,40 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lineBrandType"
         android:layout_below="@+id/lineFilter"
-        android:background="@color/background_transparent"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:orientation="horizontal">
 
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true"
+        android:measureAllChildren="false"
+        android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        >
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:minWidth="120dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/select_art"
+            android:paddingRight="8dp"
             android:background="@drawable/rec_find"
             android:orientation="horizontal">
 
@@ -228,6 +245,7 @@
                 android:textColorHint="@color/letter_cuad_in"
                 android:textColor="@color/colorPrimaryDarkLetter"
                 android:layout_marginLeft="8dp"
+
                 android:hint="Articulo"
                 android:textSize="16sp"
                 android:layout_gravity="center"
@@ -236,10 +254,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:minWidth="120dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
+            android:paddingRight="8dp"
             android:id="@+id/select_brand"
             android:background="@drawable/rec_find"
             android:orientation="horizontal">
@@ -259,10 +279,12 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:minWidth="120dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
+            android:paddingRight="8dp"
             android:id="@+id/select_model"
             android:background="@drawable/rec_find"
             android:orientation="horizontal">
@@ -290,6 +312,9 @@
             android:src="@drawable/balance"
 
             />
+
+    </LinearLayout>
+    </HorizontalScrollView>
     </LinearLayout>
 
 

@@ -1,0 +1,116 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:visible="false"
+            android:id="@+id/nav_home"
+            android:title="Inicio"/>
+
+    </group>
+    <item android:title="Team nego"
+        android:id="@+id/team"
+        >
+        <menu>
+
+            <item
+                android:id="@+id/nav_personal"
+                android:title="Horas personal"/>
+
+        </menu>
+    </item>
+
+    <item android:title="Mercaderia"
+        android:id="@+id/products"
+        >
+        <menu>
+            <item
+                android:id="@+id/nav_productos"
+                android:title="Producto movimientos"/>
+
+            <item
+                android:id="@+id/nav_price_manager"
+                android:title="Administrador de precios"/>
+
+            <item
+                android:id="@+id/nav_movements"
+                android:title="Historial mov productos"/>
+
+            <item
+                android:id="@+id/nav_prices"
+                android:title="Historial Precios"/>
+
+
+
+        </menu>
+    </item>
+
+    <item android:title="Caja"
+        android:id="@+id/box"
+        >
+        <menu>
+            <item
+                android:id="@+id/nav_sales"
+                android:title="Ventas cierre caja"/>
+
+            <item
+                android:id="@+id/nav_list_boxes"
+                android:title="Listado cajas"/>
+
+            <item
+                android:id="@+id/nav_extractions"
+                android:title="Extracciones y gastos"/>
+
+            <item
+                android:id="@+id/nav_incomes"
+                android:title="Señas"/>
+
+        </menu>
+    </item>
+
+    <item android:title="Clientes"
+        android:id="@+id/clients"
+        >
+        <menu>
+            <item
+                android:id="@+id/nav_debts"
+                android:title="Fichas deudores"/>
+
+            <item
+                android:id="@+id/nav_events"
+                android:title="Historial mov deudas"/>
+
+        </menu>
+    </item>
+
+    <item android:title="Santi"
+        android:id="@+id/santi"
+        >
+        <menu>
+
+            <item
+                android:id="@+id/nav_movements_santi"
+                android:title="Gastos caja santi"/>
+
+            <item
+                android:id="@+id/nav_statistics"
+                android:title="Estadísticas"/>
+
+
+        </menu>
+    </item>
+
+    <item android:title="Ajustes" >
+
+        <menu>
+
+            <item
+                android:id="@+id/nav_session"
+                android:title="Cerrar sesión"/>
+
+
+        </menu>
+    </item>
+
+
+</menu>

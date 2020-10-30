@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.android.loa.DialogHelper;
@@ -43,6 +44,9 @@ public class CreateEmployeeActivity extends BaseActivity {
     private Uri mCropImageUri;
     private String image_path=null;
 
+    private LinearLayout home;
+    private LinearLayout save;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_create_employee;
@@ -51,7 +55,23 @@ public class CreateEmployeeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        save = findViewById(R.id.options);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveEmployee();
+            }
+        });
 
         mUserName = findViewById(R.id.user_name);
         mSurname = findViewById(R.id.user_surname);
@@ -131,7 +151,40 @@ public class CreateEmployeeActivity extends BaseActivity {
         return true;
     }
 
-    @Override
+    private void saveEmployee(){
+        String name=mUserName.getText().toString().trim();
+        String surname=mSurname.getText().toString().trim();
+        String address=mUserAddress.getText().toString().trim();
+        String phone=mUserPhone.getText().toString().trim();
+
+        String picpath="/uploads/preimpresos/person_color.png";
+
+        final Employee newEmployee=new Employee(name,surname,address,phone,picpath);
+
+        if(image_path!=null){
+            try {
+                newEmployee.imageData = fileToBase64(image_path);
+            }catch (Exception e){
+            }
+        }
+        final ProgressDialog progress = ProgressDialog.show(this, "Creando empleado",
+                "Aguarde un momento", true);
+
+        ApiClient.get().postEmployee(newEmployee, new GenericCallback<Employee>() {
+            @Override
+            public void onSuccess(Employee data) {
+                finish();
+                progress.dismiss();
+            }
+
+            @Override
+            public void onError(Error error) {
+                DialogHelper.get().showMessage("Error","Error al crear el empleado",CreateEmployeeActivity.this);
+            }
+        });
+    }
+
+ /*   @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
@@ -173,7 +226,7 @@ public class CreateEmployeeActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     private String fileToBase64(String fileName) throws IOException {
         InputStream inputStream = new FileInputStream(fileName);//You can get an inputStream using any IO API

@@ -7,7 +7,13 @@ import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.ReportSimpelClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -15,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.loa.R;
@@ -24,7 +31,7 @@ import com.example.android.loa.fragments.BaseFragment;
 
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     PageAdapter mAdapter;
     TabLayout mTabLayout;
@@ -38,6 +45,105 @@ public class MainActivity extends BaseActivity {
     ImageView clients;
     ImageView statistics;
 
+    Toolbar myToolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_incomes) {
+            startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
+        } else if (id == R.id.nav_movements) {
+            startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
+        } else if (id == R.id.nav_prices) {
+            startActivity(new Intent(getBaseContext(), PriceEventsActivity.class));
+        } else if (id == R.id.nav_events) {
+            startHistoryEventsActivity();
+        } else if (id == R.id.nav_price_manager) {
+            startActivity(new Intent(getBaseContext(), PriceManagerActivity.class));
+        } else if (id == R.id.nav_movements_santi) {
+            if(SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei")){
+                startSantiMoneyMovement();
+            }else{
+                Toast.makeText(this,"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
+            }
+        }else if( id == R.id.nav_session){
+            signOut();
+        }else if( id == R.id.nav_list_boxes){
+            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+            i.putExtra("NAMEFRAGMENT", "box");
+            startActivity(i);
+        }else if( id == R.id.nav_extractions){
+
+            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+            i.putExtra("NAMEFRAGMENT", "extractions");
+            startActivity(i);
+        }else if( id == R.id.nav_sales){
+            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+            i.putExtra("NAMEFRAGMENT", "lei");
+            startActivity(i);
+        }else if( id == R.id.nav_debts){
+            startActivity(new Intent(getBaseContext(),ClientsActivity.class));
+        }else if( id == R.id.nav_personal){
+            startActivity(new Intent(getBaseContext(),EmployeesActivity.class));
+        }else if( id == R.id.nav_statistics){
+            startActivity(new Intent(getBaseContext(),StatisticsActivity.class));
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void signOut(){
+        SessionPrefs.get(getBaseContext()).logOut();
+        startActivity(new Intent(getBaseContext(), LoginActivity.class));
+        finish();
+    }
+
+    // 1 - Configure Toolbar
+    private void configureToolBar(){
+        this.myToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+    }
+
+    // 2 - Configure Drawer Layout
+    private void configureDrawerLayout(){
+        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.drawerLayout.setScrimColor(getResources().getColor(R.color.shadownav));
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, myToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    // 3 - Configure NavigationView
+    private void configureNavigationView(){
+        this.navigationView = findViewById(R.id.nav_view);
+
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView name = headerLayout.findViewById(R.id.user_name);
+        name.setText(SessionPrefs.get(this).getName());
+        navigationView.setNavigationItemSelectedListener(this);
+
+        Menu menu = navigationView.getMenu();
+        MenuItem statistics = menu.findItem(R.id.nav_statistics);
+        MenuItem price_manager = menu.findItem(R.id.nav_price_manager);
+        MenuItem movements_santi = menu.findItem(R.id.nav_movements_santi);
+        MenuItem santi = menu.findItem(R.id.santi);
+
+        if (SessionPrefs.get(this).isLoggedIn()) {
+            if(!SessionPrefs.get(this).getName().equals("santi") && !SessionPrefs.get(this).getName().equals("lei")){
+               santi.setVisible(false);
+               movements_santi.setVisible(false);
+            }
+        }
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +153,12 @@ public class MainActivity extends BaseActivity {
             finish();
             return;
         }
+
+        this.configureToolBar();
+
+        this.configureDrawerLayout();
+
+        this.configureNavigationView();
 
         ApiClient.get().getClients(new GenericCallback<List<ReportSimpelClient>>() {
             @Override
@@ -83,9 +195,9 @@ public class MainActivity extends BaseActivity {
                 Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
                 i.putExtra("NAMEFRAGMENT", "extractions");
                 startActivity(i);
-
             }
         });
+
         listBoxes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,16 +237,16 @@ public class MainActivity extends BaseActivity {
         statistics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(),"todavia no esta implementado, paciencia",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getBaseContext(), StatisticsActivity.class));
+               // Toast.makeText(getBaseContext(),"todavia no esta implementado, paciencia",Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     @Override
     public int getLayoutRes() {
-        return R.layout.activity_main2;
+       // return R.layout.activity_main2;
+        return R.layout.activity_main_drawer;
     }
 
     public void actionFloatingButton(){
@@ -168,7 +280,17 @@ public class MainActivity extends BaseActivity {
             button.setVisibility(((BaseFragment)f).getVisibility());
         }
     }
+    private void startHistoryEventsActivity(){
+        startActivity(new Intent(this, EventHistoryActivity.class));
+    }
 
+    private void startSantiMoneyMovement(){
+        startActivity(new Intent(this, ParallelMoneyMovementsActivity.class));
+    }
+}
+
+
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main2, menu);
@@ -207,12 +329,4 @@ public class MainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void startHistoryEventsActivity(){
-        startActivity(new Intent(this, EventHistoryActivity.class));
-    }
-
-    private void startSantiMoneyMovement(){
-        startActivity(new Intent(this, ParallelMoneyMovementsActivity.class));
-    }
-}
+*/

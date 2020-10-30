@@ -124,9 +124,6 @@ public class SalesFragment extends BaseFragment implements Paginate.Callbacks {
     }
 
 
-
-
-
     private void clearView(){
         mCurrentPage = 0;
         mAdapter.clear();

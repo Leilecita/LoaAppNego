@@ -4,14 +4,78 @@
     android:id="@+id/listday"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ededed"
     >
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:id="@+id/line_home"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/home"
+                android:src="@drawable/returnn"
+                android:layout_marginRight="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/title"
+                android:layout_gravity="center_vertical"
+                android:text="  Balance"
+                style="@style/TitleStyle"
+                />
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:gravity="right"
+            android:id="@+id/options"
+
+            android:paddingRight="8dp"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:layout_gravity="right"
+                android:src="@drawable/options_white"
+                />
+        </LinearLayout>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:id="@+id/line1"
         android:layout_marginBottom="4dp"
+        android:layout_below="@id/toolbar"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
         android:layout_height="wrap_content">
@@ -20,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Artículo : "
-            android:textColor="@color/word"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:textSize="18sp"
             android:textStyle="bold"/>
         <TextView
@@ -28,7 +92,7 @@
             android:layout_height="wrap_content"
             android:text="Remera "
             android:textSize="18sp"
-            android:textColor="@color/word"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:id="@+id/type_product"
           />
 
@@ -36,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textColor="@color/word"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:text="Remera "
             android:textSize="18sp"
             android:id="@+id/brand_product"
@@ -53,82 +117,113 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:textSize="16sp"
+            android:layout_width="55dp"
+            android:textSize="15sp"
             android:layout_height="wrap_content"
             android:text="Fecha"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/word"
-            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:fontFamily="@font/opensansregular"
             />
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="@color/word"
-            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="15sp"
+            android:fontFamily="@font/opensansregular"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Stock inicial/actual"
-            android:textStyle="bold"
             />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layerType="software"
+            android:background="@drawable/line_vertical"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/word"
+            android:fontFamily="@font/opensansregular"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:text="Ingresos"
-            android:textStyle="bold"
             />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layerType="software"
+            android:background="@drawable/line_vertical"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:textSize="16sp"
-            android:textColor="@color/word"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:layout_gravity="center_vertical"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:text="Ventas"
-            android:textStyle="bold"
+            android:fontFamily="@font/opensansregular"
             />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layerType="software"
+            android:background="@drawable/line_vertical"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:layout_height="wrap_content"
             android:text="Stock ideal"
-            android:textColor="@color/word"
-            android:textStyle="bold"
+            android:fontFamily="@font/opensansregular"
+            android:textColor="@color/colorPrimaryDarkLetter"
             />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layerType="software"
+            android:background="@drawable/line_vertical"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/word"
+            android:textSize="15sp"
+            android:fontFamily="@font/opensansregular"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:text="Balance Stock real"
-            android:textStyle="bold"
             />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layerType="software"
+            android:background="@drawable/line_vertical"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/word"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:text="Dif"
             android:textStyle="bold"
             />
+
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_stock_events"

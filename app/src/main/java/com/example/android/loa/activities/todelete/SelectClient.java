@@ -1,4 +1,4 @@
-package com.example.android.loa.activities;
+package com.example.android.loa.activities.todelete;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +20,7 @@ import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnSelectedClient;
 import com.example.android.loa.R;
+import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.adapters.ClientAdapter;
 import com.example.android.loa.adapters.ExtractionAdapter;
 import com.example.android.loa.network.ApiClient;

@@ -63,6 +63,9 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
     private ImageView day;
     private LinearLayout all;
 
+
+    private LinearLayout home;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_list_incomes;
@@ -71,9 +74,16 @@ public class IncomesListActivity extends BaseActivity implements Paginate.Callba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
-        setTitle("Señas");
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         mRecyclerView = findViewById(R.id.list_incomes);
 
         layoutManager = new LinearLayoutManager(this);

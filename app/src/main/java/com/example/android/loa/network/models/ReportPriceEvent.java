@@ -12,6 +12,7 @@ public class ReportPriceEvent {
 
     public Double previous_price;
     public Double actual_price;
+    public Double percentage;
 
     public ReportPriceEvent(){
 

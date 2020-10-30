@@ -23,15 +23,18 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.network.ApiClient;
+import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.AmountResult;
@@ -86,6 +89,14 @@ public class CreateBoxActivity extends BaseActivity {
     private TextView day;
     private TextView month;
 
+    private Box mBox;
+    private LinearLayout line_photos;
+    private LinearLayout line_top_info;
+    private LinearLayout finish_save;
+    private LinearLayout fab_save;
+
+    private LinearLayout home;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_create_box;
@@ -95,9 +106,71 @@ public class CreateBoxActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
 
-        setTitle(" Caja del día ");
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        line_photos = findViewById(R.id.line_photos);
+        line_top_info = findViewById(R.id.line_top);
+        finish_save = findViewById(R.id.finish_save);
+        fab_save = findViewById(R.id.fab_save);
+        fab_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mDetailNoNUll){
+                    Box b=loadInfoBox();
+
+                    if(image_path!=null){
+                        try {
+                            b.imageData = fileToBase64(image_path);
+                        }catch (Exception e){
+                        }
+                    }
+
+                    if(image_path_posnet!=null){
+                        try {
+                            b.imageDataPosnet = fileToBase64(image_path_posnet);
+                        }catch (Exception e){
+                        }
+                    }
+                    b.created= mSelectDate;
+
+                    ApiClient.get().postBox(b, new GenericCallback<Box>() {
+                        @Override
+                        public void onSuccess(Box data) {
+                            //  setResult(RESULT_OK);
+                            //finish();
+
+                            Toast.makeText(getBaseContext(),"La caja ha sido guardada", Toast.LENGTH_SHORT).show();
+                            mBox = data;
+                            line_photos.setVisibility(View.VISIBLE);
+                            line_top_info.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error", "No se pudo crear la caja",getBaseContext());
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(getBaseContext(),"Ingrese detalle de caja", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        finish_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
 
         day=findViewById(R.id.day);
         month=findViewById(R.id.month);
@@ -145,20 +218,13 @@ public class CreateBoxActivity extends BaseActivity {
 
                                 String time=DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
 
-                               // String datePicker=sdayOfMonth + "/" + smonthOfYear + "/" +  year +" "+time ;
                                 String datePicker=year + "-" + smonthOfYear + "-" +  sdayOfMonth +" "+time ;
                                 date.setText(DateHelper.get().getOnlyDate(datePicker));
                                 mSelectDate=datePicker;
                                 deposit.setText("");
 
                                 getPreviousBox();
-                                //getAmountExtractionByDay();
 
-                                /*
-                                mRestBoxDayBefore="0";
-                                mRestBoxDayBeforeValue=0.0;
-                                rest_box_day_before.setText("0");
-                                */
 
                             }
                         }, mYear, mMonth, mDay);
@@ -189,9 +255,6 @@ public class CreateBoxActivity extends BaseActivity {
         });
 
         getPreviousBox();
-
-       // getAmountExtractionByDay();
-
     }
 
     private void getPreviousBox(){
@@ -199,7 +262,6 @@ public class CreateBoxActivity extends BaseActivity {
                 DateHelper.get().getOnlyDateComplete(DateHelper.get().getNextDay(mSelectDate)),new GenericCallback<ReportNewBox>() {
             @Override
             public void onSuccess(ReportNewBox data) {
-
                 mRestBoxDayBefore= String.valueOf(data.lastBox.rest_box);
                 mRestBoxDayBeforeValue = Double.valueOf(mRestBoxDayBefore);
                 rest_box_day_before.setText(String.valueOf(mRestBoxDayBefore));
@@ -208,7 +270,6 @@ public class CreateBoxActivity extends BaseActivity {
                 tot_extractions.setText(String.valueOf(data.amountExtractions));
 
                 loadInfo();
-
             }
 
             @Override
@@ -216,23 +277,6 @@ public class CreateBoxActivity extends BaseActivity {
             }
         });
     }
-
-   /* private void getAmountExtractionByDay(){
-        ApiClient.get().getTotalExtractionAmount(DateHelper.get().getOnlyDateComplete(mSelectDate),
-            DateHelper.get().getOnlyDateComplete(DateHelper.get().getNextDay(mSelectDate)), new GenericCallback<AmountResult>() {
-                @Override
-                public void onSuccess(AmountResult data) {
-                    mTotalExtractionsByDay = data.total;
-                    tot_extractions.setText(String.valueOf(data.total));
-
-                    loadInfo();
-                }
-                @Override
-                public void onError(Error error) {
-                }
-            });
-    }*/
-
 
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
@@ -267,9 +311,10 @@ public class CreateBoxActivity extends BaseActivity {
 
                 // no permissions required or already granted, can start crop image activity
                 startCropImageActivity(imageUri);
+
+                System.out.println("ENTRA ACA");
             }
-        }else
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        }else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
             CropImage.ActivityResult  result = CropImage.getActivityResult(data);
             /*
                 Este image_path es una imagen que devuelve el cropper tal vez habria que moverla a otro lugar.
@@ -280,11 +325,28 @@ public class CreateBoxActivity extends BaseActivity {
                 image_path = result.getUri().getPath();
                 mImageView.setImageBitmap(BitmapFactory.decodeFile(image_path));
 
+                if(image_path!=null){
+                    try {
+                        mBox.imageData = fileToBase64(image_path);
+                    }catch (Exception e){
+                    }
+                }
+
             }else{
                 image_path_posnet = result.getUri().getPath();
                 mImageViewPosnet.setImageBitmap(BitmapFactory.decodeFile(image_path_posnet));
+
+                if(image_path_posnet!=null){
+                    try {
+                        mBox.imageDataPosnet = fileToBase64(image_path_posnet);
+                    }catch (Exception e){
+                    }
+                }
             }
 
+            putBox();
+
+            System.out.println("ENTRA ACA2");
         }
 
         if (requestCode == 1) {
@@ -306,9 +368,7 @@ public class CreateBoxActivity extends BaseActivity {
                 } else {
                     Toast.makeText(this, "Cancelling, required permissions are not granted", Toast.LENGTH_LONG).show();
                 }
-
             }else{
-
                 if (mCropImageUri_posnet != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startCropImageActivity(mCropImageUri_posnet);
                 } else {
@@ -322,62 +382,7 @@ public class CreateBoxActivity extends BaseActivity {
         CropImage.activity(imageUri).setAllowFlipping(false).setAspectRatio(1,1)
                 .start(this);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_create, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                if(!mDetailNoNUll){
-                    Box b=loadInfoBox();
-
-                    if(image_path!=null){
-                        try {
-                            b.imageData = fileToBase64(image_path);
-                        }catch (Exception e){
-                        }
-                    }
-
-                    if(image_path_posnet!=null){
-                        try {
-                            b.imageDataPosnet = fileToBase64(image_path_posnet);
-                        }catch (Exception e){
-                        }
-                    }
-                    b.created= mSelectDate;
-
-                    final ProgressDialog progress = ProgressDialog.show(this, "Creando caja del día",
-                            "Aguarde un momento", true);
-                    ApiClient.get().postBox(b, new GenericCallback<Box>() {
-                        @Override
-                        public void onSuccess(Box data) {
-                            setResult(RESULT_OK);
-                            finish();
-                            progress.dismiss();
-                        }
-
-                        @Override
-                        public void onError(Error error) {
-                            DialogHelper.get().showMessage("Error", "No se pudo crear la caja",getBaseContext());
-                        }
-                    });
-
-                }else{
-                    Toast.makeText(this,"Ingrese detalle de caja", Toast.LENGTH_LONG).show();
-                }
-                return true;
-
-            case android.R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private String fileToBase64(String fileName) throws IOException {
         InputStream inputStream = new FileInputStream(fileName);//You can get an inputStream using any IO API
@@ -410,9 +415,6 @@ public class CreateBoxActivity extends BaseActivity {
             }
             @Override
             public void afterTextChanged(Editable editable) {
-
-
-                System.out.println("ejecuta sale");
 
                 if(!counted_sale.getText().toString().trim().equals("") && ValidatorHelper.get().isTypeDouble(counted_sale.getText().toString().trim())){
                     Double d=Double.valueOf(counted_sale.getText().toString().trim());
@@ -509,17 +511,12 @@ public class CreateBoxActivity extends BaseActivity {
 
         Double countedSale=Double.valueOf((counted_sale.getText().toString().trim().equals("")?"0":counted_sale.getText().toString().trim()));
         Double creditCard=Double.valueOf(credit_card.getText().toString().trim().equals("")?"0":credit_card.getText().toString().trim());
-
         Double totalAmount= Double.valueOf(total_amount.getText().toString().trim());
-
         Double restBox= Double.valueOf(rest_box.getText().toString().trim());
-
         String det=detail.getText().toString().trim();
-
         String picpath="/uploads/preimpresos/person_color.png";
         String picpathposnet="/uploads/preimpresos/person_color.png";
         Box b= new Box(countedSale,creditCard,totalAmount,restBox,mTotalExtractionsByDay,det,picpath,picpathposnet,mRestBoxDayBeforeValue);
-
         return b;
     }
 
@@ -529,8 +526,6 @@ public class CreateBoxActivity extends BaseActivity {
             public void onSuccess(AmountResult data) {
                 counted_sale.setText(String.valueOf(data.total));
                 mCountedSale=data.total;
-
-                System.out.println("loadsale");
             }
 
             @Override
@@ -545,9 +540,6 @@ public class CreateBoxActivity extends BaseActivity {
             public void onSuccess(AmountResult data) {
                 credit_card.setText(String.valueOf(data.total));
                 mCreditCard=data.total;
-
-
-                System.out.println("loadcard");
             }
 
             @Override
@@ -584,5 +576,87 @@ public class CreateBoxActivity extends BaseActivity {
         return "dd/MM/yyyy";
     }
 
+    private void putBox(){
+
+        final ProgressDialog progress = ProgressDialog.show(this, "Cargando foto",
+                "Aguarde un momento", true);
+
+        ApiClient.get().putBox(mBox, new GenericCallback<Box>() {
+            @Override
+            public void onSuccess(Box data) {
+                progress.dismiss();
+            }
+
+            @Override
+            public void onError(Error error) {
+                DialogHelper.get().showMessage("Error", "La foto no ha sido cargada", getBaseContext());
+            }
+        });
+    }
 }
 
+/*
+
+@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_create, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                if(!mDetailNoNUll){
+                    Box b=loadInfoBox();
+
+                    if(image_path!=null){
+                        try {
+                            b.imageData = fileToBase64(image_path);
+                        }catch (Exception e){
+                        }
+                    }
+
+                    if(image_path_posnet!=null){
+                        try {
+                            b.imageDataPosnet = fileToBase64(image_path_posnet);
+                        }catch (Exception e){
+                        }
+                    }
+                    b.created= mSelectDate;
+
+                    final ProgressDialog progress = ProgressDialog.show(this, "Creando caja del día",
+                            "Aguarde un momento", true);
+                    ApiClient.get().postBox(b, new GenericCallback<Box>() {
+                        @Override
+                        public void onSuccess(Box data) {
+                          //  setResult(RESULT_OK);
+                            //finish();
+
+                            Toast.makeText(getBaseContext(),"La caja ha sido guardada", Toast.LENGTH_SHORT).show();
+                            mBox = data;
+                            line_photos.setVisibility(View.VISIBLE);
+                            line_top_info.setVisibility(View.GONE);
+
+                            progress.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error", "No se pudo crear la caja",getBaseContext());
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(this,"Ingrese detalle de caja", Toast.LENGTH_LONG).show();
+                }
+                return true;
+
+            case android.R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+ */

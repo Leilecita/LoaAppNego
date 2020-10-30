@@ -47,13 +47,17 @@ public class BoxPhotoActivity extends BaseActivity {
         showBackArrow();
 
         photoView = (PhotoView) findViewById(R.id.image_box);
-       // photoView.setImageResource(R.drawable.image);
-      //  photo= findViewById(R.id.image_box);
 
         TextView title= findViewById(R.id.title);
         title.setText("Caja del día "+getIntent().getStringExtra("DATE"));
 
-        Glide.with(this).load(ApiUtils.getImageUrl(getIntent().getStringExtra("PHOTOURL"))).into(photoView);
+        if(getIntent().getStringExtra("PHOTOURL").contains("person_color")){
+            PhotoEdithActivity.startBox(this,getIntent().getLongExtra("ID",-1));
+            finish();
+        }else{
+            Glide.with(this).load(ApiUtils.getImageUrl(getIntent().getStringExtra("PHOTOURL"))).into(photoView);
+        }
+
     }
 
     @Override

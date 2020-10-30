@@ -57,6 +57,9 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
 
     private boolean isSticky=false;
 
+    private LinearLayout home;
+    private TextView title;
+
     @Override
     public int getLayoutRes() {
         return R.layout.fragment_clients;
@@ -65,7 +68,18 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
+
+        home = findViewById(R.id.line_home);
+       // title = findViewById(R.id.title);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         mRecyclerView = findViewById(R.id.list_users);
         layoutManager = new LinearLayoutManager(this);
@@ -77,7 +91,7 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
         mTotalAmoount=findViewById(R.id.totalAmount);
         button= findViewById(R.id.fab_agregarTod);
 
-        setTitle("Ficha deudores");
+        //setTitle("Ficha deudores");
 
         mOrderBy=findViewById(R.id.orderClientBy);
         mOrderBy.setOnClickListener(new View.OnClickListener() {

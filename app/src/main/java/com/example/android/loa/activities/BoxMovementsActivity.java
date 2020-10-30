@@ -28,6 +28,9 @@ public class BoxMovementsActivity extends BaseActivity {
 
     ViewPager viewPager;
 
+    private LinearLayout home;
+    private TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,17 @@ public class BoxMovementsActivity extends BaseActivity {
             return;
         }
 
-        setTitle("Loa surf shop");
+        home = findViewById(R.id.line_home);
+        title = findViewById(R.id.title);
+
+        title.setText("Loa surf shop");
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         viewPager =  findViewById(R.id.viewpager);
 

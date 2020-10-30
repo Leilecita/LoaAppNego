@@ -16,6 +16,7 @@ public class ReportProduct {
     public Double actual_price;
     public Double previous_price;
 
+
     public boolean isSelected;
 
     public ReportProduct(){

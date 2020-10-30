@@ -8,10 +8,56 @@
     android:background="#ededed"
     >
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:theme="@style/ThemeOverlay"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal"
+            android:id="@+id/line_home"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/home"
+                android:src="@drawable/returnn"
+                android:layout_marginRight="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/title"
+                android:layout_gravity="center_vertical"
+                android:text="  Stock producto general"
+                style="@style/TitleStyle"
+                />
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+    </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:id="@+id/line1"
+        android:layout_below="@id/toolbar"
         android:gravity="center_vertical"
         android:layout_marginBottom="4dp"
         android:layout_height="@dimen/description_top_bar"

@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
@@ -22,6 +24,8 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BaseActivity;
+import com.example.android.loa.activities.DeletedProductsActivity;
+import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.StockEventAdapterBalance;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -47,6 +51,9 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
     private Paginate paginate;
     private boolean hasMoreItems;
 
+    private LinearLayout home;
+    private LinearLayout options;
+
     public static void start(Context mContext, Product product){
         Intent i=new Intent(mContext, BalanceActivity.class);
         i.putExtra("ID",product.id);
@@ -67,9 +74,20 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
-        setTitle("Balance");
+
+        options = findViewById(R.id.options);
+        loadOptions();
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         layoutManager = new LinearLayoutManager(this);
         mRecyclerViewStockEvents =  findViewById(R.id.list_stock_events);
@@ -222,10 +240,45 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
     }
 
 
+    private void loadOptions(){
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(BalanceActivity.this, options);
+                popup.getMenuInflater().inflate(R.menu.menu_balance, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.action_detail:
+                                hideDetail();
+                                return true;
+                            case android.R.id.home:
+                                finish();
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
+    }
+
+    private void hideDetail(){
+        if(mAdapterStockEvents.getHideDetail()){
+            mAdapterStockEvents.setHideDetail(false);
+            clearView();
+        }else{
+            mAdapterStockEvents.setHideDetail(true);
+            clearView();
+        }
 
 
+    }
+}
 
-    @Override
+/*
+   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_balance, menu);
         return true;
@@ -243,20 +296,4 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void hideDetail(){
-        if(mAdapterStockEvents.getHideDetail()){
-
-            mAdapterStockEvents.setHideDetail(false);
-            clearView();
-        }else{
-            mAdapterStockEvents.setHideDetail(true);
-            clearView();
-        }
-
-
-    }
-
-
-
-}
+ */

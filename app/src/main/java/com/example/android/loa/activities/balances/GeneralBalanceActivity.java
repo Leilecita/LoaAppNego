@@ -55,6 +55,8 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
     private RecyclerView mGridRecyclerViewItem;
     private RecyclerView.LayoutManager gridlayoutmanagerItem;
 
+    private LinearLayout home;
+
     @Override
     public int getLayoutRes() {
         return R.layout.general_balance_all_activity;
@@ -79,9 +81,15 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
 
-        setTitle("Stock producto general");
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mRecyclerView = findViewById(R.id.list_general_stock_events);
         layoutManager = new LinearLayoutManager(this);

@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     private TextInputLayout mFloatLabelPassword;
 
     private TextView register;
+    private LinearLayout home;
 
     @Override
     public int getLayoutRes() {
@@ -55,6 +57,14 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mFloatLabelName =  findViewById(R.id.float_label_user_name);
         mFloatLabelPassword =  findViewById(R.id.float_label_password);

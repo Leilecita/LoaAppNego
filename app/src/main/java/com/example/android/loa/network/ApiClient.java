@@ -14,6 +14,7 @@ import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.ReportDetail;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.GeneralStock;
@@ -28,6 +29,7 @@ import com.example.android.loa.network.models.ReportPrices;
 import com.example.android.loa.network.models.ReportProduct;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
+import com.example.android.loa.network.models.ReportStatistic;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ReportSumByPeriodBox;
 import com.example.android.loa.network.models.ResponseData;
@@ -341,6 +343,17 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getStockeventsSales("getAllSales",since,item,groupby), callback);
     }
 
+    public void getStatistics(Integer page,String item, String brand,String type,String model,String since,String to,String details, final GenericCallback<List<ReportStockEvent>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getStatistics("getStatisticsSales",page,item,brand,type,model,since,to, details), callback);
+    }
+
+    public void getStatisticValues(String item, String brand,String type,String model,String since,String to, String details,final GenericCallback<ReportStatistic> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getSatisticValues("getStatisticsValues",item,brand,type,model,since,to, details), callback);
+    }
+
+    public void getDetails(String item, String brand,String type,String model, final GenericCallback<List<ReportDetail>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getDetails("getDistinctDetails",item, brand, type,model), callback);
+    }
 
     public void getStockeventsFileSales(String since, String groupby, final GenericCallback<List<ReportItemFileClientEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSotckeventsFileSales("getAllItemsFile",since,groupby), callback);
@@ -363,7 +376,6 @@ public class ApiClient {
     public void getReportSales( Integer page,String item,String groupby,final GenericCallback<List<ReportSale>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getSales(page,item,groupby,"getSales"), callback);
     }
-
 
 
     public void getReportEntrie( Integer page,String item,String groupby,final GenericCallback<List<ReportEntrie>> callback ){

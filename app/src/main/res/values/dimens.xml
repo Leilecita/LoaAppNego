@@ -17,4 +17,7 @@
     <dimen name="dialog_margin_left">24dp</dimen>
     <dimen name="dialog_margin_right">24dp</dimen>
     <dimen name="dialog_margin_bottom">10dp</dimen>
+
+    <dimen name="title_text">17sp</dimen>
+    <dimen name="circle">80dp</dimen>
 </resources>

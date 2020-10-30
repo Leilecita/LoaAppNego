@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.Interfaces.OnAmountChange;
 import com.example.android.loa.R;
+import com.example.android.loa.activities.balances.GeneralBalanceActivity;
 import com.example.android.loa.adapters.OperationAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -41,6 +45,10 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
     private Paginate paginate;
     private boolean hasMoreItems;
 
+    private LinearLayout home;
+    private TextView title;
+    private LinearLayout options;
+
     public static void start(Context mContext, Client client){
         Intent i=new Intent(mContext, OperationHistoryClientActivity.class);
         i.putExtra("ID",client.getId());
@@ -57,12 +65,24 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
+
+        home = findViewById(R.id.line_home);
+        title = findViewById(R.id.title);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        options = findViewById(R.id.options);
+        loadOptions();
 
         mClientId= getIntent().getLongExtra("ID",-1);
         String name=getIntent().getStringExtra("CLIENTNAME");
 
-        setTitle("Historial "+name);
+        title.setText("Historial "+name);
 
         mRecyclerView =  findViewById(R.id.list_transaction);
         layoutManager = new LinearLayoutManager(this);
@@ -167,7 +187,40 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
         return !hasMoreItems;
     }
 
-    @Override
+
+    private void loadOptions(){
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(OperationHistoryClientActivity.this, options);
+                popup.getMenuInflater().inflate(R.menu.menu_add_product, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+
+                            case R.id.action_info:
+                                startHistoryEvents();
+                                return true;
+
+                            case android.R.id.home:
+                                finish();
+                                // NavUtils.navigateUpFromSameTask(this);
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
+    }
+
+    private void startHistoryEvents(){
+        EventHistoryActivity.startHistoryEvents(this, getIntent().getLongExtra("ID",-1),getIntent().getStringExtra("CLIENTNAME"));
+    }
+}
+/*
+ @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_info, menu);
         return true;
@@ -188,7 +241,4 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
         return super.onOptionsItemSelected(item);
     }
 
-    private void startHistoryEvents(){
-        EventHistoryActivity.startHistoryEvents(this, getIntent().getLongExtra("ID",-1),getIntent().getStringExtra("CLIENTNAME"));
-    }
-}
+ */

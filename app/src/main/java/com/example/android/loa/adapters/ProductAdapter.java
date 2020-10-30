@@ -3,6 +3,7 @@ package com.example.android.loa.adapters;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -280,7 +282,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         final Product currentProduct=getItem(position);
 
         holder.original_product_price.setText(String.valueOf(currentProduct.price));
-        holder.value_sale.setText(String.valueOf(currentProduct.price));
+
+        if(currentProduct.price > 0){
+            holder.value_sale.setText(String.valueOf(currentProduct.price));
+        }
 
         holder.model.setText(currentProduct.model);
         holder.type.setText(currentProduct.type);
@@ -406,15 +411,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         i.putExtra("BRAND", p.brand);
         mContext.startActivity(i);
     }
-
-  /*  private Long getIdByName(String name){
-        for(int i=0;i < students.size();++i ){
-            if(students.get(i).name.equals(name)){
-                return students.get(i).id;
-            }
-        }
-        return -1l;
-    }*/
 
     private void loadIdAndCreatedClient(String name){
         for(int i=0;i < students.size();++i ){
@@ -554,9 +550,15 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
+
+
         holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+
+                final ProgressDialog progressBar = new ProgressDialog(mContext);
+                progressBar.setMessage("Cargando..");
+                progressBar.show();//displays the progress bar
 
                 String payment_method= getPaymentMethod(holder);
 
@@ -597,6 +599,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                             ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
                                 @Override
                                 public void onSuccess(StockEvent data) {
+
+                                    progressBar.dismiss();
                                     holder.stock.setText(String.valueOf(p.stock));
                                     holder.load_stock.setText("");
 
@@ -677,6 +681,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(final View v) {
 
+                final ProgressDialog progressBar = new ProgressDialog(mContext);
+                progressBar.setMessage("Cargando..");
+                progressBar.show();
+
                 String stockP = holder.load_stock.getText().toString().trim();
                 String detailP = holder.detail.getText().toString().trim();
                 String valueP = holder.value_sale.getText().toString().trim();
@@ -701,11 +709,11 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                             s.created=getExpandedDate();
                         }
 
-
-
                         ApiClient.get().postStockEvent(s, "product", new GenericCallback<StockEvent>() {
                             @Override
                             public void onSuccess(StockEvent data) {
+                                progressBar.dismiss();
+
                                 if(onChangeViewStock!= null){
                                     onChangeViewStock.onReloadTotalQuantityStock();
                                 }
@@ -774,8 +782,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         type.setText(p.type);
         original_price.setText(String.valueOf(p.price));
 
-        price.setText(String.valueOf(p.price));
-        price.setSelection(price.getText().length());
+       // price.setText(String.valueOf(p.price));
+       // price.setSelection(price.getText().length());
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override

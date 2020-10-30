@@ -106,6 +106,7 @@ public class PriceManagerActivity extends BaseActivity implements Paginate.Callb
     private TextView text_select_all;
     private Boolean selectAll = false;
 
+    private LinearLayout home;
 
     @Override
     public int getLayoutRes() {
@@ -152,13 +153,18 @@ public class PriceManagerActivity extends BaseActivity implements Paginate.Callb
         clearView();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
-        setTitle("Administrador de precios");
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         select_all =  findViewById(R.id.select_all);

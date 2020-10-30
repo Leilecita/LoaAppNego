@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,12 +124,16 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     //top selectcion
     private TextView mQuantityPordByFilter;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+   // private SwipeRefreshLayout swipeRefreshLayout;
     private TextView mEmptyRecyclerView;
 
     private ImageView balance;
     private LinearLayout addProduct;
 
+    private LinearLayout home;
+    private LinearLayout options;
+    private TextView title;
+    private SearchView searchView;
 
     public void OnChangeViewStock(){
         loadSumAllStockByProduct();
@@ -139,7 +144,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     @Override
     public int getLayoutRes() {
-        return R.layout.activity_prod_3;
+        return R.layout.activity_prod4;
     }
 
     public void onReloadTotalQuantityStock(){
@@ -230,7 +235,20 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+        //showBackArrow();
+
+        this.searchView = findViewById(R.id.searchview);
+        options = findViewById(R.id.options);
+        loadOptions();
+
+        home = findViewById(R.id.line_home);
+        title = findViewById(R.id.title);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         addProduct = findViewById(R.id.add_prod);
         addProduct.setOnClickListener(new View.OnClickListener() {
@@ -253,10 +271,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             }
         });
 
-
-
-
-        setTitle("Productos");
         mRecyclerView =  findViewById(R.id.list_products);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -388,15 +402,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         loadSpinners();
 
-        swipeRefreshLayout =  findViewById(R.id.swipeRefreshLayout);
         mEmptyRecyclerView=findViewById(R.id.empty);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void
-            onRefresh() {
-             clearAndList();
-            }
-        });
 
         topBarListener();
 
@@ -405,6 +411,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         getClients();
 
         implementsPaginate();
+
+        search();
     }
 
 
@@ -594,7 +602,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         loadingInProgress=true;
 
         if(mAdapter.getItemCount()==0){
-            swipeRefreshLayout.setRefreshing(true);
+          //  swipeRefreshLayout.setRefreshing(true);
         }
         ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", query,new GenericCallback<List<Product>>() {
             @Override
@@ -616,7 +624,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                             }
                         }
                         loadingInProgress = false;
-                        swipeRefreshLayout.setRefreshing(false);
+                     //   swipeRefreshLayout.setRefreshing(false);
 
                         if(mCurrentPage == 0 && data.size()==0){
                             mEmptyRecyclerView.setVisibility(View.VISIBLE);
@@ -631,36 +639,39 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onError(Error error) {
                 loadingInProgress = false;
-                swipeRefreshLayout.setRefreshing(false);
+               // swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_product, menu);
-        final MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.expandActionView();
-        final android.widget.SearchView searchView = (android.widget.SearchView) searchItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setQueryHint("Ingrese nombre");
+
+    private void search(){
+
+        searchView.setQueryHint("Buscar");
+
 
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                searchView.setMaxWidth(Integer.MAX_VALUE);
+
+                addProduct.setVisibility(View.GONE);
+                title.setVisibility(View.GONE);
                 searchView.requestFocus();
             }
         });
 
-        searchView.setOnCloseListener(new android.widget.SearchView.OnCloseListener() {
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+                title.setVisibility(View.VISIBLE);
+                addProduct.setVisibility(View.VISIBLE);
                 return false;
             }
         });
 
-        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -676,27 +687,36 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 return false;
             }
         });
-        super.onCreateOptionsMenu(menu);
-
-        return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-            case R.id.action_deleted_products:
-                startActivity(new Intent(this,DeletedProductsActivity.class));
-                return true;
-            case R.id.general_balance:
-                startActivity(new Intent(this, GeneralBalanceActivity.class));
-                return true;
-            case android.R.id.home:
-                finish();
-                //NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+
+    private void loadOptions(){
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(ProductsActivity.this, options);
+                popup.getMenuInflater().inflate(R.menu.menu_add_product, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+
+                            case R.id.action_deleted_products:
+                                startActivity(new Intent(getBaseContext(),DeletedProductsActivity.class));
+                                return true;
+                            case R.id.general_balance:
+                                startActivity(new Intent(getBaseContext(), GeneralBalanceActivity.class));
+                                return true;
+                            case android.R.id.home:
+                                finish();
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
     }
 
     @Override
@@ -985,7 +1005,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         });
 
 
-
         //------------- items
         ArrayAdapter<String> adapterItem = new ArrayAdapter<String>(this,
                 R.layout.spinner_item, mItems);
@@ -1118,3 +1137,69 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         }
     }
 }
+
+
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_product, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.expandActionView();
+        final android.widget.SearchView searchView = (android.widget.SearchView) searchItem.getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("Ingrese nombre");
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addProduct.setVisibility(View.GONE);
+                searchView.requestFocus();
+            }
+        });
+
+        searchView.setOnCloseListener(new android.widget.SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                addProduct.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if(!newText.trim().toLowerCase().equals(mQuery)) {
+                    mCurrentPage = 0;
+                    mAdapter.clear();
+
+                    list2(newText.trim().toLowerCase());
+                }
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_deleted_products:
+                startActivity(new Intent(this,DeletedProductsActivity.class));
+                return true;
+            case R.id.general_balance:
+                startActivity(new Intent(this, GeneralBalanceActivity.class));
+                return true;
+            case android.R.id.home:
+                finish();
+                //NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }*/

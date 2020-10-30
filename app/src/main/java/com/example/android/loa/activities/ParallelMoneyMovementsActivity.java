@@ -70,6 +70,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
     private LinearLayout alquiler;
     private LinearLayout mercaderia;
     private LinearLayout all;
+    private LinearLayout mines;
 
     private LinearLayout monthFilter;
     private LinearLayout dayFilter;
@@ -88,6 +89,8 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
     private BilledType billedType= BilledType.ALL;
 
+    private LinearLayout home;
+
     public void onRefreshList(){
         clearView();
     }
@@ -101,9 +104,17 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
-        setTitle("Movimientos paralelos Santi");
+        //setTitle("Movimientos paralelos Santi");
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mRecyclerView =  findViewById(R.id.list_report_moeny_movements);
         layoutManager = new LinearLayoutManager(this);
@@ -158,6 +169,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         contador=bottomSheet.findViewById(R.id.contador);
         mercaderia=bottomSheet.findViewById(R.id.mercaderia);
         all=bottomSheet.findViewById(R.id.all);
+        mines=bottomSheet.findViewById(R.id.mines);
 
        // monthFilter=bottomSheet.findViewById(R.id.mes);
         //dayFilter=bottomSheet.findViewById(R.id.dia);
@@ -217,6 +229,14 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
                 clearView();
             }
         });*/
+
+        mines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedMovementType= MoneyMovementType.SANTI_PAGO_MIOS;
+                clearView();
+            }
+        });
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override

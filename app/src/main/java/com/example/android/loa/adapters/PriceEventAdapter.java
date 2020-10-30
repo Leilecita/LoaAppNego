@@ -119,6 +119,8 @@ public class PriceEventAdapter extends BaseAdapter<ReportPriceEvent, PriceEventA
         public TextView user_name;
         public TextView time;
         public LinearLayout info_user;
+        public LinearLayout line_percentage;
+        public TextView percentage;
 
 
         public ViewHolder(View v) {
@@ -136,6 +138,8 @@ public class PriceEventAdapter extends BaseAdapter<ReportPriceEvent, PriceEventA
             user_name = v.findViewById(R.id.user_name);
             info_user = v.findViewById(R.id.info_user);
             time = v.findViewById(R.id.time);
+            line_percentage = v.findViewById(R.id.line_percentage);
+            percentage = v.findViewById(R.id.percentage);
         }
     }
 
@@ -158,6 +162,8 @@ public class PriceEventAdapter extends BaseAdapter<ReportPriceEvent, PriceEventA
             vh.user_name.setText(null);
         if (vh.time != null)
             vh.time.setText(null);
+        if (vh.percentage != null)
+            vh.percentage.setText(null);
     }
 
 
@@ -197,6 +203,13 @@ public class PriceEventAdapter extends BaseAdapter<ReportPriceEvent, PriceEventA
 
         final ReportPriceEvent current = getItem(position);
 
+        if(current.percentage != 0){
+            holder.line_percentage.setVisibility(View.VISIBLE);
+            holder.percentage.setText(ValuesHelper.get().getIntegerQuantityWithoutPoint(current.percentage));
+        }else{
+            holder.line_percentage.setVisibility(View.GONE);
+        }
+
         loadIcon(holder, current.item);
 
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.actual_price));
@@ -231,7 +244,6 @@ public class PriceEventAdapter extends BaseAdapter<ReportPriceEvent, PriceEventA
         holder.user_name.setText(current.user_name);
         holder.time.setText(DateHelper.get().onlyHourMinut(DateHelper.get().getOnlyTime(current.created)));
 
-        System.out.println("nombre usuario "+ current.user_name);
     }
 
 }

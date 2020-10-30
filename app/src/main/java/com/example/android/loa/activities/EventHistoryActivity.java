@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 
 import com.example.android.loa.CustomLoadingListItemCreator;
@@ -40,6 +42,7 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
     private boolean hasMoreItems;
 
     private Long mClientId;
+    private LinearLayout home;
 
 
     public static void startHistoryEvents(Context mContext, Long client_id,String name){
@@ -57,13 +60,15 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+        //showBackArrow();
 
-        setTitle("Eventos");
-        //TextView title= findViewById(R.id.title);
-        //title.setText("Historial");
-        //  ImageView icon= findViewById(R.id.icon);
-        // icon.setVisibility(View.INVISIBLE);
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mClientId= getIntent().getLongExtra("ID",-1);
 
@@ -145,21 +150,15 @@ public class EventHistoryActivity extends BaseActivity implements Paginate.Callb
                 loadingInProgress = false;
             }
         });
-
     }
-
-
 
     @Override
     public void onLoadMore() {
         if(mClientId != -1){
-
             listEventsByClientId();
         }else{
             listEvents();
         }
-
-
     }
 
     @Override

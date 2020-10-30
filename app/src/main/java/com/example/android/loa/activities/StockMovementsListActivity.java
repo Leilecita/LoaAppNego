@@ -1,6 +1,8 @@
 package com.example.android.loa.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,8 @@ public class StockMovementsListActivity extends BaseActivity implements Paginate
 
     private String mItem;
 
+    private LinearLayout home;
+
 
     @Override
     public int getLayoutRes() {
@@ -48,9 +52,17 @@ public class StockMovementsListActivity extends BaseActivity implements Paginate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+        //showBackArrow();
 
-        setTitle("Movimientos de stock");
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         mRecyclerView = findViewById(R.id.list_events);
         layoutManager = new LinearLayoutManager(this);

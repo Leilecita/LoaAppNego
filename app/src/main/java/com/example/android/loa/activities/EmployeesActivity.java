@@ -36,6 +36,7 @@ public class EmployeesActivity extends BaseActivity implements Paginate.Callback
     private boolean hasMoreItems;
 
     private LinearLayout button;
+    private LinearLayout home;
 
     @Override
     public int getLayoutRes() {
@@ -45,9 +46,17 @@ public class EmployeesActivity extends BaseActivity implements Paginate.Callback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
-        setTitle("Team");
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         mRecyclerView = findViewById(R.id.list_employees);
         gridlayoutmanager=new GridLayoutManager(this,2);
 

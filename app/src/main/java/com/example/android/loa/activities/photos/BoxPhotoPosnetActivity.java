@@ -97,5 +97,4 @@ public class BoxPhotoPosnetActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
 }

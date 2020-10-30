@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,6 +48,8 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
     private TextView mItemText;
     private TextView mTypeText;
 
+    private LinearLayout home;
+
     @Override
     public int getLayoutRes() {
         return R.layout.general_balance_activity;
@@ -56,9 +59,17 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
 
-        setTitle("Stock producto general");
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //setTitle("Stock producto general");
 
         mRecyclerView = findViewById(R.id.list_general_stock_events);
         layoutManager = new LinearLayoutManager(this);

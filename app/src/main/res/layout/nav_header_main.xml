@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+
+    android:background="@color/colorPrimaryDark"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:orientation="vertical"
+    android:gravity="bottom">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:layout_width="18dp"
+            android:src="@drawable/user_loa"
+            android:layout_gravity="center"
+            android:layout_height="18dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:text="Leila"
+            android:inputType="textCapWords"
+            android:id="@+id/user_name"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="@font/opensansregular"
+            android:textSize="@dimen/general_text"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

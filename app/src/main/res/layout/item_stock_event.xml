@@ -22,24 +22,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/date"
-                android:paddingLeft="5dp"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:text="10-11"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/year"
-                android:paddingLeft="5dp"
-                android:textColor="@color/word"
+                    android:textColor="@color/colorPrimaryDarkLetter"
                 android:layout_gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:text="2019"
                 android:visibility="gone"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 />
 
         </LinearLayout>
@@ -49,7 +47,6 @@
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -58,11 +55,18 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
 
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:textSize="17sp"
                 android:layout_height="wrap_content"
                 android:text="10/9"
                 />
+
+            <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -76,6 +80,12 @@
                 android:text="10019"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:textColor="@color/loa_red"
@@ -86,10 +96,16 @@
                 android:text="11900"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/ideal_stock"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:textSize="17sp"
                 android:textStyle="italic"
                 android:gravity="center_horizontal"
@@ -97,9 +113,15 @@
                 android:text="1111"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:id="@+id/balance_stock"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
                 android:textSize="17sp"
@@ -107,9 +129,15 @@
                 android:text="11233"
                 />
             <TextView
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layerType="software"
+                android:background="@drawable/line_vertical"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:id="@+id/dif"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryDarkLetter"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
                 android:textSize="17sp"
@@ -134,10 +162,10 @@
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/detail"
-            android:textColor="@color/word"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:gravity="right"
             android:layout_weight="1"
-            android:textSize="17sp"
+            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:text="asdasd"
             android:layout_marginRight="6dp"
@@ -145,11 +173,14 @@
 
 
     </LinearLayout>
-    <TextView
 
-        android:layout_marginLeft="0dp"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="0dp"
         android:id="@+id/div"
-        style="@style/DivisorCategoryStyle"
+        android:background="@drawable/line"
         />
+
 </LinearLayout>

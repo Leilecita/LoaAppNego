@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +39,7 @@ public class DeletedProductsActivity  extends BaseActivity implements Paginate.C
     private Paginate paginate;
     private boolean hasMoreItems;
 
+    private LinearLayout home;
     @Override
     public int getLayoutRes() {
         return R.layout.activity_deleted_products;
@@ -45,9 +48,17 @@ public class DeletedProductsActivity  extends BaseActivity implements Paginate.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
-        setTitle("Productos");
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+      //  setTitle("Productos");
         mRecyclerView =  findViewById(R.id.list_products);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);

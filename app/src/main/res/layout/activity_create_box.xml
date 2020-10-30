@@ -5,12 +5,46 @@
     android:background="@color/background"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/line_home"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/home"
+                android:src="@drawable/returnn"
+                android:layout_marginRight="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/title"
+                android:text="  Caja del día"
+                style="@style/TitleStyle"
+                />
+
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:layout_width="match_parent"
         android:textSize="18sp"
         android:id="@+id/te"
         android:text="Cierre diario de caja"
         android:gravity="center_vertical"
+        android:layout_below="@id/toolbar"
         android:paddingLeft="16dp"
         android:fontFamily="@font/opensansregular"
         android:textColor="@color/colorPrimaryDarkLetter"
@@ -223,403 +257,503 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="8dp"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:id="@+id/line_top"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:layout_marginRight="8dp"
-                android:gravity="center_vertical"
-                style="@style/Widget.Design.TextInputLayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center_vertical"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:text="Venta contado"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rec_complette"
+                    android:paddingRight="8dp"
+                    android:id="@+id/counted_sale"
+
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="123123"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:text="Venta contado"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:background="@drawable/rec_complette"
-                android:paddingRight="8dp"
-                android:id="@+id/counted_sale"
-
-                android:layout_width="match_parent"
-                android:gravity="center_vertical|right"
-                android:text="123123"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:text="Resto caja ant"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rec_complette"
+                    android:paddingRight="8dp"
+                    android:id="@+id/res_box_day_before"
+
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="123123"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:text="Resto caja ant"
-                android:gravity="center_vertical"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:background="@drawable/rec_complette"
-                android:paddingRight="8dp"
-                android:id="@+id/res_box_day_before"
-
-                android:layout_width="match_parent"
-                android:gravity="center_vertical|right"
-                android:text="123123"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:text="Caja total"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/total_amount"
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:hint="100"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:gravity="center_vertical|right"
-                android:textSize="@dimen/general_text"
-                android:background="@drawable/rec_find"
-                android:inputType="textCapWords" />
-        </LinearLayout>
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:text="Caja total"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:layout_marginRight="8dp"
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:text="Tot extracciones"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:paddingRight="8dp"
-                android:id="@+id/tot_extract"
-                android:background="@drawable/rec_complette"
-                android:layout_width="match_parent"
-                android:gravity="center_vertical|right"
-                android:text="123123"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginRight="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:text="Resto de caja"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                />
-
-            <EditText
-                android:id="@+id/rest_box"
-                android:layout_height="33dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:paddingRight="8dp"
-                style="@style/Widget.Design.TextInputLayout"
-                android:layout_width="match_parent"
-                android:hint="123123"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
-                android:background="@drawable/rec_find"
-                android:inputType="textCapWords" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:orientation="vertical">
+                <EditText
+                    android:id="@+id/total_amount"
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:hint="100"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:gravity="center_vertical|right"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_find"
+                    android:inputType="textCapWords" />
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:layout_marginRight="8dp"
                 android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/deposit"
-                    android:hint="Deposito"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    style="@style/Widget.Design.TextInputLayout"
-                    android:layout_marginRight="8dp"
-                    android:paddingLeft="8dp"
-                    android:textColor="@color/colorPrimaryDarkLetter"
+
+                <TextView
                     android:layout_height="33dp"
-                    android:textSize="16sp"
-                    android:background="@drawable/rec_text_edit"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Tot extracciones"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:paddingRight="8dp"
+                    android:id="@+id/tot_extract"
+                    android:background="@drawable/rec_complette"
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical|right"
+                    android:text="123123"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
+                    />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_height="33dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:text="Resto de caja"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="@dimen/general_text"
                     />
 
                 <EditText
-                    android:id="@+id/detail"
+                    android:id="@+id/rest_box"
                     android:layout_height="33dp"
                     android:layout_weight="1"
-                    android:paddingLeft="8dp"
+                    android:gravity="center_vertical|right"
+                    android:paddingRight="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:hint="Detalle"
-                    android:textColorHint="@color/colorPrimaryClear"
+                    android:hint="123123"
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="@dimen/general_text"
-                    android:gravity="center_vertical"
                     android:background="@drawable/rec_find"
                     android:inputType="textCapWords" />
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/deposit"
+                        android:hint="Deposito"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:layout_marginRight="8dp"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:layout_height="33dp"
+                        android:textSize="16sp"
+                        android:background="@drawable/rec_text_edit"
+                        />
+
+                    <EditText
+                        android:id="@+id/detail"
+                        android:layout_height="33dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="8dp"
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:hint="Detalle"
+                        android:textColorHint="@color/colorPrimaryClear"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textSize="@dimen/general_text"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/rec_find"
+                        android:inputType="textCapWords" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_height="33dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_marginRight="8dp"
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:text="Venta tarjeta"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textSize="@dimen/general_text"
+                        />
+
+
+                    <TextView
+                        android:layout_height="33dp"
+                        android:layout_weight="1"
+                        android:paddingRight="8dp"
+                        android:gravity="center_vertical|right"
+                        android:background="@drawable/rec_complette"
+                        android:id="@+id/credit_card"
+
+                        android:layout_width="match_parent"
+                        android:text="123"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textSize="@dimen/general_text"
+                        />
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_height="33dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:text="Total cierre lote"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textSize="@dimen/general_text"
+                        />
+
+                    <EditText
+                        android:id="@+id/tot_close_lote"
+                        android:layout_height="33dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:paddingRight="8dp"
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:layout_width="match_parent"
+                        android:hint=""
+                        android:textColor="#5c5c5c"
+                        android:textSize="@dimen/general_text"
+                        android:background="@drawable/rec_find"
+                        android:inputType="textCapWords" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="65dp"
+                android:background="@drawable/bblanco"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_margin="30dp"
+                android:id="@+id/fab_save"
+                android:layout_alignParentBottom="true"
+                android:layout_height="65dp">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:padding="18dp"
+                    android:id="@+id/image_button"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/save"
+                    />
+
+            </LinearLayout>
+
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp"
             android:layout_height="wrap_content">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:id="@+id/select_photo"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/colorDialogButton"
-                android:background="@drawable/rec_find"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="12dp"
+                android:id="@+id/line_photos"
+                android:orientation="vertical"
+
                 >
-
                 <TextView
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="18sp"
-                    android:layout_gravity="center_vertical"
-                    android:text="detalle ventas"
-                    android:textColor="@color/word_clear2"
-
-                    />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffff"
-                    android:layout_marginRight="4dp"
-                    android:padding="4dp"
-                    android:src="@drawable/camera"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_height="33dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:layout_marginRight="8dp"
-                    style="@style/Widget.Design.TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:text="Venta tarjeta"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:textSize="@dimen/general_text"
-                    />
-
-
-                <TextView
-                    android:layout_height="33dp"
-                    android:layout_weight="1"
-                    android:paddingRight="8dp"
-                    android:gravity="center_vertical|right"
-                    android:background="@drawable/rec_complette"
-                    android:id="@+id/credit_card"
-
-                    android:layout_width="match_parent"
-                    android:text="123"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:textSize="@dimen/general_text"
-                    />
-
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_height="33dp"
                     android:layout_weight="1"
                     android:layout_marginRight="8dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
+                    android:fontFamily="@font/opensansregular"
                     android:layout_width="match_parent"
-                    android:text="Total cierre lote"
+                    android:text="Caja guardada, a continuación cargue foto de la planilla ventas y el cierre de lote."
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="@dimen/general_text"
                     />
 
-                <EditText
-                    android:id="@+id/tot_close_lote"
-                    android:layout_height="33dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-                    android:paddingRight="8dp"
-                    style="@style/Widget.Design.TextInputLayout"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:hint=""
-                    android:textColor="#5c5c5c"
-                    android:textSize="@dimen/general_text"
-                    android:background="@drawable/rec_find"
-                    android:inputType="textCapWords" />
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/select_photo"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/colorDialogButton"
+                        android:background="@drawable/rec_find"
+                        android:layout_height="35dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18sp"
+                            android:layout_gravity="center_vertical"
+                            android:text="detalle ventas"
+                            android:textColor="@color/word_clear2"
+
+                            />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ffff"
+                            android:layout_marginRight="4dp"
+                            android:padding="4dp"
+                            android:src="@drawable/camera"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        android:id="@+id/select_photo_posnet"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/colorDialogButton"
+                        android:background="@drawable/rec_find"
+                        android:layout_height="35dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18sp"
+                            android:layout_gravity="center_vertical"
+                            android:text="cierre lote"
+                            android:textColor="@color/word_clear2"
+
+                            />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="35dp"
+                            android:textColor="#ffff"
+                            android:padding="4dp"
+                            android:src="@drawable/camera"
+
+                            android:backgroundTint="@color/colorDialogButton"
+                            android:background="@drawable/rec_find"
+
+                            />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imageview"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="4dp"
+                        android:src="@drawable/camera"
+                        android:textColor="#ffff"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imageview_posnet"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="4dp"
+                        android:src="@drawable/camera"
+                        android:textColor="#ffff"
+
+                        />
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:id="@+id/finish_save"
+                        android:backgroundTint="@color/colorDialogButton"
+                        android:background="@drawable/rec_find"
+                        android:layout_height="35dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/opensansregular"
+                            android:gravity="center"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="Finalizar carga"
+                            android:textColor="@color/white"
+
+                            />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:id="@+id/select_photo_posnet"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/colorDialogButton"
-                android:background="@drawable/rec_find"
-                android:layout_height="35dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18sp"
-                    android:layout_gravity="center_vertical"
-                    android:text="cierre lote"
-                    android:textColor="@color/word_clear2"
-
-                    />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="35dp"
-                    android:textColor="#ffff"
-                    android:padding="4dp"
-                    android:src="@drawable/camera"
-
-                    android:backgroundTint="@color/colorDialogButton"
-                    android:background="@drawable/rec_find"
-
-                    />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/imageview"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:padding="4dp"
-                    android:src="@drawable/camera"
-                    android:textColor="#ffff"
-
-                    />
-
-                <ImageView
-                    android:id="@+id/imageview_posnet"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:padding="4dp"
-                    android:src="@drawable/camera"
-                    android:textColor="#ffff"
-
-                    />
-
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

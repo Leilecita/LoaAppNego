@@ -124,11 +124,53 @@
                     android:text=""
                     />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.4"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:id="@+id/line_percentage"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+
+                    >
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorPrimaryClearLetter"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:text="("
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorPrimaryClearLetter"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/percentage"
+                        android:textSize="14sp"
+                        android:text="5"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/colorPrimaryClearLetter"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:gravity="right"
+                        android:text="%)"
+                        />
+
+
+                </LinearLayout>
 
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:textColor="@color/loa_red"
                     android:layout_height="wrap_content"
                     android:id="@+id/previous_price"

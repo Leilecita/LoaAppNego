@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.example.android.loa.Interfaces.OnAmountHoursChange;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.HourEmployeeAdapter;
 import com.example.android.loa.adapters.ReportHourEmployeeAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -35,6 +37,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +61,9 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
     private Paginate paginate;
     private boolean hasMoreItems;
 
+    private LinearLayout home;
+    private TextView title;
+
     public static void start(Context mContext, Long id,String name){
         Intent i=new Intent(mContext, HoursHistoryEmployeeActivity.class);
         i.putExtra("ID",id);
@@ -74,12 +80,24 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
 
         mEmployeeId= getIntent().getLongExtra("ID",-1);
         String name=getIntent().getStringExtra("EMPLOYEENAME");
 
-        setTitle(name);
+        home = findViewById(R.id.line_home);
+        title = findViewById(R.id.title);
+
+        title.setText(name);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+
         mRecyclerView =  findViewById(R.id.list_transactionEmployee);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -90,21 +108,18 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
         mUserName.setText(name);
 
 
+        if(SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei")){
 
-        // Add the sticky headers decoration
-        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
-        mRecyclerView.addItemDecoration(headersDecor);
+            // Add the sticky headers decoration
+            final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
+            mRecyclerView.addItemDecoration(headersDecor);
 
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override public void onChanged() {
-                headersDecor.invalidateHeaders();
-            }
-        });
-
-       // mAdapter.setOnAmountHoursListener(this);
-
-        //refactorToMonth(DateHelper.get().getActualDateEmployee());
-       // loadAmountHours();
+            mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override public void onChanged() {
+                    headersDecor.invalidateHeaders();
+                }
+            });
+        }
 
         EventBus.getDefault().register(this);
 

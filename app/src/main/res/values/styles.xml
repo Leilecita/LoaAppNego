@@ -14,9 +14,11 @@
         <item name="titleTextStyle">@style/MyTitleTextStyle</item>
     </style>
 
+
+
     <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/opensansregular</item>
     </style>
 
     <style name="AppTheme.SlidrActivityTheme">
@@ -24,8 +26,45 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="NavItemTextStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/opensansregular</item>
+        <item name="android:textColor">@color/colorPrimaryDarkLetter</item>
+    </style>
+
+    <style name="NavigationDrawerStyle">
+
+        <item name="android:textSize">15sp</item><!-- text size in menu-->
+
+        <!-- item size in menu-->
+        <item name="android:listPreferredItemHeightSmall">40dp</item>
+        <item name="listPreferredItemHeightSmall">40dp</item>
+
+        <!-- item padding left in menu title headers-->
+        <item name="android:listPreferredItemPaddingLeft">8dp</item>
+        <item name="listPreferredItemPaddingLeft">16dp</item>
+
+        <!-- headers title-->
+        <item name="android:textColorSecondary">@color/colorDialogButton</item>
+        <item name="android:listDivider">@color/colorPrimaryClearLetter</item>
+
+        <!-- item padding right in menu-->
+        <item name="android:listPreferredItemPaddingRight">8dp</item>
+        <item name="listPreferredItemPaddingRight">8dp</item>
+    </style>
 
 
+    <style name="TitleStyle" parent="Theme.AppCompat">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/title_text</item>
+        <item name="android:fontFamily">@font/opensansregular</item>
+
+    </style>
+
+
+
+    <style name="OpenSansTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/opensanslight</item>
+    </style>
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/opensanslight</item>
@@ -40,8 +79,10 @@
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:textColorSecondary">@android:color/black</item>
         <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="iconTint">@android:color/white</item>
 
     </style>
+
 
     <style name="Autocomplete">
         <item name="colorControlNormal">@color/colorDialogButton</item>
@@ -55,31 +96,19 @@
         <item name="dialogCornerRadius">8dp</item>
     </style>
 
+
     <style name="ThemeOverlay" parent="Theme.AppCompat.NoActionBar">
         <!-- android:textColorPrimary is the  color of the title text
              in the Toolbar, in the Theme.AppCompat theme:  -->
         <item name="android:textColorPrimary">#fff</item>
 
-        <!-- android:textColorPrimaryInverse is the  color of the title
-             text in the Toolbar, in the Theme.AppCompat.Light theme:  -->
-        <!-- <item name="android:textColorPrimaryInverse">@color/abc_primary_text_material_light</item> -->
 
-        <!-- android:actionMenuTextColor is the color of the text of
-              action (menu) items in the Toolbar, at least in the
-              Theme.AppCompat theme.
-              For some reason, they already get the textColorPrimary
-              when running on API 21, but not on older versions of
-              Android, so this is only necessary to support older
-              Android versions.-->
         <item name="actionMenuTextColor">#fff</item>
         <!-- android:textColorSecondary is the color of the menu
              overflow icon (three vertical dots) -->
         <item name="android:textColorSecondary">#fff</item>
 
-        <!-- This would set the toolbar's background color,
-              but setting this also changes the popup menu's background,
-              even if we define popupTheme for our <Toolbar> -->
-        <!-- <item name="android:background">@color/color_primary</item> -->
+
     </style>
 
     <!-- Text appearance style for a category tab text coplor A8A19E

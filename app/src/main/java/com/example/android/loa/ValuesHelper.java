@@ -18,8 +18,19 @@ public class ValuesHelper {
     public String getIntegerQuantityByLei(Double val){
 
         String[] parts = String.valueOf(val).split("\\.");
-        if(Integer.valueOf(parts[1]) == 0){
+        if(Integer.valueOf(parts[1].substring(0,1)) == 0){
             return parts[0]+".";
+        }else{
+            return String.valueOf(val);
+        }
+
+    }
+
+    public String getIntegerQuantityWithoutPoint(Double val){
+
+        String[] parts = String.valueOf(val).split("\\.");
+        if(Integer.valueOf(parts[1].substring(0,1)) == 0){
+            return parts[0];
         }else{
             return String.valueOf(val);
         }

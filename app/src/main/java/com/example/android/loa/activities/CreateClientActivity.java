@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -52,6 +53,8 @@ public class CreateClientActivity extends BaseActivity{
     private Uri mCropImageUri;
     private String image_path=null;
 
+    private LinearLayout home;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_create_client;
@@ -60,7 +63,16 @@ public class CreateClientActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+        //showBackArrow();
+
+        home = findViewById(R.id.line_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         mUserName = findViewById(R.id.user_name);
         mImageView =  findViewById(R.id.imageview);

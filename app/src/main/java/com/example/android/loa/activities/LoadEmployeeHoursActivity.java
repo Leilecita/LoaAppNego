@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,6 +27,7 @@ import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.activities.balances.GeneralBalanceActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -81,6 +83,10 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
     Integer hour = c.get(Calendar.HOUR_OF_DAY);
     Integer minute = c.get(Calendar.MINUTE);
 
+    private LinearLayout home;
+
+    private LinearLayout options;
+
     public static void start(Context mContext, Employee employee) {
         Intent i = new Intent(mContext, LoadEmployeeHoursActivity.class);
         i.putExtra("IDEMPLOYEE", employee.id);
@@ -125,10 +131,47 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
         }
         return "dd/MM/yyyy";
     }
+
+    private void loadOptions(){
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(LoadEmployeeHoursActivity.this, options);
+                popup.getMenuInflater().inflate(R.menu.menu_list_jours, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()) {
+                            case R.id.action_options:
+
+                                HoursHistoryEmployeeActivity.start(getBaseContext(),mItemEmployee.employee_id,name.getText().toString().trim());
+                                return true;
+                        }
+
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+       // showBackArrow();
+
+        home = findViewById(R.id.line_home);
+        options = findViewById(R.id.options);
+        loadOptions();
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         name=  findViewById(R.id.name_employee);
         name.setText(getIntent().getStringExtra("NAME"));
@@ -558,7 +601,7 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
     }
 
-    @Override
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_list_jours, menu);
         return true;
@@ -580,7 +623,7 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     public String parseHours(String cantHours) {
         String[] parts = cantHours.split(":");

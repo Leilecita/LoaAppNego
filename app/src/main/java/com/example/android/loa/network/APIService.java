@@ -12,6 +12,7 @@ import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.ReportDetail;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.GeneralStock;
@@ -26,6 +27,7 @@ import com.example.android.loa.network.models.ReportPrices;
 import com.example.android.loa.network.models.ReportProduct;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
+import com.example.android.loa.network.models.ReportStatistic;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.ReportSumByPeriodBox;
 import com.example.android.loa.network.models.ResponseData;
@@ -266,6 +268,18 @@ public interface APIService {
     Observable<Response<GeneralStock>> putGeneralStock(@Body GeneralStock s);
 
     //STOCK EVENTS
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportStockEvent>>> getStatistics(@Query("method") String method, @Query("page") Integer page, @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
+                                                              @Query("model") String model,@Query("date") String created,@Query("dateTo") String next, @Query("details") String details);
+
+    @GET("stock_events.php")
+    Observable<Response<ReportStatistic>> getSatisticValues(@Query("method") String method,  @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
+                                                               @Query("model") String model,@Query("date") String created,@Query("dateTo") String next, @Query("details") String details);
+
+    @GET("stock_events.php")
+    Observable<Response<List<ReportDetail>>> getDetails(@Query("method") String method,  @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
+                                                        @Query("model") String model);
 
     @POST("stock_events.php")
     Observable<Response<StockEvent>> postStockEvent(@Body StockEvent s,@Query("balance") String balance);

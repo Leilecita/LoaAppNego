@@ -221,10 +221,7 @@
 
             </LinearLayout>
 
-
         </RelativeLayout>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -324,7 +321,6 @@
                     />
 
             </RelativeLayout>
-
 
         </LinearLayout>
 

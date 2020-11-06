@@ -42,18 +42,15 @@ public class StockMovementsListActivity extends BaseActivity implements Paginate
 
     private LinearLayout home;
 
-
     @Override
     public int getLayoutRes() {
         return R.layout.activity_list_events;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //showBackArrow();
-
 
         home = findViewById(R.id.line_home);
         home.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +82,6 @@ public class StockMovementsListActivity extends BaseActivity implements Paginate
         });
 
         implementsPaginate();
-
     }
 
 

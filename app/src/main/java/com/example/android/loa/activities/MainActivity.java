@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     ImageView products;
     ImageView clients;
     ImageView statistics;
+    ImageView buys;
 
     Toolbar myToolbar;
     private DrawerLayout drawerLayout;
@@ -73,6 +74,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }else if( id == R.id.nav_session){
             signOut();
+        }if (id == R.id.nav_buy) {
+            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+            i.putExtra("NAMEFRAGMENT", "compras");
+            startActivity(i);
         }else if( id == R.id.nav_list_boxes){
             Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
             i.putExtra("NAMEFRAGMENT", "box");
@@ -154,11 +159,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             return;
         }
 
+        System.out.println("entra aca");
+
         this.configureToolBar();
 
         this.configureDrawerLayout();
 
         this.configureNavigationView();
+
+        System.out.println("entra aca1");
 
         ApiClient.get().getClients(new GenericCallback<List<ReportSimpelClient>>() {
             @Override
@@ -177,6 +186,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
 
+        System.out.println("entra aca2");
+
         System.out.println(SessionPrefs.get(this).getToken());
         System.out.println(SessionPrefs.get(this).getName());
 
@@ -188,6 +199,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         hours=findViewById(R.id.hours);
         clients=findViewById(R.id.clients);
         statistics=findViewById(R.id.statistics);
+        buys=findViewById(R.id.compras);
 
         extractions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,7 +250,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(), StatisticsActivity.class));
-               // Toast.makeText(getBaseContext(),"todavia no esta implementado, paciencia",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), BuyProductsActivity.class));
             }
         });
     }

@@ -341,7 +341,7 @@
                             android:layout_marginLeft="5dp"
                             android:id="@+id/select_art"
                             android:paddingRight="8dp"
-                            android:background="@drawable/rec_selected"
+                            android:background="@drawable/rec_unselected"
                             android:orientation="horizontal">
 
                             <TextView
@@ -367,7 +367,7 @@
                             android:layout_marginRight="5dp"
                             android:paddingRight="8dp"
                             android:id="@+id/select_brand"
-                            android:background="@drawable/rec_selected"
+                            android:background="@drawable/rec_unselected"
                             android:orientation="horizontal">
 
                             <TextView
@@ -393,7 +393,7 @@
                             android:layout_marginRight="5dp"
                             android:paddingRight="8dp"
                             android:id="@+id/select_model"
-                            android:background="@drawable/rec_selected"
+                            android:background="@drawable/rec_unselected"
                             android:orientation="horizontal">
 
                             <TextView

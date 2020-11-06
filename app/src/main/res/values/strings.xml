@@ -9,6 +9,20 @@
         <item>Otro</item>
     </string-array>
 
+    <!--menu ingresos-->
+    <string name="MENU_INGRESO_COMPRA">Ingreso compra</string>
+    <string name="MENU_INGRESO_DEVOLUCION">Ingreso por cambio</string>
+    <string name="MENU_INGRESO_DEVOLUCION_FALLA">Ingreso devolucion falla</string>
+    <string name="MENU_INGRESO_ERROR_ANTERIOR">Ingreso por error anterior</string>
+    <string name="MENU_INGRESO_ACTUALIZACION_APP">Ingreso actualizacion app</string>
+    <string name="MENU_INGRESO_CONSIGNACION">Ingreso consignacion</string>
+    <string name="MENU_INGRESO_BALANCE_STOCK">Ingreso balance stock</string>
+
+    <string name="MENU_INGRESO_DEVOLUCION_LUZ">Ingreso stock luz</string>
+    <string name="MENU_INGRESO_STOCK_OFERTA">Ingreso stock oferta</string>
+    <string name="MENU_INGRESO_STOCK_LOCAL">Ingreso stock local</string>
+
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

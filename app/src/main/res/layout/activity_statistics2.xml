@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     android:id="@+id/view">
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:orientation="vertical"
@@ -182,549 +181,186 @@
             android:layout_height="wrap_content"
             >
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="130dp"
+                android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="90dp"
+                android:layout_marginBottom="16dp"
+                android:clipToPadding="false"
+                android:paddingBottom="130dp"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
-
-
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:orientation="vertical"
-                        android:layout_margin="12dp"
-                        android:gravity="center"
-
-                        android:layout_gravity="center"
-                        android:backgroundTint="@color/local"
-                        android:background="@drawable/bblanco"
-                        android:layout_height="80dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            android:id="@+id/entries"
-                            android:fontFamily="@font/opensansregular"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:text=""
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="17sp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/opensansregular"
-                            android:text="ingr"
-                            />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:orientation="vertical"
-                        android:layout_margin="12dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:backgroundTint="@color/local"
-                        android:background="@drawable/bblanco"
-                        android:layout_height="80dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            android:id="@+id/sales"
-                            android:fontFamily="@font/opensansregular"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:text=""
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="17sp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:fontFamily="@font/opensansregular"
-                            android:text="ventas"
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="80dp"
-                        android:orientation="vertical"
-                        android:layout_margin="12dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:backgroundTint="@color/local"
-                        android:background="@drawable/bblanco"
-                        android:layout_height="80dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            android:id="@+id/quantity_stock"
-                            android:fontFamily="@font/opensansregular"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:text=""
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:fontFamily="@font/opensansregular"
-                            android:layout_height="wrap_content"
-                            android:textSize="17sp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:text="stock"
-                            />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
                     android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:id="@+id/line_statistics_item"
-                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="36dp"
+                    android:id="@+id/line_statistics_brand"
                     android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/opensansregular"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/clearhintletter"
+                        android:layout_marginLeft="16dp"
+                        android:text="Estadísticas "
+                        />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:layout_height="wrap_content">
+                        android:layout_marginLeft="16dp"
+                        android:layout_height="wrap_content"
+                        >
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
+                            android:textSize="22sp"
+                            android:id="@+id/selected_art"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text=""
+                            />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text=" marca "
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:id="@+id/selected_brand_art"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text=" "
+                            />
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
                             >
-
-                            <FrameLayout
+                            <ImageView
                                 android:layout_width="wrap_content"
+                                android:src="@drawable/arrowin"
                                 android:layout_gravity="center"
-                                android:layout_height="wrap_content">
-
-                                <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/dynamicArcView"
-                                    android:layout_width="@dimen/circle"
-                                    android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
-
-                                </com.hookedonplay.decoviewlib.DecoView>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_entries_item"
-                                        android:text="00"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                       />
-
-                                </LinearLayout>
-
-                            </FrameLayout>
+                                android:layout_height="wrap_content"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
                                 android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_big_text"
+                                android:layout_gravity="center_horizontal"
                                 android:text="ingr"
                                 />
-                        </LinearLayout>
 
+                        </LinearLayout>
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+
                             >
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_height="wrap_content">
-
-                                <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/deco_item_vtas"
-                                    android:layout_width="@dimen/circle"
-                                    android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
-
-                                </com.hookedonplay.decoviewlib.DecoView>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_sale_item"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
-                            </FrameLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
                                 android:layout_height="wrap_content"
-                                android:textSize="16sp"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:textSize="@dimen/general_text"
+                                android:fontFamily="@font/averiasanslight"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Diferencia"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/brand_dif"
+                                android:gravity="center"
+                                android:textColor="@color/green3"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_big_text"
+                                android:layout_gravity="center_horizontal"
+                                android:text="233"
+                                />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/arrowout"
                                 android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_big_text"
+                                android:layout_gravity="center_horizontal"
                                 android:text="ventas"
                                 />
+
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_height="wrap_content">
-
-                                <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/deco_item_stock"
-                                    android:layout_width="@dimen/circle"
-                                    android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
-
-                                </com.hookedonplay.decoviewlib.DecoView>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_stock_item"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="stock"
-                                />
-                        </LinearLayout>
-
-
                     </LinearLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:id="@+id/line_statistics_type"
-                    android:visibility="gone"
-                    android:paddingTop="8dp"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal"
-                        android:layout_height="wrap_content">
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_height="wrap_content">
-
-                                <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/deco_type_entries"
-                                    android:layout_width="@dimen/circle"
-                                    android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
-
-                                </com.hookedonplay.decoviewlib.DecoView>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_entries_type"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="ingr"
-                                />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_height="wrap_content">
-
-                                <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/deco_type_sales"
-                                    android:layout_width="@dimen/circle"
-                                    android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
-
-                                </com.hookedonplay.decoviewlib.DecoView>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_sale_type"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="vtas"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            >
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_height="wrap_content">
-
-                                <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/deco_type_stock"
-                                    android:layout_width="@dimen/circle"
-                                    android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
-
-                                </com.hookedonplay.decoviewlib.DecoView>
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_stock_type"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
-                            </FrameLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="stock"
-                                />
-                        </LinearLayout>
-
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:paddingTop="8dp"
-                    android:id="@+id/line_statistics_brand"
-                    android:gravity="center"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-
+                        android:layout_marginTop="16dp"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             >
@@ -737,54 +373,80 @@
                                 <com.hookedonplay.decoviewlib.DecoView
                                     android:id="@+id/deco_brand_entries"
                                     android:layout_width="@dimen/circle"
+                                    android:background= "@drawable/circle"
+                                    android:backgroundTint="@color/white"
                                     android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
+                                    custom:dv_lineWidth="10dp">
 
                                 </com.hookedonplay.decoviewlib.DecoView>
 
-                                <LinearLayout
+
+                                <TextView
                                     android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
                                     android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_entries_brand"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:text=""
+                                    android:id="@+id/cant_brand_ingr"
+                                    android:textSize="@dimen/big_text"
+                                    android:layout_gravity="center"
+                                    />
                             </FrameLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="ingr"
-                                />
                         </LinearLayout>
+
+                        <TextView
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layerType="software"
+                            android:background="@drawable/line_vertical"/>
+
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="@dimen/circle">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:textSize="@dimen/big_text"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="stock"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:text="0"
+                                    android:gravity="center"
+                                    android:textSize="@dimen/big_big_text"
+                                    android:id="@+id/cant_brand_stock"
+                                    android:layout_gravity="center"
+                                    />
+
+                            </FrameLayout>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layerType="software"
+                            android:background="@drawable/line_vertical"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             >
@@ -798,54 +460,469 @@
                                     android:id="@+id/deco_brand_vtas"
                                     android:layout_width="@dimen/circle"
                                     android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
+                                    android:background= "@drawable/circle"
+                                    android:backgroundTint="@color/white"
+                                    custom:dv_lineWidth="10dp">
 
                                 </com.hookedonplay.decoviewlib.DecoView>
 
-                                <LinearLayout
+                                <TextView
                                     android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
                                     android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_sale_brande"
-                                        android:text="0"
-                                        />
+                                    android:id="@+id/cant_brand_vtas"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:text=""
+                                    android:textSize="@dimen/big_big_text"
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
+                                    android:layout_gravity="center"
 
-                                </LinearLayout>
-
+                                    />
                             </FrameLayout>
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/line_percentages_brand"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:id="@+id/percentage_entries_brand"
+                                android:textSize="@dimen/big_text"
+                                android:fontFamily="@font/averiasanslight"
+                                android:text="0"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_gravity="center"
                                 android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="vtas"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/averiasanslight"
+                                android:paddingLeft="1dp"
+                                android:textSize="@dimen/big_text"
+                                android:text="%"
                                 />
+
                         </LinearLayout>
 
                         <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:id="@+id/percentage_stock_brand"
+
+                                android:textSize="@dimen/big_text"
+                                android:text="0"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/big_text"
+                                android:paddingLeft="1dp"
+                                android:text="%"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:id="@+id/percentage_sale_brand"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_text"
+                                android:text="0"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="1dp"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_text"
+                                android:text="%"
+                                />
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="40dp"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@mipmap/addstock"
+                                    android:padding="6dp"
+                                    android:background="@drawable/circle_statist_more"
+                                    />
+
+                            </RelativeLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@mipmap/addstock"
+                                    android:padding="6dp"
+                                    android:background="@drawable/circle_statist_more"
+                                    />
+
+                            </RelativeLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@mipmap/addstock"
+                                    android:padding="6dp"
+                                    android:background="@drawable/circle_statist_more"
+                                    />
+
+                            </RelativeLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="40dp"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/line_sales_brand"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        >
+
+                        <TextView
                             android:layout_width="wrap_content"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:textSize="@dimen/big_text"
+                            android:textColor="@color/colorPrimaryClearLetter"
+                            android:fontFamily="@font/averiasanslight"
+                            android:text="Monto total en ventas "
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/amount_brand_vtas"
+                            android:textSize="@dimen/big_text"
+                            android:layout_marginRight="16dp"
+                            android:textColor="@color/colorPrimaryClearLetter"
+                            android:text=""
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+
+                            />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:id="@+id/line_statistics_type"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="36dp"
+
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/averiasanslight"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/clearhintletter"
+                        android:layout_marginLeft="16dp"
+                        android:text="Estadísticas "
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="16dp"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:id="@+id/selected_art_item"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text=" "
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text=" de "
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_height="wrap_content"
+                            android:textSize="22sp"
+                            android:id="@+id/selected_item"
+                            android:layout_gravity="center"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:text=""
+                            />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/arrowin"
+                                android:layout_height="wrap_content"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_big_text"
+                                android:layout_gravity="center_horizontal"
+                                android:text="ingr"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:textSize="@dimen/general_text"
+                                android:fontFamily="@font/averiasanslight"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Diferencia"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/type_dif"
+                                android:gravity="center"
+                                android:textColor="@color/green3"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_big_text"
+                                android:layout_gravity="center_horizontal"
+                                android:text="233"
+                                />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/arrowout"
+                                android:layout_height="wrap_content"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_big_text"
+                                android:layout_gravity="center_horizontal"
+                                android:text="ventas"
+                                />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             >
@@ -856,51 +933,114 @@
                                 android:layout_height="wrap_content">
 
                                 <com.hookedonplay.decoviewlib.DecoView
-                                    android:id="@+id/deco_brand_stock"
+                                    android:id="@+id/deco_type_entries"
                                     android:layout_width="@dimen/circle"
+                                    android:background= "@drawable/circle"
+                                    android:backgroundTint="@color/white"
                                     android:layout_height="@dimen/circle"
-                                    custom:dv_lineWidth="8dp">
+                                    custom:dv_lineWidth="10dp">
 
                                 </com.hookedonplay.decoviewlib.DecoView>
 
-                                <LinearLayout
+
+                                <TextView
                                     android:layout_width="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
                                     android:layout_height="wrap_content"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:id="@+id/percentage_stock_brand"
-                                        android:text="0"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textColor="@color/colorPrimaryDarkLetter"
-                                        android:fontFamily="@font/opensansregular"
-                                        android:layout_height="wrap_content"
-                                        android:paddingLeft="1dp"
-                                        android:text="%"
-                                        />
-
-                                </LinearLayout>
-
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:text=""
+                                    android:id="@+id/cant_type_ingr"
+                                    android:textSize="@dimen/big_big_text"
+                                    android:layout_gravity="center"
+                                    />
                             </FrameLayout>
 
-                            <TextView
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layerType="software"
+                            android:background="@drawable/line_vertical"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <FrameLayout
                                 android:layout_width="wrap_content"
-                                android:fontFamily="@font/opensansregular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
                                 android:layout_gravity="center"
-                                android:textColor="@color/colorPrimaryDarkLetter"
-                                android:text="stock"
-                                />
+                                android:layout_height="@dimen/circle">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:textSize="@dimen/big_text"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="stock"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:text="0"
+                                    android:gravity="center"
+                                    android:textSize="@dimen/big_big_text"
+                                    android:id="@+id/cant_type_stock"
+                                    android:layout_gravity="center"
+                                    />
+
+                            </FrameLayout>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layerType="software"
+                            android:background="@drawable/line_vertical"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <com.hookedonplay.decoviewlib.DecoView
+                                    android:id="@+id/deco_type_sales"
+                                    android:layout_width="@dimen/circle"
+                                    android:layout_height="@dimen/circle"
+                                    android:background= "@drawable/circle"
+                                    android:backgroundTint="@color/white"
+                                    custom:dv_lineWidth="10dp">
+
+                                </com.hookedonplay.decoviewlib.DecoView>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/cant_type_vtas"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/opensansregular"
+                                    android:text=""
+                                    android:textSize="@dimen/big_big_text"
+
+                                    android:layout_gravity="center"
+
+                                    />
+                            </FrameLayout>
+
                         </LinearLayout>
 
 
@@ -908,11 +1048,823 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/line_percentages_type"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:id="@+id/percentage_entries_type"
+                                android:textSize="@dimen/big_text"
+                                android:fontFamily="@font/averiasanslight"
+                                android:text="0"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/averiasanslight"
+                                android:paddingLeft="1dp"
+                                android:textSize="@dimen/big_text"
+                                android:text="%"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:id="@+id/percentage_stock_type"
+
+                                android:textSize="@dimen/big_text"
+                                android:text="0"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/big_text"
+                                android:paddingLeft="1dp"
+                                android:text="%"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:id="@+id/percentage_sale_type"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_text"
+                                android:text="0"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="1dp"
+                                android:fontFamily="@font/averiasanslight"
+                                android:textSize="@dimen/big_text"
+                                android:text="%"
+                                />
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="40dp"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@mipmap/addstock"
+                                    android:padding="6dp"
+                                    android:background="@drawable/circle_statist_more"
+                                    />
+
+                            </RelativeLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.3"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@mipmap/addstock"
+                                    android:padding="6dp"
+                                    android:background="@drawable/circle_statist_more"
+                                    />
+
+                            </RelativeLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:layout_gravity="center"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@mipmap/addstock"
+                                    android:padding="6dp"
+                                    android:background="@drawable/circle_statist_more"
+                                    />
+
+                            </RelativeLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="40dp"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/dottedlined_gruesa"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/line_sales_type"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:textSize="@dimen/big_text"
+                            android:textColor="@color/colorPrimaryClearLetter"
+                            android:fontFamily="@font/averiasanslight"
+                            android:text="Monto total en ventas "
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/amount_type_vtas"
+                            android:textSize="@dimen/big_text"
+                            android:layout_marginRight="16dp"
+                            android:textColor="@color/colorPrimaryClearLetter"
+                            android:text=""
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+
+                            />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:id="@+id/line_statistics_item"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:fontFamily="@font/averiasanslight"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/general_text"
+                            android:textColor="@color/clearhintletter"
+                            android:layout_marginLeft="16dp"
+                            android:text="Estadísticas "
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="16dp"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/averiasanslight"
+                                android:layout_height="wrap_content"
+                                android:textSize="22sp"
+                                android:layout_gravity="center"
+                                android:id="@+id/selected_item_loc"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Hombre "
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                >
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/arrowin"
+                                    android:layout_height="match_parent"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryClearLetter"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:textSize="@dimen/big_big_text"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="ingr"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1.3"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryClearLetter"
+                                    android:textSize="@dimen/general_text"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Diferencia"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/item_dif"
+                                    android:gravity="center"
+                                    android:textColor="@color/green3"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:textSize="@dimen/big_big_text"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="233"
+                                    />
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+
+                                >
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:src="@drawable/arrowout"
+                                    android:layout_gravity="center"
+                                    android:layout_height="wrap_content"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryClearLetter"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:textSize="@dimen/big_big_text"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="ventas"
+                                    />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="16dp"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                >
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_height="wrap_content">
+
+                                    <com.hookedonplay.decoviewlib.DecoView
+                                        android:id="@+id/dynamicArcView"
+                                        android:layout_width="@dimen/circle"
+                                        android:background= "@drawable/circle"
+                                        android:backgroundTint="@color/white"
+                                        android:layout_height="@dimen/circle"
+                                        custom:dv_lineWidth="10dp">
+
+                                    </com.hookedonplay.decoviewlib.DecoView>
+
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/colorPrimaryDarkLetter"
+                                        android:fontFamily="@font/opensansregular"
+                                        android:text=""
+                                        android:id="@+id/cant_item_entries"
+                                        android:textSize="@dimen/big_big_text"
+                                        android:layout_gravity="center"
+                                        />
+                                </FrameLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/line_vertical"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1.3"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                >
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_height="@dimen/circle">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/colorPrimaryDarkLetter"
+                                        android:fontFamily="@font/averiasanslight"
+                                        android:textSize="@dimen/big_text"
+                                        android:layout_gravity="center_horizontal"
+                                        android:text="stock"
+                                        />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/colorPrimaryDarkLetter"
+                                        android:fontFamily="@font/opensansregular"
+                                        android:text="0"
+                                        android:gravity="center"
+                                        android:textSize="@dimen/big_big_text"
+                                        android:id="@+id/cant_item_stock"
+                                        android:layout_gravity="center"
+                                        />
+
+                                </FrameLayout>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="2dp"
+                                android:layout_height="match_parent"
+                                android:layout_centerHorizontal="true"
+                                android:layerType="software"
+                                android:background="@drawable/line_vertical"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                >
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_height="wrap_content">
+
+                                    <com.hookedonplay.decoviewlib.DecoView
+                                        android:id="@+id/deco_item_vtas"
+                                        android:layout_width="@dimen/circle"
+                                        android:layout_height="@dimen/circle"
+                                        android:background= "@drawable/circle"
+                                        android:backgroundTint="@color/white"
+                                        custom:dv_lineWidth="10dp">
+
+                                    </com.hookedonplay.decoviewlib.DecoView>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/cant_item_sales"
+                                        android:textColor="@color/colorPrimaryDarkLetter"
+                                        android:fontFamily="@font/opensansregular"
+                                        android:text=""
+                                        android:textSize="@dimen/big_big_text"
+
+                                        android:layout_gravity="center"
+
+                                        />
+                                </FrameLayout>
+
+                            </LinearLayout>
+
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:id="@+id/line_percentages_item"
+                            android:orientation="horizontal"
+                            >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:id="@+id/percentage_entries_item"
+                                    android:textSize="@dimen/big_text"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:text="0"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:paddingLeft="1dp"
+                                    android:textSize="@dimen/big_text"
+                                    android:text="%"
+                                    />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1.3"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center"
+                                android:layout_height="wrap_content"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:id="@+id/percentage_stock_item"
+
+                                    android:textSize="@dimen/big_text"
+                                    android:text="0"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/big_text"
+                                    android:paddingLeft="1dp"
+                                    android:text="%"
+                                    />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_height="wrap_content"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:id="@+id/percentage_sale_item"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:textSize="@dimen/big_text"
+                                    android:text="0"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:textColor="@color/colorPrimaryDarkLetter"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="1dp"
+                                    android:fontFamily="@font/averiasanslight"
+                                    android:textSize="@dimen/big_text"
+                                    android:text="%"
+                                    />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp"
+                            >
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="40dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:layerType="software"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/dottedlined_gruesa"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@mipmap/addstock"
+                                        android:padding="6dp"
+                                        android:background="@drawable/circle_statist_more"
+                                        />
+
+                                </RelativeLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_centerHorizontal="true"
+                                    android:layerType="software"
+                                    android:background="@drawable/dottedlined_gruesa"/>
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1.3"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layerType="software"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/dottedlined_gruesa"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@mipmap/addstock"
+                                        android:padding="6dp"
+                                        android:background="@drawable/circle_statist_more"
+                                        />
+
+                                </RelativeLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_centerHorizontal="true"
+                                    android:layerType="software"
+                                    android:background="@drawable/dottedlined_gruesa"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layerType="software"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/dottedlined_gruesa"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@mipmap/addstock"
+                                        android:padding="6dp"
+                                        android:background="@drawable/circle_statist_more"
+                                        />
+
+                                </RelativeLayout>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginRight="40dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:layerType="software"
+                                    android:background="@drawable/dottedlined_gruesa"/>
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:id="@+id/line_sales_item"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:textSize="@dimen/big_text"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:fontFamily="@font/averiasanslight"
+                                android:text="Monto total en ventas "
+                                />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/amount_item_vtas"
+                                android:textSize="@dimen/big_text"
+                                android:layout_marginRight="16dp"
+                                android:textColor="@color/colorPrimaryClearLetter"
+                                android:text=""
+                                android:fontFamily="@font/averiasanslight"
+                                android:layout_gravity="right"
+                                android:gravity="right"
+
+                                />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
 
-
             </LinearLayout>
+            </ScrollView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -920,14 +1872,11 @@
                 android:id="@+id/empty"
                 android:layout_centerHorizontal="true"
                 android:textSize="18sp"
-                android:layout_marginTop="140dp"
+                android:layout_marginTop="210dp"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal"
                 android:text="No hay productos para esta selección"
-
-
                 />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -960,7 +1909,7 @@
                             android:layout_marginLeft="5dp"
                             android:id="@+id/select_art"
                             android:paddingRight="8dp"
-                            android:background="@drawable/rec_selected"
+                            android:background="@drawable/rec_unselected"
                             android:orientation="horizontal">
 
                             <TextView
@@ -986,7 +1935,7 @@
                             android:layout_marginRight="5dp"
                             android:paddingRight="8dp"
                             android:id="@+id/select_brand"
-                            android:background="@drawable/rec_selected"
+                            android:background="@drawable/rec_unselected"
                             android:orientation="horizontal">
 
                             <TextView
@@ -1012,7 +1961,7 @@
                             android:layout_marginRight="5dp"
                             android:paddingRight="8dp"
                             android:id="@+id/select_model"
-                            android:background="@drawable/rec_selected"
+                            android:background="@drawable/rec_unselected"
                             android:orientation="horizontal">
 
                             <TextView
@@ -1088,7 +2037,7 @@
                             android:paddingRight="8dp"
                             android:paddingLeft="8dp"
                             android:layout_height="wrap_content"
-                            ></ImageView>
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -1126,7 +2075,7 @@
                             android:paddingRight="8dp"
                             android:paddingLeft="8dp"
                             android:layout_height="wrap_content"
-                            ></ImageView>
+                            />
 
                     </LinearLayout>
 
@@ -1136,7 +2085,6 @@
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
 
-                    android:layout_marginBottom="12dp"
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
@@ -1184,8 +2132,9 @@
                     android:orientation="horizontal"
                     android:background="@color/background"
                     android:id="@+id/line_recycler"
+                    android:layout_marginTop="12dp"
                     android:layout_below="@+id/lineBrandType"
-                    android:layout_marginBottom="200dp"
+                    android:layout_marginBottom="150dp"
                     android:layout_height="match_parent">
 
 
@@ -1195,7 +2144,6 @@
                         android:id="@+id/recycler_view_grid_model"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:paddingLeft="4dp"
 
                         android:focusable="true"

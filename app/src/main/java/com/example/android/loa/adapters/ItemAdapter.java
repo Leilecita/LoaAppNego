@@ -130,7 +130,6 @@ public class ItemAdapter extends BaseAdapter<SpinnerData,ItemAdapter.ViewHolder>
                     }
                 }
             });
-
         }else{
            // holder.circle.setImageDrawable(getDrawableFirstLetter(current, Color.parseColor(mColorsBrand.get(position))));
             holder.circle.setImageDrawable(getDrawableFirstLetter(current, Color.parseColor(current.color)));

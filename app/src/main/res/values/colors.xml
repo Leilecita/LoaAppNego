@@ -58,6 +58,13 @@
     <color name="colorDialogButton"> #685c85</color>
     <color name="edithText">#310d58</color>
 
+    <color name="green1">#234936</color>
+    <color name="green2">#387156</color>
+    <color name="green3">#6BD570</color>
+    <color name="back_buys">#D8F3D9</color>
+    <color name="violet1">#B6A9D3</color>
+    <color name="violet2">#BAB4C8</color>
+    <color name="violet3">#E6E2EF</color>
 
     <color name="word">#252525</color>
     <color name="word_clear">#807e7e</color>

@@ -73,6 +73,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private String client_name;
     private String client_created;
 
+    private Boolean product_sales;
+
     private String getExpandedDate(){
 
         String date= DateHelper.get().actualDateExtractions();
@@ -113,6 +115,11 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         client_name="";
         client_created="";
 
+        product_sales = true;
+    }
+
+    public void setProduct_sales(Boolean val){
+        product_sales = val;
     }
 
     public void setClients(List<ReportSimpelClient> cls){
@@ -287,6 +294,12 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             holder.value_sale.setText(String.valueOf(currentProduct.price));
         }
 
+        if(product_sales){
+            holder.balance.setVisibility(View.GONE);
+        }else{
+            holder.balance.setVisibility(View.VISIBLE);
+        }
+
         holder.model.setText(currentProduct.model);
         holder.type.setText(currentProduct.type);
         holder.stock.setText(String.valueOf(currentProduct.stock));
@@ -378,8 +391,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View v) {
                 edithProductPrice(p,position,holder);
-                //optionsProduct(p,position,holder);
-                //deleteProduct(p,position);
             }
         });
         holder.less_stock.setOnClickListener(new View.OnClickListener() {
@@ -458,7 +469,13 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard(mContext, v);
-                createMenuOut(holder);
+
+                if(product_sales){
+                    createMenuOut(holder);
+                }else{
+                    holder.detail.setText("");
+                    createMenuOutBuys(holder);
+                }
             }
         });
 
@@ -549,7 +566,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 }
             }
         });
-
 
 
         holder.ok.setOnClickListener(new View.OnClickListener() {
@@ -671,7 +687,12 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard(mContext,v);
-                createMenuIn(holder);
+
+                if(product_sales){
+                    createMenuIn(holder);
+                }else{
+                    createMenuInBuys(holder);
+                }
             }
         });
 
@@ -696,12 +717,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 if ( ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valueP)) {
                     if(!stockP.matches("") && !detailP.matches("")){
-                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP,Double.valueOf(valueP),"",
+                        StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP,0.0,"",
                                 obserP);
                         s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                         p.stock += Integer.valueOf(stockP);
-
-                       // s.created=getExpandedDate();
 
                         if(!dateSelected.equals("")){
                             s.created=dateSelected;
@@ -736,7 +755,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Activity.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(holder.load_stock.getRootView().getWindowToken(), 0);
-                                // updateItem(position, p);
 
                                 closeItem(holder);
                             }
@@ -886,44 +904,87 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     }
 
 
-  private void createMenuIn(final ViewHolder holder){
-      PopupMenu popup = new PopupMenu(mContext, holder.itemView);
+    private void createMenuInBuys(final ViewHolder holder){
+        PopupMenu popup = new PopupMenu(mContext, holder.detail);
+        popup.getMenuInflater().inflate(R.menu.menu_stock_in_buys, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.in_buy:
+                        holder.detail.setText(Constants.MENU_INGRESO_COMPRA);
+                        return true;
+                    case R.id.in_balance_stock:
+                        holder.detail.setText(Constants.MENU_INGRESO_BALANCE_STOCK);
+                        return true;
+                    case R.id.in_error:
+                        holder.detail.setText(Constants.MENU_INGRESO_ERROR_ANTERIOR);
+                        return true;
+                    case R.id.in_update_app:
+                        holder.detail.setText(Constants.MENU_INGRESO_ACTUALIZACION_APP);
+                        return true;
+                    case R.id.in_consign:
+                        holder.detail.setText(Constants.MENU_INGRESO_CONSIGNACION);
+                        return true;
+                    case R.id.in_dev_luz:
+                        holder.detail.setText(Constants.MENU_INGRESO_DEVOLUCION_LUZ);
+                        return true;
+                    case R.id.in_stock_oferta:
+                        holder.detail.setText(Constants.MENU_INGRESO_STOCK_OFERTA);
+                        return true;
+                    case R.id.in_stock_local:
+                        holder.detail.setText(Constants.MENU_INGRESO_STOCK_LOCAL);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popup.show();
+    }
+
+   private void createMenuIn(final ViewHolder holder){
+      PopupMenu popup = new PopupMenu(mContext, holder.detail);
       popup.getMenuInflater().inflate(R.menu.menu_stock_in, popup.getMenu());
       popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
           public boolean onMenuItemClick(MenuItem item) {
               switch (item.getItemId()) {
-                  case R.id.in_buy:
-                      holder.detail.setText("Ingreso compra");
+
+                /*  case R.id.in_buy:
+                      holder.detail.setText(Constants.MENU_INGRESO_COMPRA);
                       return true;
-                  case R.id.in_error:
-                      holder.detail.setText("Suma por error anterior");
-                      return true;
+
                   case R.id.in_balance_stock:
-                      holder.detail.setText("Ingreso balance stock");
+                      holder.detail.setText(Constants.MENU_INGRESO_BALANCE_STOCK);
                       return true;
-                  case R.id.in_dev:
-                      //holder.detail.setText("Ingreso dev");
-                      holder.detail.setText("Ingreso por cambio");
-                      return true;
-                  case R.id.in_dev_wrong:
-                      holder.detail.setText("Ingreso dev falla");
-                      return true;
-                  case R.id.in_consign:
-                      holder.detail.setText("Ingreso consignacion");
+
+                       case R.id.in_consign:
+                      holder.detail.setText(Constants.MENU_INGRESO_CONSIGNACION);
                       return true;
                   case R.id.in_dev_luz:
-                      holder.detail.setText("ingreso stock Luz");
+                      holder.detail.setText(Constants.MENU_INGRESO_DEVOLUCION_LUZ);
                       return true;
                   case R.id.in_stock_oferta:
-                      holder.detail.setText("ingreso stock oferta");
+                      holder.detail.setText(Constants.MENU_INGRESO_STOCK_OFERTA);
                       return true;
                   case R.id.in_stock_local:
-                      holder.detail.setText("ingreso stock local");
+                      holder.detail.setText(Constants.MENU_INGRESO_STOCK_LOCAL);
                       return true;
                   case R.id.in_update_app:
-                      holder.detail.setText("ingreso actualizacion app");
+                      holder.detail.setText(Constants.MENU_INGRESO_ACTUALIZACION_APP);
+                      return true;*/
+                  case R.id.in_dev:
+                      //holder.detail.setText("Ingreso dev");
+                      holder.detail.setText(Constants.MENU_INGRESO_DEVOLUCION);
                       return true;
+                  case R.id.in_dev_wrong:
+                      holder.detail.setText(Constants.MENU_INGRESO_DEVOLUCION_FALLA);
+                      return true;
+
+                  case R.id.in_error:
+                      holder.detail.setText(Constants.MENU_INGRESO_ERROR_ANTERIOR);
+                      return true;
+
                   default:
                       return false;
               }
@@ -932,9 +993,52 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
       popup.show();
   }
 
+    private void createMenuOutBuys(final ViewHolder holder){
+
+        PopupMenu popup = new PopupMenu(mContext, holder.detail);
+        popup.getMenuInflater().inflate(R.menu.menu_stock_out_buys, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()) {
+
+                     case R.id.out_luz:
+                        holder.detail.setText("paso al stock luz");
+                        return true;
+                    case R.id.out_local:
+                        holder.detail.setText("paso al stock local");
+                        return true;
+                    case R.id.out_oferta:
+                        holder.detail.setText("paso al stock oferta");
+                        return true;
+
+                         case R.id.out_falla:
+                        holder.detail.setText("Salida dev falla");
+                        return true;
+                    case R.id.out_balance_stock:
+                        holder.detail.setText("Salida balance stock");
+                        return true;
+                    case R.id.out_consign:
+                        holder.detail.setText("Salida articulo consignacion");
+                        return true;
+                    case R.id.out_error:
+                        holder.detail.setText("Resta por error anterior");
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        popup.show();
+
+    }
+
     private void createMenuOut(final ViewHolder holder){
 
-        PopupMenu popup = new PopupMenu(mContext, holder.itemView);
+        PopupMenu popup = new PopupMenu(mContext, holder.detail);
         popup.getMenuInflater().inflate(R.menu.menu_stock_out, popup.getMenu());
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -964,13 +1068,26 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                         loadNameClients(holder);
                         return true;
+/*
+   case R.id.out_luz:
+                        holder.detail.setText("paso al stock luz");
+                        return true;
+                    case R.id.out_local:
+                        holder.detail.setText("paso al stock local");
+                        return true;
+                    case R.id.out_oferta:
+                        holder.detail.setText("paso al stock oferta");
+                        return true;
 
-                    case R.id.out_falla:
+                         case R.id.out_falla:
                         holder.detail.setText("Salida dev falla");
                         return true;
                     case R.id.out_balance_stock:
                         holder.detail.setText("Salida balance stock");
                         return true;
+
+ */
+
                     case R.id.out_stole:
                         holder.detail.setText("Salida por robo");
                         return true;
@@ -983,7 +1100,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         holder.line_value.setVisibility(View.VISIBLE);
                         return true;
                     case R.id.out_consign:
-                        holder.detail.setText("Salida articulo consignacion");
+                        holder.detail.setText("Salida venta articulo consignacion");
                         return true;
 
                     case R.id.out_bonif:
@@ -996,15 +1113,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         holder.detail.setText("Salida ficha especial campeonato");
                         return true;
 
-                    case R.id.out_luz:
-                        holder.detail.setText("paso al stock luz");
-                        return true;
-                    case R.id.out_local:
-                        holder.detail.setText("paso al stock local");
-                        return true;
-                    case R.id.out_oferta:
-                        holder.detail.setText("paso al stock oferta");
-                        return true;
 
                     case R.id.out_regalo:
                         holder.detail.setText("salida por regalo");
@@ -1058,45 +1166,3 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 }
 
 
-/*
-
-   private void optionsProduct(final Product p,final int position, final ViewHolder holder){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.options_rpoduct, null);
-        builder.setView(dialogView);
-
-        final RelativeLayout delete = dialogView.findViewById(R.id.delete);
-        final RelativeLayout price = dialogView.findViewById(R.id.price);
-        final TextView item = dialogView.findViewById(R.id.item);
-        final TextView type = dialogView.findViewById(R.id.type);
-        final TextView brand = dialogView.findViewById(R.id.brand);
-        final TextView model = dialogView.findViewById(R.id.model);
-
-        item.setText(p.item);
-        model.setText(p.model);
-        brand.setText(p.brand);
-        type.setText(p.type);
-
-        final AlertDialog dialog = builder.create();
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteProduct(p,position);
-                dialog.dismiss();
-            }
-        });
-
-        price.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                edithProductPrice(p,position,holder);
-                dialog.dismiss();
-            }
-        });
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
- */

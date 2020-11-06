@@ -2,46 +2,54 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <item android:id="@+id/in_buy"
-        android:title="Ingreso compra"
-
-        android:icon="@android:drawable/ic_menu_delete"/>
     <item
         android:id="@+id/in_dev"
-        android:title="Ingreso por cambio"
+        android:title="@string/MENU_INGRESO_DEVOLUCION"
         android:icon="@android:drawable/ic_menu_recent_history"/>
 
     <item
         android:id="@+id/in_dev_wrong"
-        android:title="Ingreso devolucion falla"
+        android:title="@string/MENU_INGRESO_DEVOLUCION_FALLA"
         />
     <item android:id="@+id/in_error"
-        android:title="Ingreso por error anterior"
+        android:title="@string/MENU_INGRESO_ERROR_ANTERIOR"
         android:icon="@android:drawable/ic_menu_delete"/>
 
-    <item
+
+
+</menu>
+<!--
+
+  <item
         android:id="@+id/in_update_app"
-        android:title="Ingreso actualizacion app"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_ACTUALIZACION_APP"
         />
 
-    <item
+   <item
         android:id="@+id/in_consign"
-        android:title="Ingreso consignacion"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_CONSIGNACION"
         />
     <item android:id="@+id/in_balance_stock"
-        android:title="Ingreso balance stock"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_BALANCE_STOCK"
         android:icon="@android:drawable/ic_menu_delete"/>
     <item
         android:id="@+id/in_dev_luz"
-        android:title="Ingreso stock luz"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_DEVOLUCION_LUZ"
         />
     <item
         android:id="@+id/in_stock_oferta"
-        android:title="Ingreso stock oferta"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_STOCK_OFERTA"
         />
     <item
         android:id="@+id/in_stock_local"
-        android:title="Ingreso stock local"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_STOCK_LOCAL"
         />
 
-</menu>
+
+-->

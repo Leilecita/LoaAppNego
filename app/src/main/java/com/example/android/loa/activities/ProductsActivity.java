@@ -11,11 +11,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
-import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.Interfaces.OnSelectedItem;
@@ -54,14 +51,12 @@ import com.example.android.loa.network.models.SpinnerItem;
 import com.example.android.loa.network.models.SpinnerModel;
 import com.example.android.loa.network.models.SpinnerType;
 import com.example.android.loa.network.models.Spinners;
+import com.example.android.loa.types.Constants;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
 
 import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -124,16 +119,16 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     //top selectcion
     private TextView mQuantityPordByFilter;
 
-   // private SwipeRefreshLayout swipeRefreshLayout;
     private TextView mEmptyRecyclerView;
 
     private ImageView balance;
-    private LinearLayout addProduct;
 
     private LinearLayout home;
     private LinearLayout options;
     private TextView title;
     private SearchView searchView;
+
+    private LinearLayout balance_buys;
 
     public void OnChangeViewStock(){
         loadSumAllStockByProduct();
@@ -169,36 +164,54 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     public void onSelectedItem(String brand, String type, String selection){
 
         if(selection.equals("brand")){
-            if(!brand.equals("Nuevo")){
-                mBrand=brand;
+
+           // if(!brand.equals("Nuevo")){
+            mBrand=brand;
+            if(brand.equals("Todos")){
+                brand_name.setText("Marca");
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            }else{
                 brand_name.setText(brand);
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
             }
-            if(brand.equals("Nuevo")){
+          /*  }else{
                 addProduct();
-            }
+            }*/
+
             mGridAdapter.clear();
         }
 
         if(selection.equals("type")){
-            if(!type.equals("Nuevo")){
+           // if(!type.equals("Nuevo")){
                 mType=type;
-                art_name.setText(type);
+                if(type.equals("Todos")){
+                    art_name.setText("Articulo");
+                    select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                }else{
+                    art_name.setText(type);
+                    select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+                }
                 balance.setVisibility(View.VISIBLE);
-            }
-            if(type.equals("Nuevo")){
+           /* }else{
                 addProduct();
-            }
+            }*/
             mTypeGridAdapter.clear();
         }
 
         if(selection.equals("model")){
-            if(!brand.equals("Nuevo")){
+           // if(!brand.equals("Nuevo")){
                 mModel=type;
-                model_name.setText(type);
-            }
-            if(brand.equals("Nuevo")){
+
+                if(brand.equals("Todos")){
+                    model_name.setText("Modelo");
+                    select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                }else{
+                    model_name.setText(type);
+                    select_model.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+                }
+           /* }else{
                 addProduct();
-            }
+            }*/
             mModelGridAdapter.clear();
         }
 
@@ -237,6 +250,15 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         super.onCreate(savedInstanceState);
         //showBackArrow();
 
+        balance_buys = findViewById(R.id.buys);
+        balance_buys.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(),BuyProductsActivity.class));
+                finish();
+            }
+        });
+
         this.searchView = findViewById(R.id.searchview);
         options = findViewById(R.id.options);
         loadOptions();
@@ -250,24 +272,20 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             }
         });
 
-        addProduct = findViewById(R.id.add_prod);
-        addProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addProduct2();
-            }
-        });
         balance = findViewById(R.id.balance);
-        balance.setOnClickListener(new View.OnClickListener() {
+        balance.setVisibility(View.GONE);
+         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mItem.equals("Todos") && !mType.equals("Todos") && !mQuantityPordByFilter.getText().toString().matches("")){
+
+                Toast.makeText(getBaseContext(),"El balance se realiza de la planilla de compras y balance",Toast.LENGTH_SHORT).show();
+             /*   if(!mItem.equals("Todos") && !mType.equals("Todos") && !mQuantityPordByFilter.getText().toString().matches("")){
                     Intent i = new Intent(getBaseContext(), GeneralBalanceByItemTypeActivity.class);
                     i.putExtra("TYPE", mType);
                     i.putExtra("ITEM", mItem);
                     i.putExtra("CANT", mQuantityPordByFilter.getText().toString().trim());
                     getBaseContext().startActivity(i);
-                }
+                }*/
             }
         });
 
@@ -277,7 +295,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         mAdapter=new ProductAdapter(this,new ArrayList<Product>());
         mAdapter.setOnChangeViewStock(this);
         mRecyclerView.setAdapter(mAdapter);
-       // mAdapter.setExtendedDate(getExpandedDate());
 
         mGridRecyclerView =  findViewById(R.id.recycler_view_grid);
         gridlayoutmanager=new GridLayoutManager(this,5);
@@ -335,8 +352,10 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                         ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
                             @Override
                             public void onSuccess(Spinners data) {
-                                SpinnerData sp1=new SpinnerData("Nuevo","#64B5F6");
-                                data.brands.add(sp1);
+                                SpinnerData sp2=new SpinnerData("Todos","#64B5F6");
+                                data.brands.add(0,sp2);
+                               // SpinnerData sp1=new SpinnerData("Nuevo","#64B5F6");
+                                //data.brands.add(sp1);
                                 mGridAdapter.pushList(data.brands);
                             }
 
@@ -361,8 +380,12 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                         ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
                             @Override
                             public void onSuccess(Spinners data) {
-                                SpinnerType sp1=new SpinnerType("Nuevo","#64B5F6");
-                                data.types.add(sp1);
+
+                                SpinnerType sp2=new SpinnerType("Todos","#64B5F6");
+                                data.types.add(0,sp2);
+
+                               // SpinnerType sp1=new SpinnerType("Nuevo","#64B5F6");
+                                //data.types.add(sp1);
                                 mTypeGridAdapter.pushList(data.types);
                             }
                             @Override
@@ -386,8 +409,11 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                     ApiClient.get().getSpinners(mItem, mBrand, mType, "Todos","false",new GenericCallback<Spinners>() {
                         @Override
                         public void onSuccess(Spinners data) {
-                            SpinnerModel sp1=new SpinnerModel("Nuevo");
-                            data.models.add(sp1);
+                            SpinnerModel sp2=new SpinnerModel("Todos");
+                            data.models.add(0,sp2);
+
+                          //  SpinnerModel sp1=new SpinnerModel("Nuevo");
+                           // data.models.add(sp1);
                             mModelGridAdapter.pushList(data.models);
                         }
 
@@ -484,6 +510,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 changeCircleSelected();
                 all.setImageResource(R.drawable.ball);
 
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
             }
         });
 
@@ -601,9 +630,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         loadingInProgress=true;
 
-        if(mAdapter.getItemCount()==0){
-          //  swipeRefreshLayout.setRefreshing(true);
-        }
         ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", query,new GenericCallback<List<Product>>() {
             @Override
             public void onSuccess(List<Product> data) {
@@ -624,7 +650,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                             }
                         }
                         loadingInProgress = false;
-                     //   swipeRefreshLayout.setRefreshing(false);
 
                         if(mCurrentPage == 0 && data.size()==0){
                             mEmptyRecyclerView.setVisibility(View.VISIBLE);
@@ -639,24 +664,18 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onError(Error error) {
                 loadingInProgress = false;
-               // swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
-
-
     private void search(){
 
         searchView.setQueryHint("Buscar");
-
-
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchView.setMaxWidth(Integer.MAX_VALUE);
 
-                addProduct.setVisibility(View.GONE);
                 title.setVisibility(View.GONE);
                 searchView.requestFocus();
             }
@@ -666,7 +685,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public boolean onClose() {
                 title.setVisibility(View.VISIBLE);
-                addProduct.setVisibility(View.VISIBLE);
                 return false;
             }
         });
@@ -734,12 +752,43 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         return !hasMoreItems;
     }
 
+    private void createMenuIn(final TextView detail){
+        PopupMenu popup = new PopupMenu(this, detail);
+        popup.getMenuInflater().inflate(R.menu.menu_stock_in_mini, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.in_update_app:
+                        detail.setText(Constants.MENU_INGRESO_ACTUALIZACION_APP);
+                        return true;
+                    case R.id.in_buy:
+                        detail.setText(Constants.MENU_INGRESO_COMPRA);
+                        return true;
+                    case R.id.in_balance_stock:
+                        detail.setText(Constants.MENU_INGRESO_BALANCE_STOCK);
+                        return true;
+                    case R.id.in_stock_local:
+                        detail.setText(Constants.MENU_INGRESO_STOCK_LOCAL);
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+        popup.show();
+    }
+
     private void addProduct(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_add_product, null);
         builder.setView(dialogView);
 
+        final EditText price= dialogView.findViewById(R.id.price);
+        final TextView detail= dialogView.findViewById(R.id.detail);
+        final EditText stock= dialogView.findViewById(R.id.stock);
         final EditText type= dialogView.findViewById(R.id.type);
         final EditText brand= dialogView.findViewById(R.id.brand);
         final EditText item= dialogView.findViewById(R.id.item);
@@ -752,34 +801,36 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         item.setVisibility(View.GONE);
         model.setVisibility(View.GONE);
 
+        detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createMenuIn(detail);
+            }
+        });
+
         final Spinner spinnerModel=dialogView.findViewById(R.id.spinner_model);
 
-       // if(mViewModel){
-
-            //---------------- models
-            ArrayAdapter<String> adapterModel = new ArrayAdapter<String>(this,
-                    R.layout.spinner_item, mModels);
-            adapterModel.setDropDownViewResource(R.layout.spinner_item);
-            spinnerModel.setAdapter(adapterModel);
-            spinnerModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String selected=spinnerModel.getSelectedItem().toString().trim();
-                    if(selected.equals("Nuevo")){
-                        model.setVisibility(View.VISIBLE);
-                        spinnerModel.setVisibility(View.GONE);
-                    }else{
-                        model.setText(selected);
-                    }
+        //---------------- models
+        ArrayAdapter<String> adapterModel = new ArrayAdapter<String>(this,
+                R.layout.spinner_item, mModels);
+        adapterModel.setDropDownViewResource(R.layout.spinner_item);
+        spinnerModel.setAdapter(adapterModel);
+        spinnerModel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selected=spinnerModel.getSelectedItem().toString().trim();
+                if(selected.equals("Nuevo")){
+                    model.setVisibility(View.VISIBLE);
+                    spinnerModel.setVisibility(View.GONE);
+                }else{
+                    model.setText(selected);
                 }
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    model.setText("");
-                }
-            });
-       // }else{
-        //    spinnerModel.setVisibility(View.GONE);
-      //  }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                model.setText("");
+            }
+        });
 
         //---------------- brands
         ArrayAdapter<String> adapterBrand = new ArrayAdapter<String>(this,
@@ -905,19 +956,23 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View view) {
 
-                if(!type.getText().toString().trim().equals("") & !brand.getText().toString().trim().equals("")  & !item.getText().toString().trim().equals("")){
+                if(!type.getText().toString().trim().equals("") & !brand.getText().toString().trim().equals("")  & !item.getText().toString().trim().equals("") & !stock.getText().toString().trim().equals("")
+                & !detail.getText().toString().trim().equals("")){
 
                     String typeProduct=type.getText().toString().trim();
                     String brandProduct=brand.getText().toString().trim();
                     String itemProduct=item.getText().toString().trim();
                     String modelProduct=model.getText().toString().trim();
+                    String stockProduct=stock.getText().toString().trim();
+                    String detailProduct=detail.getText().toString().trim();
 
-                    Product newProduct= new Product(itemProduct,typeProduct,brandProduct,modelProduct,0);
+                    String priceProduct = ((price.getText().toString().trim().equals("")) ? "0.0" : price.getText().toString().trim());
 
-                    ApiClient.get().checkExistProduct(itemProduct,brandProduct,typeProduct,modelProduct ,new GenericCallback<ResponseData>() {
+                    Product newProduct= new Product(itemProduct,typeProduct,brandProduct,modelProduct,Integer.valueOf(stockProduct));
+
+                    ApiClient.get().checkExistProduct(itemProduct,brandProduct,typeProduct,modelProduct,Integer.valueOf(stockProduct),detailProduct,priceProduct,new GenericCallback<ResponseData>() {
                         @Override
                         public void onSuccess(ResponseData data) {
-                           // mAdapter.pushItem(data);
                             if(data.res.equals("existe")){
                                 Toast.makeText(dialogView.getContext(),"Este tipo de producto ya existe ", Toast.LENGTH_LONG).show();
                             }else if(data.res.equals("creado")){
@@ -950,7 +1005,74 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         dialog.show();
     }
 
-    private void addProduct2(){
+
+
+    private List<String> createArrayType(List<SpinnerType> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("");
+        listN.add("Nuevo");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).type != null){
+                listN.add(list.get(i).type);
+            }
+        }
+
+        return listN;
+    }
+
+    private List<String> createArrayBrand(List<SpinnerData> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("");
+        listN.add("Nuevo");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).brand != null){
+                listN.add(list.get(i).brand);
+            }
+        }
+
+        return listN;
+    }
+
+    private List<String> createArrayModel(List<SpinnerModel> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("Nuevo");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).model != null){
+                listN.add(list.get(i).model);
+            }
+        }
+
+        return listN;
+    }
+
+    private List<String> createArrayItem(List<SpinnerItem> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("Hombre");
+        listN.add("Dama");
+        listN.add("Niño");
+        listN.add("Tecnico");
+        listN.add("Accesorio");
+        listN.add("Calzado");
+
+        return listN;
+    }
+
+    private void limitHeighSpinner(Spinner spinner){
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+            popupWindow.setHeight(400);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
+    }
+}
+
+
+ /*
+   private void addProduct2(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_add_product_2, null);
@@ -1044,7 +1166,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
                     //Product newProduct= new Product(itemProduct,typeProduct,brandProduct,modelProduct,0);
 
-                    ApiClient.get().checkExistProduct(itemProduct,brandProduct,typeProduct,modelProduct ,new GenericCallback<ResponseData>() {
+                    ApiClient.get().checkExistProduct(itemProduct,brandProduct,typeProduct,modelProduct ,0,"",new GenericCallback<ResponseData>() {
                         @Override
                         public void onSuccess(ResponseData data) {
                             if(data.res.equals("existe")){
@@ -1077,129 +1199,4 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
-    private List<String> createArrayType(List<SpinnerType> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("");
-        for(int i=0; i < list.size();++i){
-            if(list.get(i) != null && list.get(i).type != null){
-                listN.add(list.get(i).type);
-            }
-        }
-        listN.add("Nuevo");
-        return listN;
-    }
-
-    private List<String> createArrayBrand(List<SpinnerData> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("");
-        for(int i=0; i < list.size();++i){
-            if(list.get(i) != null && list.get(i).brand != null){
-                listN.add(list.get(i).brand);
-            }
-        }
-        listN.add("Nuevo");
-        return listN;
-    }
-
-    private List<String> createArrayModel(List<SpinnerModel> list){
-        List<String> listN=new ArrayList<>();
-        for(int i=0; i < list.size();++i){
-            if(list.get(i) != null && list.get(i).model != null){
-                listN.add(list.get(i).model);
-            }
-        }
-        listN.add("Nuevo");
-        return listN;
-    }
-
-    private List<String> createArrayItem(List<SpinnerItem> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("Hombre");
-        listN.add("Dama");
-        listN.add("Niño");
-        listN.add("Tecnico");
-        listN.add("Accesorio");
-        listN.add("Calzado");
-
-        return listN;
-    }
-
-    private void limitHeighSpinner(Spinner spinner){
-        try {
-            Field popup = Spinner.class.getDeclaredField("mPopup");
-            popup.setAccessible(true);
-            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
-            popupWindow.setHeight(400);
-        }
-        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
-            // silently fail...
-        }
-    }
-}
-
-
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_product, menu);
-        final MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.expandActionView();
-        final android.widget.SearchView searchView = (android.widget.SearchView) searchItem.getActionView();
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setQueryHint("Ingrese nombre");
-
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addProduct.setVisibility(View.GONE);
-                searchView.requestFocus();
-            }
-        });
-
-        searchView.setOnCloseListener(new android.widget.SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                addProduct.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
-
-        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                if(!newText.trim().toLowerCase().equals(mQuery)) {
-                    mCurrentPage = 0;
-                    mAdapter.clear();
-
-                    list2(newText.trim().toLowerCase());
-                }
-                return false;
-            }
-        });
-        super.onCreateOptionsMenu(menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.action_deleted_products:
-                startActivity(new Intent(this,DeletedProductsActivity.class));
-                return true;
-            case R.id.general_balance:
-                startActivity(new Intent(this, GeneralBalanceActivity.class));
-                return true;
-            case android.R.id.home:
-                finish();
-                //NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+  */

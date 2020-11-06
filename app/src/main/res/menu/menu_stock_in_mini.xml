@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:id="@+id/in_update_app"
+        android:title="@string/MENU_INGRESO_ACTUALIZACION_APP"
+        />
+
+    <item android:id="@+id/in_buy"
+        android:title="@string/MENU_INGRESO_COMPRA"
+        android:icon="@android:drawable/ic_menu_delete"/>
+
+    <item android:id="@+id/in_balance_stock"
+        android:title="@string/MENU_INGRESO_BALANCE_STOCK"
+        android:icon="@android:drawable/ic_menu_delete"/>
+
+    <item
+        android:id="@+id/in_stock_local"
+        android:title="@string/MENU_INGRESO_STOCK_LOCAL"
+        />
+
+</menu>

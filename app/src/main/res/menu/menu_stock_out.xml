@@ -20,6 +20,7 @@
         />
     <item
         android:id="@+id/out_falla"
+        android:visible="false"
         android:title="Salida dev falla"
         />
     <item android:id="@+id/out_error"
@@ -38,10 +39,7 @@
         android:title="Salida ficha especial bonificacion"
         />
 
-    <item
-        android:id="@+id/out_balance_stock"
-        android:title="Salida balance stock"
-        />
+
     <item
         android:id="@+id/out_stole"
         android:title="Salida por robo"
@@ -49,28 +47,38 @@
 
     <item
         android:id="@+id/out_consign"
-        android:title="salida aritculo consignacion"
+        android:title="salida venta aritculo consignacion"
         />
 
-    <item
+
+</menu>
+
+<!--
+ <item
+        android:id="@+id/out_balance_stock"
+        android:title="Salida balance stock"
+        android:visible="false"
+        />
+<item
         android:id="@+id/out_luz"
         android:title="paso al stock luz"
+        android:visible="false"
         />
     <item
         android:id="@+id/out_local"
+        android:visible="false"
         android:title="paso al stock local "
         />
 
     <item
         android:id="@+id/out_oferta"
+        android:visible="false"
         android:title="paso al stock oferta"
         />
 
     <item
         android:id="@+id/out_regalo"
+        android:visible="false"
         android:title="Salida por regalo"
         />
-
-
-
-</menu>
+-->

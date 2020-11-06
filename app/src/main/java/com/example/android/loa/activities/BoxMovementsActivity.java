@@ -107,6 +107,8 @@ public class BoxMovementsActivity extends BaseActivity {
             selectFragment(1);
         }else if(name.equals("box")){
             selectFragment(3);
+        }else if(name.equals("compras")){
+            selectFragment(2);
         }
 
 

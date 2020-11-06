@@ -2,51 +2,140 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottomSheet"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:backgroundTint="@color/background_bottom_shet"
     app:layout_behavior="@string/bottom_sheet_behavior"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="@dimen/peek_height" >
+    app:behavior_peekHeight="90dp" >
 
+    <ImageView
+        android:layout_width="25dp"
+        android:src="@drawable/arrowout"
+        android:alpha="0.6"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        />
     <TextView
         android:layout_width="30dp"
         android:layout_marginBottom="4dp"
         android:layout_gravity="center_horizontal"
         style="@style/DivisorCategoryStyle"
+        android:visibility="gone"
         android:backgroundTint="@color/colorPrimaryDark"
         android:layout_height="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:background="@drawable/rec_find"
         android:backgroundTint="@color/background_bottom_shet"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_products"
-            android:layout_width="match_parent"
-            android:clipToPadding="false"
-            android:layout_height="180dp"
-            />
-
-
+        android:layout_height="wrap_content">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/violetClear"
             >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:fontFamily="@font/opensanslight"
+                android:textColor="@color/colorPrimaryClearLetter"
+                android:textSize="17sp"
+                android:text="Detalle de selección"
+                android:paddingLeft="12dp"
+
+                />
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_products"
+            android:layout_width="match_parent"
+            android:clipToPadding="false"
+            android:layout_marginTop="4dp"
+            android:layout_height="500dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/view_selection"
+                    android:checked="true"
+                    android:layout_height="wrap_content">
+
+                </CheckBox>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:text="Ver selección"
+                    />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/view_not_selection"
+                        android:layout_height="wrap_content">
+
+                    </CheckBox>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="No ver selección"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_detail"
                 android:layout_width="match_parent"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
 
                 />
 
         </LinearLayout>
+
+
 
 
         <LinearLayout

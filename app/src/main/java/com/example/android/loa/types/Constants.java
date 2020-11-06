@@ -41,4 +41,34 @@ public class Constants {
     public static String TYPE_MERCADO_PAGO = "mercado pago";
     public static String TYPE_TRANSFERENCIA = "transferencia";
 
+
+    public static String MENU_INGRESO_COMPRA = "Ingreso compra";
+    public static String MENU_INGRESO_DEVOLUCION = "Ingreso por cambio";
+    public static String MENU_INGRESO_DEVOLUCION_FALLA = "Ingreso devolucion falla";
+    public static String MENU_INGRESO_ERROR_ANTERIOR = "Ingreso por error anterior";
+    public static String MENU_INGRESO_ACTUALIZACION_APP = "Ingreso actualizacion app";
+    public static String MENU_INGRESO_CONSIGNACION = "Ingreso consignacion";
+    public static String MENU_INGRESO_BALANCE_STOCK = "Ingreso balance stock";
+    public static String MENU_INGRESO_DEVOLUCION_LUZ = "Ingreso stock luz";
+    public static String MENU_INGRESO_STOCK_OFERTA = "Ingreso stock oferta";
+    public static String MENU_INGRESO_STOCK_LOCAL = "Ingreso stock local";
+
+
+    public static String MENU_SALIDA_VENTA = "Salida venta";
+    public static String MENU_SALIDA_VENTA_CON_DESCUENTO = "Salida venta c/ desc";
+    public static String MENU_SALIDA_FICHA = "Salida ficha";
+    public static String MENU_SALIDA_POR_CAMBIO = "Salida por cambio";
+    public static String MENU_SALIDA_DEV_FALLA = "Salida dev falla";
+    public static String MENU_SALIDA_POR_ERROR_ANTERIOR = "Salida por error anterior";
+    public static String MENU_SALIDA_FICHA_ESPECIAL_CAMPEONATO = "Salida ficha especial campeonato";
+    public static String MENU_SALIDA_FICHA_ESPECIAL_SANTI = "Salida ficha especial santi";
+    public static String MENU_SALIDA_FICHA_ESPECIAL_BONIFICACION = "Salida ficha especial bonificacion";
+    public static String MENU_SALIDA_BALANCE_STOCK = "Salida balance stock";
+    public static String MENU_SALIDA_POR_ROBO = "Salida por robo";
+    public static String MENU_SALIDA_ARTICULO_CONSIGNACION = "salida aritculo consignacion";
+    public static String MENU_SALIDA_PASO_STOCK_LUZ = "paso al stock luz";
+    public static String MENU_SALIDA_PASO_STOCK_LOCAL = "paso al stock local";
+    public static String MENU_SALIDA_PASO_STOCK_OFERTA = "paso al stock oferta";
+    public static String MENU_SALIDA_POR_REGALO = "Salida por regalo";
+
 }

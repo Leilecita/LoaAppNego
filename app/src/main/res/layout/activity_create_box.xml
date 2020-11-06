@@ -290,7 +290,7 @@
 
                     android:layout_width="match_parent"
                     android:gravity="center_vertical|right"
-                    android:text="123123"
+                    android:text=""
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="@dimen/general_text"
                     />
@@ -326,7 +326,7 @@
 
                     android:layout_width="match_parent"
                     android:gravity="center_vertical|right"
-                    android:text="123123"
+                    android:text=""
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="@dimen/general_text"
                     />
@@ -363,7 +363,7 @@
                     android:paddingRight="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:hint="100"
+                    android:hint=""
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:gravity="center_vertical|right"
                     android:textSize="@dimen/general_text"
@@ -399,7 +399,7 @@
                     android:background="@drawable/rec_complette"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical|right"
-                    android:text="123123"
+                    android:text=""
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="@dimen/general_text"
                     />
@@ -435,7 +435,7 @@
                     android:paddingRight="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:hint="123123"
+                    android:hint=""
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:textSize="@dimen/general_text"
                     android:background="@drawable/rec_find"
@@ -505,7 +505,6 @@
                         android:textSize="@dimen/general_text"
                         />
 
-
                     <TextView
                         android:layout_height="33dp"
                         android:layout_weight="1"
@@ -515,7 +514,7 @@
                         android:id="@+id/credit_card"
 
                         android:layout_width="match_parent"
-                        android:text="123"
+                        android:text=""
                         android:textColor="@color/colorPrimaryDarkLetter"
                         android:textSize="@dimen/general_text"
                         />

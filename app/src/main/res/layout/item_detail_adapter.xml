@@ -14,13 +14,13 @@
         android:id="@+id/text"
         android:gravity="center"
         android:layout_marginTop="2dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text=""
         android:layout_gravity="center"
         android:textColor="@color/colorPrimaryDarkLetter"
-        android:textSize="17sp"
+        android:textSize="16sp"
         />
 </LinearLayout>

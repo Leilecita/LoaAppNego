@@ -3,13 +3,14 @@ package com.example.android.loa.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +29,6 @@ import com.example.android.loa.adapters.ItemAdapterModel;
 import com.example.android.loa.adapters.ItemAdapterType;
 
 import com.example.android.loa.adapters.ItemDetailAdapter;
-import com.example.android.loa.adapters.StockEventAdapter;
 
 import com.example.android.loa.adapters.StockStatisticsEventAdapter;
 import com.example.android.loa.network.ApiClient;
@@ -42,7 +42,6 @@ import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.SpinnerModel;
 import com.example.android.loa.network.models.SpinnerType;
 import com.example.android.loa.network.models.Spinners;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.paginate.Paginate;
@@ -52,7 +51,6 @@ import com.paginate.recycler.LoadingListItemSpanLookup;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 public class StatisticsActivity extends BaseActivity implements Paginate.Callbacks, OnSelectedItem {
@@ -100,13 +98,13 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private TextView model_name;
 
     private TextView mDif;
-    private TextView mEntriesQuantity;
-    private TextView mSalesQuantity;
+   // private TextView mEntriesQuantity;
+    //private TextView mSalesQuantity;
     private TextView mLocalExtractions;
     private TextView mSalariesOutcomes;
     private TextView mMercOutcomes;
     private TextView mAmountSales;
-    private TextView mStockProduct;
+   // private TextView mStockProduct;
 
     private TextView mViewDateSince;
     private TextView mViewDateTo;
@@ -155,6 +153,10 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private Integer mArtTotalStock;
     private Integer mBrandTotalStock;
 
+    private TextView mItemDif;
+    private TextView mArtDif;
+    private TextView mBrandDif;
+
     private LinearLayout line_statistics_item;
     private LinearLayout line_statistics_type;
     private LinearLayout line_statistics_brand;
@@ -170,19 +172,40 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private TextView percentage_stock_item;
     private TextView percentage_stock_type;
     private TextView percentage_stock_brand;
-    //public FitChart fitChart_entries_item ;
 
     private DecoView decoView_entries_precentege_item;
     private DecoView deco_item_sales;
-    private DecoView deco_item_stock;
 
     private DecoView deco_type_entries;
     private DecoView deco_type_sales;
-    private DecoView deco_type_stock;
 
     private DecoView deco_brand_entries;
     private DecoView deco_brand_sales;
-    private DecoView deco_brand_stock;
+
+    private TextView cant_entries_item;
+    private TextView cant_entries_type;
+    private TextView cant_entries_brand;
+
+    private TextView cant_sale_item;
+    private TextView cant_sale_type;
+    private TextView cant_sale_brand;
+
+    private TextView cant_stock_item;
+    private TextView cant_stock_type;
+    private TextView cant_stock_brand;
+
+    private TextView selected_item;
+    private TextView selected_art;
+    private TextView selected_brand_art;
+    private TextView selected_art_item;
+    private TextView selected_item_loc;
+
+    private CheckBox view_selection;
+    private CheckBox view_not_selection;
+
+    private TextView amount_item_sales;
+    private TextView amount_brand_sales;
+    private TextView amount_type_sales;
 
 
     @Override
@@ -208,6 +231,67 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
         simpleProgressBar.setVisibility(View.VISIBLE);
 
+        if(selection.equals("brand")){
+
+            if(!brand.equals("Todos")){
+                mBrand = brand;
+                brand_name.setText(brand);
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                line_statistics_brand.setVisibility(View.VISIBLE);
+                selected_brand_art.setText(brand);
+
+            }else{
+                mBrand = "Todos";
+                brand_name.setText("Marca");
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+                line_statistics_brand.setVisibility(View.GONE);
+            }
+            mGridAdapter.clear();
+
+            auto_brand.setVisibility(View.GONE);
+            auto_brand.setText("");
+        }
+
+        if(selection.equals("type")){
+            if(!type.equals("Todos")) {
+                mType = type;
+                art_name.setText(type);
+                select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                line_statistics_type.setVisibility(View.VISIBLE);
+
+              selected_art.setText(type);
+              selected_art_item.setText(type);
+
+            }else{
+                mType = "Todos";
+                art_name.setText("Articulo");
+                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+                line_statistics_type.setVisibility(View.GONE);
+            }
+            mTypeGridAdapter.clear();
+
+            auto_type.setVisibility(View.GONE);
+            auto_type.setText("");
+        }
+
+        if(selection.equals("model")){
+            if(!brand.equals("Todos")) {
+                mModel = type;
+                model_name.setText(type);
+                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+            }else{
+                mModel = "Todos";
+                model_name.setText("Modelo");
+                select_model.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+            }
+            mModelGridAdapter.clear();
+        }
+
         if(selection.equals("detail")){
             if(brand.equals("Todos")){
                 mDetailAdapter.unSelectAll();
@@ -216,64 +300,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             loadEventsDetail();
         }
 
-        if(selection.equals("brand")){
-
-            if(!brand.equals("Todos")){
-                mBrand = brand;
-                brand_name.setText(brand);
-                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-
-                line_statistics_brand.setVisibility(View.VISIBLE);
-            }else{
-                mBrand = "Todos";
-                brand_name.setText("Marca");
-                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
-
-                line_statistics_brand.setVisibility(View.GONE);
-            }
-            mGridAdapter.clear();
-
-            auto_brand.setVisibility(View.GONE);
-            auto_brand.setText("");
-
-
-        }
-
-        if(selection.equals("type")){
-            if(!type.equals("Todos")) {
-                mType = type;
-                art_name.setText(type);
-                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-
-                line_statistics_type.setVisibility(View.VISIBLE);
-            }else{
-                mType = "Todos";
-                art_name.setText("Articulo");
-                select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
-
-                line_statistics_type.setVisibility(View.GONE);
-            }
-            mTypeGridAdapter.clear();
-
-            auto_type.setVisibility(View.GONE);
-            auto_type.setText("");
-
-        }
-
-        if(selection.equals("model")){
-            if(!brand.equals("Todos")) {
-                mModel = type;
-                model_name.setText(type);
-                select_model.setBackground(getResources().getDrawable(R.drawable.rec_selected));
-
-            }else{
-                mModel = "Todos";
-                model_name.setText("Modelo");
-                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-            }
-            mModelGridAdapter.clear();
-
-        }
         clearAndList();
     }
 
@@ -283,15 +309,12 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
        // showBackArrow();
         decoView_entries_precentege_item = findViewById(R.id.dynamicArcView);
         deco_item_sales =  findViewById(R.id.deco_item_vtas);
-        deco_item_stock = findViewById(R.id.deco_item_stock);
 
         deco_type_entries = findViewById(R.id.deco_type_entries);
         deco_type_sales =  findViewById(R.id.deco_type_sales);
-        deco_type_stock = findViewById(R.id.deco_type_stock);
 
         deco_brand_entries =  findViewById(R.id.deco_brand_entries);
         deco_brand_sales =  findViewById(R.id.deco_brand_vtas);
-        deco_brand_stock =  findViewById(R.id.deco_brand_stock);
 
         line_statistics_item = findViewById(R.id.line_statistics_item);
         line_statistics_type = findViewById(R.id.line_statistics_type);
@@ -299,7 +322,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
         percentage_sale_item = findViewById(R.id.percentage_sale_item);
         percentage_sale_type = findViewById(R.id.percentage_sale_type);
-        percentage_sale_brand = findViewById(R.id.percentage_sale_brande);
+        percentage_sale_brand = findViewById(R.id.percentage_sale_brand);
 
         percentage_entries_item = findViewById(R.id.percentage_entries_item);
         percentage_entries_type = findViewById(R.id.percentage_entries_type);
@@ -309,11 +332,31 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         percentage_stock_type = findViewById(R.id.percentage_stock_type);
         percentage_stock_brand = findViewById(R.id.percentage_stock_brand);
 
-       /* fitChart_entries_item = findViewById(R.id.fitChart);
-        fitChart_entries_item.setMinValue(0f);
-        fitChart_entries_item.setMaxValue(100f);
+        cant_entries_item = findViewById(R.id.cant_item_entries);
+        cant_sale_item = findViewById(R.id.cant_item_sales);
+        cant_stock_item = findViewById(R.id.cant_item_stock);
 
-        */
+        cant_entries_type = findViewById(R.id.cant_type_ingr);
+        cant_sale_type = findViewById(R.id.cant_type_vtas);
+        cant_stock_type = findViewById(R.id.cant_type_stock);
+
+        cant_entries_brand = findViewById(R.id.cant_brand_ingr);
+        cant_sale_brand= findViewById(R.id.cant_brand_vtas);
+        cant_stock_brand = findViewById(R.id.cant_brand_stock);
+
+        selected_item = findViewById(R.id.selected_item);
+        selected_art = findViewById(R.id.selected_art);
+        selected_art_item = findViewById(R.id.selected_art_item);
+        selected_brand_art = findViewById(R.id.selected_brand_art);
+        selected_item_loc = findViewById(R.id.selected_item_loc);
+
+        amount_brand_sales = findViewById(R.id.amount_brand_vtas);
+        amount_item_sales = findViewById(R.id.amount_item_vtas);
+        amount_type_sales = findViewById(R.id.amount_type_vtas);
+
+        mItemDif = findViewById(R.id.item_dif);
+        mArtDif = findViewById(R.id.type_dif);
+        mBrandDif = findViewById(R.id.brand_dif);
 
         view_eye = findViewById(R.id.view_eye);
         view_eye.setOnClickListener(new View.OnClickListener() {
@@ -383,7 +426,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter=new StockStatisticsEventAdapter(this,new ArrayList<ReportStockEvent>());
         mRecyclerView.setAdapter(mAdapter);
-
         */
 
         mGridRecyclerView =  findViewById(R.id.recycler_view_grid);
@@ -461,15 +503,17 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                                     String selected=auto_brand.getText().toString().trim();
                                     mBrand = selected;
                                     brand_name.setText(selected);
-                                    select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                                    select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
 
                                     mGridAdapter.clear();
                                     auto_brand.setVisibility(View.GONE);
 
+                                    line_statistics_brand.setVisibility(View.VISIBLE);
+                                    selected_brand_art.setText(selected);
+
                                     clearAndList();
 
                                     hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
-
                                 }
                             });
 
@@ -520,10 +564,15 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                                     String selected=auto_type.getText().toString().trim();
                                     mType = selected;
                                     art_name.setText(selected);
-                                    select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                                    select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
 
                                     mTypeGridAdapter.clear();
                                     auto_type.setVisibility(View.GONE);
+
+                                    line_statistics_type.setVisibility(View.VISIBLE);
+
+                                    selected_art.setText(selected);
+                                    selected_art_item.setText(selected);
 
                                     clearAndList();
 
@@ -571,13 +620,9 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
         mEmptyRecyclerView=findViewById(R.id.empty);
 
-       // mAmountSales = findViewById(R.id.sum_amount_sales);
-      //  mMercOutcomes = findViewById(R.id.sum_mercaderia_out);
-        mStockProduct = findViewById(R.id.quantity_stock);
-
+       /* mStockProduct = findViewById(R.id.quantity_stock);
         mEntriesQuantity = findViewById(R.id.entries);
-        mSalesQuantity = findViewById(R.id.sales);
-       // mDif = findViewById(R.id.dif);
+        mSalesQuantity = findViewById(R.id.sales);*/
 
         topBarListener();
 
@@ -606,15 +651,50 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         mRecyclerViewDetail.setAdapter(mDetailAdapter);
         mDetailAdapter.setOnSelectedItem(this);
 
+        view_not_selection = bottomShet.findViewById(R.id.view_not_selection);
+        view_selection = bottomShet.findViewById(R.id.view_selection);
+
+        view_not_selection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mDetailAdapter.unSelectAll();
+                if(view_not_selection.isChecked()) {
+                    view_not_selection.setChecked(true);
+                    view_selection.setChecked(false);
+                    mDetailAdapter.setTypeViewToSee(false);
+                }else{
+                    view_not_selection.setChecked(false);
+                    view_selection.setChecked(true);
+                    mDetailAdapter.setTypeViewToSee(true);
+                }
+
+                clearAndList();
+            }
+        });
+
+        view_selection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mDetailAdapter.unSelectAll();
+                if(view_selection.isChecked()) {
+                    view_selection.setChecked(true);
+                    mDetailAdapter.setTypeViewToSee(true);
+                    view_not_selection.setChecked(false);
+                }else{
+                    view_selection.setChecked(false);
+                    mDetailAdapter.setTypeViewToSee(false);
+                    view_not_selection.setChecked(true);
+                }
+
+                clearAndList();
+            }
+        });
     }
 
     private void cleanStatisticsValues(){
-      //  mAmountSales.setText("0");
-        mEntriesQuantity.setText("0");
-        mSalesQuantity.setText("0");
-       // mMercOutcomes.setText("0");
-        mStockProduct.setText("0");
-//        mDif.setText("0");
+    //    mEntriesQuantity.setText("0");
+  //      mSalesQuantity.setText("0");
+//        mStockProduct.setText("0");
     }
 
     private void loadEventsDetail(){
@@ -637,13 +717,13 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         return String.valueOf(100*valueToCalclulate / totalBig);
     }
 
-    private void createSeriesInit( Integer mParcialtotal, DecoView decoview){
+    private void createSeriesInit( Integer mParcialtotal, DecoView decoview, int color, int selected_color){
 
-        final SeriesItem seriesItemInit = new SeriesItem.Builder(this.getResources().getColor(R.color.word_clear2))
+        final SeriesItem seriesItemInit = new SeriesItem.Builder(this.getResources().getColor(color))
                 .setRange(0, 100, 100)
                 .build();
 
-        final SeriesItem seriesItem = new SeriesItem.Builder(this.getResources().getColor(R.color.colorPrimaryDark))
+        final SeriesItem seriesItem = new SeriesItem.Builder(this.getResources().getColor(selected_color))
                 .setRange(0, 100,mParcialtotal)
                 .build();
 
@@ -653,6 +733,9 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         int backIndex = decoview.addSeries(seriesItem);
     }
     private void check(ReportStatistic data){
+
+
+
         if(mItem.equals("Todos") && mType.equals("Todos") && mBrand.equals("Todos")){
 
             this.mTotalSales = data.sum_sales;
@@ -664,45 +747,114 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             this.mItemTotalEntries = data.sum_entries;
             this.mItemTotalStock = data.sum_stock_product;
 
+            mItemDif.setText(String.valueOf(mItemTotalEntries - mItemTotalSales));
+
+            amount_item_sales.setText("$"+getFormattedNumber(data.sum_money_sales));
+
             percentage_sale_item.setText(calculatePercentage(mTotalSales,mItemTotalSales));
             percentage_entries_item.setText(calculatePercentage(mTotalEntries,mItemTotalEntries));
             percentage_stock_item.setText(calculatePercentage(mTotalStock,mItemTotalStock));
 
-            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalEntries,mItemTotalEntries)),decoView_entries_precentege_item);
-            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalSales,mItemTotalSales)),deco_item_sales);
-            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalStock,mItemTotalStock)),deco_item_stock);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalEntries,mItemTotalEntries)),decoView_entries_precentege_item,R.color.violet3,R.color.green3);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalSales,mItemTotalSales)),deco_item_sales, R.color.violet3,R.color.green3);
 
+            cant_sale_item.setText(String.valueOf(data.sum_sales));
+            cant_entries_item.setText(String.valueOf(data.sum_entries));
+            cant_stock_item.setText(String.valueOf(data.sum_stock_product));
 
         }else if(!mItem.equals("Todos") && !mType.equals("Todos") && mBrand.equals("Todos")){
             this.mArtTotalSales = data.sum_sales;
             this.mArtTotalEntries = data.sum_entries;
             this.mArtTotalStock = data.sum_stock_product;
 
+            mArtDif.setText(String.valueOf(mArtTotalEntries - mArtTotalSales));
+
+            amount_type_sales.setText("$ "+getFormattedNumber(data.sum_money_sales));
+
             percentage_sale_type.setText(calculatePercentage(mItemTotalSales,mArtTotalSales));
             percentage_entries_type.setText(calculatePercentage(mItemTotalEntries,mArtTotalEntries));
             percentage_stock_type.setText(calculatePercentage(mItemTotalStock,mArtTotalStock));
 
-            createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalSales,mArtTotalSales)),deco_type_sales);
-            createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalEntries,mArtTotalEntries)),deco_type_entries);
-            createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalStock,mArtTotalStock)),deco_type_stock);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalSales,mArtTotalSales)),deco_type_sales,R.color.violet3,R.color.green3);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalEntries,mArtTotalEntries)),deco_type_entries, R.color.violet3,R.color.green3);
+           // createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalStock,mArtTotalStock)),deco_type_stock,R.color.violet3,R.color.green3);
+
+            cant_sale_type.setText(String.valueOf(data.sum_sales));
+            cant_entries_type.setText(String.valueOf(data.sum_entries));
+            cant_stock_type.setText(String.valueOf(data.sum_stock_product));
 
         }else if(!mItem.equals("Todos") && !mType.equals("Todos") && !mBrand.equals("Todos")){
             this.mBrandTotalSales = data.sum_sales;
             this.mBrandTotalEntries = data.sum_entries;
             this.mBrandTotalStock = data.sum_stock_product;
 
+            mBrandDif.setText(String.valueOf(mBrandTotalEntries - mBrandTotalSales));
+
+            amount_brand_sales.setText("$"+getFormattedNumber(data.sum_money_sales));
+
             percentage_sale_brand.setText(calculatePercentage(mArtTotalSales,mBrandTotalSales));
             percentage_entries_brand.setText(calculatePercentage(mArtTotalEntries,mBrandTotalEntries));
             percentage_stock_brand.setText(calculatePercentage(mArtTotalStock,mBrandTotalStock));
 
-            createSeriesInit(Integer.valueOf(calculatePercentage(mArtTotalSales,mBrandTotalSales)),deco_brand_sales);
-            createSeriesInit(Integer.valueOf(calculatePercentage(mArtTotalEntries,mBrandTotalEntries)),deco_brand_entries);
-            createSeriesInit(Integer.valueOf(calculatePercentage(mArtTotalStock,mBrandTotalStock)),deco_brand_stock);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mArtTotalSales,mBrandTotalSales)),deco_brand_sales,R.color.violet3,R.color.green3);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mArtTotalEntries,mBrandTotalEntries)),deco_brand_entries, R.color.violet3,R.color.green3);
+
+            cant_sale_brand.setText(String.valueOf(data.sum_sales));
+            cant_entries_brand.setText(String.valueOf(data.sum_entries));
+            cant_stock_brand.setText(String.valueOf(data.sum_stock_product));
+        }else if(mItem.equals("Todos") && !mType.equals("Todos") && mBrand.equals("Todos")){
+
+            this.mArtTotalSales = data.sum_sales;
+            this.mArtTotalEntries = data.sum_entries;
+            this.mArtTotalStock = data.sum_stock_product;
+
+            mArtDif.setText(String.valueOf(mArtTotalEntries - mArtTotalSales));
+
+            amount_type_sales.setText("$ "+getFormattedNumber(data.sum_money_sales));
+
+            percentage_sale_type.setText(calculatePercentage(mTotalSales,mArtTotalSales));
+            percentage_entries_type.setText(calculatePercentage(mTotalEntries,mArtTotalEntries));
+            percentage_stock_type.setText(calculatePercentage(mTotalStock,mArtTotalStock));
+
+            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalSales,mArtTotalSales)),deco_type_sales,R.color.violet3,R.color.green3);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalEntries,mArtTotalEntries)),deco_type_entries, R.color.violet3,R.color.green3);
+
+            cant_sale_type.setText(String.valueOf(data.sum_sales));
+            cant_entries_type.setText(String.valueOf(data.sum_entries));
+            cant_stock_type.setText(String.valueOf(data.sum_stock_product));
+
+        }else if(mItem.equals("Todos") && mType.equals("Todos") && !mBrand.equals("Todos")){
+            this.mBrandTotalSales = data.sum_sales;
+            this.mBrandTotalEntries = data.sum_entries;
+            this.mBrandTotalStock = data.sum_stock_product;
+
+            mBrandDif.setText(String.valueOf(mBrandTotalEntries - mBrandTotalSales));
+
+            amount_brand_sales.setText("$"+String.valueOf(data.sum_money_sales));
+
+            percentage_sale_brand.setText(calculatePercentage( mTotalSales,mBrandTotalSales));
+            percentage_entries_brand.setText(calculatePercentage(mTotalEntries,mBrandTotalEntries));
+            percentage_stock_brand.setText(calculatePercentage(mTotalStock,mBrandTotalStock));
+
+            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalSales,mBrandTotalSales)),deco_brand_sales,R.color.violet3,R.color.green3);
+            createSeriesInit(Integer.valueOf(calculatePercentage(mTotalEntries,mBrandTotalEntries)),deco_brand_entries, R.color.violet3,R.color.green3);
+
+            cant_sale_brand.setText(String.valueOf(data.sum_sales));
+            cant_entries_brand.setText(String.valueOf(data.sum_entries));
+            cant_stock_brand.setText(String.valueOf(data.sum_stock_product));
         }
     }
 
+
+    private String getFormattedNumber(Double number){
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        decimalFormat.setGroupingUsed(true);
+        decimalFormat.setGroupingSize(3);
+        return decimalFormat.format(number);
+    }
     private void loadStatisticValues(){
-        ApiClient.get().getStatisticValues(mItem, mBrand, mType, mModel, mDateSine , mDateTo, generateString(mDetailAdapter.getSelectedDetails()), new GenericCallback<ReportStatistic>() {
+        ApiClient.get().getStatisticValues(mItem, mBrand, mType, mModel, mDateSine , mDateTo, generateString(mDetailAdapter.getSelectedDetailsNotToSee()),generateString(mDetailAdapter.getSelectedDetailsToSee()) ,new GenericCallback<ReportStatistic>() {
             @Override
             public void onSuccess(ReportStatistic data) {
 
@@ -713,21 +865,12 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                 decimalFormat.setGroupingSize(3);
                 String yourFormattedString = decimalFormat.format(data.sum_money_sales);
 
-              //  mAmountSales.setText(yourFormattedString);
-                mEntriesQuantity.setText(String.valueOf(data.sum_entries));
-                mSalesQuantity.setText(String.valueOf(data.sum_sales));
-              //  mMercOutcomes.setText(String.valueOf(data.sum_mercaderia_outcomes));
-                mStockProduct.setText(String.valueOf(data.sum_stock_product));
 
-                Integer d = data.sum_entries  - data.sum_sales;
 
-               /* if(d < 0){
-                    mDif.setTextColor(getResources().getColor(R.color.loa_red));
-                }else{
-                    mDif.setTextColor(getResources().getColor(R.color.loa_green));
-                }
+              //  mEntriesQuantity.setText(String.valueOf(data.sum_entries));
+               // mSalesQuantity.setText(String.valueOf(data.sum_sales));
+               // mStockProduct.setText(String.valueOf(data.sum_stock_product));
 
-                mDif.setText(String.valueOf(data.sum_entries  - data.sum_sales));*/
             }
 
             @Override
@@ -738,6 +881,8 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     }
 
     private void changeCircleSelected(){
+        line_statistics_type.setVisibility(View.GONE);
+        line_statistics_brand.setVisibility(View.GONE);
 
         line_statistics_item.setVisibility(View.VISIBLE);
         simpleProgressBar.setVisibility(View.VISIBLE);
@@ -757,6 +902,10 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
         cleanInfo();
         clearAndList();
+
+        selected_item.setText(mItem);
+        selected_item_loc.setText(mItem);
+
     }
 
     private void topBarListener(){
@@ -777,19 +926,20 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                 changeCircleSelected();
                 all.setImageResource(R.drawable.ball);
 
-                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
-                select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
-                select_model.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
 
                 auto_brand.setVisibility(View.GONE);
                 auto_type.setVisibility(View.GONE);
 
                 mDetailAdapter.unSelectAll();
-                loadEventsDetail();
+
 
                 line_statistics_item.setVisibility(View.GONE);
                 line_statistics_type.setVisibility(View.GONE);
                 line_statistics_brand.setVisibility(View.GONE);
+
             }
         });
 
@@ -874,7 +1024,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private void clearAndList(){
         mEmptyRecyclerView.setVisibility(View.GONE);
         clearView();
-       // list2();duplicaaa
 
         cleanStatisticsValues();
         loadStatisticValues();
@@ -901,7 +1050,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     public void list2(){
 
         loadingInProgress=true;
-        ApiClient.get().getStatistics(mCurrentPage, mItem, mBrand, mType, mModel,mDateSine , mDateTo, generateString(mDetailAdapter.getSelectedDetails()),new GenericCallback<List<ReportStockEvent>>() {
+        ApiClient.get().getStatistics(mCurrentPage, mItem, mBrand, mType, mModel,mDateSine , mDateTo, generateString(mDetailAdapter.getSelectedDetailsNotToSee()),generateString(mDetailAdapter.getSelectedDetailsToSee()),new GenericCallback<List<ReportStockEvent>>() {
             @Override
             public void onSuccess(List<ReportStockEvent> data) {
 
@@ -1045,7 +1194,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private String generateString(List<String> list){
         String s="";
         for (int i = 0; i < list.size() ; ++i){
-
             if(i == list.size()-1){
                 s = s+list.get(i);
             }else{
@@ -1054,4 +1202,39 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         }
         return s;
     }
+
+    private List<String> createArray(){
+        List<String> listN=new ArrayList<>();
+        listN.add("5 > ingreso");
+        listN.add("20 > ingreso");
+        return listN;
+    }
+
+   /* private void showCuadCompare(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.select_filter, null);
+        builder.setView(dialogView);
+
+        final Spinner spinner= dialogView.findViewById(R.id.spinner);
+        final Button ok= dialogView.findViewById(R.id.ok);
+        final TextView cancel= dialogView.findViewById(R.id.cancel);
+
+        ArrayAdapter<String> adapterItem = new ArrayAdapter<String>(this,
+                R.layout.spinner_item, createArray());
+        adapterItem.setDropDownViewResource(R.layout.spinner_item);
+
+        spinner.setAdapter(adapterItem);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selected=spinner.getSelectedItem().toString().trim();
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                item.setText("");
+            }
+        });
+    }*/
 }

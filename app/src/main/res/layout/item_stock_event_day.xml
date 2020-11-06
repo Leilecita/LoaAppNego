@@ -55,11 +55,12 @@
                     android:layout_weight="1.4"
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:gravity="center"
+                    android:maxLines="1"
                     android:textSize="@dimen/general_text"
                     android:paddingLeft="2dp"
                     android:id="@+id/brand"
                     android:layout_height="wrap_content"
-                    android:text="captain"
+                    android:text="captain "
                     />
 
                 <TextView
@@ -71,12 +72,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:id="@+id/cant_stock_out"
-                    android:layout_weight="1.7"
+                    android:layout_weight="1.6"
                     android:gravity="center"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/general_text"
                     android:layout_height="wrap_content"
-                    android:text="1"
+                    android:text=""
                     />
 
                 <TextView
@@ -132,7 +133,7 @@
                     android:ellipsize="end"
                     android:paddingLeft="8dp"
                     android:gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="1.2"
                     android:id="@+id/model"
                     android:textColor="@color/word_clear"
                     android:textSize="@dimen/small_text"
@@ -144,7 +145,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:id="@+id/detailup"
-                    android:text=""
+                    android:text="ingreso actualizacion app"
                     />
 
 

@@ -271,11 +271,11 @@ public interface APIService {
 
     @GET("stock_events.php")
     Observable<Response<List<ReportStockEvent>>> getStatistics(@Query("method") String method, @Query("page") Integer page, @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
-                                                              @Query("model") String model,@Query("date") String created,@Query("dateTo") String next, @Query("details") String details);
+                                                              @Query("model") String model,@Query("date") String created,@Query("dateTo") String next, @Query("details") String detailsNotToSee, @Query("detailsToSee") String detailsToSee);
 
     @GET("stock_events.php")
     Observable<Response<ReportStatistic>> getSatisticValues(@Query("method") String method,  @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
-                                                               @Query("model") String model,@Query("date") String created,@Query("dateTo") String next, @Query("details") String details);
+                                                               @Query("model") String model,@Query("date") String created,@Query("dateTo") String next, @Query("details") String detailsNotToSee, @Query("detailsToSee") String detailsToSee);
 
     @GET("stock_events.php")
     Observable<Response<List<ReportDetail>>> getDetails(@Query("method") String method,  @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
@@ -339,7 +339,8 @@ public interface APIService {
 
 
     @GET("products.php")
-    Observable<Response<ResponseData>> checkExistProduct(@Query("item") String item,@Query("brand") String brand,@Query("type") String type,@Query("model") String model,@Query("method") String method);
+    Observable<Response<ResponseData>> checkExistProduct(@Query("item") String item,@Query("brand") String brand,@Query("type") String type,@Query("model") String model,@Query("method") String method, @Query("stock") Integer stock,
+                                                         @Query("detail") String detail, @Query("price") String price);
 
     @GET("products.php")
     Observable<Response<List<SpinnerType>>> getSpinnerType(@Query("method") String method, @Query("tt") String type);

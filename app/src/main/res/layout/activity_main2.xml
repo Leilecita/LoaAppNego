@@ -113,7 +113,14 @@
 
 
 
-
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/compras"
+            android:background="@drawable/custom_button_ventas"/>
 
 
 </RelativeLayout>

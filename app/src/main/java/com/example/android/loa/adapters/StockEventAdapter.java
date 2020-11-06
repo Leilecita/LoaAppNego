@@ -226,7 +226,6 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
             vh.cant_stock_out.setText(null);
         if (vh.stock_out != null)
             vh.stock_out.setText(null);
-
         if (vh.date != null)
             vh.date.setText(null);
 
@@ -281,13 +280,16 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
 
         holder.cant_stock_out.setText(String.valueOf(current.stock_out));
         holder.detailup.setText(current.detail);
-        if (current.detail.equals("Ingreso dev")) {
+
+        if(current.stock_in > 0){
             holder.cant_stock_out.setText("+" + current.stock_in);
+        }
+
+        if (current.detail.equals("Ingreso dev")) {
             holder.value.setVisibility(View.INVISIBLE);
         } else {
             holder.value.setVisibility(View.VISIBLE);
         }
-
 
         holder.type.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,7 +297,6 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
                 Toast.makeText(mContext, current.type, Toast.LENGTH_SHORT).show();
             }
         });
-
 
         if (current.model.equals("")) {
             holder.model.setText("-");
@@ -332,7 +333,9 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
             }
         });*/
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.line_edit.getVisibility() == View.GONE) {
@@ -343,8 +346,6 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
                     holder.line_edit.setVisibility(View.GONE);
                     holder.div.setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
 

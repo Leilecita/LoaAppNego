@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/santilo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true"
         >
 
         <provider
@@ -183,6 +184,10 @@
             />
         <activity
             android:name=".activities.PriceManagerActivity"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.BuyProductsActivity"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity

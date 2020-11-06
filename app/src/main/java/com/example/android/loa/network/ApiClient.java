@@ -308,8 +308,8 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().putStockEvent(s), callback);
     }
 
-    public void checkExistProduct(String item,String brand,String type,String model, GenericCallback<ResponseData> callback){
-        handleRequest( ApiUtils.getAPISessionService().checkExistProduct(item,brand,type,model,"checkExistProduct"), callback);
+    public void checkExistProduct(String item,String brand,String type,String model,Integer stock,String detail,String price ,GenericCallback<ResponseData> callback){
+        handleRequest( ApiUtils.getAPISessionService().checkExistProduct(item,brand,type,model,"checkExistProduct",stock,detail,price), callback);
     }
 
     public void getSpinners(  String item, String brand,String type2,String model,String deleted,GenericCallback<Spinners> callback){
@@ -343,12 +343,12 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getStockeventsSales("getAllSales",since,item,groupby), callback);
     }
 
-    public void getStatistics(Integer page,String item, String brand,String type,String model,String since,String to,String details, final GenericCallback<List<ReportStockEvent>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getStatistics("getStatisticsSales",page,item,brand,type,model,since,to, details), callback);
+    public void getStatistics(Integer page,String item, String brand,String type,String model,String since,String to,String detailsNotToSee, String detailsToSee ,final GenericCallback<List<ReportStockEvent>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getStatistics("getStatisticsSales",page,item,brand,type,model,since,to, detailsNotToSee, detailsToSee), callback);
     }
 
-    public void getStatisticValues(String item, String brand,String type,String model,String since,String to, String details,final GenericCallback<ReportStatistic> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getSatisticValues("getStatisticsValues",item,brand,type,model,since,to, details), callback);
+    public void getStatisticValues(String item, String brand,String type,String model,String since,String to, String detailsNotToSee,String detailsToSee ,final GenericCallback<ReportStatistic> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getSatisticValues("getStatisticsValues",item,brand,type,model,since,to, detailsNotToSee, detailsToSee), callback);
     }
 
     public void getDetails(String item, String brand,String type,String model, final GenericCallback<List<ReportDetail>> callback ){

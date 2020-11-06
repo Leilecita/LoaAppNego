@@ -18,10 +18,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Producto"
+            android:text="Producto Nuevo"
             android:textSize="18sp"
             android:gravity="center"
-            android:textColor="@color/word"
+            android:textColor="@color/colorPrimaryDarkLetter"
             android:textStyle="bold"
             />
 
@@ -38,7 +38,7 @@
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryClearLetter"
                 />
 
             <LinearLayout
@@ -64,7 +64,9 @@
                     android:paddingLeft="8dp"
                     style="@style/Widget.Design.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:textColor="#5c5c5c"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textColorHint="@color/clearhintletter"
+                    android:fontFamily="@font/opensansregular"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
                     android:hint="Ingrese nuevo item"
@@ -88,7 +90,7 @@
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryClearLetter"
                 />
 
         <LinearLayout
@@ -113,7 +115,9 @@
                 android:paddingLeft="8dp"
                 style="@style/Widget.Design.TextInputLayout"
                 android:layout_width="match_parent"
-                android:textColor="#5c5c5c"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textColorHint="@color/clearhintletter"
+                android:fontFamily="@font/opensansregular"
                 android:textSize="16sp"
                 android:hint="Ingrese producto nuevo"
                 android:gravity="center_vertical"
@@ -137,7 +141,7 @@
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryClearLetter"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -163,8 +167,10 @@
                     android:hint="Ingrese marca nueva "
                     android:layout_width="match_parent"
                     style="@style/Widget.Design.TextInputLayout"
+                    android:fontFamily="@font/opensansregular"
                     android:paddingLeft="8dp"
-                    android:textColor="#5c5c5c"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textColorHint="@color/clearhintletter"
                     android:layout_height="33dp"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
@@ -191,7 +197,7 @@
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/word"
+                android:textColor="@color/colorPrimaryClearLetter"
                 />
         <LinearLayout
             android:layout_width="match_parent"
@@ -220,9 +226,12 @@
                 android:layout_width="match_parent"
                 style="@style/Widget.Design.TextInputLayout"
                 android:paddingLeft="8dp"
-                android:textColor="#5c5c5c"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textColorHint="@color/clearhintletter"
                 android:layout_height="33dp"
                 android:gravity="center_vertical"
+
                 android:textSize="16sp"
                 android:inputType="textCapWords"
                 android:background="@drawable/rec_text_edit"
@@ -232,30 +241,135 @@
         </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
+
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:orientation="vertical">
 
-
-
-
+                >
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:layout_height="wrap_content"
-                    android:text="Cargar el stock presionando sobre el nuevo articulo"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:text="Stock "
                     android:textSize="16sp"
-                    android:textStyle="italic"
-                    android:textColor="@color/word"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorPrimaryClearLetter"
                     />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/stock"
+                        android:hint="cantidad"
+                        android:layout_width="match_parent"
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:paddingLeft="8dp"
+                        android:fontFamily="@font/opensansregular"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textColorHint="@color/clearhintletter"
+                        android:layout_height="33dp"
+                        android:gravity="center_vertical"
+                        android:textSize="16sp"
+                        android:inputType="number"
+                        android:background="@drawable/rec_text_edit"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+
+                >
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:text="Precio"
+
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryClearLetter"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <EditText
+                        android:id="@+id/price"
+                        android:hint="$"
+                        android:layout_width="match_parent"
+
+                        style="@style/Widget.Design.TextInputLayout"
+                        android:paddingLeft="8dp"
+                        android:fontFamily="@font/opensansregular"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:textColorHint="@color/clearhintletter"
+                        android:layout_height="33dp"
+                        android:gravity="center_vertical"
+                        android:textSize="16sp"
+                        android:inputType="numberDecimal"
+                        android:background="@drawable/rec_text_edit"
+                        />
+
+
+                </LinearLayout>
+
             </LinearLayout>
 
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text=" "
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/word"
+                />
 
+            <TextView
+                style="@style/CodeFontInput"
+                android:layout_height="35dp"
+                android:hint="Tipo de ingreso"
+                android:fontFamily="@font/opensansregular"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textColorHint="@color/clearhintletter"
+                android:background="@drawable/rec_text_edit"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:paddingLeft="8dp"
+                android:layout_weight="0.6"
+                android:id="@+id/detail"/>
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -268,10 +382,10 @@
                 android:layout_height="35dp"
                 android:id="@+id/cancel"
                 android:layout_weight="1"
-                android:text="CANCELAR"
+                android:text="Cancelar"
                 android:gravity="center"
+                android:fontFamily="@font/opensansregular"
                 android:textColor="@color/colorDialogButton"
-                android:textStyle="bold"
                 />
             <Button
                 android:layout_width="match_parent"
@@ -279,10 +393,11 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:textColor="#ffff"
+                android:textAllCaps="false"
                 android:padding="4dp"
                 android:background="@drawable/rec_find"
                 android:backgroundTint="@color/colorDialogButton"
-                android:text="guardar"/>
+                android:text="Guardar"/>
 
 
         </LinearLayout>

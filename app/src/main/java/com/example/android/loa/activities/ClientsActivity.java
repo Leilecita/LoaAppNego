@@ -266,8 +266,9 @@ public class ClientsActivity extends BaseActivity implements Paginate.Callbacks,
 
             @Override
             public void onError(Error error) {
-                DialogHelper.get().showMessage("Error",error.message+" "+error.result,getBaseContext());
+              //  DialogHelper.get().showMessage("Error",error.message+" "+error.result,getBaseContext());
 
+                System.out.println("error"+error.message);
                 loadingInProgress = false;
             }
         });

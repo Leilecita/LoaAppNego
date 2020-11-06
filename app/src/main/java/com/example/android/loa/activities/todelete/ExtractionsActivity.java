@@ -60,7 +60,7 @@ public class ExtractionsActivity extends BaseActivity implements Paginate.Callba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
 
         setTitle("Extracciones");
 

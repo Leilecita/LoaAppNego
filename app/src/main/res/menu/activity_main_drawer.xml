@@ -40,8 +40,6 @@
                 android:id="@+id/nav_prices"
                 android:title="Historial Precios"/>
 
-
-
         </menu>
     </item>
 
@@ -56,6 +54,10 @@
             <item
                 android:id="@+id/nav_list_boxes"
                 android:title="Listado cajas"/>
+
+            <item
+                android:id="@+id/nav_buy"
+                android:title="Compras"/>
 
             <item
                 android:id="@+id/nav_extractions"

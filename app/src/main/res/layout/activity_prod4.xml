@@ -251,11 +251,10 @@
                         android:layout_height="38dp"
                         android:layout_weight="1"
                         android:layout_marginRight="5dp"
-                        android:backgroundTint="@color/clearhintletter"
                         android:layout_marginLeft="5dp"
                         android:id="@+id/select_art"
                         android:paddingRight="8dp"
-                        android:background="@drawable/rec_find"
+                        android:background="@drawable/rec_unselected"
                         android:orientation="horizontal">
 
                         <TextView
@@ -282,8 +281,7 @@
                         android:layout_marginRight="5dp"
                         android:paddingRight="8dp"
                         android:id="@+id/select_brand"
-                        android:backgroundTint="@color/clearhintletter"
-                        android:background="@drawable/rec_find"
+                        android:background="@drawable/rec_unselected"
                         android:orientation="horizontal">
 
                         <TextView
@@ -306,11 +304,10 @@
                         android:minWidth="120dp"
                         android:layout_height="38dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/clearhintletter"
                         android:layout_marginRight="5dp"
                         android:paddingRight="8dp"
                         android:id="@+id/select_model"
-                        android:background="@drawable/rec_find"
+                        android:background="@drawable/rec_unselected"
                         android:orientation="horizontal">
 
                         <TextView
@@ -411,8 +408,31 @@
             />
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="30dp"
+            android:id="@+id/buys"
+            android:layout_alignParentBottom="true"
+            android:layout_height="65dp">
 
-    <LinearLayout
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:padding="18dp"
+                android:id="@+id/image_button"
+                android:background="@drawable/custom_button_ventas"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+</RelativeLayout>
+</LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+<!--
+  <LinearLayout
         android:layout_width="65dp"
         android:background="@drawable/bblanco"
         android:backgroundTint="@color/colorPrimary"
@@ -432,8 +452,4 @@
             />
 
     </LinearLayout>
-
-</RelativeLayout>
-</LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+-->

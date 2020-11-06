@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:id="@+id/out_buy"
+        android:title="Salida venta"
+        android:visible="false"
+        />
+
+    <item android:id="@+id/out_buy_with_desc"
+        android:title="Salida venta c/ desc"
+        android:visible="false"
+        />
+    <item
+        android:id="@+id/out_person_file"
+        android:visible="false"
+        android:title="Salida ficha"
+        />
+
+    <item
+        android:id="@+id/out_dev"
+        android:title="Salida por cambio"
+        android:visible="false"
+        />
+    <item
+        android:id="@+id/out_falla"
+        android:title="Salida dev falla"
+        />
+    <item android:id="@+id/out_error"
+        android:title="Salida por error anterior"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+        android:id="@+id/out_gifts"
+        android:visible="false"
+        android:title="Salida ficha especial campeonato"
+        />
+    <item
+        android:id="@+id/out_santi"
+        android:title="Salida ficha especial santi"
+        android:visible="false"
+        android:icon="@android:drawable/ic_menu_recent_history"/>
+    <item
+        android:id="@+id/out_bonif"
+        android:visible="false"
+        android:title="Salida ficha especial bonificacion"
+        />
+
+    <item
+        android:id="@+id/out_balance_stock"
+        android:title="Salida balance stock"
+        />
+    <item
+        android:id="@+id/out_stole"
+        android:title="Salida por robo"
+        android:visible="false"
+        />
+
+    <item
+        android:id="@+id/out_consign"
+        android:title="salida aritculo consignacion"
+        />
+
+    <item
+        android:id="@+id/out_luz"
+        android:title="paso al stock luz"
+        />
+    <item
+        android:id="@+id/out_local"
+        android:title="paso al stock local "
+        />
+
+    <item
+        android:id="@+id/out_oferta"
+        android:title="paso al stock oferta"
+        />
+
+    <item
+        android:id="@+id/out_regalo"
+        android:title="Salida por regalo"
+        />
+</menu>

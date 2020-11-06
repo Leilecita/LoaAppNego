@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:id="@+id/in_buy"
+        android:title="@string/MENU_INGRESO_COMPRA"
+        android:icon="@android:drawable/ic_menu_delete"/>
+
+    <item android:id="@+id/in_error"
+        android:title="@string/MENU_INGRESO_ERROR_ANTERIOR"
+        android:icon="@android:drawable/ic_menu_delete"/>
+
+    <item
+        android:id="@+id/in_update_app"
+        android:title="@string/MENU_INGRESO_ACTUALIZACION_APP"
+        />
+
+    <item
+        android:id="@+id/in_consign"
+        android:title="@string/MENU_INGRESO_CONSIGNACION"
+        />
+    <item android:id="@+id/in_balance_stock"
+        android:title="@string/MENU_INGRESO_BALANCE_STOCK"
+        android:icon="@android:drawable/ic_menu_delete"/>
+    <item
+        android:id="@+id/in_dev_luz"
+        android:title="@string/MENU_INGRESO_DEVOLUCION_LUZ"
+        />
+    <item
+        android:id="@+id/in_stock_oferta"
+        android:title="@string/MENU_INGRESO_STOCK_OFERTA"
+        />
+    <item
+        android:id="@+id/in_stock_local"
+        android:title="@string/MENU_INGRESO_STOCK_LOCAL"
+        />
+
+</menu>
+
+<!--
+ <item
+        android:id="@+id/in_dev"
+        android:visible="false"
+
+        android:title="@string/MENU_INGRESO_DEVOLUCION"
+        android:icon="@android:drawable/ic_menu_recent_history"/>
+
+    <item
+        android:id="@+id/in_dev_wrong"
+        android:visible="false"
+        android:title="@string/MENU_INGRESO_DEVOLUCION_FALLA"
+        />
+-->

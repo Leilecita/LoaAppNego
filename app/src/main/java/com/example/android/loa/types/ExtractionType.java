@@ -8,7 +8,8 @@ public enum ExtractionType {
         GASTO_LOCAL(Constants.TYPE_GASTO_LOCAL),
         SANTI(Constants.TYPE_SANTI),
         MERCADERIA(Constants.TYPE_MERCADERIA),
-        SUELDO(Constants.TYPE_SUELDO);
+        SUELDO(Constants.TYPE_SUELDO),
+        OTRO(Constants.TYPE_OTRO);
 
         private final String name;
 

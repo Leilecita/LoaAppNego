@@ -85,8 +85,34 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rec_find"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:id="@+id/line_other"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/other_type"
+                android:layout_height="33dp"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                style="@style/Widget.Design.TextInputLayout"
+                android:layout_width="match_parent"
+                android:hint="Detalle"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensanslight"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="textCapWords" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
+            android:id="@+id/line_detail"
             android:background="@drawable/rec_find"
             android:orientation="horizontal">
 

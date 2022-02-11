@@ -70,7 +70,7 @@ public class SalesActivity extends BaseActivity implements Paginate.Callbacks {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
 
         mRecyclerView = this.findViewById(R.id.list_report_sales);
         layoutManager = new LinearLayoutManager(this);

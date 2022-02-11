@@ -194,97 +194,140 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/select_payment_method"
-            android:layout_marginTop="16dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
 
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:layout_width="wrap_content"
-                android:id="@+id/check_ef"
-                android:scaleX="1.2"
-                android:scaleY="1.2"
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:buttonTint="@color/colorPrimaryClearLetter"
-
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:text="Efectivo"
-                android:gravity="center"
-                android:layout_marginLeft="2dp"
-                android:layout_gravity="center"
-                android:textSize="15sp"
-
-                />
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:layout_width="wrap_content"
-                android:id="@+id/check_deb"
-                android:layout_height="wrap_content"
-                android:scaleX="1.2"
-                android:scaleY="1.2"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:buttonTint="@color/colorPrimaryClearLetter"
-
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:text="Débito"
-                android:gravity="center"
-                android:layout_marginLeft="2dp"
-                android:layout_gravity="center"
-                android:textSize="15sp"
-
-                />
-
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:layout_width="wrap_content"
-                android:id="@+id/check_card"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:scaleX="1.2"
-                android:scaleY="1.2"
-                android:layout_marginLeft="10dp"
-                android:buttonTint="@color/colorPrimaryClearLetter"
-
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDarkLetter"
-                android:text="Tarjeta"
-                android:gravity="center"
-                android:layout_marginLeft="2dp"
-                android:layout_gravity="center"
-
-                android:textSize="15sp"
-
-                />
 
 
+                android:layout_marginTop="16dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:id="@+id/select_payment_method"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_ef"
+                    android:focusable="true"
+
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:buttonTint="@color/colorPrimaryClearLetter"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Efectivo"
+                    android:gravity="center"
+                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="center"
+                    android:textSize="15sp"
+
+                    />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_deb"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:buttonTint="@color/colorPrimaryClearLetter"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Débito"
+                    android:gravity="center"
+                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="center"
+                    android:textSize="15sp"
+
+                    />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_card"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_marginLeft="10dp"
+                    android:buttonTint="@color/colorPrimaryClearLetter"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Tarjeta"
+                    android:gravity="center"
+                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="center"
+
+                    android:textSize="15sp"
+
+                    />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_mer"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:layout_marginLeft="10dp"
+                    android:buttonTint="@color/colorPrimaryClearLetter"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Mercado pago"
+                    android:gravity="center"
+                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="center"
+
+                    android:textSize="15sp"
+
+                    />
 
 
-        </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+
+
+
 
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="La salida de producto se realiza desde la pestaña de stock "
+            android:text="La salida de producto se realiza desde la pestaña de ventas "
             android:layout_marginTop="16dp"
             android:textColor="@color/colorPrimaryDarkLetter"
             android:textSize="@dimen/general_text"

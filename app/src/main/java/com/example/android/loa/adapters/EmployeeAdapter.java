@@ -85,7 +85,6 @@ public class EmployeeAdapter extends BaseAdapter<Employee,EmployeeAdapter.ViewHo
         if(vh.name!=null)
             vh.name.setText(null);
 
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

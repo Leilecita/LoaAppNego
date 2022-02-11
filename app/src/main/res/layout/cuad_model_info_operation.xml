@@ -36,7 +36,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:padding="4dp"
                 android:textSize="@dimen/general_text"
                 android:textColor="@color/word"
@@ -61,7 +61,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:fontFamily="@font/opensansregular"
                 android:padding="4dp"
                 android:textSize="@dimen/general_text"
@@ -86,7 +86,7 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:padding="4dp"
                 android:fontFamily="@font/opensansregular"
                 android:textSize="@dimen/general_text"
@@ -111,12 +111,37 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_height="wrap_content"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:padding="4dp"
                 android:fontFamily="@font/opensansregular"
                 android:textSize="@dimen/general_text"
                 android:textColor="@color/word"
-                android:text="Description "/>
+                android:text="Medio de pago "/>
+
+            <TextView
+                android:id="@+id/payment_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:padding="4dp"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="@dimen/general_text"
+                android:textColor="@color/word"
+                android:text="Descripcion "/>
 
             <TextView
                 android:id="@+id/description"
@@ -127,6 +152,31 @@
                 android:textColor="@color/colorDialogButton"
                 android:textSize="@dimen/general_text"
                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:padding="4dp"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="@dimen/general_text"
+                android:textColor="@color/word"
+                android:text="Obs"/>
+
+            <TextView
+                android:id="@+id/observation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
         </LinearLayout>
 
 

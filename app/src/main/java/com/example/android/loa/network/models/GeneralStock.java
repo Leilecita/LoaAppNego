@@ -13,6 +13,8 @@ public class GeneralStock {
         public Integer difference;
         public String created;
 
+        public String brand;
+
         public GeneralStock(String item, String type, Integer ideal_stock,Integer real_stock, String result,Integer dif){
                 this.item=item;
                 this.type=type;

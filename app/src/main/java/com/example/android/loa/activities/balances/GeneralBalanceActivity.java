@@ -134,7 +134,6 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
         ApiClient.get().getTypes(mItem, new GenericCallback<List<SpinnerType>>() {
             @Override
             public void onSuccess(List<SpinnerType> data) {
-
                 mGridAdapter.setItems(data);
             }
 
@@ -154,6 +153,28 @@ public class GeneralBalanceActivity extends BaseActivity implements Paginate.Cal
             public void onSuccess(List<SpinnerItem> data) {
                 SpinnerItem s=new SpinnerItem("Todos");
                 data.add(0,s);
+
+                for(int i=0; i < data.size(); ++i){
+                    if(data.get(i).item.equals(Constants.ITEM_HOMBRE)){
+                        data.get(i).resId = R.drawable.bman;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TODOS)){
+                        data.get(i).resId = R.drawable.ball;
+                    }else if(data.get(i).item.equals(Constants.ITEM_DAMA)){
+                        data.get(i).resId = R.drawable.bwom;
+                    }else if(data.get(i).item.equals(Constants.ITEM_NINIO)){
+                        data.get(i).resId = R.drawable.bnin;
+                    }else if(data.get(i).item.equals(Constants.ITEM_ACCESORIO)){
+                        data.get(i).resId = R.drawable.bacc;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TECNICO)){
+                        data.get(i).resId = R.drawable.btec;
+                    }else if(data.get(i).item.equals(Constants.ITEM_CALZADO)){
+                        data.get(i).resId = R.drawable.bcal;
+                    }else if(data.get(i).item.equals(Constants.ITEM_OFERTA)){
+                        data.get(i).resId = R.drawable.bofer;
+                    }else if(data.get(i).item.equals(Constants.ITEM_LUZ)){
+                        data.get(i).resId = R.drawable.bluz;
+                    }
+                }
                 mGridProductAdapter.setItems(data);
             }
 

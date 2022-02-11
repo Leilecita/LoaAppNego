@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:text="Informacion"
+            android:textSize="18sp"
+            android:textColor="@color/word"
+            android:gravity="center"
+            android:fontFamily="@font/opensansregular"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                android:text="Fecha mov "/>
+
+            <TextView
+                android:id="@+id/obs_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                android:text="Fecha fact "/>
+
+            <TextView
+                android:id="@+id/bill_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:id="@+id/line_detail"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                android:text="Empresa  "/>
+
+            <TextView
+                android:id="@+id/business_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                android:text="Nº factura  "/>
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:textSize="@dimen/general_text"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/word"
+                android:text="Tipo "/>
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:padding="4dp"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="@dimen/general_text"
+                android:textColor="@color/word"
+                android:text="Valor "/>
+
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:textColor="@color/colorDialogButton"
+                android:textSize="@dimen/general_text"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:id="@+id/edith"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:src="@drawable/edituser"
+                android:padding="8dp"
+                android:textColor="#6e6e6e"
+                android:textSize="18dp"
+                android:textStyle="italic"/>
+
+            <ImageView
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:id="@+id/delete"
+                android:src="@drawable/deleteuser"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="#414141"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+

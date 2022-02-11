@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -206,6 +207,11 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 prod.setText(currentOperation.product_kind);
                 value.setText(String.valueOf(currentOperation.value));
                 TextView date=  dialogView.findViewById(R.id.obs_date);
+                TextView obs=  dialogView.findViewById(R.id.observation);
+                obs.setText(currentOperation.observation);
+
+                TextView payment_method=  dialogView.findViewById(R.id.payment_method);
+                payment_method.setText(currentOperation.payment_method);
 
 
                 date.setText(DateHelper.get().serverToUserFormatted(currentOperation.created));
@@ -382,6 +388,9 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         final View dialogView = inflater.inflate(R.layout.cuad_model_edith_operation, null);
         builder.setView(dialogView);
 
+        final EditText obs =dialogView.findViewById(R.id.observation);
+        obs.setText(op.observation);
+
         final TextView value= dialogView.findViewById(R.id.value);
 
         final TextView edit_valuePositive= dialogView.findViewById(R.id.edit_valuePositive);
@@ -453,6 +462,7 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 String brandOp=brandT.getText().toString().trim();
                 String productOp=product_kindT.getText().toString().trim();
                 String descOp=descriptionT.getText().toString().trim();
+                String obsOp=obs.getText().toString().trim();
 
                 if(!valueTransPositive.matches("")) {
                     if (ValidatorHelper.get().isTypeDouble(valueTransPositive)) {
@@ -468,6 +478,9 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                     }
                 }
 
+                if(!obsOp.matches("")) {
+                    op.observation=obsOp;
+                }
 
                 if(!brandOp.matches("")) {
                     op.brand=brandOp;

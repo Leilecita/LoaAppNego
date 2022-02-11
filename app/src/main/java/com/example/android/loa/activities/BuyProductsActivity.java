@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,12 +32,14 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.Interfaces.OnSelectedItem;
+import com.example.android.loa.Interfaces.OnSelectedProductItem;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.balances.GeneralBalanceActivity;
 import com.example.android.loa.activities.balances.GeneralBalanceByItemTypeActivity;
 import com.example.android.loa.adapters.ItemAdapter;
 import com.example.android.loa.adapters.ItemAdapterModel;
 import com.example.android.loa.adapters.ItemAdapterType;
+import com.example.android.loa.adapters.ItemProductAdapter;
 import com.example.android.loa.adapters.ProductAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
@@ -57,7 +61,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BuyProductsActivity extends BaseActivity implements Paginate.Callbacks, OnChangeViewStock, OnSelectedItem {
+public class BuyProductsActivity extends BaseActivity implements Paginate.Callbacks, OnChangeViewStock, OnSelectedItem, OnSelectedProductItem {
 
     private RecyclerView mRecyclerView;
     private ProductAdapter mAdapter;
@@ -77,16 +81,6 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
 
     private String mQuery = "";
     private String token = "";
-
-    private ImageView man;
-    private ImageView woman;
-    private ImageView boy;
-    private ImageView accesories;
-    private ImageView tecnico;
-    private ImageView zapas;
-    private ImageView luz;
-    private ImageView oferta;
-    private ImageView all;
 
     private RecyclerView mGridRecyclerView;
     private RecyclerView mGridRecyclerViewType;
@@ -112,20 +106,34 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
     private List<String> mBrandsAutoCompl;
     private List<String> mItems;
     private List<String> mModels;
+    private List<String> mModelsAutoCompl;
 
     //top selectcion
     private TextView mQuantityPordByFilter;
 
-    // private SwipeRefreshLayout swipeRefreshLayout;
     private TextView mEmptyRecyclerView;
 
-    private ImageView balance;
+    private LinearLayout balance;
     private LinearLayout addProduct;
 
     private LinearLayout home;
     private LinearLayout options;
     private TextView title;
     private SearchView searchView;
+
+    private AutoCompleteTextView auto_type ;
+    private AutoCompleteTextView auto_brand;
+    private AutoCompleteTextView auto_model;
+
+    private ItemProductAdapter mGridProductAdapter;
+    private RecyclerView mGridRecyclerViewItem;
+    private RecyclerView.LayoutManager gridlayoutmanagerItem;
+
+    private String group;
+    private ImageView view_group;
+    private String stockcero;
+    private TextView text_stock_cero;
+    private LinearLayout addBill;
 
     public void OnChangeViewStock(){
         loadSumAllStockByProduct();
@@ -143,6 +151,18 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         loadSumAllStockByProduct();
     }
 
+
+    private void cleanAutocompleteView(){
+        auto_brand.setVisibility(View.GONE);
+        auto_type.setVisibility(View.GONE);
+        auto_model.setVisibility(View.GONE);
+
+        auto_brand.setText("");
+        auto_model.setText("");
+        auto_type.setText("");
+    }
+
+
     private void cleanInfo(){
         mBrand="Todos";
         mType="Todos";
@@ -156,6 +176,8 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         model_name.setHint("Modelo");
 
         balance.setVisibility(View.GONE);
+
+        cleanAutocompleteView();
     }
 
     public void onSelectedItem(String brand, String type, String selection){
@@ -176,6 +198,8 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
             }
 
             mGridAdapter.clear();
+            auto_brand.setVisibility(View.GONE);
+            auto_brand.setText("");
         }
 
         if(selection.equals("type")){
@@ -193,9 +217,13 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
                 addProduct();
             }
             mTypeGridAdapter.clear();
+
+            auto_type.setVisibility(View.GONE);
+            auto_type.setText("");
         }
 
         if(selection.equals("model")){
+
             if(!brand.equals("Nuevo")){
                 mModel=type;
 
@@ -210,6 +238,9 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
                 addProduct();
             }
             mModelGridAdapter.clear();
+
+            auto_model.setVisibility(View.GONE);
+            auto_model.setText("");
         }
 
         loadSumAllStockByProduct();
@@ -247,6 +278,66 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         super.onCreate(savedInstanceState);
         //showBackArrow();
 
+        this.group = "no";
+        this.stockcero = "false";
+
+        addBill = findViewById(R.id.add_bill);
+        addBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(BuyProductsActivity.this, BuyBillingsActivity.class));
+            }
+        });
+
+        text_stock_cero = findViewById(R.id.stockcero);
+        text_stock_cero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(stockcero.equals("true")){
+                    stockcero = "false";
+                    text_stock_cero.setText("con stock 0");
+                }else{
+                    stockcero = "true";
+                    text_stock_cero.setText("sin stock 0");
+                }
+
+                clearAndList();
+            }
+        });
+
+        view_group = findViewById(R.id.view_group);
+        view_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(group.equals("yes")){
+                    group = "no";
+                    view_group.setImageDrawable(getResources().getDrawable(R.drawable.desagrupar));
+                    Toast.makeText(BuyProductsActivity.this,"La vista esta desagrupada", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    group = "yes";
+                    view_group.setImageDrawable(getResources().getDrawable(R.drawable.agrupar));
+                    Toast.makeText(BuyProductsActivity.this,"La vista esta agrupada", Toast.LENGTH_SHORT).show();
+                }
+
+                clearAndList();
+            }
+        });
+
+        mGridRecyclerViewItem = findViewById(R.id.list_items);
+        gridlayoutmanagerItem = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mGridRecyclerViewItem.setLayoutManager(gridlayoutmanagerItem);
+        mGridProductAdapter = new ItemProductAdapter(this, new ArrayList<SpinnerItem>());
+        mGridRecyclerViewItem.setAdapter(mGridProductAdapter);
+        mGridProductAdapter.setOnSelectedProductItem(this);
+
+        listItems();
+
+        auto_type = findViewById(R.id.auto_type);
+        auto_brand = findViewById(R.id.auto_brand);
+        auto_model = findViewById(R.id.auto_model);
+
         this.searchView = findViewById(R.id.searchview);
         options = findViewById(R.id.options);
         loadOptions();
@@ -264,12 +355,19 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mItem.equals("Todos") && !mType.equals("Todos") && !mQuantityPordByFilter.getText().toString().matches("")){
-                    Intent i = new Intent(getBaseContext(), GeneralBalanceByItemTypeActivity.class);
+                if(!mItem.equals("Todos") && !mType.equals("Todos") && !mQuantityPordByFilter.getText().toString().matches("")
+                    && mModel.equals("Todos")
+                ){
+                    Intent i = new Intent(BuyProductsActivity.this, GeneralBalanceByItemTypeActivity.class);
                     i.putExtra("TYPE", mType);
                     i.putExtra("ITEM", mItem);
+                    i.putExtra("BRAND", mBrand); // nuevo
                     i.putExtra("CANT", mQuantityPordByFilter.getText().toString().trim());
-                    getBaseContext().startActivity(i);
+                    BuyProductsActivity.this.startActivity(i);
+                }
+
+                if(!mModel.equals("Todos")){
+                    Toast.makeText(BuyProductsActivity.this, "No se puede realizar balance para un modelo en particular", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -330,13 +428,23 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
             @Override
             public void onClick(View v) {
 
+
+
+                if(auto_brand.getVisibility() == View.VISIBLE){
+                    auto_brand.setVisibility(View.GONE);
+
+                }else{
+                    cleanAutocompleteView();
+                    auto_brand.setVisibility(View.VISIBLE);
+                }
+
                 if(mGridAdapter.getList().size() > 0 ){
                     mGridAdapter.clear();
                 }else{
                     mTypeGridAdapter.clear();
                     mModelGridAdapter.clear();
 
-                    ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
+                    ApiClient.get().getSpinners(mItem, "Todos", mType, "Todos","false",new GenericCallback<Spinners>() {
                         @Override
                         public void onSuccess(Spinners data) {
                             SpinnerData sp2=new SpinnerData("Todos","#64B5F6");
@@ -344,6 +452,30 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
                             SpinnerData sp1=new SpinnerData("Nuevo","#64B5F6");
                             data.brands.add(sp1);
                             mGridAdapter.pushList(data.brands);
+
+                            mBrandsAutoCompl = createArrayBrand(data.brands);
+
+                            ArrayAdapter<String> adapterBrand = new ArrayAdapter<String>
+                                    (getBaseContext(), R.layout.item_auto, mBrandsAutoCompl);
+                            auto_brand.setThreshold(1);
+                            auto_brand.setAdapter(adapterBrand);
+                            auto_brand.setDropDownBackgroundDrawable(getBaseContext().getResources().getDrawable(R.drawable.rec_text_edit));
+
+                            auto_brand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    String selected=auto_brand.getText().toString().trim();
+                                    mBrand = selected;
+                                    brand_name.setText(selected);
+                                    select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                                    mGridAdapter.clear();
+                                    auto_brand.setVisibility(View.GONE);
+
+                                    clearAndList();
+                                    hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
+                                }
+                            });
                         }
 
                         @Override
@@ -358,6 +490,15 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         select_art.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(auto_type.getVisibility() == View.VISIBLE){
+                    auto_type.setVisibility(View.GONE);
+
+                }else{
+
+                    cleanAutocompleteView();
+                    auto_type.setVisibility(View.VISIBLE);
+                }
                 if(mTypeGridAdapter.getList().size() > 0){
                     mTypeGridAdapter.clear();
                 }else{
@@ -374,6 +515,31 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
                             SpinnerType sp1=new SpinnerType("Nuevo","#64B5F6");
                             data.types.add(sp1);
                             mTypeGridAdapter.pushList(data.types);
+
+                            mTypesAutoCompl = createArrayType(data.types);
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                    (getBaseContext(), R.layout.item_auto, mTypesAutoCompl);
+                            auto_type.setThreshold(1);
+                            auto_type.setAdapter(adapter);
+                            auto_type.setDropDownBackgroundDrawable(getBaseContext().getResources().getDrawable(R.drawable.rec_text_edit));
+
+                            auto_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    String selected=auto_type.getText().toString().trim();
+                                    mType = selected;
+                                    art_name.setText(selected);
+                                    select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                                    mTypeGridAdapter.clear();
+                                    auto_type.setVisibility(View.GONE);
+
+                                    clearAndList();
+
+                                    hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
+                                }
+                            });
                         }
                         @Override
                         public void onError(Error error) {
@@ -387,6 +553,15 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         select_model.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(auto_model.getVisibility() == View.VISIBLE){
+                    auto_model.setVisibility(View.GONE);
+                }else{
+
+                    cleanAutocompleteView();
+                    auto_model.setVisibility(View.VISIBLE);
+                }
+
                 if(mModelGridAdapter.getList().size() > 0){
                     mModelGridAdapter.clear();
                 }else{
@@ -402,6 +577,31 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
                             SpinnerModel sp1=new SpinnerModel("Nuevo");
                             data.models.add(sp1);
                             mModelGridAdapter.pushList(data.models);
+
+                            mModelsAutoCompl = createArrayModel(data.models);
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                    (getBaseContext(), R.layout.item_auto, mModelsAutoCompl);
+                            auto_model.setThreshold(1);
+                            auto_model.setAdapter(adapter);
+                            auto_model.setDropDownBackgroundDrawable(getBaseContext().getResources().getDrawable(R.drawable.rec_text_edit));
+
+                            auto_model.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    String selected=auto_model.getText().toString().trim();
+                                    mModel = selected;
+                                    model_name.setText(selected);
+                                    select_model.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                                    mModelGridAdapter.clear();
+                                    auto_model.setVisibility(View.GONE);
+
+                                    clearAndList();
+
+                                    hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
+                                }
+                            });
                         }
 
                         @Override
@@ -417,7 +617,7 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
 
         mEmptyRecyclerView=findViewById(R.id.empty);
 
-        topBarListener();
+        //topBarListener();
 
         loadSumAllStockByProduct();
 
@@ -427,6 +627,48 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
 
         search();
     }
+
+    private void listItems(){
+
+        ApiClient.get().getItems(new GenericCallback<List<SpinnerItem>>() {
+            @Override
+            public void onSuccess(List<SpinnerItem> data) {
+                SpinnerItem s=new SpinnerItem("Todos");
+                data.add(0,s);
+
+                for(int i=0; i < data.size(); ++i){
+                    if(data.get(i).item.equals(Constants.ITEM_HOMBRE)){
+                        data.get(i).resId = R.drawable.bmancl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TODOS)){
+                        data.get(i).resId = R.drawable.ballcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_DAMA)){
+                        data.get(i).resId = R.drawable.bwomcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_NINIO)){
+                        data.get(i).resId = R.drawable.bnincl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_ACCESORIO)){
+                        data.get(i).resId = R.drawable.bacccl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TECNICO)){
+                        data.get(i).resId = R.drawable.btecl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_CALZADO)){
+                        data.get(i).resId = R.drawable.bcalcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_OFERTA)){
+                        data.get(i).resId = R.drawable.bofercl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_LUZ)){
+                        data.get(i).resId = R.drawable.bluzcl;
+                    }
+                }
+
+                mGridProductAdapter.setItems(data);
+
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
 
 
     private void loadSpinners(){
@@ -453,18 +695,23 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         });
     }
 
+    public void onSelectedProductItem(String item){
+        mItem = item;
 
-    private void changeCircleSelected(){
+        if(item.equals("Todos")){
 
-        woman.setImageResource(R.drawable.bwomcl);
-        boy.setImageResource(R.drawable.bnincl);
-        man.setImageResource(R.drawable.bmancl);
-        tecnico.setImageResource(R.drawable.btecl);
-        zapas.setImageResource(R.drawable.bcalcl);
-        accesories.setImageResource(R.drawable.bacccl);
-        luz.setImageResource(R.drawable.bluzcl);
-        oferta.setImageResource(R.drawable.bofercl);
-        all.setImageResource(R.drawable.ballcl);
+            select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+            auto_brand.setVisibility(View.GONE);
+            auto_type.setVisibility(View.GONE);
+            auto_model.setVisibility(View.GONE);
+
+            auto_brand.setText("");
+            auto_model.setText("");
+            auto_type.setText("");
+        }
 
         listProdListener();
 
@@ -472,105 +719,8 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         mTypeGridAdapter.clear();
 
         cleanInfo();
-
         clearView();
-
-        //ver que onda
         loadSpinners();
-    }
-
-    private void topBarListener(){
-        man=findViewById(R.id.man);
-        woman=findViewById(R.id.woman);
-        boy=findViewById(R.id.boy);
-        tecnico=findViewById(R.id.tecnico);
-        zapas=findViewById(R.id.zapas);
-        accesories=findViewById(R.id.acces);
-        luz=findViewById(R.id.luz);
-        oferta=findViewById(R.id.oferta);
-        all=findViewById(R.id.all);
-
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Todos";
-                changeCircleSelected();
-                all.setImageResource(R.drawable.ball);
-
-                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-            }
-        });
-
-        woman.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Dama";
-                changeCircleSelected();
-                woman.setImageResource(R.drawable.bwom);
-
-            }
-        });
-        man.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Hombre";
-                changeCircleSelected();
-                man.setImageResource(R.drawable.bman);
-            }
-        });
-        boy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Niño";
-                changeCircleSelected();
-                boy.setImageResource(R.drawable.bnin);
-            }
-        });
-        accesories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Accesorio";
-                changeCircleSelected();
-                accesories.setImageResource(R.drawable.bacc);
-            }
-        });
-        tecnico.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Tecnico";
-                changeCircleSelected();
-                tecnico.setImageResource(R.drawable.btec);
-            }
-        });
-
-        zapas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Calzado";
-                changeCircleSelected();
-                zapas.setImageResource(R.drawable.bcal);
-            }
-        });
-
-        luz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Luz";
-                changeCircleSelected();
-                luz.setImageResource(R.drawable.bluz);
-            }
-        });
-
-        oferta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Oferta";
-                changeCircleSelected();
-                oferta.setImageResource(R.drawable.bofer);
-            }
-        });
     }
 
     private void listProdListener(){
@@ -582,6 +732,13 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
             mCurrentPage = 0;
             mAdapter.clear();
             mAdapter.resetPrevOpenView();
+
+            if(group.equals("yes")){
+                mAdapter.setIsGrouped(true);
+            }else {
+                mAdapter.setIsGrouped(false);
+            }
+
             hasMoreItems=true;
             loadSumAllStockByProduct();
         }
@@ -620,7 +777,7 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
         if(mAdapter.getItemCount()==0){
             //  swipeRefreshLayout.setRefreshing(true);
         }
-        ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", query,new GenericCallback<List<Product>>() {
+        ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", query,group, stockcero,new GenericCallback<List<Product>>() {
             @Override
             public void onSuccess(List<Product> data) {
 
@@ -672,7 +829,7 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
             public void onClick(View view) {
                 searchView.setMaxWidth(Integer.MAX_VALUE);
 
-                addProduct.setVisibility(View.GONE);
+               // addProduct.setVisibility(View.GONE);
                 title.setVisibility(View.GONE);
                 searchView.requestFocus();
             }
@@ -682,7 +839,7 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
             @Override
             public boolean onClose() {
                 title.setVisibility(View.VISIBLE);
-                addProduct.setVisibility(View.VISIBLE);
+                //addProduct.setVisibility(View.VISIBLE);
                 return false;
             }
         });
@@ -1066,4 +1223,141 @@ public class BuyProductsActivity extends BaseActivity implements Paginate.Callba
             // silently fail...
         }
     }
+
+    protected void hideKeyboard(View view)
+    {
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }
+
+
+
+   /* private void changeCircleSelected(){
+
+        woman.setImageResource(R.drawable.bwomcl);
+        boy.setImageResource(R.drawable.bnincl);
+        man.setImageResource(R.drawable.bmancl);
+        tecnico.setImageResource(R.drawable.btecl);
+        zapas.setImageResource(R.drawable.bcalcl);
+        accesories.setImageResource(R.drawable.bacccl);
+        luz.setImageResource(R.drawable.bluzcl);
+        oferta.setImageResource(R.drawable.bofercl);
+        all.setImageResource(R.drawable.ballcl);
+
+        listProdListener();
+
+        mGridAdapter.clear();
+        mTypeGridAdapter.clear();
+
+        cleanInfo();
+
+        clearView();
+
+        //ver que onda
+        loadSpinners();
+    }
+
+    private void topBarListener(){
+        man=findViewById(R.id.man);
+        woman=findViewById(R.id.woman);
+        boy=findViewById(R.id.boy);
+        tecnico=findViewById(R.id.tecnico);
+        zapas=findViewById(R.id.zapas);
+        accesories=findViewById(R.id.acces);
+        luz=findViewById(R.id.luz);
+        oferta=findViewById(R.id.oferta);
+        all=findViewById(R.id.all);
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Todos";
+                changeCircleSelected();
+                all.setImageResource(R.drawable.ball);
+
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+                auto_brand.setVisibility(View.GONE);
+                auto_type.setVisibility(View.GONE);
+                auto_model.setVisibility(View.GONE);
+
+                auto_brand.setText("");
+                auto_model.setText("");
+                auto_type.setText("");
+            }
+        });
+
+        woman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Dama";
+                changeCircleSelected();
+                woman.setImageResource(R.drawable.bwom);
+
+            }
+        });
+        man.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Hombre";
+                changeCircleSelected();
+                man.setImageResource(R.drawable.bman);
+            }
+        });
+        boy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Niño";
+                changeCircleSelected();
+                boy.setImageResource(R.drawable.bnin);
+            }
+        });
+        accesories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Accesorio";
+                changeCircleSelected();
+                accesories.setImageResource(R.drawable.bacc);
+            }
+        });
+        tecnico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Tecnico";
+                changeCircleSelected();
+                tecnico.setImageResource(R.drawable.btec);
+            }
+        });
+
+        zapas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Calzado";
+                changeCircleSelected();
+                zapas.setImageResource(R.drawable.bcal);
+            }
+        });
+
+        luz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Luz";
+                changeCircleSelected();
+                luz.setImageResource(R.drawable.bluz);
+            }
+        });
+
+        oferta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Oferta";
+                changeCircleSelected();
+                oferta.setImageResource(R.drawable.bofer);
+            }
+        });
+    }
+    */
+

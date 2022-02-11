@@ -144,7 +144,12 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                         switch (item.getItemId()) {
                             case R.id.action_options:
 
-                                HoursHistoryEmployeeActivity.start(getBaseContext(),mItemEmployee.employee_id,name.getText().toString().trim());
+                                Intent i = new Intent(LoadEmployeeHoursActivity.this, HoursHistoryEmployeeActivity.class);
+                                i.putExtra("ID", mItemEmployee.employee_id);
+                                i.putExtra("EMPLOYEENAME", name.getText().toString().trim());
+                                LoadEmployeeHoursActivity.this.startActivity(i);
+
+                               // HoursHistoryEmployeeActivity.start(getBaseContext(),mItemEmployee.employee_id,name.getText().toString().trim());
                                 return true;
                         }
 
@@ -171,7 +176,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                 finish();
             }
         });
-
 
         name=  findViewById(R.id.name_employee);
         name.setText(getIntent().getStringExtra("NAME"));
@@ -213,7 +217,7 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
 
         mDate.setText(DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2()));
         day.setText(DateHelper.get().numberDay(DateHelper.get().getActualDate2()));
-        month.setText(DateHelper.get().getNameMonth2(DateHelper.get().getActualDate2()));
+        month.setText(DateHelper.get().getNameMonth2(DateHelper.get().getActualDate2()).substring(0,3));
 
         currentDate=DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2());
         currentDateAft=DateHelper.get().getOnlyDate(DateHelper.get().getActualDate2());

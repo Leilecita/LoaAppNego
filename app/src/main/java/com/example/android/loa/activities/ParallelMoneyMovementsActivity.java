@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -29,11 +30,14 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnRefreshList;
+import com.example.android.loa.Interfaces.OnSelectedFilter;
 import com.example.android.loa.R;
+import com.example.android.loa.adapters.FilterAdapter;
 import com.example.android.loa.adapters.ReportMovementMoneyAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
+import com.example.android.loa.network.models.FilterType;
 import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.ReportParallelMoneyMovement;
 import com.example.android.loa.types.BilledType;
@@ -50,11 +54,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ParallelMoneyMovementsActivity extends BaseActivity implements Paginate.Callbacks, OnRefreshList {
+public class ParallelMoneyMovementsActivity extends BaseActivity implements Paginate.Callbacks, OnRefreshList, OnSelectedFilter {
 
     private RecyclerView mRecyclerView;
     private ReportMovementMoneyAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    private FilterAdapter mGridFilterAdapter;
+    private RecyclerView mGridRecyclerViewItem;
+    private RecyclerView.LayoutManager gridlayoutmanagerItem;
+
 
     //pagination
     private boolean loadingInProgress;
@@ -63,14 +72,6 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
     private boolean hasMoreItems;
 
     private LinearLayout bottomSheet;
-
-    private LinearLayout sueldos;
-    private LinearLayout contador;
-    private LinearLayout autonomos;
-    private LinearLayout alquiler;
-    private LinearLayout mercaderia;
-    private LinearLayout all;
-    private LinearLayout mines;
 
     private LinearLayout monthFilter;
     private LinearLayout dayFilter;
@@ -91,7 +92,15 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
     private LinearLayout home;
 
+    private String selectedType;
+
     public void onRefreshList(){
+        clearView();
+    }
+
+    public void onSelectedFilter(String filter){
+
+        selectedType = filter;
         clearView();
     }
 
@@ -107,6 +116,8 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
        // showBackArrow();
 
         //setTitle("Movimientos paralelos Santi");
+
+        selectedType = MoneyMovementType.ALL.getName();
 
         home = findViewById(R.id.line_home);
         home.setOnClickListener(new View.OnClickListener() {
@@ -161,18 +172,43 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         all_factura.getBackground().setColorFilter(getResources().getColor(R.color.mes), PorterDuff.Mode.SRC_IN);
     }
 
-    private void topBarListener(View bottomSheet){
-        sueldos=bottomSheet.findViewById(R.id.sueldos);
-        alquiler=bottomSheet.findViewById(R.id.alquiler);
-        mercaderia=bottomSheet.findViewById(R.id.mercaderia);
-        autonomos=bottomSheet.findViewById(R.id.autonomos);
-        contador=bottomSheet.findViewById(R.id.contador);
-        mercaderia=bottomSheet.findViewById(R.id.mercaderia);
-        all=bottomSheet.findViewById(R.id.all);
-        mines=bottomSheet.findViewById(R.id.mines);
+    private void listFilters(){
 
-       // monthFilter=bottomSheet.findViewById(R.id.mes);
-        //dayFilter=bottomSheet.findViewById(R.id.dia);
+        ApiClient.get().getTypes(new GenericCallback<List<FilterType>>() {
+            @Override
+            public void onSuccess(List<FilterType> data) {
+                FilterType s=new FilterType(MoneyMovementType.ALL.getName());
+                data.add(0,s);
+
+                mGridFilterAdapter.setItems(data);
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
+    public ArrayList<String> getListFromFIlters(){
+        ArrayList<String> s=new ArrayList<>();
+        s.add("Vacia");
+        for(int i =0;i<mGridFilterAdapter.getList().size();++i){
+            s.add(mGridFilterAdapter.getList().get(i).type);
+        }
+        return s;
+    }
+
+    private void topBarListener(View bottomSheet){
+
+        mGridRecyclerViewItem = bottomSheet.findViewById(R.id.list_items);
+        gridlayoutmanagerItem = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mGridRecyclerViewItem.setLayoutManager(gridlayoutmanagerItem);
+        mGridFilterAdapter = new FilterAdapter(this, new ArrayList<FilterType>());
+        mGridRecyclerViewItem.setAdapter(mGridFilterAdapter);
+        mGridFilterAdapter.setOnselectedFilter(this);
+
+        listFilters();
 
         sinFacturar=bottomSheet.findViewById(R.id.sin_facturar);
         facturado=bottomSheet.findViewById(R.id.facturado);
@@ -208,80 +244,6 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
             }
         });
 
-       /* monthFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unselectDayMonth();
-                groupByType=GroupByType.MONTH;
-                clearView();
-                monthFilter.getBackground().setColorFilter(getResources().getColor(R.color.mes_selected), PorterDuff.Mode.SRC_IN);
-                mAdapter.setGroupBy(groupByType.getName());
-            }
-        });
-
-        dayFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unselectDayMonth();
-                groupByType=GroupByType.DAY;
-                mAdapter.setGroupBy(groupByType.getName());
-                dayFilter.getBackground().setColorFilter(getResources().getColor(R.color.dia_selected), PorterDuff.Mode.SRC_IN);
-                clearView();
-            }
-        });*/
-
-        mines.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.SANTI_PAGO_MIOS;
-                clearView();
-            }
-        });
-
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.ALL;
-                clearView();
-            }
-        });
-        contador.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.SANTI_PAGO_CONTADOR;
-                clearView();
-            }
-        });
-        autonomos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.SANTI_PAGO_AUTONOMOS;
-                clearView();
-            }
-        });
-        sueldos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.SANTI_PAGO_SUELDO;
-                clearView();
-            }
-        });
-        alquiler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.SANTI_PAGO_ALQUILER;
-                clearView();
-            }
-        });
-        mercaderia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedMovementType= MoneyMovementType.SANTI_PAGO_MERCADERIA;
-                clearView();
-            }
-        });
-
-
     }
 
     private void clearView(){
@@ -312,7 +274,8 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
         loadingInProgress=true;
 
-        ApiClient.get().getReportMoneyMovements(mCurrentPage,selectedMovementType.getName(),groupByType.getName(),billedType.getName(), new GenericCallback<List<ReportParallelMoneyMovement>>() {
+        //ApiClient.get().getReportMoneyMovements(mCurrentPage,selectedMovementType.getName(),groupByType.getName(),billedType.getName(), new GenericCallback<List<ReportParallelMoneyMovement>>() {
+        ApiClient.get().getReportMoneyMovements(mCurrentPage,selectedType,groupByType.getName(),billedType.getName(), new GenericCallback<List<ReportParallelMoneyMovement>>() {
             @Override
             public void onSuccess(List<ReportParallelMoneyMovement> data) {
                 if (data.size() == 0) {
@@ -372,16 +335,22 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
     }
 
     private void createMovement(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ParallelMoneyMovementsActivity.this);
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_add_money_movement, null);
         builder.setView(dialogView);
 
         final TextView description=  dialogView.findViewById(R.id.description);
-        final EditText other_type=  dialogView.findViewById(R.id.other_type);
+        final AutoCompleteTextView other_type=  dialogView.findViewById(R.id.other_type);
         final Spinner spinnerType=  dialogView.findViewById(R.id.spinner_type1);
         final Spinner spinnerDetail=  dialogView.findViewById(R.id.spinner_detail);
         final LinearLayout line_detail=  dialogView.findViewById(R.id.line_detail);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_item,getListFromFIlters());
+
+        other_type.setThreshold(1);
+        other_type.setAdapter(adapter);
+        other_type.setTextColor(this.getResources().getColor(R.color.word));
 
         final TextView date=  dialogView.findViewById(R.id.date);
         final TextView value=  dialogView.findViewById(R.id.value);
@@ -422,6 +391,11 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         final List<String> spinner_detail = new ArrayList<>();
         enumNameToStringArray(MoneyMovementPaymentType.values(), spinner_detail);
 
+        ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(getApplicationContext(),
+                R.layout.spinner_item,spinner_detail);
+        adapter_detail.setDropDownViewResource(R.layout.spinner_item);
+        spinnerDetail.setAdapter(adapter_detail);
+
         //SPINNER TYPE
         List<String> spinner_type = new ArrayList<>();
         enumNameToStringArray(MoneyMovementType.values(),spinner_type);
@@ -436,22 +410,11 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String itemSelected=String.valueOf(spinnerType.getSelectedItem());
 
-                if(itemSelected.equals(Constants.MONEY_SANTI_PAGO_MERCADERIA)){
-                   line_detail.setVisibility(View.VISIBLE);
-                }else{
-                    line_detail.setVisibility(View.GONE);
-                }
-
                 if(itemSelected.equals("Otro")){
                     other_type.setVisibility(View.VISIBLE);
                 }else{
                     other_type.setVisibility(View.GONE);
                 }
-
-                ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(getApplicationContext(),
-                        R.layout.spinner_item,spinner_detail);
-                adapter_detail.setDropDownViewResource(R.layout.spinner_item);
-                spinnerDetail.setAdapter(adapter_detail);
             }
 
             @Override
@@ -548,7 +511,8 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
                         String time = DateHelper.get().getOnlyTime(DateHelper.get().getActualDate());
 
-                        String datePicker = year + "-" + smonthOfYear + "-" + sdayOfMonth + " " + time;
+                       // String datePicker = year + "/" + smonthOfYear + "/" + sdayOfMonth + " " + time;
+                        String datePicker = sdayOfMonth + "/" + smonthOfYear + "/" + year + " " + time;
                         date.setText(datePicker);
 
                     }

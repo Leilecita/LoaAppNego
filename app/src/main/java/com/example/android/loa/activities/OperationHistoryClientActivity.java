@@ -193,7 +193,7 @@ public class OperationHistoryClientActivity extends BaseActivity implements Pagi
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(OperationHistoryClientActivity.this, options);
-                popup.getMenuInflater().inflate(R.menu.menu_add_product, popup.getMenu());
+                popup.getMenuInflater().inflate(R.menu.menu_info, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {

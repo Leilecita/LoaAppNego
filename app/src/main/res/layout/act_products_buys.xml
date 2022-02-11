@@ -92,11 +92,20 @@
             android:id="@+id/lineFilter"
             android:orientation="vertical">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_items"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="8dp"
+                />
+
             <HorizontalScrollView
                 android:id="@+id/hsv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:visibility="gone"
                 android:fillViewport="true"
                 android:measureAllChildren="false"
                 android:scrollbars="none">
@@ -211,6 +220,72 @@
                 android:layout_height="match_parent"
                 />
 
+            <LinearLayout
+                android:layout_width="180dp"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/violetClear"
+                android:background="@drawable/rec_find"
+                android:layout_height="30dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Cantidad:  "
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:id="@+id/quantity_prod"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text=""
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="16dp"
+                android:paddingLeft="8dp"
+                android:id="@+id/add_bill"
+                android:paddingRight="12dp"
+                android:backgroundTint="@color/violet1"
+                android:background="@drawable/rec_find"
+                android:layout_height="40dp">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/invoice2"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:text="  Facturas"
+                    />
+
+            </LinearLayout>
+
+
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -249,7 +324,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:minWidth="120dp"
-                            android:layout_height="38dp"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
                             android:layout_marginRight="5dp"
                             android:layout_marginLeft="5dp"
@@ -277,7 +352,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:minWidth="120dp"
-                            android:layout_height="38dp"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
                             android:layout_marginRight="5dp"
                             android:paddingRight="8dp"
@@ -303,7 +378,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:minWidth="120dp"
-                            android:layout_height="38dp"
+                            android:layout_height="40dp"
                             android:layout_weight="1"
                             android:layout_marginRight="5dp"
                             android:paddingRight="8dp"
@@ -325,17 +400,84 @@
                                 />
                         </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:paddingLeft="4dp"
-                            android:paddingRight="4dp"
-                            android:visibility="gone"
-                            android:id="@+id/balance"
+                        <LinearLayout
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/balance"
+                            android:gravity="center"
+                            android:backgroundTint="@color/colorAccent"
+                            android:background="@drawable/rec_find"
+                            android:orientation="horizontal">
 
-                            />
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:id="@+id/view_group"
+                                android:src="@drawable/desagrupar"
+                                android:textColorHint="@color/white"
+                                android:layout_gravity="center"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
+                            android:gravity="center"
+                            android:backgroundTint="@color/colorAccent"
+                            android:background="@drawable/rec_find"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/open_eye"
+                                android:textColorHint="@color/white"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/stockcero"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="10dp"
+                                android:fontFamily="@font/opensansregular"
+                                android:hint="con stock 0"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginRight="5dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/balance"
+                            android:visibility="gone"
+                            android:backgroundTint="@color/colorAccent"
+                            android:background="@drawable/rec_find"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="25dp"
+
+                                android:layout_height="25dp"
+                                android:src="@drawable/balan_white"
+                                android:textColorHint="@color/white"
+                                android:layout_gravity="center"
+                                />
+                        </LinearLayout>
+
 
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -343,9 +485,55 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
+                    android:layout_height="wrap_content">
 
-                    android:background="@color/back_buys"
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:background="@drawable/rec_find"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="8dp"
+                        android:visibility="gone"
+                        android:paddingLeft="8dp"
+                        android:id="@+id/auto_type"
+                        />
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:paddingLeft="8dp"
+                        android:visibility="gone"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/rec_find"
+                        android:layout_height="35dp"
+                        android:id="@+id/auto_model"
+
+                        />
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:background="@drawable/rec_find"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="12dp"
+                        android:paddingLeft="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:visibility="gone"
+                        android:id="@+id/auto_brand"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:background="@color/back_buys_grid"
+                    android:layout_marginTop="12dp"
                     android:id="@+id/line_recycler"
+                    android:layout_marginBottom="80dp"
                     android:layout_below="@+id/lineBrandType"
                     android:layout_height="wrap_content">
 
@@ -382,34 +570,7 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="180dp"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="8dp"
-                android:background="@drawable/rec_find"
-                android:layout_height="30dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:text="Cantidad:  "
-                    />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:id="@+id/quantity_prod"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:text=""
-                    />
-
-            </LinearLayout>
 
 
 

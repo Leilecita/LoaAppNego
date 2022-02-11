@@ -16,6 +16,7 @@ public class Operation {
     public Double previous_balance;
     public String modify_by;
     public String created;
+    public String payment_method;
 
     public Long client_id;
 

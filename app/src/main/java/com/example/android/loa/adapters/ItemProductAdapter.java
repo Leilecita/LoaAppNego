@@ -24,7 +24,6 @@ public class ItemProductAdapter extends BaseAdapter<SpinnerItem,ItemProductAdapt
 
     private Integer prevPosOpenView;
 
-
     public void setOnSelectedProductItem(OnSelectedProductItem lister) {
         onSelectedProductItem = lister;
     }
@@ -32,7 +31,6 @@ public class ItemProductAdapter extends BaseAdapter<SpinnerItem,ItemProductAdapt
     public ItemProductAdapter(Context context, List<SpinnerItem> events) {
         setItems(events);
         mContext = context;
-
         prevPosOpenView=-1;
     }
     public void resetPrevOpenView(){
@@ -50,10 +48,12 @@ public class ItemProductAdapter extends BaseAdapter<SpinnerItem,ItemProductAdapt
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView circle;
+        public ImageView selected;
 
         public ViewHolder(View v) {
             super(v);
             circle = v.findViewById(R.id.item);
+            selected = v.findViewById(R.id.selected);
 
         }
     }
@@ -71,7 +71,6 @@ public class ItemProductAdapter extends BaseAdapter<SpinnerItem,ItemProductAdapt
 
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ItemProductAdapter.ViewHolder holder, final int position) {
@@ -79,50 +78,36 @@ public class ItemProductAdapter extends BaseAdapter<SpinnerItem,ItemProductAdapt
 
         final SpinnerItem current = getItem(position);
 
-        loadClear(holder,current);
+        holder.selected.setVisibility(View.GONE);
+        holder.circle.setImageResource(current.resId);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onSelectedProductItem != null) {
 
-                    if(prevPosOpenView!=-1 ){
+                    if(prevPosOpenView!=-1){
                         if(prevPosOpenView!=position){
                             updateItem(prevPosOpenView,getItem(prevPosOpenView));
                         }
                     }
-                    prevPosOpenView=position;
-                    loadSelected(holder,current);
 
-                    onSelectedProductItem.onSelectedProductItem(current.item);
-                }
+                    holder.selected.setVisibility(View.VISIBLE);
+                    prevPosOpenView=position;
+
+                    if (onSelectedProductItem != null) {
+                        onSelectedProductItem.onSelectedProductItem(current.item);
+                    }
             }
         });
     }
 
     private void loadSelected(ViewHolder holder,SpinnerItem current){
-        if(current.item.equals(Constants.ITEM_HOMBRE)){
-            holder.circle.setImageResource(R.drawable.bman);
-        }else if(current.item.equals(Constants.ITEM_TODOS)){
-            holder.circle.setImageResource(R.drawable.ball);
-        }else if(current.item.equals(Constants.ITEM_DAMA)){
-            holder.circle.setImageResource(R.drawable.bwom);
-        }else if(current.item.equals(Constants.ITEM_NINIO)){
-            holder.circle.setImageResource(R.drawable.bnin);
-        }else if(current.item.equals(Constants.ITEM_ACCESORIO)){
-            holder.circle.setImageResource(R.drawable.bacc);
-        }else if(current.item.equals(Constants.ITEM_TECNICO)){
-            holder.circle.setImageResource(R.drawable.btec);
-        }else if(current.item.equals(Constants.ITEM_CALZADO)){
-            holder.circle.setImageResource(R.drawable.bcal);
-        }else if(current.item.equals(Constants.ITEM_OFERTA)){
-            holder.circle.setImageResource(R.drawable.bofer);
-        }else if(current.item.equals(Constants.ITEM_LUZ)){
-            holder.circle.setImageResource(R.drawable.bluz);
-        }
+        holder.selected.setVisibility(View.VISIBLE);
+
     }
 
     private void loadClear(ViewHolder holder,SpinnerItem current){
+        holder.selected.setVisibility(View.GONE);
         if(current.item.equals(Constants.ITEM_HOMBRE)){
             holder.circle.setImageResource(R.drawable.bmancl);
         }else if(current.item.equals(Constants.ITEM_TODOS)){

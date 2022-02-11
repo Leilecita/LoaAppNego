@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="18dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:id="@+id/line"
+    android:background="@color/background_line1"
+    android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:id="@+id/description"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
+            android:layout_height="wrap_content"
+            android:text=" "
+            />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:id="@+id/total"
+                android:fontFamily="@font/opensansregular"
+                android:textSize="@dimen/general_text"
+                android:layout_height="wrap_content"
+                android:text=""
+                />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:gravity="end"
+        android:id="@+id/percentage"
+        android:fontFamily="@font/opensansregular"
+        android:textSize="@dimen/general_text"
+        android:layout_height="wrap_content"
+        android:text="212"
+        />
+
+
+</LinearLayout>

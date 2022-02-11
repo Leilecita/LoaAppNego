@@ -27,6 +27,7 @@ import com.example.android.loa.activities.BaseActivity;
 import com.example.android.loa.activities.DeletedProductsActivity;
 import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.adapters.StockEventAdapterBalance;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -137,7 +138,7 @@ public class BalanceActivity extends BaseActivity implements Paginate.Callbacks{
 
                 if(!stockP.matches("") && ValidatorHelper.get().isTypeInteger(stockP)){
 
-                    StockEvent s= new StockEvent(getIntent().getLongExtra("ID",-1),0,0,0,detailP,0.0,"","");
+                    StockEvent s= new StockEvent(getIntent().getLongExtra("ID",-1),0,0,0,detailP,0.0,"","", SessionPrefs.get(getBaseContext()).getName(),0.0);
                     s.ideal_stock=0;
                     s.balance_stock=Integer.valueOf(stockP);
 

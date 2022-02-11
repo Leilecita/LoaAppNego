@@ -467,6 +467,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         }else{
             Toast.makeText(getContext(), " Debe seleccionar vista por dia para poder crear una caja",Toast.LENGTH_LONG).show();
         }
+
     }
 
     @Override

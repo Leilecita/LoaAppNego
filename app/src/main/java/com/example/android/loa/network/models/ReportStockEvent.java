@@ -18,6 +18,10 @@ public class ReportStockEvent {
     public String today_created_client;
 
     public Long client_id;
+    public String user_name;
+
+    public Double original_price_product;
+    public Double value_before_edited;
 
     public ReportStockEvent(){}
 }

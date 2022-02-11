@@ -3,6 +3,7 @@ package com.example.android.loa.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -96,6 +98,12 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
     }
 
     private void clearViewHolder(GeneralStockEventAdapter.ViewHolder vh) {
+        if (vh.type != null)
+            vh.type.setText(null);
+        if (vh.ideal_stock != null)
+            vh.ideal_stock.setText(null);
+        if (vh.real_stock != null)
+            vh.real_stock.setText(null);
 
     }
 
@@ -143,7 +151,15 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
 
         holder.dif.setText(String.valueOf(current.difference));
 
-        holder.type.setText(current.type);
+        holder.type.setText(current.type+" "+current.brand);
+
+        if(current.brand.equals("Todos")){
+            final Typeface typeface = ResourcesCompat.getFont(mContext, R.font.opensansregular);
+            holder.type.setTypeface(typeface);
+        }else{
+            final Typeface typeface = ResourcesCompat.getFont(mContext, R.font.opensanslight);
+            holder.type.setTypeface(typeface);
+        }
 
         if(current.result.equals("bien")){
             holder.result.setImageResource(R.drawable.correct);
@@ -162,15 +178,15 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
             }
         });
 
-        final ProductAdapter productAdapter = new ProductAdapter(mContext, new ArrayList<Product>());
+        /*final ProductAdapter productAdapter = new ProductAdapter(mContext, new ArrayList<Product>());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         holder.listProd.setLayoutManager(layoutManager);
-        holder.listProd.setAdapter(productAdapter);
+        holder.listProd.setAdapter(productAdapter);*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(productAdapter.getList().size() >0){
+               /* if(productAdapter.getList().size() >0){
 
                 }else{
                     getProductsByItemType(current,productAdapter);
@@ -182,7 +198,7 @@ public class GeneralStockEventAdapter extends BaseAdapter<GeneralStock, GeneralS
                 }else{
                     holder.listProd.setVisibility(View.VISIBLE);
                     holder.info.setVisibility(View.VISIBLE);
-                }
+                }*/
             }
         });
 

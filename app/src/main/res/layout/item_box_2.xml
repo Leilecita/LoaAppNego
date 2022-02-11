@@ -4,7 +4,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
+    android:paddingLeft="4dp"
+    android:id="@+id/principal_line"
+    android:background="@color/background"
+
     android:orientation="vertical"
     >
 
@@ -170,6 +173,15 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:id="@+id/vent"
+                    android:layout_marginRight="6dp"
+                    android:layout_height="20dp"
+
+                    />
+
             <ImageView
                 android:layout_width="20dp"
                 android:src="@drawable/camera"
@@ -203,6 +215,14 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:id="@+id/pos"
+                    android:layout_marginRight="6dp"
+                    android:layout_height="20dp"
+
+                    />
 
                 <ImageView
                     android:layout_width="20dp"

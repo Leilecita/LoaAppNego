@@ -30,6 +30,8 @@ import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -178,6 +180,10 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
         public TextView detailup;
         public TextView obs;
 
+        public LinearLayout info_user;
+        public TextView user_name;
+        public TextView time;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -209,6 +215,10 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
             model = v.findViewById(R.id.model);
             div = v.findViewById(R.id.div);
             obs = v.findViewById(R.id.observation);
+
+            info_user = v.findViewById(R.id.info_user);
+            user_name = v.findViewById(R.id.user_name);
+            time = v.findViewById(R.id.time);
         }
     }
 
@@ -234,7 +244,6 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
 
         if (vh.value != null)
             vh.value.setText(null);
-
     }
 
 
@@ -275,6 +284,9 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
         final ReportStockEvent current = getItem(position);
 
         loadIcon(holder, current.item);
+
+        holder.user_name.setText(current.user_name);
+        holder.time.setText(DateHelper.get().onlyHourMinut(DateHelper.get().getOnlyTime(current.stock_event_created)));
 
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
 
@@ -322,27 +334,16 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
 
         holder.payment_method.setText(current.payment_method);
 
-       /* holder.payment_method.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.select_payment_method.getVisibility() == View.GONE) {
-                    holder.select_payment_method.setVisibility(View.VISIBLE);
-                } else {
-                    holder.select_payment_method.setVisibility(View.GONE);
-                }
-            }
-        });*/
-
-
-
        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.line_edit.getVisibility() == View.GONE) {
+                    holder.info_user.setVisibility(View.VISIBLE);
                     holder.line_edit.setVisibility(View.VISIBLE);
                     holder.div.setVisibility(View.GONE);
 
                 } else {
+                    holder.info_user.setVisibility(View.GONE);
                     holder.line_edit.setVisibility(View.GONE);
                     holder.div.setVisibility(View.VISIBLE);
                 }
@@ -353,5 +354,9 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
             holder.value.setText(current.client_name);
         }
     }
+
+
+
+
 
 }

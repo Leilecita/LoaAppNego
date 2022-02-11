@@ -12,11 +12,9 @@
         android:id="@+id/team"
         >
         <menu>
-
             <item
                 android:id="@+id/nav_personal"
                 android:title="Horas personal"/>
-
         </menu>
     </item>
 
@@ -26,7 +24,11 @@
         <menu>
             <item
                 android:id="@+id/nav_productos"
-                android:title="Producto movimientos"/>
+                android:title="Ventas mercaderia"/>
+
+            <item
+                android:id="@+id/nav_buys_balance"
+                android:title="Compras y balances"/>
 
             <item
                 android:id="@+id/nav_price_manager"
@@ -34,7 +36,7 @@
 
             <item
                 android:id="@+id/nav_movements"
-                android:title="Historial mov productos"/>
+                android:title="Historial diario mov productos"/>
 
             <item
                 android:id="@+id/nav_prices"
@@ -49,7 +51,7 @@
         <menu>
             <item
                 android:id="@+id/nav_sales"
-                android:title="Ventas cierre caja"/>
+                android:title="Listado Ventas cierre caja"/>
 
             <item
                 android:id="@+id/nav_list_boxes"
@@ -57,7 +59,7 @@
 
             <item
                 android:id="@+id/nav_buy"
-                android:title="Compras"/>
+                android:title="Listado Compras"/>
 
             <item
                 android:id="@+id/nav_extractions"
@@ -66,6 +68,10 @@
             <item
                 android:id="@+id/nav_incomes"
                 android:title="Señas"/>
+
+            <item
+                android:id="@+id/nav_buy_billings"
+                android:title="Facturas compras"/>
 
         </menu>
     </item>
@@ -97,6 +103,10 @@
             <item
                 android:id="@+id/nav_statistics"
                 android:title="Estadísticas"/>
+
+            <item
+                android:id="@+id/nav_billing"
+                android:title="Facturacion paralela"/>
 
 
         </menu>

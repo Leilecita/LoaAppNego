@@ -160,6 +160,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_weight="1.4"
+                    android:text=""
+                    android:id="@+id/edited_value"
                     android:layout_height="wrap_content"
                     />
 
@@ -218,6 +220,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -225,9 +229,66 @@
                 android:id="@+id/div"
                 android:layout_below="@id/line2"
                 android:background = "@drawable/line"/>
+
+
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="4dp"
+        android:id="@+id/info_user"
+        android:orientation="horizontal"
+        >
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="8dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:alpha="0.7"
+                android:src="@drawable/user_viol">
+
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:id="@+id/user_name"
+                android:text="leila"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:textColor="@color/colorPrimaryDarkLetter"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:id="@+id/time"
+                android:text=""
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -236,6 +297,32 @@
         android:visibility="gone"
         android:orientation="vertical"
         >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edited_value_info"
+            android:visibility="gone"
+            android:text=""
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_original_price"
+            android:visibility="gone"
+            android:textColor="@color/loa_red"
+            android:text=""
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+
+            />
 
         <HorizontalScrollView
             android:id="@+id/hsv"
@@ -250,6 +337,8 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
+
+
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -535,5 +624,7 @@
 
 
     </LinearLayout>
+
+
 
 </LinearLayout>

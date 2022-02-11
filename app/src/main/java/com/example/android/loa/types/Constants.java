@@ -19,6 +19,7 @@ public class Constants {
     public static String TYPE_SANTI = "Santi extr";
     public static String TYPE_MERCADERIA = "Mercaderia";
     public static String TYPE_SUELDO = "Sueldo";
+    public static String TYPE_OTRO = "Otro";
 
     public static String MONEY_SANTI_PAGO_MERCADERIA = "Pago mercaderia";
     public static String MONEY_SANTI_PAGO_SUELDO = "Pago sueldo";
@@ -26,6 +27,9 @@ public class Constants {
     public static String MONEY_SANTI_PAGO_AUTONOMOS = "Pago autonomos";
     public static String MONEY_SANTI_PAGO_ALQUILER = "Pago alquiler";
     public static String MONEY_SANTI_PAGO_MIOS = "Gastos Mios";
+    public static String MONEY_SANTI_PAGO_LOCAL = "Gastos local";
+    public static String MONEY_SANTI_PAGO_ESCUELITA = "Gastos escuelita";
+    public static String MONEY_SANTI_PAGO_ARQUITECTURA = "Gastos arquitectura";
 
     public static String TYPE_GROUP_BY_MONTH = "month";
     public static String TYPE_GROUP_BY_DAY = "day";
@@ -70,5 +74,9 @@ public class Constants {
     public static String MENU_SALIDA_PASO_STOCK_LOCAL = "paso al stock local";
     public static String MENU_SALIDA_PASO_STOCK_OFERTA = "paso al stock oferta";
     public static String MENU_SALIDA_POR_REGALO = "Salida por regalo";
+
+    public static String TYPE_BILLING_ARQ = "Arquitectura";
+    public static String TYPE_BILLING_ESCUELITA = "Escuelita";
+    public static String TYPE_BILLING_VARIOS = "Varios";
 
 }

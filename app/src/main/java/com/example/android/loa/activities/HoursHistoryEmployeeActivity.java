@@ -96,8 +96,6 @@ public class HoursHistoryEmployeeActivity extends BaseActivity implements Pagina
             }
         });
 
-
-
         mRecyclerView =  findViewById(R.id.list_transactionEmployee);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);

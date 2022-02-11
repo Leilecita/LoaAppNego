@@ -91,6 +91,16 @@
             android:id="@+id/type_product"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:text=""
+            android:textSize="18sp"
+            android:id="@+id/product_brand"
+            />
+
 
         <TextView
             android:layout_width="wrap_content"

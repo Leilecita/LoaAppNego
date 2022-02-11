@@ -288,6 +288,12 @@ public class DateHelper {
         return part1 + " 00:00:00";
     }
 
+    public String onlyMonthCompplete(String date) {
+        String[] parts = date.split(" ");
+        String part1 = parts[0]; // fecha
+        return part1 + " 00:00:00";
+    }
+
     public String onlyDayMonth(String date) {
         String[] parts = date.split("/");
         String part1 = parts[0]; // dia
@@ -307,8 +313,11 @@ public class DateHelper {
         return part + "-" + part2;
     }
 
-    public String getOnlymonth(String date) {
-        String[] parts = date.split("-");
+    public String getOnlymonth(String date2) {
+
+        String[] date = date2.split(" ");
+
+        String[] parts = date[0].split("-");
         String part1 = parts[0]; // dia
         String part2 = parts[1]; // mes
         String part = parts[2]; // año
@@ -467,6 +476,40 @@ public class DateHelper {
             return "juernes";
         }
 
+    }
+
+    public String compareDate(String dateToCompare){
+
+        //daTocompare del evento 03/4/21 10:00:00
+
+        //hoy 5/4/21
+
+        String date= DateHelper.get().actualDateExtractions();
+
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            Date date1 = sdf.parse(dateToCompare);
+
+            Date date2 = sdf.parse(getOnlyDate(actualDateExtractions())+" 03:13:00");
+
+
+            System.out.println(dateToCompare);
+            System.out.println(getOnlyDate(actualDateExtractions())+" 03:13:00");
+
+            // Outputs -1 as date1 is before date2
+
+            if(date1.compareTo(date2) < 0){
+                return "menor";
+            }else{
+                return "mayor";
+            }
+
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
     }
 
 

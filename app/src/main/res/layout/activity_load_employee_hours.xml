@@ -565,9 +565,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/opensansregular"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
-                android:text="CANCELAR"
+                android:text="Cancelar"
                 android:textColor="#fff"
 
                 />
@@ -592,7 +593,8 @@
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="GUARDAR"
+                android:fontFamily="@font/opensansregular"
+                android:text="Guardar"
                 android:textColor="#fff"
                 />
 

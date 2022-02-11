@@ -57,6 +57,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:text=""
+                        android:hint="cant"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/general_text"
                         android:visibility="gone" />
@@ -486,6 +487,8 @@
                         android:fontFamily="@font/opensanslight"
                         android:textColor="@color/colorPrimaryDarkLetter"
                         android:background="@null"
+                        android:textColorHint="@color/clearhintletter"
+                        android:hint=" cant"
                         android:inputType="number"
                         android:id="@+id/load_stock"/>
 

@@ -7,25 +7,31 @@ import com.example.android.loa.network.models.Box;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Extraction;
+import com.example.android.loa.network.models.FilterName;
+import com.example.android.loa.network.models.FilterType;
 import com.example.android.loa.network.models.Income;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
 import com.example.android.loa.network.models.Event;
+import com.example.android.loa.network.models.ParallelBilling;
 import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.BuyBilling;
+import com.example.android.loa.network.models.ReportBuyBilling;
 import com.example.android.loa.network.models.ReportDetail;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.GeneralStock;
+import com.example.android.loa.network.models.ReportFilterStatistic;
 import com.example.android.loa.network.models.ReportIncome;
 import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
+import com.example.android.loa.network.models.ReportParallelBilling;
 import com.example.android.loa.network.models.ReportParallelMoneyMovement;
 import com.example.android.loa.network.models.ReportPriceEvent;
-import com.example.android.loa.network.models.ReportPrices;
 import com.example.android.loa.network.models.ReportProduct;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
@@ -38,6 +44,7 @@ import com.example.android.loa.network.models.SpinnerItem;
 import com.example.android.loa.network.models.SpinnerType;
 import com.example.android.loa.network.models.Spinners;
 import com.example.android.loa.network.models.StockEvent;
+import com.example.android.loa.network.models.Student;
 import com.example.android.loa.network.models.User;
 import com.example.android.loa.network.models.UserToken;
 import com.google.gson.Gson;
@@ -103,6 +110,16 @@ public class ApiClient {
         handleDeleteRequest( ApiUtils.getAPISessionService().deleteEmployee(id), callback);
     }
 
+
+    //STUDENTS
+
+    public void getStudents(String query, Integer page,String category,final GenericCallback<List<Student>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getStudents(page,query, "getStudents",category), callback);
+    }
+
+    public void putStudent(Student e, GenericCallback<Student> callback){
+        handleRequest( ApiUtils.getAPISessionService().putStudent(e), callback);
+    }
 
     //CLIENTS
 
@@ -273,12 +290,12 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().putProduct(p), callback);
     }
 
-    public void deleteProduct( Long id,GenericCallback<SpinnerData> callback){
-        handleRequest( ApiUtils.getAPISessionService().deleteProduct("deleteProduct",id), callback);
+    public void deleteProduct( Long id,String obs,GenericCallback<SpinnerData> callback){
+        handleRequest( ApiUtils.getAPISessionService().deleteProduct("deleteProduct",id,obs), callback);
     }
 
-    public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,String model,String deleted, String query,final GenericCallback<List<Product>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted, query), callback);
+    public void getProductsByPageByItemByBrandAndType( Integer page,String item,String brand,String type,String model,String deleted, String query,String group, String stockcero,final GenericCallback<List<Product>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted, query, group, stockcero), callback);
     }
 
     public void getProductsByPageByItemByBrandAndTypePriceManager( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<ReportProduct>> callback ){
@@ -323,6 +340,15 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getItems("getProductsByItem"), callback);
     }
 
+    public void getTypes(  GenericCallback<List<FilterType>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getTypes("getDistinctTypes"), callback);
+    }
+
+
+    public void getTypesBilling(  GenericCallback<List<FilterType>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getTypesBilling("getDistinctTypes"), callback);
+    }
+
     public void getSumStockByFilterProducts( String item, String brand,String type2,String model,String deleted,GenericCallback<Integer> callback){
         handleRequest( ApiUtils.getAPISessionService().getSumStockByFilterProducts("sumAllStock",item,brand,type2,model,deleted), callback);
     }
@@ -345,6 +371,18 @@ public class ApiClient {
 
     public void getStatistics(Integer page,String item, String brand,String type,String model,String since,String to,String detailsNotToSee, String detailsToSee ,final GenericCallback<List<ReportStockEvent>> callback ){
         handleRequest( ApiUtils.getAPISessionService().getStatistics("getStatisticsSales",page,item,brand,type,model,since,to, detailsNotToSee, detailsToSee), callback);
+    }
+
+    public void statisticsByType(String since,String to,String limit,final GenericCallback<ReportFilterStatistic> callback ){
+        handleRequest( ApiUtils.getAPISessionService().statisticsByType("getByArtStatistics",since,to, limit), callback);
+    }
+
+    public void statisticsByBrand(String since,String to,String limit,final GenericCallback<ReportFilterStatistic> callback ){
+        handleRequest( ApiUtils.getAPISessionService().statisticsByBrand("getByBrandStatistics",since,to,limit), callback);
+    }
+
+    public void statisticsByItemType(String since,String to,String item,String limit, final GenericCallback<ReportFilterStatistic> callback ){
+        handleRequest( ApiUtils.getAPISessionService().statisticsByItemByType("getByItemAndArtStatistics",since,to, item, limit), callback);
     }
 
     public void getStatisticValues(String item, String brand,String type,String model,String since,String to, String detailsNotToSee,String detailsToSee ,final GenericCallback<ReportStatistic> callback ){
@@ -409,6 +447,55 @@ public class ApiClient {
     public void register(User u, String key, GenericCallback<User> callback){
         handleRequest( ApiUtils.getAPIService().register(u,key,"register"), callback);
     }
+
+    //PARALLEL Billing
+    public void postParallelBilling(ParallelBilling p, GenericCallback<ParallelBilling> callback){
+        handleRequest( ApiUtils.getAPISessionService().postParallelBilling(p), callback);
+    }
+
+    public void deleteParallelBilling(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPISessionService().deleteParallelBilling(id), callback);
+    }
+
+
+    public void getReportParalelBillings( Integer page,String type, final GenericCallback<List<ReportParallelBilling>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getReportParallelBillings("getParallelBillingsMonth",page,type), callback);
+    }
+
+    public void putParallelBillings(ParallelBilling e, GenericCallback<ParallelBilling> callback){
+        handleRequest( ApiUtils.getAPISessionService().putParallelBilling(e), callback);
+    }
+
+
+    //product Billing
+    public void postProductBilling(BuyBilling p, GenericCallback<BuyBilling> callback){
+        handleRequest( ApiUtils.getAPISessionService().postBuyBilling(p), callback);
+    }
+
+    public void deleteProductBilling(Long id, final GenericCallback<Void> callback){
+        handleDeleteRequest( ApiUtils.getAPISessionService().deleteBuyBilling(id), callback);
+    }
+
+
+    public void getBuyBillings(Integer page, String type, final GenericCallback<List<BuyBilling>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getBuyBillings("getBuyBilling",page,type), callback);
+    }
+
+
+
+    public void getReportBuyBillings(Integer page, String type, String since, String to, final GenericCallback<ReportBuyBilling> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getReportBuyBillings("getReportBuyBilling",page,type,since,to), callback);
+    }
+
+    public void getDistinctiBusinessName( final GenericCallback<List<FilterName>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getDistintiBusinessName("getDistinctBuisnesName"), callback);
+    }
+
+
+    public void putProductBilling(BuyBilling e, GenericCallback<BuyBilling> callback){
+        handleRequest( ApiUtils.getAPISessionService().putBuyBilling(e), callback);
+    }
+
 
     private <T> void handleRequest(Observable<Response<T>> request, final GenericCallback<T> callback){
         request.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

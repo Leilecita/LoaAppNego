@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -44,6 +45,9 @@ public class PhotoPosnetEditActivity extends BaseActivity {
 
     private Box mCurrentBox;
 
+    private LinearLayout home;
+    private LinearLayout save;
+
     public static void startBox(Context mContext, Long boxid) {
         Intent i = new Intent(mContext, PhotoPosnetEditActivity.class);
         i.putExtra("IDBOX", boxid);
@@ -59,8 +63,25 @@ public class PhotoPosnetEditActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
         mImageView = findViewById(R.id.imageview);
+
+        home = findViewById(R.id.line_home);
+        save = findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
+        save();
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ApiClient.get().getBox(getIntent().getLongExtra("IDBOX", -1), new GenericCallback<Box>() {
             @Override
@@ -84,6 +105,34 @@ public class PhotoPosnetEditActivity extends BaseActivity {
         });
     }
 
+    private void save(){
+        if (image_path != null) {
+            try {
+                mCurrentBox.imageDataPosnet = fileToBase64(image_path);
+            } catch (Exception e) {
+            }
+
+            final ProgressDialog progress = ProgressDialog.show(this, "Editando foto",
+                    "Aguarde un momento", true);
+
+
+            ApiClient.get().putBox(mCurrentBox, new GenericCallback<Box>() {
+                @Override
+                public void onSuccess(Box data) {
+                    Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.image_url_posnet)).into(mImageView);
+                    finish();
+                    progress.dismiss();
+                }
+
+                @Override
+                public void onError(Error error) {
+                    DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                }
+            });
+        }
+
+    }
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_create, menu);
@@ -126,6 +175,9 @@ public class PhotoPosnetEditActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+ */
 
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);

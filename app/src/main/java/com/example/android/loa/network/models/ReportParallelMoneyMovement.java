@@ -8,5 +8,5 @@ public class ReportParallelMoneyMovement {
     public Double amountDay;
     public ArrayList<ParallelMoneyMovement> listMoneyMovements;
 
-    public void ReportExtraction(){}
+    public void ReportParallelMoneyMovement(){}
 }

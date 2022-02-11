@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -38,18 +39,22 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.activities.BoxMovementsActivity;
 import com.example.android.loa.activities.balances.BalanceActivity;
 import com.example.android.loa.activities.SalesActivity;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.fragments.SalesFragment;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Product;
 import com.example.android.loa.network.models.ReportSimpelClient;
+import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.SpinnerData;
 import com.example.android.loa.network.models.StockEvent;
 import com.example.android.loa.types.Constants;
 import com.google.android.material.snackbar.Snackbar;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 
 import java.text.ParseException;
@@ -59,7 +64,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolder>  {
+public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private OnChangeViewStock onChangeViewStock= null;
 
@@ -74,6 +79,82 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private String client_created;
 
     private Boolean product_sales;
+
+    private Boolean isGrouped;
+
+    @Override
+    public long getHeaderId(int position) {
+        if (position >= getItemCount()) {
+            return -1;
+        } else {
+            Date date = DateHelper.get().parseDate(DateHelper.get().onlyDateComplete(getItem(position).deleted_time));
+            return date.getDay();
+        }
+    }
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.view_header_event_day, parent, false);
+        return new RecyclerView.ViewHolder(view) {
+        };
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (position < getItemCount()) {
+
+            LinearLayout linear = (LinearLayout) holder.itemView;
+            final Product e = getItem(position);
+
+            String month = DateHelper.get().getNameMonth2(e.deleted_time).substring(0, 3);
+            String numberDay = DateHelper.get().numberDay(e.deleted_time);
+
+            //primer linear
+            int count = linear.getChildCount();
+            View v = null;
+            View v2 = null;
+            View v3 = null;
+            View v5 = null;
+            View v6 = null;
+            View v7 = null;
+            View v8 = null;
+            View v9 = null;
+            View v10 = null;
+
+            for (int k = 0; k < count; k++) {
+                v3 = linear.getChildAt(k);
+
+                //frame
+                if (k == 0) {
+                    FrameLayout linear4 = (FrameLayout) v3;
+                    int count3 = linear4.getChildCount();
+                    for (int i = 0; i < count3; i++) {
+                        v = linear4.getChildAt(i);
+                        if (i == 1) {
+
+                            RelativeLayout rel2 = (RelativeLayout) v;
+                            int countRel2 = rel2.getChildCount();
+
+                            for (int r = 0; r < countRel2; r++) {
+
+                                v5=rel2.getChildAt(r);
+                                if (r == 0) {
+                                    TextView t2 = (TextView) v5;
+                                    t2.setText(month);
+                                }else if(r==1){
+                                    TextView t = (TextView) v5;
+                                    t.setText(numberDay);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private String getExpandedDate(){
 
@@ -116,10 +197,15 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         client_created="";
 
         product_sales = true;
+        isGrouped = false;
     }
 
     public void setProduct_sales(Boolean val){
         product_sales = val;
+    }
+
+    public void setIsGrouped(Boolean val){
+        isGrouped = val;
     }
 
     public void setClients(List<ReportSimpelClient> cls){
@@ -251,6 +337,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             vh.brand.setText(null);
         if(vh.stock!=null)
             vh.stock.setText(null);
+        if(vh.model!=null)
+            vh.model.setText(null);
+        if(vh.original_product_price!=null)
+            vh.original_product_price.setText(null);
     }
 
     //private void loadIcon(ViewHolder holder,final String item){
@@ -288,10 +378,14 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         final Product currentProduct=getItem(position);
 
-        holder.original_product_price.setText(String.valueOf(currentProduct.price));
+        if(!isGrouped){
+            holder.original_product_price.setText(String.valueOf(currentProduct.price));
+        }
 
         if(currentProduct.price > 0){
-            holder.value_sale.setText(String.valueOf(currentProduct.price));
+            holder.value_sale.setText("0.0");
+            //esto lo hago solo cuando selecciona salida por venta
+           // holder.value_sale.setText(String.valueOf(currentProduct.price));
         }
 
         if(product_sales){
@@ -324,11 +418,8 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
-        if(isModel){
-            holder.brand.setText(currentProduct.brand+"   "+currentProduct.model);
-        }else{
-            holder.brand.setText(currentProduct.brand);
-        }
+
+        holder.brand.setText(currentProduct.brand);
 
         holder.cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,43 +428,49 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             }
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                deleteProduct(currentProduct,position);
-                return false;
-            }
-        });
-
         optionsItem(holder,currentProduct,position);
 
         holder.line_options.setVisibility(View.GONE);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(holder.line_options.getVisibility() == View.VISIBLE){
-                    holder.line_options.setVisibility(View.GONE);
-                    closeItem(holder);
 
-                }else{
-                    if(prevPosOpenView!=-1 ){
-                        if(prevPosOpenView!=position)
-                        updateItem(prevPosOpenView,getItem(prevPosOpenView));
+        if(currentProduct.deleted.equals("false")){
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (!isGrouped) {
+                            if (holder.line_options.getVisibility() == View.VISIBLE) {
+                                holder.line_options.setVisibility(View.GONE);
+                                closeItem(holder);
+                            } else {
+                                if (prevPosOpenView != -1) {
+                                    if (prevPosOpenView != position)
+                                        updateItem(prevPosOpenView, getItem(prevPosOpenView));
+                                }
+                                prevPosOpenView = position;
+                                holder.line_options.setVisibility(View.VISIBLE);
+                            }
+                        }
                     }
-                    prevPosOpenView=position;
-                    holder.line_options.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+                });
+        }
+
+
     }
 
     private void closeItem(ViewHolder holder){
-        holder.balance.setVisibility(View.VISIBLE);
+
+        if(product_sales){
+            holder.balance.setVisibility(View.GONE);
+        }else{
+            holder.balance.setVisibility(View.VISIBLE);
+        }
+       // holder.balance.setVisibility(View.VISIBLE);
         holder.edith.setVisibility(View.VISIBLE);
         holder.detail.setVisibility(View.GONE);
         holder.updateStock.setVisibility(View.GONE);
         holder.line_student.setVisibility(View.GONE);
-        holder.value_sale.setText("");
+        holder.value_sale.setText("0.0");
         if(onChangeViewStock!=null){
             onChangeViewStock.OnChangeViewStock();
         }
@@ -463,15 +560,23 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
     private void lessStock(final Product p, final int position, final ViewHolder holder){
 
         holder.detail.setVisibility(View.VISIBLE);
-        holder.detail.setText("Salida venta");
+
+        if(product_sales){
+            holder.detail.setText("Salida venta");
+            holder.value_sale.setText(String.valueOf(p.price));
+
+            holder.select_payment_method.setVisibility(View.VISIBLE);
+            holder.line_value.setVisibility(View.VISIBLE);
+        }
+
         holder.detail.setHint("Elegir detalle");
+
         holder.detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideSoftKeyboard(mContext, v);
-
                 if(product_sales){
-                    createMenuOut(holder);
+                    createMenuOut(holder,p);
                 }else{
                     holder.detail.setText("");
                     createMenuOutBuys(holder);
@@ -481,9 +586,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
         holder.load_stock.setText("1");
         holder.less_load.setText("- ");
-
-        holder.select_payment_method.setVisibility(View.VISIBLE);
-        holder.line_value.setVisibility(View.VISIBLE);
 
         holder.date.setVisibility(View.VISIBLE);
 
@@ -590,7 +692,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                         if (ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valuep)) {
 
                             StockEvent s = new StockEvent(p.id, 0, Integer.valueOf(stockP), p.stock, detailP, Double.valueOf(valuep), payment_method,
-                                    obserP);
+                                    obserP, SessionPrefs.get(mContext).getName(), p.price);
                             s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                             p.stock -= Integer.valueOf(stockP);
                             if(!dateSelected.equals("")){
@@ -718,7 +820,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 if ( ValidatorHelper.get().isTypeInteger(stockP) && ValidatorHelper.get().isTypeDouble(valueP)) {
                     if(!stockP.matches("") && !detailP.matches("")){
                         StockEvent s = new StockEvent(p.id, Integer.valueOf(stockP), 0, p.stock, detailP,0.0,"",
-                                obserP);
+                                obserP, SessionPrefs.get(mContext).getName(), p.price);
                         s.ideal_stock = s.stock_ant + s.stock_in - s.stock_out;
                         p.stock += Integer.valueOf(stockP);
 
@@ -746,7 +848,11 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                                         .setAction("VER PLANILLA VENTAS", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                mContext.startActivity(new Intent(mContext, SalesFragment.class));
+
+                                                Intent i = new Intent(mContext, BoxMovementsActivity.class);
+                                                i.putExtra("NAMEFRAGMENT", "box");
+                                                mContext.startActivity(i);
+                                               // mContext.startActivity(new Intent(mContext, SalesFragment.class));
                                             }
                                         });
 
@@ -782,7 +888,17 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         final View dialogView = inflater.inflate(R.layout.edith_product, null);
         builder.setView(dialogView);
 
+
+        final EditText brand_to_edith = dialogView.findViewById(R.id.brand_to_edith);
+        final EditText art_to_edith = dialogView.findViewById(R.id.art_to_edith);
+        final LinearLayout line_santi = dialogView.findViewById(R.id.line_santi);
+
+        if(SessionPrefs.get(mContext).getName().equals("santi") || SessionPrefs.get(mContext).getName().equals("lei") ){
+            line_santi.setVisibility(View.VISIBLE);
+        }
+
         final EditText price = dialogView.findViewById(R.id.price);
+        final EditText model_to_edith = dialogView.findViewById(R.id.model_to_edith);
         final ImageView im = dialogView.findViewById(R.id.imagebutton);
         final RelativeLayout delete = dialogView.findViewById(R.id.delete);
 
@@ -792,25 +908,30 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         final TextView type = dialogView.findViewById(R.id.type);
         final TextView brand = dialogView.findViewById(R.id.brand);
         final TextView model = dialogView.findViewById(R.id.model);
+        final TextView stock = dialogView.findViewById(R.id.stock);
         final TextView cancel = dialogView.findViewById(R.id.cancel);
         final Button ok = dialogView.findViewById(R.id.ok);
 
         model.setText(p.model);
+        stock.setText(String.valueOf((p.stock)));
         brand.setText(p.brand);
         type.setText(p.type);
         original_price.setText(String.valueOf(p.price));
 
-       // price.setText(String.valueOf(p.price));
-       // price.setSelection(price.getText().length());
+        price.setText(String.valueOf(p.price));
+        model_to_edith.setText(p.model);
+        art_to_edith.setText(p.type);
+        brand_to_edith.setText(p.brand);
+
+        final AlertDialog dialog = builder.create();
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteProduct(p,position);
+                dialog.dismiss();
             }
         });
-
-        final AlertDialog dialog = builder.create();
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -818,7 +939,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                 if(!price.getText().toString().trim().matches("")){
 
-                    Product edithedProduct = new Product(p.id, Double.valueOf(price.getText().toString().trim()));
+                    Product edithedProduct = new Product(p.id, Double.valueOf(price.getText().toString().trim()),model_to_edith.getText().toString().trim());
+
+                    edithedProduct.brand = brand_to_edith.getText().toString().trim();
+                    edithedProduct.type = art_to_edith.getText().toString().trim();
 
                     ApiClient.get().putProduct(edithedProduct, new GenericCallback<Product>() {
                         @Override
@@ -826,6 +950,10 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                             p.price = data.price;
                             holder.original_product_price.setText(String.valueOf(data.price));
                             holder.value_sale.setText(String.valueOf(data.price));
+                            holder.model.setText(data.model);
+
+                            holder.type.setText(data.type);
+                            holder.brand.setText(data.brand);
 
                             Toast.makeText(mContext,"El precio ha sido cambiado", Toast.LENGTH_SHORT).show();
                         }
@@ -862,6 +990,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
         final View dialogView = inflater.inflate(R.layout.delete_product, null);
         builder.setView(dialogView);
 
+        final EditText obs = dialogView.findViewById(R.id.obs);
         final TextView brand = dialogView.findViewById(R.id.brand);
         final TextView type = dialogView.findViewById(R.id.type);
         final TextView stock= dialogView.findViewById(R.id.stock);
@@ -877,20 +1006,24 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
             @Override
             public void onClick(View view) {
 
-                ApiClient.get().deleteProduct(p.id, new GenericCallback<SpinnerData>() {
-                    @Override
-                    public void onSuccess(SpinnerData data) {
-                        removeItem(position);
-                        Toast.makeText(mContext, "Se ha eliminado el producto "+p.type, Toast.LENGTH_LONG).show();
-                    }
+                if(!obs.getText().toString().trim().equals("")){
 
-                    @Override
-                    public void onError(Error error) {
-                        DialogHelper.get().showMessage("Error","Error al eliminar el producto "+p.type,mContext);
-                    }
-                });
+                    ApiClient.get().deleteProduct(p.id,obs.getText().toString().trim(), new GenericCallback<SpinnerData>() {
+                        @Override
+                        public void onSuccess(SpinnerData data) {
+                            removeItem(position);
+                            Toast.makeText(mContext, "Se ha eliminado el producto "+p.type, Toast.LENGTH_LONG).show();
+                        }
 
-                dialog.dismiss();
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error","Error al eliminar el producto "+p.type,mContext);
+                        }
+                    });
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(mContext, "Ingrese detalle de borrado ", Toast.LENGTH_LONG).show();
+                }
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -950,29 +1083,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
           public boolean onMenuItemClick(MenuItem item) {
               switch (item.getItemId()) {
 
-                /*  case R.id.in_buy:
-                      holder.detail.setText(Constants.MENU_INGRESO_COMPRA);
-                      return true;
-
-                  case R.id.in_balance_stock:
-                      holder.detail.setText(Constants.MENU_INGRESO_BALANCE_STOCK);
-                      return true;
-
-                       case R.id.in_consign:
-                      holder.detail.setText(Constants.MENU_INGRESO_CONSIGNACION);
-                      return true;
-                  case R.id.in_dev_luz:
-                      holder.detail.setText(Constants.MENU_INGRESO_DEVOLUCION_LUZ);
-                      return true;
-                  case R.id.in_stock_oferta:
-                      holder.detail.setText(Constants.MENU_INGRESO_STOCK_OFERTA);
-                      return true;
-                  case R.id.in_stock_local:
-                      holder.detail.setText(Constants.MENU_INGRESO_STOCK_LOCAL);
-                      return true;
-                  case R.id.in_update_app:
-                      holder.detail.setText(Constants.MENU_INGRESO_ACTUALIZACION_APP);
-                      return true;*/
                   case R.id.in_dev:
                       //holder.detail.setText("Ingreso dev");
                       holder.detail.setText(Constants.MENU_INGRESO_DEVOLUCION);
@@ -1013,7 +1123,6 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                     case R.id.out_oferta:
                         holder.detail.setText("paso al stock oferta");
                         return true;
-
                          case R.id.out_falla:
                         holder.detail.setText("Salida dev falla");
                         return true;
@@ -1036,7 +1145,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
     }
 
-    private void createMenuOut(final ViewHolder holder){
+    private void createMenuOut(final ViewHolder holder,final Product p){
 
         PopupMenu popup = new PopupMenu(mContext, holder.detail);
         popup.getMenuInflater().inflate(R.menu.menu_stock_out, popup.getMenu());
@@ -1051,6 +1160,7 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 switch (item.getItemId()) {
                     case R.id.out_buy:
                         holder.detail.setText("Salida venta");
+                        holder.value_sale.setText(String.valueOf(p.price));
                         holder.select_payment_method.setVisibility(View.VISIBLE);
                         holder.line_value.setVisibility(View.VISIBLE);
                         return true;
@@ -1068,54 +1178,41 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
 
                         loadNameClients(holder);
                         return true;
-/*
-   case R.id.out_luz:
-                        holder.detail.setText("paso al stock luz");
-                        return true;
-                    case R.id.out_local:
-                        holder.detail.setText("paso al stock local");
-                        return true;
-                    case R.id.out_oferta:
-                        holder.detail.setText("paso al stock oferta");
-                        return true;
-
-                         case R.id.out_falla:
-                        holder.detail.setText("Salida dev falla");
-                        return true;
-                    case R.id.out_balance_stock:
-                        holder.detail.setText("Salida balance stock");
-                        return true;
-
- */
 
                     case R.id.out_stole:
                         holder.detail.setText("Salida por robo");
+                        holder.value_sale.setText("0.0");
                         return true;
                     case R.id.out_error:
                         holder.detail.setText("Resta por error anterior");
+                        holder.value_sale.setText("0.0");
                         return true;
                     case R.id.out_dev:
                         holder.detail.setText("Salida por cambio");
                         holder.select_payment_method.setVisibility(View.VISIBLE);
                         holder.line_value.setVisibility(View.VISIBLE);
+                        holder.value_sale.setText("0.0");
                         return true;
                     case R.id.out_consign:
                         holder.detail.setText("Salida venta articulo consignacion");
+                        holder.value_sale.setText("0.0");
                         return true;
 
                     case R.id.out_bonif:
                         holder.detail.setText("Salida ficha especial bonificacion");
+                        holder.value_sale.setText("0.0");
                         return true;
                     case R.id.out_santi:
                         holder.detail.setText("Salida ficha especial santi");
+                        holder.value_sale.setText("0.0");
                         return true;
                     case R.id.out_gifts:
                         holder.detail.setText("Salida ficha especial campeonato");
+                        holder.value_sale.setText("0.0");
                         return true;
-
-
                     case R.id.out_regalo:
                         holder.detail.setText("salida por regalo");
+                        holder.value_sale.setText("0.0");
                         return true;
 
                     default:

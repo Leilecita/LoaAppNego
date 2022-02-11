@@ -90,6 +90,20 @@
                 android:background="@drawable/rec_find"
                 android:orientation="horizontal">
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rec_edit"
+                    android:text=""
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/general_text"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="6dp"
+                    android:id="@+id/other_type"
+                    />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_weight="1"
@@ -123,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="12dp"
             android:layout_height="wrap_content"
-
+            android:id="@+id/line_detail"
             android:orientation="horizontal">
 
 

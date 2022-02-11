@@ -17,12 +17,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.BaseActivity;
+import com.example.android.loa.activities.DeletedProductsActivity;
+import com.example.android.loa.activities.ProductsActivity;
+import com.example.android.loa.activities.balances.GeneralBalanceActivity;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
@@ -51,6 +56,9 @@ public class PhotoEdithActivity extends BaseActivity {
     private boolean isClient=false;
     private boolean isEmployee=false;
 
+    private LinearLayout home;
+    private LinearLayout save;
+
     public static void start(Context mContext, Client client) {
         Intent i = new Intent(mContext, PhotoEdithActivity.class);
         i.putExtra("ID", client.id);
@@ -78,9 +86,25 @@ public class PhotoEdithActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showBackArrow();
+//        showBackArrow();
         //photo
         mImageView = findViewById(R.id.imageview);
+        home = findViewById(R.id.line_home);
+        save = findViewById(R.id.save);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
 
        // clientOrEmployee();
         isClient();
@@ -141,6 +165,8 @@ public class PhotoEdithActivity extends BaseActivity {
     }
 
 
+
+
     private void isBox(){
         Long l= getIntent().getLongExtra("IDBOX", -1);
         if(l>0){
@@ -174,6 +200,74 @@ public class PhotoEdithActivity extends BaseActivity {
        }
     }*/
 
+
+    private void save(){
+
+            if (image_path != null) {
+                try {
+                    if(isClient){
+                        mCurrentClient.imageData = fileToBase64(image_path);
+                    }else if(isEmployee){
+                        mCurrentEmployee.imageData = fileToBase64(image_path);
+                    }else if(isBox){
+                        mCurrentBox.imageData = fileToBase64(image_path);
+                    }
+
+                } catch (Exception e) {
+                }
+
+                final ProgressDialog progress = ProgressDialog.show(this, "Editando foto",
+                        "Aguarde un momento", true);
+
+                if(isClient){
+                    ApiClient.get().putClient(mCurrentClient, new GenericCallback<Client>() {
+                        @Override
+                        public void onSuccess(Client data) {
+                            Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
+                            finish();
+                            progress.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                        }
+                    });
+                }else if(isEmployee){
+
+                    ApiClient.get().putEmployee(mCurrentEmployee, new GenericCallback<Employee>() {
+                        @Override
+                        public void onSuccess(Employee data) {
+                            Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.getImage_url())).into(mImageView);
+                            finish();
+                            progress.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                        }
+                    });
+                }else if(isBox){
+                    ApiClient.get().putBox(mCurrentBox, new GenericCallback<Box>() {
+                        @Override
+                        public void onSuccess(Box data) {
+                            Glide.with(getBaseContext()).load(ApiUtils.getImageUrl(data.image_url)).into(mImageView);
+                            finish();
+                            progress.dismiss();
+                        }
+
+                        @Override
+                        public void onError(Error error) {
+                            DialogHelper.get().showMessage("Error", "La foto no ha sido editada", getBaseContext());
+                        }
+                    });
+                }
+            }
+
+    }
+
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_create, menu);
@@ -253,7 +347,7 @@ public class PhotoEdithActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
     public void onSelectImageClick(View view) {
         CropImage.startPickImageActivity(this);
     }

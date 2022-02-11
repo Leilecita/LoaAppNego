@@ -133,8 +133,6 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         holder.date_day.setText(DateHelper.get().getNameDay(currentItemEmployee.created));
         holder.date_month.setText(DateHelper.get().numberDay(currentItemEmployee.created));
 
-
-
         if (currentItemEmployee.created.compareTo("2019-12-20 23:00:04") > 0) {
             System.out.println("crated is after actualdateextr");
 
@@ -174,9 +172,6 @@ public class HourEmployeeAdapter extends  BaseAdapter<Item_employee,HourEmployee
         holder.time_worked.setText(getHourMinutes(currentItemEmployee.time_worked));
 
         holder.time_worked_aft.setText(getHourMinutes(currentItemEmployee.time_worked_aft));
-
-
-
 
         holder.entry.setOnClickListener(new View.OnClickListener() {
             @Override

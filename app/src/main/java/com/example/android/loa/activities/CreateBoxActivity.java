@@ -125,7 +125,7 @@ public class CreateBoxActivity extends BaseActivity {
                 if(!mDetailNoNUll){
                     Box b=loadInfoBox();
 
-                    if(image_path!=null){
+                   /* if(image_path!=null){
                         try {
                             b.imageData = fileToBase64(image_path);
                         }catch (Exception e){
@@ -137,16 +137,14 @@ public class CreateBoxActivity extends BaseActivity {
                             b.imageDataPosnet = fileToBase64(image_path_posnet);
                         }catch (Exception e){
                         }
-                    }
+                    }*/
                     b.created= mSelectDate;
 
                     ApiClient.get().postBox(b, new GenericCallback<Box>() {
                         @Override
                         public void onSuccess(Box data) {
-                            //  setResult(RESULT_OK);
-                            //finish();
 
-                            Toast.makeText(getBaseContext(),"La caja ha sido guardada", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(),"La caja ha sido guardada"+data.id, Toast.LENGTH_SHORT).show();
                             mBox = data;
                             line_photos.setVisibility(View.VISIBLE);
                             line_top_info.setVisibility(View.GONE);
@@ -250,7 +248,6 @@ public class CreateBoxActivity extends BaseActivity {
             public void onClick(View view) {
                 photoname="posnet";
                 onSelectImageClick(view);
-
             }
         });
 
@@ -577,6 +574,8 @@ public class CreateBoxActivity extends BaseActivity {
     }
 
     private void putBox(){
+
+        System.out.println("ID "+mBox.id);
 
         final ProgressDialog progress = ProgressDialog.show(this, "Cargando foto",
                 "Aguarde un momento", true);

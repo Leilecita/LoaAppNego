@@ -23,6 +23,7 @@ import com.example.android.loa.network.models.Product;
 
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemSpanLookup;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +59,20 @@ public class DeletedProductsActivity  extends BaseActivity implements Paginate.C
             }
         });
 
-      //  setTitle("Productos");
         mRecyclerView =  findViewById(R.id.list_products);
         layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter=new ProductAdapter(this,new ArrayList<Product>());
         mRecyclerView.setAdapter(mAdapter);
+
+        final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(mAdapter);
+        mRecyclerView.addItemDecoration(headersDecor);
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override public void onChanged() {
+                headersDecor.invalidateHeaders();
+            }
+        });
 
         implementsPaginate();
     }

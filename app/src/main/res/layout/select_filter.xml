@@ -17,17 +17,6 @@
         android:orientation="vertical">
 
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:text="Seleccion"
-            android:textSize="17sp"
-            android:fontFamily="@font/opensansregular"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorPrimaryClearLetter"
-            />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
@@ -36,23 +25,42 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Ingresos"
-                android:id="@+id/type_find"
-                android:textSize="16sp"
+                android:text="Comparación de"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryClearLetter"
+                android:textSize="17sp"
+                android:paddingRight="4dp"
+
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/colorPrimaryDarkLetter"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Producto"
-                android:paddingLeft="8dp"
-                android:textSize="16sp"
+                android:text=""
+                android:id="@+id/selection"
+                android:textSize="17sp"
+                android:paddingRight="4dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:textColor="@color/colorPrimaryDarkLetter"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryClearLetter"
+                />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:id="@+id/brand_or_art"
+                android:text=""
+
+                android:textSize="17sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/opensansregular"
+                android:textColor="@color/colorPrimaryClearLetter"
                 />
 
 
@@ -60,14 +68,170 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:id="@+id/line_select"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_selection"
+                android:textColor="@color/white"
+                android:textSize="@dimen/general_text"
+                android:background="@drawable/rec_selected_dialog"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text=""
+
+                />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cant"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_selected_dialog"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="4dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:paddingBottom="4dp"
+                    android:text="cantidad"
+
+                    />
+
+             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/general_text"
+                    android:background="@drawable/rec_unselected_dialog"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:id="@+id/amount"
+                    android:text="monto"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_height="wrap_content"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorDialogButton"
+                    android:textSize="17sp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:text="Top 10"
+
+                    />
+
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:scaleX="1.2"
+                    android:id="@+id/top10"
+                    android:scaleY="1.2"
+
+                    android:buttonTint="@color/colorPrimaryClearLetter"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorDialogButton"
+                    android:textSize="17sp"
+                    android:layout_marginRight="16dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:text="Top 20"
+
+                    />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:scaleX="1.2"
+                    android:buttonTint="@color/colorPrimaryClear"
+                    android:scaleY="1.2"
+                        android:id="@+id/top20"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:orientation="horizontal"
             android:paddingTop="8dp"
+            android:visibility="gone"
+            android:id="@+id/line_amount"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Comparar con "
+                android:text="Comparar con $"
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
@@ -83,10 +247,9 @@
 
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/spinneramount"
                     android:layout_width="match_parent"
                     android:spinnerMode="dropdown"
-                    android:layout_marginTop="4dp"
                     android:layout_marginLeft="3dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"

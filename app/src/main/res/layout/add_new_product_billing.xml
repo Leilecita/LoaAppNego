@@ -1,0 +1,396 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_mistake"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_dialog"
+    android:backgroundTint="@color/background"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_margin_bottom"
+        android:layout_marginTop="@dimen/dialog_margin_top"
+        android:layout_marginLeft="@dimen/dialog_margin_left"
+        android:layout_marginRight="@dimen/dialog_margin_right"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Factura"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:gravity="center"
+            android:fontFamily="@font/opensansregular"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_height="33dp"
+                    android:fontFamily="@font/opensanslight"
+                    android:paddingLeft="8dp"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="textCapWords" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="5"
+                    android:id="@+id/date_picker"
+                    android:layout_height="33dp"
+                    android:src="@drawable/date"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            android:id="@+id/line_detail"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rec_find"
+            android:orientation="horizontal">
+
+
+            <Spinner
+                android:id="@+id/spinner_detail"
+                android:spinnerMode="dropdown"
+                android:layout_width="fill_parent"
+                android:paddingLeft="0dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:dropDownVerticalOffset="38dp"
+                android:layout_height="35dp" />
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/other_type"
+            android:layout_height="33dp"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="8dp"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:hint="Ingrese otro tipo"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
+            android:fontFamily="@font/opensanslight"
+            android:background="@drawable/rec_text_edit"
+            android:inputType="textCapWords" />
+
+
+        <AutoCompleteTextView
+            android:id="@+id/business_name"
+            android:layout_height="33dp"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="8dp"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:hint="Nombre empresa"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
+            android:fontFamily="@font/opensanslight"
+            android:background="@drawable/rec_text_edit"
+            android:inputType="textCapWords" />
+
+
+        <EditText
+            android:id="@+id/number_bill"
+            android:layout_height="33dp"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="8dp"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:hint="nro de facutra"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
+            android:fontFamily="@font/opensanslight"
+            android:background="@drawable/rec_text_edit"
+            android:inputType="textCapWords" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/amount"
+                    android:hint="$ monto total"
+                    android:fontFamily="@font/opensanslight"
+                    android:layout_width="match_parent"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:layout_height="33dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1.2"
+                android:layout_marginLeft="12dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/cant"
+                    android:hint="cant articulos"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/opensanslight"
+                    style="@style/Widget.Design.TextInputLayout"
+                    android:paddingLeft="8dp"
+
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:layout_height="33dp"
+                    android:textSize="16sp"
+                    android:background="@drawable/rec_text_edit"
+                    />
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_remito"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:checked="true"
+                    android:layout_gravity="center"
+                    android:buttonTint="@color/colorPrimaryClear"
+                    />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Remito"
+                    android:gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_factura"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:buttonTint="@color/colorPrimaryClear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="Factura"
+                    android:gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center"
+
+                    android:textSize="16sp"
+
+                    />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_siva"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:checked="true"
+                    android:layout_gravity="center"
+                    android:buttonTint="@color/colorPrimaryClear"
+                    />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="s/ IVA"
+                    android:gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center"
+                    android:textSize="16sp"
+
+                    />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+
+                    android:layout_width="wrap_content"
+                    android:id="@+id/check_civa"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleX="1.2"
+                    android:scaleY="1.2"
+                    android:buttonTint="@color/colorPrimaryClear"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:text="c/ IVA"
+                    android:minWidth="90dp"
+                    android:gravity="center"
+                    android:layout_marginLeft="6dp"
+                    android:layout_gravity="center"
+
+                    android:textSize="16sp"
+
+                    />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/cancel"
+                android:layout_weight="1"
+                android:text="CANCELAR"
+                android:gravity="center"
+                android:textColor="@color/colorDialogButton"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/ok"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+
+                android:textColor="#ffff"
+                android:padding="4dp"
+                android:background="@drawable/rec_find"
+                android:backgroundTint="@color/colorDialogButton"
+                android:text="guardar"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+
+
+
+

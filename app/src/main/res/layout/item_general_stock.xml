@@ -73,7 +73,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1.2"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content">
 
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="4dp"
                         android:paddingLeft="8dp"
-                        android:text=""
+                        android:text="Camisa M/ corta"
 
                         android:maxLines="2"
                         android:layout_gravity="center_vertical"

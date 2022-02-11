@@ -60,7 +60,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
         } else if (id == R.id.nav_movements) {
             startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
-        } else if (id == R.id.nav_prices) {
+        } else if (id == R.id.nav_billing) {
+            startActivity(new Intent(getBaseContext(), ParallelBillingActiviy.class));
+        }else if (id == R.id.nav_prices) {
             startActivity(new Intent(getBaseContext(), PriceEventsActivity.class));
         } else if (id == R.id.nav_events) {
             startHistoryEventsActivity();
@@ -97,6 +99,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(new Intent(getBaseContext(),EmployeesActivity.class));
         }else if( id == R.id.nav_statistics){
             startActivity(new Intent(getBaseContext(),StatisticsActivity.class));
+        }else if( id == R.id.nav_productos){
+            startActivity(new Intent(getBaseContext(),ProductsActivity.class));
+        }else if( id == R.id.nav_buys_balance){
+            startActivity(new Intent(getBaseContext(),BuyProductsActivity.class));
+        }else if( id == R.id.nav_buy_billings){
+            startActivity(new Intent(getBaseContext(), BuyBillingsActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -136,14 +144,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         Menu menu = navigationView.getMenu();
         MenuItem statistics = menu.findItem(R.id.nav_statistics);
-        MenuItem price_manager = menu.findItem(R.id.nav_price_manager);
         MenuItem movements_santi = menu.findItem(R.id.nav_movements_santi);
-        MenuItem santi = menu.findItem(R.id.santi);
+       // MenuItem santi = menu.findItem(R.id.santi);
 
         if (SessionPrefs.get(this).isLoggedIn()) {
             if(!SessionPrefs.get(this).getName().equals("santi") && !SessionPrefs.get(this).getName().equals("lei")){
-               santi.setVisible(false);
                movements_santi.setVisible(false);
+               statistics.setVisible(false);
             }
         }
 
@@ -304,6 +311,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void startSantiMoneyMovement(){
         startActivity(new Intent(this, ParallelMoneyMovementsActivity.class));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main3, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_list_students){
+            startActivity(new Intent(getBaseContext(), StudentsListActivity.class));
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }
 

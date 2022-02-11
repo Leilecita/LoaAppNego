@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -84,6 +85,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
     private LinearLayout salariesFilter;
     private LinearLayout mercFilter;
     private LinearLayout allFilter;
+    private LinearLayout otherFilter;
 
     private LinearLayout monthFilter;
     private LinearLayout dayFilter;
@@ -142,8 +144,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
        //------------------------
 
         bottomSheet = mRootView.findViewById(R.id.bottomSheet);
-        final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
-
         //trae los empleados
         getListEmployees();
 
@@ -162,6 +162,7 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         mercFilter=bottomSheet.findViewById(R.id.mercaderia);
         santiFilter=bottomSheet.findViewById(R.id.extractions);
         allFilter=bottomSheet.findViewById(R.id.all);
+        otherFilter=bottomSheet.findViewById(R.id.other);
 
         monthFilter=bottomSheet.findViewById(R.id.mes);
         dayFilter=bottomSheet.findViewById(R.id.dia);
@@ -236,6 +237,14 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             @Override
             public void onClick(View v) {
                 selectedType= ExtractionType.MERCADERIA;
+                clearView();
+            }
+        });
+
+        otherFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedType= ExtractionType.OTRO;
                 clearView();
             }
         });
@@ -391,6 +400,9 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
         final Spinner spinnerDetail=  dialogView.findViewById(R.id.spinner_detail);
         final Spinner spinnerEmployee=  dialogView.findViewById(R.id.spinner_employee);
         final LinearLayout line_employee=  dialogView.findViewById(R.id.line_spinner_employee);
+        final LinearLayout line_other=  dialogView.findViewById(R.id.line_other);
+        final LinearLayout line_detail=  dialogView.findViewById(R.id.line_detail);
+        final EditText other_type=  dialogView.findViewById(R.id.other_type);
 
         final TextView date=  dialogView.findViewById(R.id.date);
         final TextView value=  dialogView.findViewById(R.id.value);
@@ -433,6 +445,9 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                 List<String> array=new ArrayList<>();
                 array.add("Detalle");
 
+                line_other.setVisibility(View.GONE);
+                line_detail.setVisibility(View.VISIBLE);
+
                 if(itemSelected.equals("Gasto local")){
                     array=createArrayGastosLocal();
                 }else if(itemSelected.equals("Gasto personal")){
@@ -447,6 +462,9 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                 }else if(itemSelected.equals("Sueldo")){
                     array=createArraySueldos();
                     line_employee.setVisibility(View.VISIBLE);
+                }else if(itemSelected.equals("Otro")){
+                    line_other.setVisibility(View.VISIBLE);
+                    line_detail.setVisibility(View.GONE);
                 }
 
                 ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(getContext(),
@@ -459,7 +477,6 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
 
         date.setText(DateHelper.get().getActualDate());
 
@@ -522,6 +539,10 @@ public class ExtractionsFragment extends BaseFragment implements Paginate.Callba
                 Double valueT=0.0;
                 if(!value.getText().toString().trim().matches("")){
                     valueT=Double.valueOf(value.getText().toString().trim());
+                }
+
+                if(type.equals("Otro")){
+                    detail = other_type.getText().toString().trim();
                 }
 
                 Extraction extr= new Extraction(descr,type,valueT,detail);

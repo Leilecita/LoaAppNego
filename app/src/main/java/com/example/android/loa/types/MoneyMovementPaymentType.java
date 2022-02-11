@@ -1,9 +1,10 @@
 package com.example.android.loa.types;
 
 public enum MoneyMovementPaymentType {
-    ALL(Constants.TYPE_ALL),
-    TRANSFERENCIA(Constants.TYPE_TRANSFERENCIA),
     EFECTIVO(Constants.TYPE_EFECTIVO),
+    TRANSFERENCIA(Constants.TYPE_TRANSFERENCIA),
+
+    MERCADO_PAGO(Constants.TYPE_MERCADO_PAGO),
     CHEQUE(Constants.TYPE_CHEQUE);
 
     private final String name;

@@ -20,8 +20,12 @@ public class StockEvent {
     public Double value_for_file=0.0;
 
     public String observation;
+    public String user_name;
 
-    public StockEvent(Long product_id,Integer stock_in, Integer stock_out,Integer stock_ant,String detail,Double value,String payment_method,String obs){
+    public Double original_price_product;
+
+    public StockEvent(Long product_id,Integer stock_in, Integer stock_out,Integer stock_ant,String detail,Double value,String payment_method,String obs, String user_name,
+                      Double original_price_product){
         this.stock_in=stock_in;
         this.stock_out=stock_out;
         this.stock_ant=stock_ant;
@@ -32,6 +36,10 @@ public class StockEvent {
         this.observation=obs;
 
         this.today_created_client="false";
+
+        this.user_name = user_name;
+
+        this.original_price_product = original_price_product;
     }
 
 }

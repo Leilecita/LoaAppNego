@@ -126,7 +126,7 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/general_text"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text=""
                         />
 
                     <TextView
@@ -248,7 +248,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="130dp"
                 android:layout_height="30dp"
                 android:text="Cambiar precio"
                 android:textSize="16sp"
@@ -265,7 +265,7 @@
                 android:fontFamily="@font/opensansregular"
                 android:layout_width="100dp"
                 android:textColor="@color/price"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:gravity="center_vertical"
                 android:hint=""
                 android:text=""
@@ -275,6 +275,136 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="130dp"
+                android:layout_height="30dp"
+                android:text="Cambiar modelo"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDarkLetter"
+                />
+
+            <EditText
+                android:id="@+id/model_to_edith"
+                android:layout_height="33dp"
+                android:paddingLeft="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/opensansregular"
+                android:layout_width="match_parent"
+                android:textColor="@color/price"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:hint=""
+                android:text=""
+                android:focusable="true"
+                android:background="@drawable/rec_text_edit"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/line_santi"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solo Santi tiene acceso"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimaryClearLetter"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:text="Cambiar marca"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    />
+
+                <EditText
+                    android:id="@+id/brand_to_edith"
+                    android:layout_height="33dp"
+                    android:paddingLeft="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/price"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:hint=""
+                    android:text=""
+                    android:focusable="true"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:text="Cambiar artículo"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    />
+
+                <EditText
+                    android:id="@+id/art_to_edith"
+                    android:layout_height="33dp"
+                    android:paddingLeft="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:fontFamily="@font/opensansregular"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/price"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:hint=""
+                    android:text=""
+                    android:focusable="true"
+                    android:background="@drawable/rec_text_edit"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

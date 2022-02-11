@@ -221,6 +221,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                 final CheckBox check_card=  dialogView.findViewById(R.id.check_card);
                 final CheckBox check_deb=  dialogView.findViewById(R.id.check_deb);
                 final CheckBox check_ef=  dialogView.findViewById(R.id.check_ef);
+                final CheckBox check_mer=  dialogView.findViewById(R.id.check_mer);
 
                 final TextView text_balance=  dialogView.findViewById(R.id.text_balance);
                 final LinearLayout line_balance=  dialogView.findViewById(R.id.line_balance);
@@ -258,6 +259,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                             check_ef.setChecked(true);
                             check_card.setChecked(false);
                             check_deb.setChecked(false);
+                            check_mer.setChecked(false);
                         }else{
                             check_ef.setChecked(false);
                         }
@@ -271,6 +273,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                             check_card.setChecked(true);
                             check_ef.setChecked(false);
                             check_deb.setChecked(false);
+                            check_mer.setChecked(false);
                         }else{
                             check_card.setChecked(false);
                         }
@@ -284,8 +287,23 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                             check_deb.setChecked(true);
                             check_ef.setChecked(false);
                             check_card.setChecked(false);
+                            check_mer.setChecked(false);
                         }else{
                             check_deb.setChecked(false);
+                        }
+                    }
+                });
+
+                check_mer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(check_mer.isChecked()){
+                            check_mer.setChecked(true);
+                            check_ef.setChecked(false);
+                            check_card.setChecked(false);
+                            check_deb.setChecked(false);
+                        }else{
+                            check_mer.setChecked(false);
                         }
                     }
                 });
@@ -350,6 +368,8 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                                 payment_method= "tarjeta";
                             }else if(check_ef.isChecked()){
                                 payment_method= "efectivo";
+                            }else if(check_mer.isChecked()){
+                                payment_method= "mercado pago";
                             }
 
 

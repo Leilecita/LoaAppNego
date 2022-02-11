@@ -4,7 +4,7 @@
     android:id="@+id/listday"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#e5e7e5"
+    android:background="@color/background"
     >
 
     <androidx.appcompat.widget.Toolbar
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:id="@+id/title"
-                android:text="  Productos "
+                android:text="  Productos eliminados"
                 style="@style/TitleStyle"
                 />
 

@@ -8,6 +8,7 @@ public class Product {
     public String brand;
     public String model;
     public String deleted;
+    public String deleted_time;
     public String created;
     public Integer stock;
 
@@ -24,6 +25,13 @@ public class Product {
 
     public Product(Long id, Double price){
         this.price=price;
+        this.id=id;
+
+    }
+
+    public Product(Long id, Double price, String model){
+        this.price=price;
+        this.model=model;
         this.id=id;
 
     }

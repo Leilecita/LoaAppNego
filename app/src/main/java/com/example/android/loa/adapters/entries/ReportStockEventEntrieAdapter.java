@@ -73,7 +73,9 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
         public TextView cant_stock_out;
         public ImageView imageButton;
         public TextView obs;
-
+        public LinearLayout info_user;
+        public TextView user_name;
+        public TextView time;
 
         public ViewHolder(View v){
             super(v);
@@ -104,6 +106,10 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
             model= v.findViewById(R.id.model);
             div= v.findViewById(R.id.div);
             obs= v.findViewById(R.id.observation);
+
+            info_user = v.findViewById(R.id.info_user);
+            user_name = v.findViewById(R.id.user_name);
+            time = v.findViewById(R.id.time);
         }
     }
 
@@ -175,6 +181,9 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
 
         loadIcon(holder, current.item);
 
+        holder.user_name.setText(current.user_name);
+        holder.time.setText(DateHelper.get().onlyHourMinut(DateHelper.get().getOnlyTime(current.stock_event_created)));
+
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
 
         holder.cant_stock_out.setText(String.valueOf(current.stock_out));
@@ -209,10 +218,12 @@ public class ReportStockEventEntrieAdapter extends BaseAdapter<ReportStockEvent,
             @Override
             public void onClick(View v) {
                 if(holder.line_edit.getVisibility() == View.GONE){
+                    holder.info_user.setVisibility(View.VISIBLE);
                     holder.line_edit.setVisibility(View.VISIBLE);
                     holder.div.setVisibility(View.GONE);
 
                 }else{
+                    holder.info_user.setVisibility(View.GONE);
                     holder.line_edit.setVisibility(View.GONE);
                     holder.div.setVisibility(View.VISIBLE);
                 }

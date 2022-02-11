@@ -96,6 +96,7 @@
         <activity
             android:name=".activities.CreateBoxActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
@@ -106,6 +107,7 @@
             android:name=".activities.photos.BoxPhotoPosnetActivity"
             android:parentActivityName=".activities.MainActivity"
             />
+
 
 
         <activity
@@ -122,6 +124,10 @@
         <activity
             android:name=".activities.balances.BalanceActivity"
             android:configChanges="orientation|screenSize"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.ParallelBillingActiviy"
             android:parentActivityName=".activities.MainActivity"
             />
 
@@ -151,6 +157,7 @@
             />
         <activity
             android:name=".activities.BoxMovementsActivity"
+            android:configChanges="screenSize|orientation"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
@@ -188,11 +195,22 @@
             />
         <activity
             android:name=".activities.BuyProductsActivity"
+            android:configChanges="orientation|screenSize"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity
             android:name=".activities.StatisticsActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.StudentsListActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivity"
+            />
+        <activity
+            android:name=".activities.BuyBillingsActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".activities.MainActivity"
             />

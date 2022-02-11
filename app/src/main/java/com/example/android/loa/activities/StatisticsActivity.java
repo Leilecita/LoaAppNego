@@ -1,20 +1,27 @@
 package com.example.android.loa.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.Interfaces.OnSelectedItem;
+import com.example.android.loa.Interfaces.OnSelectedProductItem;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.ItemAdapter;
 import com.example.android.loa.adapters.ItemAdapterModel;
@@ -30,18 +38,24 @@ import com.example.android.loa.adapters.ItemAdapterType;
 
 import com.example.android.loa.adapters.ItemDetailAdapter;
 
+import com.example.android.loa.adapters.ItemProductAdapter;
+import com.example.android.loa.adapters.ItemStatisticAdapter;
 import com.example.android.loa.adapters.StockStatisticsEventAdapter;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 
 import com.example.android.loa.network.models.ReportDetail;
+import com.example.android.loa.network.models.ReportFilterStatistic;
 import com.example.android.loa.network.models.ReportStatistic;
 import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.network.models.SpinnerData;
+import com.example.android.loa.network.models.SpinnerItem;
 import com.example.android.loa.network.models.SpinnerModel;
 import com.example.android.loa.network.models.SpinnerType;
 import com.example.android.loa.network.models.Spinners;
+import com.example.android.loa.network.models.StatisticVal;
+import com.example.android.loa.types.Constants;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.paginate.Paginate;
@@ -53,7 +67,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class StatisticsActivity extends BaseActivity implements Paginate.Callbacks, OnSelectedItem {
+public class StatisticsActivity extends BaseActivity implements Paginate.Callbacks, OnSelectedItem , OnSelectedProductItem {
 
     private RecyclerView mRecyclerView;
     private StockStatisticsEventAdapter mAdapter;
@@ -69,16 +83,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private Integer mCurrentPage;
     private Paginate paginate;
     private boolean hasMoreItems;
-
-    private ImageView man;
-    private ImageView woman;
-    private ImageView boy;
-    private ImageView accesories;
-    private ImageView tecnico;
-    private ImageView zapas;
-    private ImageView luz;
-    private ImageView oferta;
-    private ImageView all;
 
     private RecyclerView mGridRecyclerView;
     private RecyclerView mGridRecyclerViewType;
@@ -96,15 +100,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private TextView art_name;
     private TextView brand_name;
     private TextView model_name;
-
-    private TextView mDif;
-   // private TextView mEntriesQuantity;
-    //private TextView mSalesQuantity;
-    private TextView mLocalExtractions;
-    private TextView mSalariesOutcomes;
-    private TextView mMercOutcomes;
-    private TextView mAmountSales;
-   // private TextView mStockProduct;
 
     private TextView mViewDateSince;
     private TextView mViewDateTo;
@@ -147,6 +142,11 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private Integer mItemTotalEntries;
     private Integer mArtTotalEntries;
     private Integer mBrandTotalEntries;
+
+    private Double mTotalAmountSale;
+    private Double mItemTotalAmountSale;
+    private Double mArtTotalAmountSale;
+    private Double mBrandTotalAmountSale;
 
     private Integer mTotalStock;
     private Integer mItemTotalStock;
@@ -207,6 +207,47 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
     private TextView amount_brand_sales;
     private TextView amount_type_sales;
 
+    private LinearLayout line_compare_brand;
+    private RelativeLayout compare_ingr_brand;
+    private RelativeLayout compare_stock_brand;
+    private RelativeLayout compare_sales_brand;
+
+    private RelativeLayout compare_ingr_type;
+    private RelativeLayout compare_stock_type;
+    private RelativeLayout compare_sales_type;
+
+    private RecyclerView recycler_statistics_sales;
+    private RecyclerView.LayoutManager layoutManagerStSales;
+    private ItemStatisticAdapter mSalesStatisticsAdapter;
+
+    private RecyclerView recycler_statistics_sales_amount;
+    private RecyclerView.LayoutManager layoutManagerStSalesAmount;
+    private ItemStatisticAdapter mSalesAmountatisticsAdapter;
+
+
+    private RecyclerView recycler_statistics_entries;
+    private RecyclerView.LayoutManager layoutManagerStEntr;
+    private ItemStatisticAdapter mEntriesStatisticsAdapter;
+
+    private RecyclerView recycler_statistics_stock;
+    private RecyclerView.LayoutManager layoutManagerStStock;
+    private ItemStatisticAdapter mStockStatisticsAdapter;
+
+    private LinearLayout line_entries;
+    private LinearLayout line_sales;
+    private LinearLayout line_sales_amount;
+    private LinearLayout line_stock;
+
+    private String mCompareSelected;
+
+    private TextView close_compare_entrie;
+    private TextView close_compare_sales;
+    private TextView close_compare_sales_amount;
+    private TextView close_compare_stock;
+
+    private ItemProductAdapter mGridProductAdapter;
+    private RecyclerView mGridRecyclerViewItem;
+    private RecyclerView.LayoutManager gridlayoutmanagerItem;
 
     @Override
     public int getLayoutRes() {
@@ -225,6 +266,12 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         brand_name.setHint("Marca");
         art_name.setHint("Articulo");
         model_name.setHint("Modelo");
+    }
+
+    private void cleanTextInfo(){
+        selected_art.setText("");
+        selected_art_item.setText("");
+        selected_brand_art.setText("");
     }
 
     public void onSelectedItem(String brand, String type, String selection){
@@ -303,10 +350,438 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         clearAndList();
     }
 
+    private void loadStatisticsAdapter(ReportFilterStatistic data){
+        mSalesStatisticsAdapter.setItems(data.list_sales);
+        mSalesAmountatisticsAdapter.setItems(data.list_sales_amount);
+        mEntriesStatisticsAdapter.setItems(data.list_entries);
+        mStockStatisticsAdapter.setItems(data.list_stock);
+    }
+
+    private void statisticsByType(String limit){
+        ApiClient.get().statisticsByType(mDateSine, mDateTo, limit,new GenericCallback<ReportFilterStatistic>() {
+            @Override
+            public void onSuccess(ReportFilterStatistic data) {
+                loadStatisticsAdapter(data);
+                mSalesStatisticsAdapter.setTotalVal(mTotalSales);
+                mSalesStatisticsAdapter.setSelectedVal(mType);
+                mEntriesStatisticsAdapter.setTotalVal(mTotalEntries);
+                mEntriesStatisticsAdapter.setSelectedVal(mType);
+                mStockStatisticsAdapter.setTotalVal(mTotalStock);
+                mStockStatisticsAdapter.setSelectedVal(mType);
+                mSalesAmountatisticsAdapter.setTotalVal(mTotalAmountSale.intValue());
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
+    private void clearFilterStatistics(){
+        mSalesStatisticsAdapter.clear();
+        mEntriesStatisticsAdapter.clear();
+        mStockStatisticsAdapter.clear();
+    }
+
+    private void statisticsByBrand(String limit){
+        ApiClient.get().statisticsByBrand(mDateSine, mDateTo, limit,new GenericCallback<ReportFilterStatistic>() {
+            @Override
+            public void onSuccess(ReportFilterStatistic data) {
+
+                loadStatisticsAdapter(data);
+                mSalesStatisticsAdapter.setTotalVal(mTotalSales);
+                mSalesStatisticsAdapter.setSelectedVal(mBrand);
+                mEntriesStatisticsAdapter.setTotalVal(mTotalEntries);
+                mEntriesStatisticsAdapter.setSelectedVal(mBrand);
+                mStockStatisticsAdapter.setTotalVal(mTotalStock);
+                mStockStatisticsAdapter.setSelectedVal(mBrand);
+                mSalesAmountatisticsAdapter.setTotalVal(mTotalAmountSale.intValue());
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
+    private void statisticsByItemType(String limit){
+        ApiClient.get().statisticsByItemType(mDateSine, mDateTo, mItem,limit,new GenericCallback<ReportFilterStatistic>() {
+            @Override
+            public void onSuccess(ReportFilterStatistic data) {
+                loadStatisticsAdapter(data);
+                mSalesStatisticsAdapter.setTotalVal(mItemTotalStock);
+                mSalesStatisticsAdapter.setSelectedVal(mType);
+                mEntriesStatisticsAdapter.setTotalVal(mItemTotalEntries);
+                mEntriesStatisticsAdapter.setSelectedVal(mType);
+                mStockStatisticsAdapter.setTotalVal(mItemTotalStock);
+                mStockStatisticsAdapter.setSelectedVal(mType);
+                mSalesAmountatisticsAdapter.setTotalVal(mItemTotalAmountSale.intValue());
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
+    private void clearLines(){
+        line_entries.setVisibility(View.GONE);
+        line_sales.setVisibility(View.GONE);
+        line_sales_amount.setVisibility(View.GONE);
+        line_stock.setVisibility(View.GONE);
+    }
+
+    private void checkVisibility(LinearLayout lin){
+        if(lin.getVisibility() == View.VISIBLE){
+            lin.setVisibility(View.GONE);
+        }else{
+            lin.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showCuadCompare(final String type, String selection){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View dialogView = inflater.inflate(R.layout.select_filter, null);
+        builder.setView(dialogView);
+
+        final CheckBox top10 = dialogView.findViewById(R.id.top10);
+        final CheckBox top20 = dialogView.findViewById(R.id.top20);
+
+        final LinearLayout line_select= dialogView.findViewById(R.id.line_select);
+        final TextView cant = dialogView.findViewById(R.id.cant);
+        final TextView amount= dialogView.findViewById(R.id.amount);
+
+        final Button ok= dialogView.findViewById(R.id.ok);
+        final TextView cancel= dialogView.findViewById(R.id.cancel);
+        final TextView selectionT= dialogView.findViewById(R.id.selection);
+        final TextView buttonselection= dialogView.findViewById(R.id.button_selection);
+
+        selectionT.setText(selection);
+        top10.setChecked(true);
+        buttonselection.setText("cant");
+
+        top10.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(top10.isChecked()){
+                    top10.setChecked(true);
+                    top20.setChecked(false);
+                }
+            }
+        });
+
+        top20.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(top20.isChecked()){
+                    top20.setChecked(true);
+                    top10.setChecked(false);
+                }
+            }
+        });
+
+
+        if(type.equals("sales")) {
+            line_select.setVisibility(View.VISIBLE);
+        }
+
+        cant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cant.setBackground(getResources().getDrawable(R.drawable.rec_selected_dialog));
+                amount.setBackground(getResources().getDrawable(R.drawable.rec_unselected_dialog));
+                buttonselection.setText("cant");
+            }
+        });
+
+        amount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                amount.setBackground(getResources().getDrawable(R.drawable.rec_selected_dialog));
+                cant.setBackground(getResources().getDrawable(R.drawable.rec_unselected_dialog));
+                buttonselection.setText("amount");
+            }
+        });
+
+
+        final AlertDialog dialog = builder.create();
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clearFilterStatistics();
+
+                if(type.equals("ingr")){
+                    if(top10.isChecked()){
+                        compareIngr("10");
+                    }else{
+                        compareIngr("20");
+                    }
+
+                }else if(type.equals("stock")){
+                    if(top10.isChecked()){
+                        compareStock("10");
+                    }else{
+                        compareStock("20");
+                    }
+
+                }else{
+                    if(buttonselection.getText().toString().trim().equals("cant")){
+                        if(top10.isChecked()){
+                            compareSales("10","cant");
+                        }else{
+                            compareSales("20","cant");
+                        }
+                    }else{
+
+                        if(top10.isChecked()){
+                            compareSales("10","amount");
+                        }else{
+                            compareSales("20","amount");
+                        }
+
+
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    private void compareIngr(String limit){
+        line_stock.setVisibility(View.GONE);
+        line_sales.setVisibility(View.GONE);
+        line_sales_amount.setVisibility(View.GONE);
+        line_entries.setVisibility(View.VISIBLE);
+
+        if(mCompareSelected.equals("type")){
+            if(!mItem.equals("Todos") && !mType.equals("Todos")){
+                statisticsByItemType(limit); //traer por item y articulo
+            }else if(mItem.equals("Todos") && !mType.equals("Todos")){
+                statisticsByType(limit);   //traer solo por articulo
+            }
+        }
+        if(mCompareSelected.equals("brand")){
+            if(mType.equals("Todos") && !mBrand.equals("Todos")){
+                statisticsByBrand(limit);  //traer solo por marca
+            }
+        }
+    }
+
+    private void compareStock(String limit){
+        line_entries.setVisibility(View.GONE);
+        line_sales.setVisibility(View.GONE);
+        line_sales_amount.setVisibility(View.GONE);
+        line_stock.setVisibility(View.VISIBLE);
+
+        if(mCompareSelected.equals("brand")){
+            if(mType.equals("Todos") && !mBrand.equals("Todos")){
+                statisticsByBrand(limit);  //traer solo por marca
+            }
+        }
+        if(mCompareSelected.equals("type")){
+            if(!mItem.equals("Todos") && !mType.equals("Todos")){
+                statisticsByItemType(limit);//traer por item y articulo
+
+            }else if(mItem.equals("Todos") && !mType.equals("Todos")){
+                statisticsByType(limit);   //traer solo por articulo
+            }
+        }
+    }
+
+    private void compareSales(String limit, String amountOrCant){
+        line_stock.setVisibility(View.GONE);
+        line_entries.setVisibility(View.GONE);
+
+        if(amountOrCant.equals("cant")){
+            line_sales.setVisibility(View.VISIBLE);
+            line_sales_amount.setVisibility(View.GONE);
+        }else{
+            line_sales_amount.setVisibility(View.VISIBLE);
+            line_sales.setVisibility(View.GONE);
+        }
+
+        if(mCompareSelected.equals("type")){
+            if(!mItem.equals("Todos") && !mType.equals("Todos")){
+                statisticsByItemType(limit);//traer por item y articulo
+            }else if(mItem.equals("Todos") && !mType.equals("Todos")){
+                statisticsByType(limit);   //traer solo por articulo
+            }
+        }
+        if(mCompareSelected.equals("brand")){
+            if(mType.equals("Todos") && !mBrand.equals("Todos")){
+                statisticsByBrand(limit); //traer ventas solo por marca
+            }
+        }
+    }
+
+    private void clearCompareBackground(){
+        compare_ingr_brand.setBackground(getResources().getDrawable(R.drawable.circle_statist_more));
+        compare_sales_brand.setBackground(getResources().getDrawable(R.drawable.circle_statist_more));
+        compare_stock_brand.setBackground(getResources().getDrawable(R.drawable.circle_statist_more));
+
+        compare_ingr_type.setBackground(getResources().getDrawable(R.drawable.circle_statist_more));
+        compare_sales_type.setBackground(getResources().getDrawable(R.drawable.circle_statist_more));
+        compare_stock_type.setBackground(getResources().getDrawable(R.drawable.circle_statist_more));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // showBackArrow();
+        mGridRecyclerViewItem = findViewById(R.id.list_items);
+        gridlayoutmanagerItem = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mGridRecyclerViewItem.setLayoutManager(gridlayoutmanagerItem);
+        mGridProductAdapter = new ItemProductAdapter(this, new ArrayList<SpinnerItem>());
+        mGridRecyclerViewItem.setAdapter(mGridProductAdapter);
+        mGridProductAdapter.setOnSelectedProductItem(this);
+
+        listItems();
+
+        close_compare_entrie = findViewById(R.id.close_compare_entries);
+        close_compare_sales = findViewById(R.id.close_compare_sales);
+        close_compare_sales_amount = findViewById(R.id.close_compare_sales_amount);
+        close_compare_stock = findViewById(R.id.close_compare_stock);
+
+        close_compare_stock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                line_stock.setVisibility(View.GONE);
+            }
+        });
+
+        close_compare_entrie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                line_entries.setVisibility(View.GONE);
+            }
+        });
+
+        close_compare_sales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                line_sales.setVisibility(View.GONE);
+            }
+        });
+
+        close_compare_sales_amount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                line_sales_amount.setVisibility(View.GONE);
+            }
+        });
+
+        line_entries = findViewById(R.id.line_entries);
+        line_sales = findViewById(R.id.line_sales);
+        line_sales_amount = findViewById(R.id.line_sales_amount);
+        line_stock = findViewById(R.id.line_stock);
+
+        line_compare_brand = findViewById(R.id.line_compare_brand);
+        compare_ingr_brand = findViewById(R.id.compare_ingr_brand);
+        compare_sales_brand = findViewById(R.id.compare_sales_brand);
+        compare_stock_brand = findViewById(R.id.compare_stock_brand);
+
+        compare_ingr_type = findViewById(R.id.compare_ingr_type);
+        compare_sales_type = findViewById(R.id.compare_sales_type);
+        compare_stock_type = findViewById(R.id.compare_stock_type);
+
+        recycler_statistics_entries = findViewById(R.id.recycler_entries);
+        layoutManagerStEntr = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        recycler_statistics_entries.setLayoutManager(layoutManagerStEntr);
+        mEntriesStatisticsAdapter = new ItemStatisticAdapter(this,new ArrayList<StatisticVal>());
+        recycler_statistics_entries.setAdapter(mEntriesStatisticsAdapter);
+
+        recycler_statistics_sales = findViewById(R.id.recycler_sales);
+        layoutManagerStSales = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        recycler_statistics_sales.setLayoutManager(layoutManagerStSales);
+        mSalesStatisticsAdapter = new ItemStatisticAdapter(this,new ArrayList<StatisticVal>());
+        recycler_statistics_sales.setAdapter(mSalesStatisticsAdapter);
+
+        recycler_statistics_sales_amount = findViewById(R.id.recycler_sales_amount);
+        layoutManagerStSalesAmount = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        recycler_statistics_sales_amount.setLayoutManager(layoutManagerStSalesAmount);
+        mSalesAmountatisticsAdapter = new ItemStatisticAdapter(this,new ArrayList<StatisticVal>());
+        recycler_statistics_sales_amount.setAdapter(mSalesAmountatisticsAdapter);
+
+        recycler_statistics_stock = findViewById(R.id.recycler_stock);
+        layoutManagerStStock = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        recycler_statistics_stock.setLayoutManager(layoutManagerStStock);
+        mStockStatisticsAdapter = new ItemStatisticAdapter(this,new ArrayList<StatisticVal>());
+        recycler_statistics_stock.setAdapter(mStockStatisticsAdapter);
+
+        compare_ingr_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCompareBackground();
+                compare_ingr_type.setBackground(getResources().getDrawable(R.drawable.circ_statistic_more_select));
+                mCompareSelected = "type";
+                showCuadCompare("ingr","compras por articulos");
+            }
+        });
+
+        compare_ingr_brand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCompareBackground();
+                compare_ingr_brand.setBackground(getResources().getDrawable(R.drawable.circ_statistic_more_select));
+                mCompareSelected = "brand";
+                showCuadCompare("ingr","compras por marcas");
+            }
+        });
+        compare_stock_brand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCompareBackground();
+                compare_stock_brand.setBackground(getResources().getDrawable(R.drawable.circ_statistic_more_select));
+                mCompareSelected = "brand";
+                showCuadCompare("stock","stock por marcas");
+            }
+        });
+
+        compare_stock_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCompareBackground();
+                compare_stock_type.setBackground(getResources().getDrawable(R.drawable.circ_statistic_more_select));
+                mCompareSelected = "type";
+                showCuadCompare("stock","stock por articulos");
+            }
+        });
+
+        compare_sales_brand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCompareBackground();
+                compare_sales_brand.setBackground(getResources().getDrawable(R.drawable.circ_statistic_more_select));
+                mCompareSelected = "brand";
+                showCuadCompare("sales","ventas por marcas");
+            }
+        });
+
+        compare_sales_type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearCompareBackground();
+                compare_sales_type.setBackground(getResources().getDrawable(R.drawable.circ_statistic_more_select));
+                mCompareSelected = "type";
+                showCuadCompare("sales","ventas por articulos");
+            }
+        });
+
+
         decoView_entries_precentege_item = findViewById(R.id.dynamicArcView);
         deco_item_sales =  findViewById(R.id.deco_item_vtas);
 
@@ -358,7 +833,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         mArtDif = findViewById(R.id.type_dif);
         mBrandDif = findViewById(R.id.brand_dif);
 
-        view_eye = findViewById(R.id.view_eye);
+       /* view_eye = findViewById(R.id.view_eye);
         view_eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -370,7 +845,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                     mRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
-        });
+        });*/
 
         home = findViewById(R.id.line_home);
         home.setOnClickListener(new View.OnClickListener() {
@@ -407,6 +882,9 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         mViewDateSince = findViewById(R.id.date_since);
         mViewDateTo = findViewById(R.id.date_to);
 
+        mDateSine = "2019-09-01 00:00:00";
+        mViewDateSince.setText("01-09-2020");
+
         mViewDateSince.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -420,13 +898,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                 selectDate(mViewDateTo,"to" );
             }
         });
-
-       /* mRecyclerView =  findViewById(R.id.list_products);
-        layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter=new StockStatisticsEventAdapter(this,new ArrayList<ReportStockEvent>());
-        mRecyclerView.setAdapter(mAdapter);
-        */
 
         mGridRecyclerView =  findViewById(R.id.recycler_view_grid);
         gridlayoutmanager=new GridLayoutManager(this,5);
@@ -606,7 +1077,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                             data.models.add(0,sp1);
                             mModelGridAdapter.pushList(data.models);
 
-                            mModelsAutoCompl = createArrayModel(data.models);
                         }
 
                         @Override
@@ -620,11 +1090,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
         mEmptyRecyclerView=findViewById(R.id.empty);
 
-       /* mStockProduct = findViewById(R.id.quantity_stock);
-        mEntriesQuantity = findViewById(R.id.entries);
-        mSalesQuantity = findViewById(R.id.sales);*/
-
-        topBarListener();
+       // topBarListener();
 
         bottomSheet = findViewById(R.id.bottomSheet);
         topBarListenerBottomShet(bottomSheet);
@@ -634,6 +1100,47 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         loadEventsDetail();
 
         implementsPaginate();
+    }
+
+    private void listItems(){
+
+        ApiClient.get().getItems(new GenericCallback<List<SpinnerItem>>() {
+            @Override
+            public void onSuccess(List<SpinnerItem> data) {
+                SpinnerItem s=new SpinnerItem("Todos");
+                data.add(0,s);
+
+                for(int i=0; i < data.size(); ++i){
+                    if(data.get(i).item.equals(Constants.ITEM_HOMBRE)){
+                        data.get(i).resId = R.drawable.bmancl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TODOS)){
+                        data.get(i).resId = R.drawable.ballcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_DAMA)){
+                        data.get(i).resId = R.drawable.bwomcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_NINIO)){
+                        data.get(i).resId = R.drawable.bnincl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_ACCESORIO)){
+                        data.get(i).resId = R.drawable.bacccl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TECNICO)){
+                        data.get(i).resId = R.drawable.btecl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_CALZADO)){
+                        data.get(i).resId = R.drawable.bcalcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_OFERTA)){
+                        data.get(i).resId = R.drawable.bofercl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_LUZ)){
+                        data.get(i).resId = R.drawable.bluzcl;
+                    }
+                }
+
+                mGridProductAdapter.setItems(data);
+
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
     }
 
     private void topBarListenerBottomShet(View bottomShet){
@@ -691,12 +1198,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         });
     }
 
-    private void cleanStatisticsValues(){
-    //    mEntriesQuantity.setText("0");
-  //      mSalesQuantity.setText("0");
-//        mStockProduct.setText("0");
-    }
-
     private void loadEventsDetail(){
        ApiClient.get().getDetails(mItem, mBrand, mType, mModel,new GenericCallback<List<ReportDetail>>() {
            @Override
@@ -733,19 +1234,20 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         int backIndex = decoview.addSeries(seriesItem);
     }
     private void check(ReportStatistic data){
-
-
-
         if(mItem.equals("Todos") && mType.equals("Todos") && mBrand.equals("Todos")){
 
             this.mTotalSales = data.sum_sales;
             this.mTotalEntries = data.sum_entries;
             this.mTotalStock = data.sum_stock_product;
 
+            this.mTotalAmountSale = data.sum_money_sales;
+
         }else if(!mItem.equals("Todos") && mType.equals("Todos") && mBrand.equals("Todos")){
             this.mItemTotalSales = data.sum_sales;
             this.mItemTotalEntries = data.sum_entries;
             this.mItemTotalStock = data.sum_stock_product;
+
+            this.mItemTotalAmountSale = data.sum_money_sales;
 
             mItemDif.setText(String.valueOf(mItemTotalEntries - mItemTotalSales));
 
@@ -767,6 +1269,8 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             this.mArtTotalEntries = data.sum_entries;
             this.mArtTotalStock = data.sum_stock_product;
 
+            this.mArtTotalAmountSale = data.sum_money_sales;
+
             mArtDif.setText(String.valueOf(mArtTotalEntries - mArtTotalSales));
 
             amount_type_sales.setText("$ "+getFormattedNumber(data.sum_money_sales));
@@ -777,7 +1281,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
             createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalSales,mArtTotalSales)),deco_type_sales,R.color.violet3,R.color.green3);
             createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalEntries,mArtTotalEntries)),deco_type_entries, R.color.violet3,R.color.green3);
-           // createSeriesInit(Integer.valueOf(calculatePercentage(mItemTotalStock,mArtTotalStock)),deco_type_stock,R.color.violet3,R.color.green3);
 
             cant_sale_type.setText(String.valueOf(data.sum_sales));
             cant_entries_type.setText(String.valueOf(data.sum_entries));
@@ -787,6 +1290,8 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             this.mBrandTotalSales = data.sum_sales;
             this.mBrandTotalEntries = data.sum_entries;
             this.mBrandTotalStock = data.sum_stock_product;
+
+            this.mBrandTotalAmountSale = data.sum_money_sales;
 
             mBrandDif.setText(String.valueOf(mBrandTotalEntries - mBrandTotalSales));
 
@@ -808,6 +1313,8 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             this.mArtTotalEntries = data.sum_entries;
             this.mArtTotalStock = data.sum_stock_product;
 
+            this.mArtTotalAmountSale = data.sum_money_sales;
+
             mArtDif.setText(String.valueOf(mArtTotalEntries - mArtTotalSales));
 
             amount_type_sales.setText("$ "+getFormattedNumber(data.sum_money_sales));
@@ -828,6 +1335,8 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             this.mBrandTotalEntries = data.sum_entries;
             this.mBrandTotalStock = data.sum_stock_product;
 
+            this.mBrandTotalAmountSale = data.sum_money_sales;
+
             mBrandDif.setText(String.valueOf(mBrandTotalEntries - mBrandTotalSales));
 
             amount_brand_sales.setText("$"+String.valueOf(data.sum_money_sales));
@@ -842,6 +1351,8 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             cant_sale_brand.setText(String.valueOf(data.sum_sales));
             cant_entries_brand.setText(String.valueOf(data.sum_entries));
             cant_stock_brand.setText(String.valueOf(data.sum_stock_product));
+
+            line_compare_brand.setVisibility(View.VISIBLE);
         }
     }
 
@@ -865,12 +1376,9 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                 decimalFormat.setGroupingSize(3);
                 String yourFormattedString = decimalFormat.format(data.sum_money_sales);
 
-
-
               //  mEntriesQuantity.setText(String.valueOf(data.sum_entries));
                // mSalesQuantity.setText(String.valueOf(data.sum_sales));
                // mStockProduct.setText(String.valueOf(data.sum_stock_product));
-
             }
 
             @Override
@@ -880,6 +1388,59 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         });
     }
 
+
+
+    public void onSelectedProductItem(String item){
+        line_statistics_type.setVisibility(View.GONE);
+        line_statistics_brand.setVisibility(View.GONE);
+        line_statistics_item.setVisibility(View.VISIBLE);
+
+        simpleProgressBar.setVisibility(View.VISIBLE);
+
+        mItem = item;
+
+        if(item.equals("Todos")){
+
+            select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+            auto_brand.setVisibility(View.GONE);
+            auto_type.setVisibility(View.GONE);
+            auto_model.setVisibility(View.GONE);
+
+            auto_brand.setText("");
+            auto_model.setText("");
+            auto_type.setText("");
+
+
+            mDetailAdapter.unSelectAll();
+
+            line_statistics_item.setVisibility(View.GONE);
+            line_statistics_type.setVisibility(View.GONE);
+            line_statistics_brand.setVisibility(View.GONE);
+
+            line_compare_brand.setVisibility(View.GONE);
+
+
+        }
+
+        mGridAdapter.clear();
+        mTypeGridAdapter.clear();
+
+        cleanInfo();
+        cleanTextInfo();
+        clearAndList();
+
+        selected_item.setText(mItem);
+        selected_item_loc.setText(mItem);
+
+        clearCompareBackground();
+
+        clearLines();
+    }
+
+/*
     private void changeCircleSelected(){
         line_statistics_type.setVisibility(View.GONE);
         line_statistics_brand.setVisibility(View.GONE);
@@ -901,6 +1462,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         mTypeGridAdapter.clear();
 
         cleanInfo();
+        cleanTextInfo();
         clearAndList();
 
         selected_item.setText(mItem);
@@ -935,11 +1497,13 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
                 mDetailAdapter.unSelectAll();
 
-
                 line_statistics_item.setVisibility(View.GONE);
                 line_statistics_type.setVisibility(View.GONE);
                 line_statistics_brand.setVisibility(View.GONE);
 
+                line_compare_brand.setVisibility(View.GONE);
+
+                clearLines();
             }
         });
 
@@ -949,7 +1513,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
                 mItem="Dama";
                 changeCircleSelected();
                 woman.setImageResource(R.drawable.bwom);
-
             }
         });
         man.setOnClickListener(new View.OnClickListener() {
@@ -1012,7 +1575,7 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
             }
         });
     }
-
+*/
     private void clearView(){
         if(!isLoading()){
             mCurrentPage = 0;
@@ -1025,7 +1588,6 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
         mEmptyRecyclerView.setVisibility(View.GONE);
         clearView();
 
-        cleanStatisticsValues();
         loadStatisticValues();
     }
 
@@ -1205,36 +1767,9 @@ public class StatisticsActivity extends BaseActivity implements Paginate.Callbac
 
     private List<String> createArray(){
         List<String> listN=new ArrayList<>();
-        listN.add("5 > ingreso");
-        listN.add("20 > ingreso");
+        listN.add("10");
+        listN.add("20");
         return listN;
     }
 
-   /* private void showCuadCompare(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View dialogView = inflater.inflate(R.layout.select_filter, null);
-        builder.setView(dialogView);
-
-        final Spinner spinner= dialogView.findViewById(R.id.spinner);
-        final Button ok= dialogView.findViewById(R.id.ok);
-        final TextView cancel= dialogView.findViewById(R.id.cancel);
-
-        ArrayAdapter<String> adapterItem = new ArrayAdapter<String>(this,
-                R.layout.spinner_item, createArray());
-        adapterItem.setDropDownViewResource(R.layout.spinner_item);
-
-        spinner.setAdapter(adapterItem);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selected=spinner.getSelectedItem().toString().trim();
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                item.setText("");
-            }
-        });
-    }*/
 }

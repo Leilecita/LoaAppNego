@@ -6,24 +6,30 @@ import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Employee;
 import com.example.android.loa.network.models.Event;
 import com.example.android.loa.network.models.Extraction;
+import com.example.android.loa.network.models.FilterName;
+import com.example.android.loa.network.models.FilterType;
 import com.example.android.loa.network.models.Income;
 import com.example.android.loa.network.models.Item_employee;
 import com.example.android.loa.network.models.Item_file;
 import com.example.android.loa.network.models.Operation;
+import com.example.android.loa.network.models.ParallelBilling;
 import com.example.android.loa.network.models.ParallelMoneyMovement;
 import com.example.android.loa.network.models.Product;
+import com.example.android.loa.network.models.BuyBilling;
+import com.example.android.loa.network.models.ReportBuyBilling;
 import com.example.android.loa.network.models.ReportDetail;
 import com.example.android.loa.network.models.ReportEntrie;
 import com.example.android.loa.network.models.ReportExtraction;
 import com.example.android.loa.network.models.GeneralStock;
+import com.example.android.loa.network.models.ReportFilterStatistic;
 import com.example.android.loa.network.models.ReportIncome;
 import com.example.android.loa.network.models.ReportItemEmployee;
 import com.example.android.loa.network.models.ReportItemFileClientEvent;
 import com.example.android.loa.network.models.ReportMonthBox;
 import com.example.android.loa.network.models.ReportNewBox;
+import com.example.android.loa.network.models.ReportParallelBilling;
 import com.example.android.loa.network.models.ReportParallelMoneyMovement;
 import com.example.android.loa.network.models.ReportPriceEvent;
-import com.example.android.loa.network.models.ReportPrices;
 import com.example.android.loa.network.models.ReportProduct;
 import com.example.android.loa.network.models.ReportSale;
 import com.example.android.loa.network.models.ReportSimpelClient;
@@ -36,6 +42,7 @@ import com.example.android.loa.network.models.SpinnerItem;
 import com.example.android.loa.network.models.SpinnerType;
 import com.example.android.loa.network.models.Spinners;
 import com.example.android.loa.network.models.StockEvent;
+import com.example.android.loa.network.models.Student;
 import com.example.android.loa.network.models.User;
 import com.example.android.loa.network.models.UserToken;
 
@@ -179,6 +186,51 @@ public interface APIService {
     @GET("parallel_money_movements.php")
     Observable<Response<List<ReportParallelMoneyMovement>>> getReportMoneyMovements(@Query("method") String m,@Query("page") Integer page, @Query("type") String type ,@Query("groupby") String groupby,@Query("billed") String billed );
 
+    @GET("parallel_money_movements.php")
+    Observable<Response<List<FilterType>>> getTypes(@Query("method") String method);
+
+    //PARALLEL BILLINGS
+
+    @POST("parallel_billings.php")
+    Observable<Response<ParallelBilling>> postParallelBilling(@Body ParallelBilling m);
+
+    @DELETE("parallel_billings.php")
+    Observable<ResponseBody>  deleteParallelBilling(@Query("id") Long id);
+
+    @PUT("parallel_billings.php")
+    Observable<Response<ParallelBilling>> putParallelBilling(@Body ParallelBilling e);
+
+
+    @GET("parallel_billings.php")
+    Observable<Response<List<ReportParallelBilling>>> getReportParallelBillings(@Query("method") String m, @Query("page") Integer page, @Query("type") String type );
+
+    @GET("parallel_billings.php")
+    Observable<Response<List<FilterType>>> getTypesBilling(@Query("method") String method);
+
+    //PRODUCT BILLINGS
+
+    @POST("buy_billings.php")
+    Observable<Response<BuyBilling>> postBuyBilling(@Body BuyBilling m);
+
+    @DELETE("buy_billings.php")
+    Observable<ResponseBody> deleteBuyBilling(@Query("id") Long id);
+
+    @PUT("buy_billings.php")
+    Observable<Response<BuyBilling>> putBuyBilling(@Body BuyBilling e);
+
+
+    @GET("buy_billings.php")
+    Observable<Response<List<BuyBilling>>> getBuyBillings(@Query("method") String m, @Query("page") Integer page, @Query("type") String type );
+
+
+    @GET("buy_billings.php")
+    Observable<Response<ReportBuyBilling>> getReportBuyBillings(@Query("method") String m, @Query("page") Integer page, @Query("type") String type, @Query("date") String created, @Query("dateTo") String next );
+
+    @GET("buy_billings.php")
+    Observable<Response<List<FilterName>>> getDistintiBusinessName(@Query("method") String m );
+
+
+
     //INCOMES
 
     @POST("incomes.php")
@@ -226,7 +278,7 @@ public interface APIService {
 
     @GET("products.php")
     Observable<Response<List<Product>>> getProductsByPageByItemByBrandAndType(@Query("method") String method,@Query("page") Integer page,@Query("item") String item,@Query("brand") String brand,@Query("type") String type,
-            @Query("model") String model, @Query("deleted") String deleted, @Query("query") String query);
+            @Query("model") String model, @Query("deleted") String deleted, @Query("query") String query, @Query("group") String group, @Query("stockcero") String stock_cero);
 
     @GET("products.php")
     Observable<Response<List<ReportProduct>>> getProductsByPageByItemByBrandAndTypePriceManager(@Query("method") String method, @Query("page") Integer page, @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
@@ -266,6 +318,16 @@ public interface APIService {
 
     @PUT("stock_general_events.php")
     Observable<Response<GeneralStock>> putGeneralStock(@Body GeneralStock s);
+
+    //STATISTICS
+    @GET("stock_events.php")
+    Observable<Response<ReportFilterStatistic>> statisticsByType(@Query("method") String method, @Query("date") String created,@Query("dateTo") String next, @Query("limit") String limit);
+
+    @GET("stock_events.php")
+    Observable<Response<ReportFilterStatistic>> statisticsByBrand(@Query("method") String method, @Query("date") String created,@Query("dateTo") String next, @Query("limit") String limit);
+
+    @GET("stock_events.php")
+    Observable<Response<ReportFilterStatistic>> statisticsByItemByType(@Query("method") String method, @Query("date") String created,@Query("dateTo") String next, @Query("item") String item, @Query("limit") String  limit);
 
     //STOCK EVENTS
 
@@ -325,7 +387,7 @@ public interface APIService {
 
 
     @GET("products.php")
-    Observable<Response<SpinnerData>> deleteProduct(@Query("method") String method,@Query("id") Long id_product);
+    Observable<Response<SpinnerData>> deleteProduct(@Query("method") String method,@Query("id") Long id_product, @Query("observation") String obs );
 
     @GET("products.php")
     Observable<Response<Spinners>> getSpinners(@Query("method") String method, @Query("item") String item,
@@ -336,7 +398,6 @@ public interface APIService {
 
     @GET("products.php")
     Observable<Response<List<SpinnerItem>>> getItems(@Query("method") String method);
-
 
     @GET("products.php")
     Observable<Response<ResponseData>> checkExistProduct(@Query("item") String item,@Query("brand") String brand,@Query("type") String type,@Query("model") String model,@Query("method") String method, @Query("stock") Integer stock,
@@ -373,6 +434,13 @@ public interface APIService {
 
     @GET("stock_events.php")
     Observable<Response<List<ReportStockEvent>>> getEvents(@Query("page") Integer page, @Query("item") String item, @Query("groupby") String groupby, @Query("method") String method);
+
+    //STUDENTS
+    @GET("students.php")
+    Observable<Response<List<Student>>> getStudents(@Query("page") Integer page, @Query("query") String query,  @Query("method") String method , @Query("category") String category );
+
+    @PUT("students.php")
+    Observable<Response<Student>> putStudent(@Body Student e);
 }
 
 

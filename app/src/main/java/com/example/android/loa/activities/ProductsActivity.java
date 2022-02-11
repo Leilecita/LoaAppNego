@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -32,13 +34,16 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.Interfaces.OnSelectedItem;
+import com.example.android.loa.Interfaces.OnSelectedProductItem;
 import com.example.android.loa.R;
 import com.example.android.loa.activities.balances.GeneralBalanceActivity;
 import com.example.android.loa.activities.balances.GeneralBalanceByItemTypeActivity;
 import com.example.android.loa.adapters.ItemAdapter;
 import com.example.android.loa.adapters.ItemAdapterModel;
 import com.example.android.loa.adapters.ItemAdapterType;
+import com.example.android.loa.adapters.ItemProductAdapter;
 import com.example.android.loa.adapters.ProductAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -60,7 +65,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class ProductsActivity extends BaseActivity implements Paginate.Callbacks, OnChangeViewStock, OnSelectedItem {
+public class ProductsActivity extends BaseActivity implements Paginate.Callbacks, OnChangeViewStock, OnSelectedItem, OnSelectedProductItem {
 
     private RecyclerView mRecyclerView;
     private ProductAdapter mAdapter;
@@ -80,16 +85,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
     private String mQuery = "";
     private String token = "";
-
-    private ImageView man;
-    private ImageView woman;
-    private ImageView boy;
-    private ImageView accesories;
-    private ImageView tecnico;
-    private ImageView zapas;
-    private ImageView luz;
-    private ImageView oferta;
-    private ImageView all;
 
     private RecyclerView mGridRecyclerView;
     private RecyclerView mGridRecyclerViewType;
@@ -115,13 +110,14 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private List<String> mBrandsAutoCompl;
     private List<String> mItems;
     private List<String> mModels;
+    private List<String> mModelsAutoCompl;
 
     //top selectcion
     private TextView mQuantityPordByFilter;
 
     private TextView mEmptyRecyclerView;
 
-    private ImageView balance;
+    private LinearLayout balance;
 
     private LinearLayout home;
     private LinearLayout options;
@@ -129,6 +125,21 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     private SearchView searchView;
 
     private LinearLayout balance_buys;
+
+    private AutoCompleteTextView auto_type ;
+    private AutoCompleteTextView auto_brand;
+    private AutoCompleteTextView auto_model;
+
+    private ItemProductAdapter mGridProductAdapter;
+    private RecyclerView mGridRecyclerViewItem;
+    private RecyclerView.LayoutManager gridlayoutmanagerItem;
+
+    private String group;
+
+    private ImageView view_group;
+    private String stockcero;
+    private TextView text_stock_cero;
+
 
     public void OnChangeViewStock(){
         loadSumAllStockByProduct();
@@ -179,6 +190,8 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             }*/
 
             mGridAdapter.clear();
+            auto_brand.setVisibility(View.GONE);
+            auto_brand.setText("");
         }
 
         if(selection.equals("type")){
@@ -196,6 +209,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 addProduct();
             }*/
             mTypeGridAdapter.clear();
+
+            auto_type.setVisibility(View.GONE);
+            auto_type.setText("");
         }
 
         if(selection.equals("model")){
@@ -213,6 +229,9 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                 addProduct();
             }*/
             mModelGridAdapter.clear();
+
+            auto_model.setVisibility(View.GONE);
+            auto_model.setText("");
         }
 
         loadSumAllStockByProduct();
@@ -248,7 +267,56 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //showBackArrow();
+        this.group = "no";
+        this.stockcero = "true";
+
+        text_stock_cero = findViewById(R.id.stockcero);
+        text_stock_cero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(stockcero.equals("true")){
+                    stockcero = "false";
+                    text_stock_cero.setText("con stock 0");
+                }else{
+                    stockcero = "true";
+                    text_stock_cero.setText("sin stock 0");
+                }
+
+                clearAndList();
+            }
+        });
+        view_group = findViewById(R.id.view_group);
+        view_group.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(group.equals("yes")){
+                    group = "no";
+                    view_group.setImageDrawable(getResources().getDrawable(R.drawable.desagrupar));
+                    Toast.makeText(ProductsActivity.this,"La vista esta desagrupada", Toast.LENGTH_SHORT).show();
+
+                }else{
+                    group = "yes";
+                    view_group.setImageDrawable(getResources().getDrawable(R.drawable.agrupar));
+                    Toast.makeText(ProductsActivity.this,"La vista esta agrupada", Toast.LENGTH_SHORT).show();
+                }
+
+                clearAndList();
+            }
+        });
+
+        mGridRecyclerViewItem = findViewById(R.id.list_items);
+        gridlayoutmanagerItem = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mGridRecyclerViewItem.setLayoutManager(gridlayoutmanagerItem);
+        mGridProductAdapter = new ItemProductAdapter(this, new ArrayList<SpinnerItem>());
+        mGridRecyclerViewItem.setAdapter(mGridProductAdapter);
+        mGridProductAdapter.setOnSelectedProductItem(this);
+
+        listItems();
+
+        auto_type = findViewById(R.id.auto_type);
+        auto_brand = findViewById(R.id.auto_brand);
+        auto_model = findViewById(R.id.auto_model);
 
         balance_buys = findViewById(R.id.buys);
         balance_buys.setOnClickListener(new View.OnClickListener() {
@@ -274,7 +342,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         balance = findViewById(R.id.balance);
         balance.setVisibility(View.GONE);
-         balance.setOnClickListener(new View.OnClickListener() {
+        balance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -330,7 +398,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         brand_name=findViewById(R.id.brand_name);
         model_name=findViewById(R.id.model_name);
 
-
         mQuantityPordByFilter=findViewById(R.id.quantity_prod);
 
         mType="Todos";
@@ -343,13 +410,21 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             @Override
             public void onClick(View v) {
 
+                if(auto_brand.getVisibility() == View.VISIBLE){
+                    auto_brand.setVisibility(View.GONE);
+                }else{
+                    auto_brand.setVisibility(View.VISIBLE);
+                }
+
                     if(mGridAdapter.getList().size() > 0 ){
                         mGridAdapter.clear();
                     }else{
                         mTypeGridAdapter.clear();
                         mModelGridAdapter.clear();
 
-                        ApiClient.get().getSpinners(mItem, "Todos", "Todos", "Todos","false",new GenericCallback<Spinners>() {
+
+                        //VERACA
+                        ApiClient.get().getSpinners(mItem, "Todos", mType, "Todos","false",new GenericCallback<Spinners>() {
                             @Override
                             public void onSuccess(Spinners data) {
                                 SpinnerData sp2=new SpinnerData("Todos","#64B5F6");
@@ -357,6 +432,30 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                                // SpinnerData sp1=new SpinnerData("Nuevo","#64B5F6");
                                 //data.brands.add(sp1);
                                 mGridAdapter.pushList(data.brands);
+
+                                mBrandsAutoCompl = createArrayBrand(data.brands);
+
+                                ArrayAdapter<String> adapterBrand = new ArrayAdapter<String>
+                                        (getBaseContext(), R.layout.item_auto, mBrandsAutoCompl);
+                                auto_brand.setThreshold(1);
+                                auto_brand.setAdapter(adapterBrand);
+                                auto_brand.setDropDownBackgroundDrawable(getBaseContext().getResources().getDrawable(R.drawable.rec_text_edit));
+
+                                auto_brand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        String selected=auto_brand.getText().toString().trim();
+                                        mBrand = selected;
+                                        brand_name.setText(selected);
+                                        select_brand.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                                        mGridAdapter.clear();
+                                        auto_brand.setVisibility(View.GONE);
+
+                                        clearAndList();
+                                        hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
+                                    }
+                                });
                             }
 
                             @Override
@@ -371,6 +470,14 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         select_art.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(auto_type.getVisibility() == View.VISIBLE){
+                    auto_type.setVisibility(View.GONE);
+                }else{
+                    auto_type.setVisibility(View.VISIBLE);
+                }
+
+
                     if(mTypeGridAdapter.getList().size() > 0){
                         mTypeGridAdapter.clear();
                     }else{
@@ -387,6 +494,31 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                                // SpinnerType sp1=new SpinnerType("Nuevo","#64B5F6");
                                 //data.types.add(sp1);
                                 mTypeGridAdapter.pushList(data.types);
+
+                                mTypesAutoCompl = createArrayType(data.types);
+
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                        (getBaseContext(), R.layout.item_auto, mTypesAutoCompl);
+                                auto_type.setThreshold(1);
+                                auto_type.setAdapter(adapter);
+                                auto_type.setDropDownBackgroundDrawable(getBaseContext().getResources().getDrawable(R.drawable.rec_text_edit));
+
+                                auto_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        String selected=auto_type.getText().toString().trim();
+                                        mType = selected;
+                                        art_name.setText(selected);
+                                        select_art.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                                        mTypeGridAdapter.clear();
+                                        auto_type.setVisibility(View.GONE);
+
+                                        clearAndList();
+
+                                        hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
+                                    }
+                                });
                             }
                             @Override
                             public void onError(Error error) {
@@ -400,6 +532,13 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         select_model.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(auto_model.getVisibility() == View.VISIBLE){
+                    auto_model.setVisibility(View.GONE);
+                }else{
+                    auto_model.setVisibility(View.VISIBLE);
+                }
+
                 if(mModelGridAdapter.getList().size() > 0){
                     mModelGridAdapter.clear();
                 }else{
@@ -415,6 +554,31 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
                           //  SpinnerModel sp1=new SpinnerModel("Nuevo");
                            // data.models.add(sp1);
                             mModelGridAdapter.pushList(data.models);
+
+                            mModelsAutoCompl = createArrayModel(data.models);
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                    (getBaseContext(), R.layout.item_auto, mModelsAutoCompl);
+                            auto_model.setThreshold(1);
+                            auto_model.setAdapter(adapter);
+                            auto_model.setDropDownBackgroundDrawable(getBaseContext().getResources().getDrawable(R.drawable.rec_text_edit));
+
+                            auto_model.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    String selected=auto_model.getText().toString().trim();
+                                    mModel = selected;
+                                    model_name.setText(selected);
+                                    select_model.setBackground(getResources().getDrawable(R.drawable.rec_selected));
+
+                                    mModelGridAdapter.clear();
+                                    auto_model.setVisibility(View.GONE);
+
+                                    clearAndList();
+
+                                    hideKeyboard(getWindow().getDecorView().findViewById(android.R.id.content));
+                                }
+                            });
                         }
 
                         @Override
@@ -430,16 +594,15 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         mEmptyRecyclerView=findViewById(R.id.empty);
 
-        topBarListener();
-
-        loadSumAllStockByProduct();
-
         getClients();
 
         implementsPaginate();
 
         search();
+
+        loadSumAllStockByProduct();
     }
+
 
 
     private void loadSpinners(){
@@ -466,18 +629,64 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         });
     }
 
+    private void listItems(){
 
-    private void changeCircleSelected(){
+        ApiClient.get().getItems(new GenericCallback<List<SpinnerItem>>() {
+            @Override
+            public void onSuccess(List<SpinnerItem> data) {
+                SpinnerItem s=new SpinnerItem("Todos");
+                data.add(0,s);
 
-        woman.setImageResource(R.drawable.bwomcl);
-        boy.setImageResource(R.drawable.bnincl);
-        man.setImageResource(R.drawable.bmancl);
-        tecnico.setImageResource(R.drawable.btecl);
-        zapas.setImageResource(R.drawable.bcalcl);
-        accesories.setImageResource(R.drawable.bacccl);
-        luz.setImageResource(R.drawable.bluzcl);
-        oferta.setImageResource(R.drawable.bofercl);
-        all.setImageResource(R.drawable.ballcl);
+                for(int i=0; i < data.size(); ++i){
+                    if(data.get(i).item.equals(Constants.ITEM_HOMBRE)){
+                        data.get(i).resId = R.drawable.bmancl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TODOS)){
+                        data.get(i).resId = R.drawable.ballcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_DAMA)){
+                        data.get(i).resId = R.drawable.bwomcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_NINIO)){
+                        data.get(i).resId = R.drawable.bnincl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_ACCESORIO)){
+                        data.get(i).resId = R.drawable.bacccl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_TECNICO)){
+                        data.get(i).resId = R.drawable.btecl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_CALZADO)){
+                        data.get(i).resId = R.drawable.bcalcl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_OFERTA)){
+                        data.get(i).resId = R.drawable.bofercl;
+                    }else if(data.get(i).item.equals(Constants.ITEM_LUZ)){
+                        data.get(i).resId = R.drawable.bluzcl;
+                    }
+                }
+                mGridProductAdapter.setItems(data);
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
+
+    public void onSelectedProductItem(String item){
+        mItem = item;
+
+        if(item.equals("Todos")){
+
+
+            select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+            select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+            auto_brand.setVisibility(View.GONE);
+            auto_type.setVisibility(View.GONE);
+            auto_model.setVisibility(View.GONE);
+
+            auto_brand.setText("");
+            auto_model.setText("");
+            auto_type.setText("");
+        }
 
         listProdListener();
 
@@ -485,106 +694,11 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         mTypeGridAdapter.clear();
 
         cleanInfo();
-
         clearView();
-
-        //ver que onda
         loadSpinners();
     }
 
-    private void topBarListener(){
-        man=findViewById(R.id.man);
-        woman=findViewById(R.id.woman);
-        boy=findViewById(R.id.boy);
-        tecnico=findViewById(R.id.tecnico);
-        zapas=findViewById(R.id.zapas);
-        accesories=findViewById(R.id.acces);
-        luz=findViewById(R.id.luz);
-        oferta=findViewById(R.id.oferta);
-        all=findViewById(R.id.all);
 
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Todos";
-                changeCircleSelected();
-                all.setImageResource(R.drawable.ball);
-
-                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
-            }
-        });
-
-        woman.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Dama";
-                changeCircleSelected();
-                woman.setImageResource(R.drawable.bwom);
-
-            }
-        });
-        man.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Hombre";
-                changeCircleSelected();
-                man.setImageResource(R.drawable.bman);
-            }
-        });
-        boy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Niño";
-                changeCircleSelected();
-                boy.setImageResource(R.drawable.bnin);
-            }
-        });
-        accesories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Accesorio";
-                changeCircleSelected();
-                accesories.setImageResource(R.drawable.bacc);
-            }
-        });
-        tecnico.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Tecnico";
-                changeCircleSelected();
-                tecnico.setImageResource(R.drawable.btec);
-            }
-        });
-
-        zapas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Calzado";
-                changeCircleSelected();
-                zapas.setImageResource(R.drawable.bcal);
-            }
-        });
-
-        luz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Luz";
-                changeCircleSelected();
-                luz.setImageResource(R.drawable.bluz);
-            }
-        });
-
-        oferta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Oferta";
-                changeCircleSelected();
-                oferta.setImageResource(R.drawable.bofer);
-            }
-        });
-    }
 
     private void listProdListener(){
         mRecyclerView.setVisibility(View.VISIBLE);
@@ -595,6 +709,13 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             mCurrentPage = 0;
             mAdapter.clear();
             mAdapter.resetPrevOpenView();
+
+            if(group.equals("yes")){
+                mAdapter.setIsGrouped(true);
+            }else {
+                mAdapter.setIsGrouped(false);
+            }
+
             hasMoreItems=true;
             loadSumAllStockByProduct();
         }
@@ -630,7 +751,7 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
 
         loadingInProgress=true;
 
-        ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false", query,new GenericCallback<List<Product>>() {
+        ApiClient.get().getProductsByPageByItemByBrandAndType(mCurrentPage, mItem, mBrand, mType,mModel,"false",query, group, stockcero,new GenericCallback<List<Product>>() {
             @Override
             public void onSuccess(List<Product> data) {
 
@@ -707,8 +828,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         });
     }
 
-
-
     private void loadOptions(){
         options.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -780,7 +899,83 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         popup.show();
     }
 
-    private void addProduct(){
+
+
+
+
+    private List<String> createArrayType(List<SpinnerType> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("");
+        listN.add("Nuevo");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).type != null){
+                listN.add(list.get(i).type);
+            }
+        }
+
+        return listN;
+    }
+
+    private List<String> createArrayBrand(List<SpinnerData> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("");
+        listN.add("Nuevo");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).brand != null){
+                listN.add(list.get(i).brand);
+            }
+        }
+
+        return listN;
+    }
+
+    private List<String> createArrayModel(List<SpinnerModel> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("Nuevo");
+        for(int i=0; i < list.size();++i){
+            if(list.get(i) != null && list.get(i).model != null){
+                listN.add(list.get(i).model);
+            }
+        }
+
+        return listN;
+    }
+
+    private List<String> createArrayItem(List<SpinnerItem> list){
+        List<String> listN=new ArrayList<>();
+        listN.add("Hombre");
+        listN.add("Dama");
+        listN.add("Niño");
+        listN.add("Tecnico");
+        listN.add("Accesorio");
+        listN.add("Calzado");
+
+        return listN;
+    }
+
+    private void limitHeighSpinner(Spinner spinner){
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+            popupWindow.setHeight(400);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
+    }
+
+    protected void hideKeyboard(View view)
+    {
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+}
+
+
+ /*
+
+ private void addProduct(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_add_product, null);
@@ -1004,74 +1199,6 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
-
-
-    private List<String> createArrayType(List<SpinnerType> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("");
-        listN.add("Nuevo");
-        for(int i=0; i < list.size();++i){
-            if(list.get(i) != null && list.get(i).type != null){
-                listN.add(list.get(i).type);
-            }
-        }
-
-        return listN;
-    }
-
-    private List<String> createArrayBrand(List<SpinnerData> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("");
-        listN.add("Nuevo");
-        for(int i=0; i < list.size();++i){
-            if(list.get(i) != null && list.get(i).brand != null){
-                listN.add(list.get(i).brand);
-            }
-        }
-
-        return listN;
-    }
-
-    private List<String> createArrayModel(List<SpinnerModel> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("Nuevo");
-        for(int i=0; i < list.size();++i){
-            if(list.get(i) != null && list.get(i).model != null){
-                listN.add(list.get(i).model);
-            }
-        }
-
-        return listN;
-    }
-
-    private List<String> createArrayItem(List<SpinnerItem> list){
-        List<String> listN=new ArrayList<>();
-        listN.add("Hombre");
-        listN.add("Dama");
-        listN.add("Niño");
-        listN.add("Tecnico");
-        listN.add("Accesorio");
-        listN.add("Calzado");
-
-        return listN;
-    }
-
-    private void limitHeighSpinner(Spinner spinner){
-        try {
-            Field popup = Spinner.class.getDeclaredField("mPopup");
-            popup.setAccessible(true);
-            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
-            popupWindow.setHeight(400);
-        }
-        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
-            // silently fail...
-        }
-    }
-}
-
-
- /*
    private void addProduct2(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -1200,3 +1327,130 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         dialog.show();
     }
   */
+
+ /*
+  private void changeCircleSelected(){
+
+        woman.setImageResource(R.drawable.bwomcl);
+        boy.setImageResource(R.drawable.bnincl);
+        man.setImageResource(R.drawable.bmancl);
+        tecnico.setImageResource(R.drawable.btecl);
+        zapas.setImageResource(R.drawable.bcalcl);
+        accesories.setImageResource(R.drawable.bacccl);
+        luz.setImageResource(R.drawable.bluzcl);
+        oferta.setImageResource(R.drawable.bofercl);
+        all.setImageResource(R.drawable.ballcl);
+
+        listProdListener();
+
+        mGridAdapter.clear();
+        mTypeGridAdapter.clear();
+
+        cleanInfo();
+
+        clearView();
+
+        //ver que onda
+        loadSpinners();
+    }
+    private void topBarListener(){
+        man=findViewById(R.id.man);
+        woman=findViewById(R.id.woman);
+        boy=findViewById(R.id.boy);
+        tecnico=findViewById(R.id.tecnico);
+        zapas=findViewById(R.id.zapas);
+        accesories=findViewById(R.id.acces);
+        luz=findViewById(R.id.luz);
+        oferta=findViewById(R.id.oferta);
+        all=findViewById(R.id.all);
+
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Todos";
+                changeCircleSelected();
+                all.setImageResource(R.drawable.ball);
+
+                select_brand.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_art.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+                select_model.setBackground(getResources().getDrawable(R.drawable.rec_unselected));
+
+                auto_brand.setVisibility(View.GONE);
+                auto_type.setVisibility(View.GONE);
+                auto_model.setVisibility(View.GONE);
+
+                auto_brand.setText("");
+                auto_model.setText("");
+                auto_type.setText("");
+            }
+        });
+
+        woman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Dama";
+                changeCircleSelected();
+                woman.setImageResource(R.drawable.bwom);
+            }
+        });
+        man.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Hombre";
+                changeCircleSelected();
+                man.setImageResource(R.drawable.bman);
+            }
+        });
+        boy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Niño";
+                changeCircleSelected();
+                boy.setImageResource(R.drawable.bnin);
+            }
+        });
+        accesories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Accesorio";
+                changeCircleSelected();
+                accesories.setImageResource(R.drawable.bacc);
+            }
+        });
+        tecnico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Tecnico";
+                changeCircleSelected();
+                tecnico.setImageResource(R.drawable.btec);
+            }
+        });
+
+        zapas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Calzado";
+                changeCircleSelected();
+                zapas.setImageResource(R.drawable.bcal);
+            }
+        });
+
+        luz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Luz";
+                changeCircleSelected();
+                luz.setImageResource(R.drawable.bluz);
+            }
+        });
+
+        oferta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItem="Oferta";
+                changeCircleSelected();
+                oferta.setImageResource(R.drawable.bofer);
+            }
+        });
+    }
+*/

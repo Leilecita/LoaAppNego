@@ -8,6 +8,8 @@
     <color name="background_violet">#C0BBCE</color>
 
     <color name="background">#f7f7f7</color>
+    <color name="background_line1">#f7f7f7</color>
+    <color name="background_line2">#F3EBEB</color>
 
     <color name="background_bottom_shet">#fcfcfc</color>
 
@@ -62,6 +64,7 @@
     <color name="green2">#387156</color>
     <color name="green3">#6BD570</color>
     <color name="back_buys">#D8F3D9</color>
+    <color name="back_buys_grid">#E5F6E6</color>
     <color name="violet1">#B6A9D3</color>
     <color name="violet2">#BAB4C8</color>
     <color name="violet3">#E6E2EF</color>
@@ -72,6 +75,7 @@
     <color name="title_dialog_info">#252525</color>
     <color name="word_info">#7F7359</color>
     <color name="loa_red">#c91a02</color>
+    <color name="loa_red_background">#EDD1CD</color>
     <color name="loa_green">#236b46</color>
     <color name="trasparente">#80000000</color>
     <color name="card">#C97C64</color>

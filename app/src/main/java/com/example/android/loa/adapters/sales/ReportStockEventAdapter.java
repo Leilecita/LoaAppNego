@@ -48,7 +48,10 @@ import com.example.android.loa.network.models.ReportStockEvent;
 import com.example.android.loa.types.Constants;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,ReportStockEventAdapter.ViewHolder> {
@@ -108,6 +111,12 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         public ImageView new_client;
         public TextView observation;
 
+        public LinearLayout info_user;
+        public TextView user_name;
+        public TextView time;
+        public TextView change_original_price;
+        public TextView edited_value;
+        public TextView edited_value_info;
 
         public ViewHolder(View v){
             super(v);
@@ -143,6 +152,13 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             div= v.findViewById(R.id.div);
             observation= v.findViewById(R.id.observation);
             new_client= v.findViewById(R.id.new_client);
+
+            info_user = v.findViewById(R.id.info_user);
+            user_name = v.findViewById(R.id.user_name);
+            time = v.findViewById(R.id.time);
+            change_original_price = v.findViewById(R.id.change_original_price);
+            edited_value = v.findViewById(R.id.edited_value);
+            edited_value_info = v.findViewById(R.id.edited_value_info);
         }
     }
 
@@ -229,6 +245,20 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         final ReportStockEvent current=getItem(position);
 
+        if(Double.compare(current.value_before_edited,0) != 0){
+            holder.edited_value.setText("valor editado");
+            holder.edited_value_info.setText("valor anterior "+current.value_before_edited);
+            holder.edited_value_info.setVisibility(View.VISIBLE);
+        }else{
+            holder.edited_value.setText("");
+            holder.edited_value_info.setText("");
+            holder.edited_value_info.setVisibility(View.GONE);
+        }
+
+
+        holder.user_name.setText(current.user_name);
+        holder.time.setText(DateHelper.get().onlyHourMinut(DateHelper.get().getOnlyTime(current.stock_event_created)));
+
         if(current.today_created_client.equals("true")){
             holder.new_client.setVisibility(View.VISIBLE);
         }else{
@@ -238,6 +268,20 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         loadIcon(holder,current.item);
 
         holder.value.setText(ValuesHelper.get().getIntegerQuantityByLei(current.value));
+
+        if(SessionPrefs.get(mContext).getName().equals("santi") || SessionPrefs.get(mContext).getName().equals("lei")){
+
+            if(Double.compare(current.original_price_product,current.value) != 0){
+                holder.value.setTextColor(mContext.getResources().getColor(R.color.loa_red));
+                holder.change_original_price.setText("$ original prod: "+ValuesHelper.get().getIntegerQuantityByLei(current.original_price_product)+" / $ cargado de vta: "+ValuesHelper.get().getIntegerQuantityByLei(current.value));
+                holder.change_original_price.setVisibility(View.VISIBLE);
+
+            }else{
+                holder.value.setTextColor(mContext.getResources().getColor(R.color.price));
+                holder.change_original_price.setVisibility(View.GONE);
+            }
+        }
+
 
         holder.cant_stock_out.setText(String.valueOf(current.stock_out));
 
@@ -251,11 +295,19 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         holder.value_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(SessionPrefs.get(mContext).getName().equals("santi") || SessionPrefs.get(mContext).getName().equals("lei")){
+
+                edithValue(current,position);
+
+               /* if(DateHelper.get().compareDate(current.stock_event_created).equals("mayor")){
                     edithValue(current,position);
                 }else{
-                    Toast.makeText(mContext,"El precio solo lo puede editar el administrador",Toast.LENGTH_LONG).show();
-                }
+
+                    if(SessionPrefs.get(mContext).getName().equals("santi") || SessionPrefs.get(mContext).getName().equals("lei")){
+                        edithValue(current,position);
+                     }else{
+                        Toast.makeText(mContext,"El precio solo lo puede editar el administrador",Toast.LENGTH_LONG).show();
+                     }
+                }*/
             }
         });
 
@@ -350,10 +402,12 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             @Override
             public void onClick(View v) {
                 if(holder.line_edit.getVisibility() == View.GONE){
+                    holder.info_user.setVisibility(View.VISIBLE);
                     holder.line_edit.setVisibility(View.VISIBLE);
                     holder.div.setVisibility(View.GONE);
 
                 }else{
+                    holder.info_user.setVisibility(View.GONE);
                     holder.line_edit.setVisibility(View.GONE);
                     holder.div.setVisibility(View.VISIBLE);
                 }
@@ -397,7 +451,7 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
                 public void onClick(View view) {
                     String valueT=value.getText().toString().trim();
 
-                    ApiClient.get().updateItemStockEventReport(Double.valueOf(valueT), item_date,current.payment_method,
+                    ApiClient.get().updateItemStockEventReport(Double.valueOf(valueT), current.stock_event_created,current.payment_method,
                            current.detail,current.stock_event_id, new GenericCallback<ReportStockEvent>() {
                                 @Override
                                 public void onSuccess(ReportStockEvent data) {
@@ -641,5 +695,30 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
                 }, mYear, mMonth, mDay);
 
         datePickerDialog.show();
+    }
+
+    private String getExpandedDate(){
+
+        String date= DateHelper.get().actualDateExtractions();
+        String time= DateHelper.get().getOnlyTime(date);
+
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            Date date1 = sdf.parse(time);
+            Date date2 = sdf.parse("04:13:00");
+
+            if(date1.compareTo(date2) < 0){
+                System.out.println(date1.compareTo(date2));
+                return DateHelper.get().getPreviousDay(date);
+            }else{
+                return date;
+            }
+
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
     }
 }

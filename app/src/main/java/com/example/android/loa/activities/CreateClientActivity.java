@@ -54,6 +54,7 @@ public class CreateClientActivity extends BaseActivity{
     private String image_path=null;
 
     private LinearLayout home;
+    private LinearLayout save;
 
     @Override
     public int getLayoutRes() {
@@ -66,10 +67,18 @@ public class CreateClientActivity extends BaseActivity{
         //showBackArrow();
 
         home = findViewById(R.id.line_home);
+        save = findViewById(R.id.save);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveClient();
             }
         });
 
@@ -102,6 +111,48 @@ public class CreateClientActivity extends BaseActivity{
                 onSelectImageClick(view);
             }
         });
+
+    }
+
+    private void saveClient(){
+        if(mEmployeeCreator.getSelectedItem().toString().trim().equals("")){
+
+            Toast.makeText(this, "El campo encargado debe estar completo", Toast.LENGTH_LONG).show();
+        }else if(mUserName.getText().toString().trim().equals("")){
+            Toast.makeText(this, "El campo nombre debe estar completo", Toast.LENGTH_LONG).show();
+        }else{
+
+            String name=mUserName.getText().toString().trim();
+            String address=mUserAddress.getText().toString().trim();
+            String phone=mUserPhone.getText().toString().trim();
+            String phone2=mAlternativePhone.getText().toString().trim();
+            String employee=mEmployeeCreator.getSelectedItem().toString().trim();
+
+            String picpath="/uploads/preimpresos/person_color.png";
+            final Client newClient= new Client(name,address,phone,phone2,picpath,0d,employee);
+            newClient.created=DateHelper.get().getActualDate2();
+            if(image_path!=null){
+                try {
+                    newClient.imageData = fileToBase64(image_path);
+                }catch (Exception e){
+                }
+            }
+            final ProgressDialog progress = ProgressDialog.show(this, "Creando cliente",
+                    "Aguarde un momento", true);
+
+            ApiClient.get().postClient(newClient, new GenericCallback<Client>() {
+                @Override
+                public void onSuccess(Client data) {
+                    finish();
+                    progress.dismiss();
+                }
+
+                @Override
+                public void onError(Error error) {
+                    DialogHelper.get().showMessage("Error","Error al crear el usuario",CreateClientActivity.this);
+                }
+            });
+        }
 
     }
 

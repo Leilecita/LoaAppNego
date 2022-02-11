@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.MathHelper;
@@ -27,6 +28,7 @@ import com.example.android.loa.activities.photos.BoxPhotoActivity;
 import com.example.android.loa.activities.photos.BoxPhotoPosnetActivity;
 import com.example.android.loa.activities.todelete.ExtractionsActivity;
 import com.example.android.loa.network.ApiClient;
+import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Box;
@@ -60,6 +62,9 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         public LinearLayout line_photo;
         public CardView photoposnet;
         public CardView photobox;
+        public LinearLayout principal_line;
+        public ImageView vent;
+        public ImageView pos;
 
         public ViewHolder(View v) {
             super(v);
@@ -73,6 +78,9 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
             line_photo = v.findViewById(R.id.line_photos);
             photoposnet = v.findViewById(R.id.photoposnet);
             photobox = v.findViewById(R.id.photobox);
+            principal_line = v.findViewById(R.id.principal_line);
+            vent = v.findViewById(R.id.vent);
+            pos = v.findViewById(R.id.pos);
         }
     }
 
@@ -114,6 +122,18 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
         holder.total_amount.setText(MathHelper.get().getIntegerQuantity(currentBox.total_box));
         holder.rest_box.setText(MathHelper.get().getIntegerQuantity(currentBox.rest_box));
         holder.dep.setText(MathHelper.get().getIntegerQuantity(currentBox.deposit));
+
+        if((currentBox.image_url.equals("/uploads/preimpresos/person_color.png") && currentBox.counted_sale != 0) ||
+                (currentBox.image_url_posnet.equals("/uploads/preimpresos/person_color.png")) && Double.compare(currentBox.credit_card,0) != 0 ){
+            holder.principal_line.setBackgroundColor(mContext.getResources().getColor(R.color.loa_red_background));
+        }else{
+            holder.principal_line.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+        }
+
+
+        Glide.with(mContext).load(ApiUtils.getImageUrl(currentBox.image_url_posnet)).into(holder.pos);
+        Glide.with(mContext).load(ApiUtils.getImageUrl(currentBox.image_url)).into(holder.vent);
+
 
         if (currentBox.rest_box != currentBox.total_box - currentBox.deposit) {
             holder.rest_box.setTextColor(mContext.getResources().getColor(R.color.loa_red));

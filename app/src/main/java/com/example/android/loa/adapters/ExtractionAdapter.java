@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -294,6 +295,8 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
         final TextView date =dialogView.findViewById(R.id.date);
         final TextView type =dialogView.findViewById(R.id.type);
         final TextView detail =dialogView.findViewById(R.id.detail);
+        final EditText other_type =dialogView.findViewById(R.id.other_type);
+        final LinearLayout line_detail =dialogView.findViewById(R.id.line_detail);
 
         final TextView cancel =dialogView.findViewById(R.id.cancel);
         final Button ok =dialogView.findViewById(R.id.ok);
@@ -326,6 +329,10 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 List<String> array=new ArrayList<>();
                 array.add("Detalle");
 
+                type.setVisibility(View.VISIBLE);
+                line_detail.setVisibility(View.VISIBLE);
+                other_type.setVisibility(View.GONE);
+
                 if(itemSelected.equals("Gasto local")){
                     type.setText(spinnerType.getSelectedItem().toString().trim());
                      array=createArrayGastosLocal();
@@ -345,6 +352,11 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
                 }else if(itemSelected.equals("Sueldo")){
                     type.setText(spinnerType.getSelectedItem().toString().trim());
                        array=createArraySueldos();
+                }else if(itemSelected.equals("Otro")){
+                    type.setText(spinnerType.getSelectedItem().toString().trim());
+                    type.setVisibility(View.GONE);
+                    line_detail.setVisibility(View.GONE);
+                    other_type.setVisibility(View.VISIBLE);
                 }
 
                 ArrayAdapter<String> adapter_detail = new ArrayAdapter<String>(mContext,
@@ -435,8 +447,11 @@ public class ExtractionAdapter  extends BaseAdapter<Extraction,ExtractionAdapter
 
                 e.type=type.getText().toString().trim();
                 e.detail=detail.getText().toString().trim();
-               // e.type=spinnerType.getSelectedItem().toString().trim();
                 e.description=description.getText().toString().trim();
+
+                if(e.type.equals("Otro")){
+                    e.detail = other_type.getText().toString().trim();
+                }
 
                 type.setText(e.type);
                 description.setText(e.description);

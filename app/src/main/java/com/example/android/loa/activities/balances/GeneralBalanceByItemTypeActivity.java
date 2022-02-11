@@ -44,11 +44,14 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
 
     private String mItem;
     private String mType;
+    private String mBrand; //nuevo
     private TextView mQuantityGeneralProduct;
     private TextView mItemText;
     private TextView mTypeText;
+    private TextView mBrandText;
 
     private LinearLayout home;
+
 
     @Override
     public int getLayoutRes() {
@@ -86,8 +89,10 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
             }
         });
 
+        mBrand = "";
         mItem=getIntent().getStringExtra("ITEM");
         mType=getIntent().getStringExtra("TYPE");
+        mBrand=getIntent().getStringExtra("BRAND"); //nuevo
 
         mQuantityGeneralProduct = findViewById(R.id.quantity_prod);
         mQuantityGeneralProduct.setText(getIntent().getStringExtra("CANT"));
@@ -97,6 +102,9 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
 
         mTypeText=findViewById(R.id.type_product);
         mTypeText.setText(getIntent().getStringExtra("TYPE"));
+
+        mBrandText=findViewById(R.id.product_brand);
+        mBrandText.setText(getIntent().getStringExtra("BRAND"));
 
         implementsPaginate();
     }
@@ -111,6 +119,8 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
         type.setText(mType);
         final TextView item= dialogView.findViewById(R.id.item);
         item.setText(mItem);
+        final TextView brand= dialogView.findViewById(R.id.brand);
+        item.setText(mBrand);
         final TextView quantity= dialogView.findViewById(R.id.quantity);
         quantity.setText(mQuantityGeneralProduct.getText().toString().trim());
         final EditText stock_real= dialogView.findViewById(R.id.stock);
@@ -159,7 +169,7 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
                 }
 
                 GeneralStock g=new GeneralStock(mItem,mType,Integer.valueOf(mQuantityGeneralProduct.getText().toString().trim()),Integer.valueOf(stockP),resultP,Integer.valueOf(difP));
-
+                g.brand = mBrand;
                 ApiClient.get().postGeneralStockEvent(g, new GenericCallback<GeneralStock>() {
                     @Override
                     public void onSuccess(GeneralStock data) {
@@ -254,8 +264,6 @@ public class GeneralBalanceByItemTypeActivity extends BaseActivity implements Pa
     public boolean hasLoadedAllItems() {
         return !hasMoreItems;
     }
-
-
 
 
 }

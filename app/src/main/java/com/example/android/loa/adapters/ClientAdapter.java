@@ -376,6 +376,7 @@ public class ClientAdapter extends BaseAdapter<Client,ClientAdapter.ViewHolder> 
                             Item_file item=new Item_file(0L,currentClient.getId(),desc,val,0d,"","","","","","false",payment_method,"false");
                             //TODO ver fechas
                             item.created=dateToServer;
+                            item.user_name = SessionPrefs.get(mContext).getName();
 
                             if(currentClient.debt + val == 0){
                                 item.settled="true";

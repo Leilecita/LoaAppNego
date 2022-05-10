@@ -322,8 +322,14 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         balance_buys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(),BuyProductsActivity.class));
-                finish();
+
+                //SOLO SI ES LUCHI
+                if(!SessionPrefs.get(ProductsActivity.this).getName().equals("luchi")){
+                    startActivity(new Intent(getBaseContext(),BuyProductsActivity.class));
+                    finish();
+                }
+                //------------------
+
             }
         });
 
@@ -405,6 +411,13 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
         mItem="Todos";
 
         mModel="Todos";
+
+
+        //SOLO SI ES LUCHI
+        if(SessionPrefs.get(this).getName().equals("luchi")){
+            mItem = "Luz";
+        }
+        //------------------
 
         select_brand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -687,6 +700,12 @@ public class ProductsActivity extends BaseActivity implements Paginate.Callbacks
             auto_model.setText("");
             auto_type.setText("");
         }
+
+        //SOLO SI ES LUCHI
+        if(SessionPrefs.get(this).getName().equals("luchi")){
+            mItem = "Luz";
+        }
+        //------------------
 
         listProdListener();
 

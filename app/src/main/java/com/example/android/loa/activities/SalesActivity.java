@@ -12,6 +12,7 @@ import com.example.android.loa.CustomLoadingListItemCreator;
 import com.example.android.loa.R;
 import com.example.android.loa.adapters.StockEventAdapter;
 import com.example.android.loa.adapters.sales.ReportSaleAdapter;
+import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
@@ -171,82 +172,83 @@ public class SalesActivity extends BaseActivity implements Paginate.Callbacks {
         textAll=bottomSheet.findViewById(R.id.textAll);
 */
 
+        if(!SessionPrefs.get(this).getName().equals("luchi")  ) {
+            all.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Todos";
+                    changeCircleSelected();
+                    all.setImageResource(R.drawable.ball);
+                    //changeViewStyle(textAll);
+                }
+            });
 
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Todos";
-                changeCircleSelected();
-                all.setImageResource(R.drawable.ball);
-                //changeViewStyle(textAll);
-            }
-        });
+            woman.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Dama";
+                    changeCircleSelected();
+                    woman.setImageResource(R.drawable.bwom);
+                    // changeViewStyle(textWoman);
+                }
+            });
+            man.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Hombre";
+                    changeCircleSelected();
+                    man.setImageResource(R.drawable.bman);
+                    //  changeViewStyle(textMan);
+                }
+            });
+            boy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Niño";
+                    changeCircleSelected();
+                    boy.setImageResource(R.drawable.bnin);
+                    //  changeViewStyle(textBoy);
+                }
+            });
+            accesories.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Accesorio";
+                    changeCircleSelected();
+                    accesories.setImageResource(R.drawable.bacc);
+                    //  changeViewStyle(textAcc);
+                }
+            });
+            tecnico.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Tecnico";
+                    changeCircleSelected();
+                    tecnico.setImageResource(R.drawable.btec);
+                    //  changeViewStyle(textTec);
+                }
+            });
 
-        woman.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Dama";
-                changeCircleSelected();
-                woman.setImageResource(R.drawable.bwom);
-                // changeViewStyle(textWoman);
-            }
-        });
-        man.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Hombre";
-                changeCircleSelected();
-                man.setImageResource(R.drawable.bman);
-                //  changeViewStyle(textMan);
-            }
-        });
-        boy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Niño";
-                changeCircleSelected();
-                boy.setImageResource(R.drawable.bnin);
-                //  changeViewStyle(textBoy);
-            }
-        });
-        accesories.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Accesorio";
-                changeCircleSelected();
-                accesories.setImageResource(R.drawable.bacc);
-                //  changeViewStyle(textAcc);
-            }
-        });
-        tecnico.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Tecnico";
-                changeCircleSelected();
-                tecnico.setImageResource(R.drawable.btec);
-                //  changeViewStyle(textTec);
-            }
-        });
+            zapas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Calzado";
+                    changeCircleSelected();
+                    zapas.setImageResource(R.drawable.bcal);
+                    // changeViewStyle(textZap);
+                }
+            });
 
-        zapas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Calzado";
-                changeCircleSelected();
-                zapas.setImageResource(R.drawable.bcal);
-                // changeViewStyle(textZap);
-            }
-        });
-
-        luz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItem="Luz";
-                changeCircleSelected();
-                luz.setImageResource(R.drawable.bluz);
-                // changeViewStyle(textLuz);
-            }
-        });
+            luz.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItem = "Luz";
+                    changeCircleSelected();
+                    luz.setImageResource(R.drawable.bluz);
+                    // changeViewStyle(textLuz);
+                }
+            });
+        }
 
         oferta.setOnClickListener(new View.OnClickListener() {
             @Override

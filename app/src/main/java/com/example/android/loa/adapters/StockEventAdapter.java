@@ -353,6 +353,15 @@ public class StockEventAdapter  extends BaseAdapter<ReportStockEvent, StockEvent
         if (current.client_name != null) {
             holder.value.setText(current.client_name);
         }
+
+
+        if(current.two_payment_method.equals("true")){
+            holder.type.setText("");
+            holder.brand.setText("");
+            holder.model.setText("");
+            holder.cant_stock_out.setText("");
+            System.out.println("entra aca two");
+        }
     }
 
 

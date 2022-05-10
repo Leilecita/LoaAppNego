@@ -118,6 +118,8 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
         public TextView edited_value;
         public TextView edited_value_info;
 
+        public LinearLayout line2;
+
         public ViewHolder(View v){
             super(v);
             //item= v.findViewById(R.id.item);
@@ -159,6 +161,8 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
             change_original_price = v.findViewById(R.id.change_original_price);
             edited_value = v.findViewById(R.id.edited_value);
             edited_value_info = v.findViewById(R.id.edited_value_info);
+
+            line2 = v.findViewById(R.id.line2);
         }
     }
 
@@ -245,6 +249,8 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         final ReportStockEvent current=getItem(position);
 
+        System.out.println(current.detail);
+
         if(Double.compare(current.value_before_edited,0) != 0){
             holder.edited_value.setText("valor editado");
             holder.edited_value_info.setText("valor anterior "+current.value_before_edited);
@@ -285,7 +291,8 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
 
         holder.cant_stock_out.setText(String.valueOf(current.stock_out));
 
-        if(current.detail.equals("Ingreso dev") || current.detail.equals("Suma por error anterior")){
+        if(current.detail.equals("Ingreso dev") || current.detail.equals("Ingreso por cambio") || current.detail.equals("Suma por error anterior")
+        || current.detail.equals("Ingreso por error anterior") || current.detail.equals("Ingreso devolucion falla") ){
             holder.cant_stock_out.setText("+"+current.stock_in);
             holder.value.setVisibility(View.INVISIBLE);
         }else{
@@ -425,6 +432,22 @@ public class ReportStockEventAdapter extends BaseAdapter<ReportStockEvent,Report
                     }
                 });
             }
+        }
+
+        if(current.two_payment_method.equals("true")){
+            holder.type.setVisibility(View.INVISIBLE);
+            holder.brand.setVisibility(View.INVISIBLE);
+            holder.model.setVisibility(View.INVISIBLE);
+            holder.cant_stock_out.setVisibility(View.INVISIBLE);
+            //holder.line2.setVisibility(View.GONE);
+            //holder.div.setVisibility(View.GONE);
+        }else{
+            holder.type.setVisibility(View.VISIBLE);
+            holder.brand.setVisibility(View.VISIBLE);
+            holder.model.setVisibility(View.VISIBLE);
+            holder.cant_stock_out.setVisibility(View.VISIBLE);
+            //holder.line2.setVisibility(View.VISIBLE);
+            //holder.div.setVisibility(View.VISIBLE);
         }
     }
 

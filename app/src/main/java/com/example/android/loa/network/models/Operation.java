@@ -20,6 +20,8 @@ public class Operation {
 
     public Long client_id;
 
+    public String user_name;
+
 
     public Operation(String name, String description, Double value,Double previous_balance, String created, Long item_file_id,String obs,String settled
     ,String product_kind,String brand, String size, String code,Long client_id,String product_type, String product_model){

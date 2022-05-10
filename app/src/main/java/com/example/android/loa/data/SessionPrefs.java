@@ -9,6 +9,7 @@ import com.example.android.loa.network.models.User;
 public class SessionPrefs {
     public static final String PREFS_NAME = "LOGIN_PREFS";
     public static final String PREF_USER_NAME = "PREF_USER_NAME";
+    public static final String PREF_USER_CATEGORY= "PREF_USER_CATEGORY";
     public static final String PREF_USER_MAIL = "PREF_USER_MAIL";
     public static final String PREF_USER_PHONE = "PREF_USER_PHONE";
     public static final String PREF_USER_TOKEN = "PREF_USER_TOKEN";
@@ -69,11 +70,21 @@ public class SessionPrefs {
         return mPrefs.getString(PREF_USER_NAME, null);
     }
 
+    public String getCategory(){
+        return mPrefs.getString(PREF_USER_CATEGORY, null);
+    }
+
     public void setToken(String token){
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putString(PREF_USER_TOKEN, token);
         editor.apply();
         mIsLoggedIn=true;
+    }
+
+    public void setCategory(String cat){
+        SharedPreferences.Editor editor = mPrefs.edit();
+        editor.putString(PREF_USER_CATEGORY, cat);
+        editor.apply();
     }
 
     public void setName(String token){

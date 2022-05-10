@@ -19,6 +19,7 @@ public class Item_file {
     public String created;
     public String retired_product;
     public String balance;
+    public String user_name;
 
     public Item_file(){}
 

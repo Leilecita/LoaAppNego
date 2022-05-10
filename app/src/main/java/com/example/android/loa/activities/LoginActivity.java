@@ -147,7 +147,6 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
             String name=mUserIdView.getText().toString().trim();
             String hpassword=mPasswordView.getText().toString().trim();
 
-
             ApiClient.get().login(name, hpassword, new GenericCallback<UserToken>() {
                 @Override
                 public void onSuccess(UserToken data) {
@@ -158,6 +157,8 @@ public class LoginActivity extends BaseActivity implements LoaderManager.LoaderC
                     Toast.makeText(getBaseContext(),"el usuario ha iniciado sesion"+data.token, Toast.LENGTH_SHORT).show();
                     SessionPrefs.get(LoginActivity.this).setToken(data.token);
                     SessionPrefs.get(LoginActivity.this).setName(data.name);
+
+                    SessionPrefs.get(LoginActivity.this).setCategory(data.category);
                 }
 
                 @Override

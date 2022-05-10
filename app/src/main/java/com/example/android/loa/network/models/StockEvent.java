@@ -23,6 +23,7 @@ public class StockEvent {
     public String user_name;
 
     public Double original_price_product;
+    public String two_payment_method;
 
     public StockEvent(Long product_id,Integer stock_in, Integer stock_out,Integer stock_ant,String detail,Double value,String payment_method,String obs, String user_name,
                       Double original_price_product){

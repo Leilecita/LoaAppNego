@@ -138,6 +138,27 @@ public class DateHelper {
         return "dd/MM/yyyy";
     }
 
+    public String getOneSecondMore(String date) {
+        try {
+
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format1.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date1 = format1.parse(date);
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(date1);
+            c.add(Calendar.SECOND, 1);
+            date1 = c.getTime();
+
+            return format1.format(date1);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "dd/MM/yyyy";
+    }
+
     public String getActualDateEmployee() {
         Calendar cal = Calendar.getInstance();
         Date currentDate = cal.getTime();

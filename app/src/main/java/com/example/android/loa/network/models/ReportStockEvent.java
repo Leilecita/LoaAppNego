@@ -22,6 +22,7 @@ public class ReportStockEvent {
 
     public Double original_price_product;
     public Double value_before_edited;
+    public String two_payment_method;
 
     public ReportStockEvent(){}
 }

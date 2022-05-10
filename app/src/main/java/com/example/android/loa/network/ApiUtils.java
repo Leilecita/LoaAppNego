@@ -4,11 +4,11 @@ public class ApiUtils {
     private ApiUtils() {}
 
     //loa dev es la que esta acitva
-     public static final String BASE_URL = "http://loadev.abarbieri.com.ar/";
+    // public static final String BASE_URL = "http://loadev.abarbieri.com.ar/";
 
     //public static final String BASE_URL = "http://192.168.43.112/loaserver/";
-    //public static final String BASE_URL = "http://192.168.0.36/loaserver/";
-    //public static final String BASE_URL = "http://192.168.88.14/loaserver/";
+    public static final String BASE_URL = "http://192.168.0.36/loaserver/";
+    //public static final String BASE_URL = "http://192.168.88.5/loaserver/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);

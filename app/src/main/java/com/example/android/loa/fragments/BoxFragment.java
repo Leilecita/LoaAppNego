@@ -32,6 +32,7 @@ import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Events.RefreshBoxesEvent;
 import com.example.android.loa.R;
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.activities.todelete.BoxActivity;
 import com.example.android.loa.activities.CreateBoxActivity;
 import com.example.android.loa.adapters.BoxAdapter;
@@ -103,6 +104,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     private String mDateSince="";
     private String mDateTo="";
 
+    private TextView date;
 
     private static final int CREATE_BOX_REQUEST_CODE=2020;
 
@@ -156,6 +158,7 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         tot_dep=mRootView.findViewById(R.id.tot_dep);
         tot_extr=mRootView.findViewById(R.id.tot_rest_box);
         tot_total_box=mRootView.findViewById(R.id.tot_total_amount);
+        date = mRootView.findViewById(R.id.date);
 
         //box by period
         mRecyclerViewPeriod= mRootView.findViewById(R.id.list_box_period);
@@ -209,12 +212,13 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
         ApiClient.get().getAmountByPeriod(since, to, new GenericCallback<ReportSumByPeriodBox>() {
             @Override
             public void onSuccess(ReportSumByPeriodBox data) {
-                tot_ctdo.setText(String.valueOf(data.tot_ctdo));
-                tot_card.setText(String.valueOf(data.tot_card));
-                tot_total_box.setText(String.valueOf(data.tot_box));
 
-                tot_dep.setText(String.valueOf(data.tot_dep));
-                tot_extr.setText(String.valueOf(data.tot_rest_box));
+                tot_ctdo.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_ctdo));
+                tot_card.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_card));
+                tot_total_box.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_box));
+
+                tot_dep.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_dep));
+                tot_extr.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_rest_box));
             }
 
             @Override
@@ -422,12 +426,15 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
     public void onLoadMore() {
         if(mSelectedView.equals("dia")){
             line_period_tot.setVisibility(View.GONE);
+            date.setVisibility(View.VISIBLE);
             listBoxes();
         }else if(mSelectedView.equals("mes")){
             line_period_tot.setVisibility(View.GONE);
+            date.setVisibility(View.VISIBLE);
             listByMonth();
         }else{
             line_period_tot.setVisibility(View.VISIBLE);
+            date.setVisibility(View.GONE);
             listBoxesByPeriod();
         }
     }
@@ -610,6 +617,8 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
                 rest_box.setVisibility(View.VISIBLE);
 
                 mAdapterPeriod.getList().clear();
+
+                date.setVisibility(View.GONE);
 
                 implementsPaginate();
 

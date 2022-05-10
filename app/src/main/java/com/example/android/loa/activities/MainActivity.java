@@ -56,55 +56,64 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_incomes) {
-            startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
-        } else if (id == R.id.nav_movements) {
-            startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
-        } else if (id == R.id.nav_billing) {
-            startActivity(new Intent(getBaseContext(), ParallelBillingActiviy.class));
-        }else if (id == R.id.nav_prices) {
-            startActivity(new Intent(getBaseContext(), PriceEventsActivity.class));
-        } else if (id == R.id.nav_events) {
-            startHistoryEventsActivity();
-        } else if (id == R.id.nav_price_manager) {
-            startActivity(new Intent(getBaseContext(), PriceManagerActivity.class));
-        } else if (id == R.id.nav_movements_santi) {
-            if(SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei")){
-                startSantiMoneyMovement();
-            }else{
-                Toast.makeText(this,"Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
-            }
-        }else if( id == R.id.nav_session){
-            signOut();
-        }if (id == R.id.nav_buy) {
-            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-            i.putExtra("NAMEFRAGMENT", "compras");
-            startActivity(i);
-        }else if( id == R.id.nav_list_boxes){
-            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-            i.putExtra("NAMEFRAGMENT", "box");
-            startActivity(i);
-        }else if( id == R.id.nav_extractions){
+        if(!SessionPrefs.get(this).getName().equals("luchi")) {
 
-            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-            i.putExtra("NAMEFRAGMENT", "extractions");
-            startActivity(i);
-        }else if( id == R.id.nav_sales){
-            Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-            i.putExtra("NAMEFRAGMENT", "lei");
-            startActivity(i);
-        }else if( id == R.id.nav_debts){
-            startActivity(new Intent(getBaseContext(),ClientsActivity.class));
-        }else if( id == R.id.nav_personal){
-            startActivity(new Intent(getBaseContext(),EmployeesActivity.class));
-        }else if( id == R.id.nav_statistics){
-            startActivity(new Intent(getBaseContext(),StatisticsActivity.class));
-        }else if( id == R.id.nav_productos){
-            startActivity(new Intent(getBaseContext(),ProductsActivity.class));
-        }else if( id == R.id.nav_buys_balance){
-            startActivity(new Intent(getBaseContext(),BuyProductsActivity.class));
-        }else if( id == R.id.nav_buy_billings){
-            startActivity(new Intent(getBaseContext(), BuyBillingsActivity.class));
+            if (id == R.id.nav_incomes) {
+                startActivity(new Intent(getBaseContext(), IncomesListActivity.class));
+            } else if (id == R.id.nav_movements) {
+                startActivity(new Intent(getBaseContext(), StockMovementsListActivity.class));
+            } else if (id == R.id.nav_billing) {
+                startActivity(new Intent(getBaseContext(), ParallelBillingActiviy.class));
+            } else if (id == R.id.nav_prices) {
+                startActivity(new Intent(getBaseContext(), PriceEventsActivity.class));
+            } else if (id == R.id.nav_events) {
+                startHistoryEventsActivity();
+            } else if (id == R.id.nav_price_manager) {
+                startActivity(new Intent(getBaseContext(), PriceManagerActivity.class));
+            } else if (id == R.id.nav_movements_santi) {
+                if (SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei")) {
+                    startSantiMoneyMovement();
+                } else {
+                    Toast.makeText(this, "Debe loguearse como administrador", Toast.LENGTH_SHORT).show();
+                }
+            } else if (id == R.id.nav_session) {
+                signOut();
+            }
+            if (id == R.id.nav_buy) {
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "compras");
+                startActivity(i);
+            } else if (id == R.id.nav_list_boxes) {
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "box");
+                startActivity(i);
+            } else if (id == R.id.nav_extractions) {
+
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "extractions");
+                startActivity(i);
+            } else if (id == R.id.nav_sales) {
+                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                i.putExtra("NAMEFRAGMENT", "lei");
+                startActivity(i);
+            } else if (id == R.id.nav_debts) {
+                startActivity(new Intent(getBaseContext(), ClientsActivity.class));
+            } else if (id == R.id.nav_personal) {
+                startActivity(new Intent(getBaseContext(), EmployeesActivity.class));
+            } else if (id == R.id.nav_statistics) {
+                startActivity(new Intent(getBaseContext(), StatisticsActivity.class));
+            } else if (id == R.id.nav_productos) {
+                startActivity(new Intent(getBaseContext(), ProductsActivity.class));
+            } else if (id == R.id.nav_buys_balance) {
+                startActivity(new Intent(getBaseContext(), BuyProductsActivity.class));
+            } else if (id == R.id.nav_buy_billings) {
+                startActivity(new Intent(getBaseContext(), BuyBillingsActivity.class));
+            }
+
+        }
+
+        if (id == R.id.nav_session) {
+            signOut();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -208,64 +217,76 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         statistics=findViewById(R.id.statistics);
         buys=findViewById(R.id.compras);
 
-        extractions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-                i.putExtra("NAMEFRAGMENT", "extractions");
-                startActivity(i);
-            }
-        });
 
-        listBoxes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-                i.putExtra("NAMEFRAGMENT", "box");
-                startActivity(i);
-            }
-        });
+        // para que no vea luchi
+        if(!SessionPrefs.get(this).getName().equals("luchi")  ){
 
-        box.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
-                i.putExtra("NAMEFRAGMENT", "lei");
-                startActivity(i);
-            }
-        });
+            listBoxes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                    i.putExtra("NAMEFRAGMENT", "box");
+                    startActivity(i);
+                }
+            });
+
+            box.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                    i.putExtra("NAMEFRAGMENT", "lei");
+                    startActivity(i);
+                }
+            });
+
+            extractions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getBaseContext(), BoxMovementsActivity.class);
+                    i.putExtra("NAMEFRAGMENT", "extractions");
+                    startActivity(i);
+                }
+            });
+
+            clients.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getBaseContext(),ClientsActivity.class));
+                }
+            });
+
+            statistics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getBaseContext(), StatisticsActivity.class));
+                }
+            });
+
+            buys.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getBaseContext(), BuyProductsActivity.class));
+                }
+            });
+
+            hours.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getBaseContext(),EmployeesActivity.class));
+                }
+            });
+
+        }
+
+
         products.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(),ProductsActivity.class));
             }
         });
-        hours.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(),EmployeesActivity.class));
-            }
-        });
-        clients.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(),ClientsActivity.class));
-            }
-        });
 
-        statistics.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), StatisticsActivity.class));
-            }
-        });
 
-        buys.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), BuyProductsActivity.class));
-            }
-        });
     }
 
     @Override

@@ -453,7 +453,7 @@
                     android:textColor="@color/colorPrimaryDarkLetter"
                     android:background="@drawable/rec_in_products"
                     android:layout_width="match_parent"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.1"
                     android:layout_height="35dp"
                     android:gravity="center_vertical"
                     android:hint=""
@@ -463,7 +463,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_weight="1.4"
+                    android:layout_weight="1.3"
                     style="@style/CodeFontInput"
                     android:background="@drawable/rec_in_products"
                     android:layout_marginLeft="25dp"
@@ -491,6 +491,39 @@
                         android:hint=" cant"
                         android:inputType="number"
                         android:id="@+id/load_stock"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1.4"
+                    style="@style/CodeFontInput"
+                    android:background="@drawable/rec_in_products"
+                    android:id="@+id/line_product_price"
+                    android:layout_height="35dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ "
+                        android:textSize="@dimen/general_text"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <EditText
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:textSize="@dimen/general_text"
+                        android:text=""
+                        android:fontFamily="@font/opensanslight"
+                        android:background="@null"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+
+                        android:inputType="numberDecimal"
+                        android:id="@+id/new_product_price"/>
+
 
                 </LinearLayout>
 
@@ -532,30 +565,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_marginTop="12dp"
 
-                android:layout_height="wrap_content">
-
-                <EditText
-                    style="@style/CodeFontInput"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/observation"
-                    android:paddingLeft="8dp"
-                    android:fontFamily="@font/opensanslight"
-                    android:textColor="@color/colorPrimaryDarkLetter"
-                    android:background="@drawable/rec_in_products"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="35dp"
-                    android:gravity="center_vertical"
-                    android:hint="Observacion"
-                    />
-
-
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -574,6 +584,9 @@
                     android:layout_width="match_parent"
                     android:orientation="horizontal"
                     android:layout_height="wrap_content">
+
+
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -722,10 +735,297 @@
 
                     </LinearLayout>
 
+
+
                 </LinearLayout>
 
 
             </HorizontalScrollView>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="16dp"
+
+                android:layout_height="wrap_content">
+
+                <EditText
+                    style="@style/CodeFontInput"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/observation"
+                    android:paddingLeft="8dp"
+                    android:fontFamily="@font/opensanslight"
+                    android:textColor="@color/colorPrimaryDarkLetter"
+                    android:background="@drawable/rec_in_products"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    android:hint="Observacion"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:id="@+id/line_2_pagos"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:layout_width="wrap_content"
+                        android:id="@+id/check_2_pagos"
+                        android:layout_height="wrap_content"
+                        android:scaleX="1.2"
+                        android:scaleY="1.2"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="16dp"
+                        android:buttonTint="@color/colorPrimaryClear"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:text="Doble forma de pago"
+                        android:gravity="center"
+                        android:layout_marginLeft="6dp"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:id="@+id/select_payment_method_2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:textColor="@color/colorPrimaryDarkLetter"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="35dp"
+                        android:gravity="center_vertical"
+                        android:text="Ingresar 2do método de pago"
+                        />
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="2.7"
+                        style="@style/CodeFontInput"
+                        android:background="@drawable/rec_in_products"
+                        android:layout_height="35dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$ "
+                            android:textSize="@dimen/general_text"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+                            android:layout_gravity="center_vertical"
+                            />
+
+                        <EditText
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:textSize="@dimen/general_text"
+                            android:text=""
+                            android:fontFamily="@font/opensanslight"
+                            android:background="@null"
+                            android:textColor="@color/colorPrimaryDarkLetter"
+
+                            android:inputType="numberDecimal"
+                            android:id="@+id/value_2"/>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_ef_2"
+                                android:layout_height="wrap_content"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_gravity="center"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Efectivo"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+                                android:textSize="16sp"
+
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_deb_2"
+                                android:layout_height="wrap_content"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Débito"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+                                android:textSize="16sp"
+
+                                />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_card_2"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Tarjeta"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+
+                                android:textSize="16sp"
+
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_trans_2"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Transferencia"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+
+                                android:textSize="16sp"
+
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                android:layout_width="wrap_content"
+                                android:id="@+id/check_merc_2"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:scaleX="1.2"
+                                android:scaleY="1.2"
+                                android:layout_marginLeft="16dp"
+                                android:buttonTint="@color/colorPrimaryClear"
+
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimaryDarkLetter"
+                                android:text="Mercado pago"
+                                android:gravity="center"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center"
+
+                                android:textSize="16sp"
+
+                                />
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+                </HorizontalScrollView>
 
 
             </LinearLayout>

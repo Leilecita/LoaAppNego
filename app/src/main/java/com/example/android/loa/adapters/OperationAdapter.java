@@ -72,6 +72,11 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
         public LinearLayout text_color;
         public LinearLayout item_layout;
 
+        public LinearLayout info_user;
+        public ImageView image_user;
+        public TextView user_name;
+        public TextView time;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -86,6 +91,11 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             item_layout = v.findViewById(R.id.item_layout);
             product_model = v.findViewById(R.id.product_model);
             product_type = v.findViewById(R.id.product_type);
+
+            info_user = v.findViewById(R.id.info_user);
+            image_user = v.findViewById(R.id.image_user);
+            user_name = v.findViewById(R.id.user_name);
+            time = v.findViewById(R.id.time);
 
         }
     }
@@ -142,6 +152,10 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
             holder.tot.setTextColor(mContext.getResources().getColor(R.color.loa_green));
         }
 
+        holder.user_name.setText(currentOperation.user_name);
+        holder.time.setText(currentOperation.created);
+        holder.image_user.setColorFilter(mContext.getResources().getColor(R.color.word));
+
         holder.product_type.setText(currentOperation.product_type);
         holder.product_model.setText(currentOperation.product_model);
 
@@ -169,6 +183,18 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
 
         }
         holder.description.setText(checkEmpty(currentOperation.description));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.info_user.getVisibility() == View.GONE) {
+                    holder.info_user.setVisibility(View.VISIBLE);
+
+                } else {
+                    holder.info_user.setVisibility(View.GONE);
+                }
+            }
+        });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -209,6 +235,12 @@ public class OperationAdapter extends  BaseAdapter<Operation,OperationAdapter.Vi
                 TextView date=  dialogView.findViewById(R.id.obs_date);
                 TextView obs=  dialogView.findViewById(R.id.observation);
                 obs.setText(currentOperation.observation);
+
+
+                ImageView image_user = dialogView.findViewById(R.id.image_user);
+                TextView user_name = dialogView.findViewById(R.id.user_name);
+                user_name.setText(currentOperation.user_name);
+                image_user.setColorFilter(mContext.getResources().getColor(R.color.word));
 
                 TextView payment_method=  dialogView.findViewById(R.id.payment_method);
                 payment_method.setText(currentOperation.payment_method);

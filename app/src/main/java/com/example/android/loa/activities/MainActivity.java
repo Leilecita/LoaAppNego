@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             } else if (id == R.id.nav_price_manager) {
                 startActivity(new Intent(getBaseContext(), PriceManagerActivity.class));
             } else if (id == R.id.nav_movements_santi) {
-                if (SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei")) {
+                if (SessionPrefs.get(this).getName().equals("santi") || SessionPrefs.get(this).getName().equals("lei") || SessionPrefs.get(this).getName().equals("leila")) {
                     startSantiMoneyMovement();
                 } else {
                     Toast.makeText(this, "Debe loguearse como administrador", Toast.LENGTH_SHORT).show();

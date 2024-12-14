@@ -88,7 +88,10 @@ public class FilterAdapter extends BaseAdapter<FilterType,FilterAdapter.ViewHold
 
         holder.selected.setVisibility(View.GONE);
 
-        holder.firstLetter.setText(String.valueOf(current.type.charAt(0)));
+        if(current.type.length() > 0){
+            holder.firstLetter.setText(String.valueOf(current.type.charAt(0)));
+        }
+
         holder.name.setText(current.type);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

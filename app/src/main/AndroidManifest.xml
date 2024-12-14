@@ -206,7 +206,6 @@
             />
         <activity
             android:name=".activities.StudentsListActivity"
-            android:screenOrientation="portrait"
             android:parentActivityName=".activities.MainActivity"
             />
         <activity

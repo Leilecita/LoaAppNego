@@ -183,7 +183,7 @@ public class StudentsListActivity extends BaseActivity implements Paginate.Callb
         hasMoreItems=true;
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         if(!isLoading()) {
@@ -191,7 +191,7 @@ public class StudentsListActivity extends BaseActivity implements Paginate.Callb
             mAdapter.clear();
             hasMoreItems=true;
         }
-    }
+    } */
 
     public void listClients(final String query){
         loadingInProgress=true;
@@ -203,8 +203,6 @@ public class StudentsListActivity extends BaseActivity implements Paginate.Callb
             @Override
             public void onSuccess(List<Student> data) {
                 if(token.equals(newToken)){
-                    Log.e("TOKEN", "Llega token: " + newToken);
-                    System.out.println("IMPRIME"+mCurrentPage+" data size "+data.size());
                     if (query == mQuery) {
 
                         if (data.size() == 0) {
@@ -226,7 +224,6 @@ public class StudentsListActivity extends BaseActivity implements Paginate.Callb
 
             @Override
             public void onError(Error error) {
-                System.out.println("error"+error.message);
                 loadingInProgress = false;
             }
         });

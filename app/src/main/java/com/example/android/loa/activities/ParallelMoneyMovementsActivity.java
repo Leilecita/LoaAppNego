@@ -64,6 +64,8 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
     private RecyclerView mGridRecyclerViewItem;
     private RecyclerView.LayoutManager gridlayoutmanagerItem;
 
+    private FilterAdapter mGridFilterDescriptionsAdapter;
+
 
     //pagination
     private boolean loadingInProgress;
@@ -153,6 +155,10 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
             }
         });
 
+        //autocomplet description
+        mGridFilterDescriptionsAdapter = new FilterAdapter(this, new ArrayList<FilterType>());
+        //listFiltersDescriptions();
+
         bottomSheet = this.findViewById(R.id.bottomSheet);
         final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
 
@@ -190,11 +196,42 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         });
     }
 
+    private void listFiltersDescriptions(String itemselected, final AutoCompleteTextView description2){
+
+        ApiClient.get().getDescriptionsMoneyMovements(itemselected, new GenericCallback<List<FilterType>>() {
+            @Override
+            public void onSuccess(List<FilterType> data) {
+                //FilterType s=new FilterType(MoneyMovementType.ALL.getName());
+                //data.add(0,s);
+
+                mGridFilterDescriptionsAdapter.setItems(data);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(ParallelMoneyMovementsActivity.this,android.R.layout.select_dialog_item,getListFromFIltersDescriptions());
+                description2.setThreshold(0);
+                description2.setAdapter(adapter2);
+                description2.setTextColor(ParallelMoneyMovementsActivity.this.getResources().getColor(R.color.word));
+                description2.showDropDown();
+            }
+
+            @Override
+            public void onError(Error error) {
+
+            }
+        });
+    }
+
     public ArrayList<String> getListFromFIlters(){
         ArrayList<String> s=new ArrayList<>();
         s.add("Vacia");
         for(int i =0;i<mGridFilterAdapter.getList().size();++i){
             s.add(mGridFilterAdapter.getList().get(i).type);
+        }
+        return s;
+    }
+
+    public ArrayList<String> getListFromFIltersDescriptions(){
+        ArrayList<String> s=new ArrayList<>();
+        for(int i =0;i<mGridFilterDescriptionsAdapter.getList().size();++i){
+            s.add(mGridFilterDescriptionsAdapter.getList().get(i).type);
         }
         return s;
     }
@@ -336,12 +373,13 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
 
     private void createMovement(){
         AlertDialog.Builder builder = new AlertDialog.Builder(ParallelMoneyMovementsActivity.this);
-        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater)ParallelMoneyMovementsActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.cuad_add_money_movement, null);
         builder.setView(dialogView);
 
         final TextView description=  dialogView.findViewById(R.id.description);
         final AutoCompleteTextView other_type=  dialogView.findViewById(R.id.other_type);
+        final AutoCompleteTextView description2=  dialogView.findViewById(R.id.description2);
         final Spinner spinnerType=  dialogView.findViewById(R.id.spinner_type1);
         final Spinner spinnerDetail=  dialogView.findViewById(R.id.spinner_detail);
         final LinearLayout line_detail=  dialogView.findViewById(R.id.line_detail);
@@ -351,6 +389,14 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         other_type.setThreshold(1);
         other_type.setAdapter(adapter);
         other_type.setTextColor(this.getResources().getColor(R.color.word));
+
+        //descriptions
+       // ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,android.R.layout.select_dialog_item,getListFromFIltersDescriptions());
+
+        //description2.setThreshold(0);
+        //description2.setAdapter(adapter2);
+        //description2.setTextColor(this.getResources().getColor(R.color.word));
+
 
         final TextView date=  dialogView.findViewById(R.id.date);
         final TextView value=  dialogView.findViewById(R.id.value);
@@ -396,6 +442,7 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
         adapter_detail.setDropDownViewResource(R.layout.spinner_item);
         spinnerDetail.setAdapter(adapter_detail);
 
+
         //SPINNER TYPE
         List<String> spinner_type = new ArrayList<>();
         enumNameToStringArray(MoneyMovementType.values(),spinner_type);
@@ -409,6 +456,23 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String itemSelected=String.valueOf(spinnerType.getSelectedItem());
+
+                if(itemSelected.equals(Constants.MONEY_SANTI_PAGO_MIOS) || itemSelected.equals(Constants.MONEY_SANTI_PAGO_MERCADERIA)){
+
+
+                  /*  ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(ParallelMoneyMovementsActivity.this,android.R.layout.select_dialog_item,getListFromFIltersDescriptions());
+                    description2.setThreshold(0);
+                    description2.setAdapter(adapter2);
+                    description2.setTextColor(ParallelMoneyMovementsActivity.this.getResources().getColor(R.color.word));*/
+
+                    listFiltersDescriptions(itemSelected, description2);
+
+                    description2.setVisibility(View.VISIBLE);
+                    description.setVisibility(View.GONE);
+                }else{
+                    description2.setVisibility(View.GONE);
+                    description.setVisibility(View.VISIBLE);
+                }
 
                 if(itemSelected.equals("Otro")){
                     other_type.setVisibility(View.VISIBLE);
@@ -443,7 +507,13 @@ public class ParallelMoneyMovementsActivity extends BaseActivity implements Pagi
                 if(type.equals("Otro")){
                     type=other_type.getText().toString().trim();
                 }
+
                 String descr=description.getText().toString().trim();
+
+                if(type.equals(Constants.MONEY_SANTI_PAGO_MIOS) || type.equals(Constants.MONEY_SANTI_PAGO_MERCADERIA)){
+                    descr = description2.getText().toString().trim();
+                }
+
 
                 String detail=String.valueOf(spinnerDetail.getSelectedItem());
                 if(detail.equals("Detalle")){

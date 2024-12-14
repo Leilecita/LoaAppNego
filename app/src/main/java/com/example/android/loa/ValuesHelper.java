@@ -34,7 +34,32 @@ public class ValuesHelper {
         }else{
             return String.valueOf(val);
         }
+    }
 
+    public String roundInteger(Double val){
+
+        String[] parts = String.valueOf(val).split("\\.");
+        String lastTwoDigits= "";
+
+        String number = parts[0];
+
+        if(number.length() > 2){
+            lastTwoDigits = number.substring(number.length() - 2);
+
+            Double doubleValLastTwoDigits = Double.valueOf(lastTwoDigits);
+
+            if(doubleValLastTwoDigits == 50d){
+                return String.valueOf(val);
+            }
+
+            if(doubleValLastTwoDigits > 49d){
+                return String.valueOf(val - doubleValLastTwoDigits + 100);
+            }else{
+                return String.valueOf(val - doubleValLastTwoDigits);
+            }
+        }
+
+        return String.valueOf(val);
     }
 
     public String getIntegerQuantity(Double val){

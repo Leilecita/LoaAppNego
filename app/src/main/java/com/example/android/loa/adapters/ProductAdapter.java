@@ -40,6 +40,7 @@ import com.example.android.loa.Interfaces.OnChangeViewStock;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.activities.BoxMovementsActivity;
+import com.example.android.loa.activities.ProductsActivity;
 import com.example.android.loa.activities.balances.BalanceActivity;
 import com.example.android.loa.activities.SalesActivity;
 import com.example.android.loa.data.SessionPrefs;
@@ -532,25 +533,39 @@ public class ProductAdapter extends BaseAdapter<Product,ProductAdapter.ViewHolde
                 edithProductPrice(p,position,holder);
             }
         });
+
+
         holder.less_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.balance.setVisibility(View.GONE);
-                holder.edith.setVisibility(View.GONE);
-                holder.updateStock.setVisibility(View.VISIBLE);
-                lessStock(p,position,holder);
+
+                if(!SessionPrefs.get(mContext).getName().equals("luchi")) {
+                    holder.balance.setVisibility(View.GONE);
+                    holder.edith.setVisibility(View.GONE);
+                    holder.updateStock.setVisibility(View.VISIBLE);
+                    lessStock(p, position, holder);
+                }else{
+                    Toast.makeText(mContext,"Estas acciones solo se realizan desde usuario administrador", Toast.LENGTH_LONG).show();
+                }
             }
         });
+
 
         holder.add_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.balance.setVisibility(View.GONE);
-                holder.edith.setVisibility(View.GONE);
-                holder.updateStock.setVisibility(View.VISIBLE);
-                loadStock(p,position,holder);
+                if(!SessionPrefs.get(mContext).getName().equals("luchi")) {
+                    holder.balance.setVisibility(View.GONE);
+                    holder.edith.setVisibility(View.GONE);
+                    holder.updateStock.setVisibility(View.VISIBLE);
+                    loadStock(p, position, holder);
+                }else{
+                    Toast.makeText(mContext,"Estas acciones solo se realizan desde usuario administrador", Toast.LENGTH_LONG).show();
+                }
             }
         });
+
+
 
     }
 

@@ -108,6 +108,9 @@ public class PriceManagerActivity extends BaseActivity implements Paginate.Callb
 
     private LinearLayout home;
 
+    private String stockcero;
+    private TextView text_stock_cero;
+
     @Override
     public int getLayoutRes() {
         return R.layout.activity_price_product;
@@ -163,6 +166,24 @@ public class PriceManagerActivity extends BaseActivity implements Paginate.Callb
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        this.stockcero = "true";
+
+        text_stock_cero = findViewById(R.id.stockcero);
+        text_stock_cero.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(stockcero.equals("true")){
+                    stockcero = "false";
+                    text_stock_cero.setText("con stock 0");
+                }else{
+                    stockcero = "true";
+                    text_stock_cero.setText("sin stock 0");
+                }
+
+                clearAndList();
             }
         });
 
@@ -481,7 +502,7 @@ public class PriceManagerActivity extends BaseActivity implements Paginate.Callb
     public void list2(){
         loadingInProgress=true;
 
-        ApiClient.get().getProductsByPageByItemByBrandAndTypePriceManager(mCurrentPage, mItem, mBrand, mType,mModel,"false", new GenericCallback<List<ReportProduct>>() {
+        ApiClient.get().getProductsByPageByItemByBrandAndTypePriceManager(mCurrentPage, mItem, mBrand, mType,mModel,"false", stockcero, new GenericCallback<List<ReportProduct>>() {
             @Override
             public void onSuccess(List<ReportProduct> data) {
                 if (data.size() == 0) {

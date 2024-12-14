@@ -498,7 +498,6 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                    loadDataItemEmployee();
                }else{
                    cleanDataItemEmploye();
-
                }
            }
            @Override

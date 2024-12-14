@@ -122,6 +122,21 @@
         </LinearLayout>
 
 
+        <AutoCompleteTextView
+            android:id="@+id/description2"
+            android:layout_height="33dp"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:paddingLeft="8dp"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="match_parent"
+            android:hint="Descripción santi"
+            android:textColor="@color/colorPrimaryDarkLetter"
+            android:textSize="@dimen/general_text"
+            android:fontFamily="@font/opensanslight"
+            android:background="@drawable/rec_text_edit"
+            android:inputType="textCapWords" />
 
 
         <EditText
@@ -132,7 +147,7 @@
             android:paddingLeft="8dp"
             style="@style/Widget.Design.TextInputLayout"
             android:layout_width="match_parent"
-            android:hint="Descripcion"
+            android:hint="Descripción"
             android:textColor="@color/colorPrimaryDarkLetter"
             android:textSize="@dimen/general_text"
             android:fontFamily="@font/opensanslight"

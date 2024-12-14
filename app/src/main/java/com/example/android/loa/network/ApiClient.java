@@ -298,8 +298,8 @@ public class ApiClient {
         handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndType("getProducts2",page,item,brand,type,model,deleted, query, group, stockcero), callback);
     }
 
-    public void getProductsByPageByItemByBrandAndTypePriceManager( Integer page,String item,String brand,String type,String model,String deleted,final GenericCallback<List<ReportProduct>> callback ){
-        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndTypePriceManager("getProductsWithPreviousPrices",page,item,brand,type,model,deleted), callback);
+    public void getProductsByPageByItemByBrandAndTypePriceManager( Integer page,String item,String brand,String type,String model,String deleted, String stockcero,final GenericCallback<List<ReportProduct>> callback ){
+        handleRequest( ApiUtils.getAPISessionService().getProductsByPageByItemByBrandAndTypePriceManager("getProductsWithPreviousPrices",page,item,brand,type,model,deleted, stockcero), callback);
     }
 
     public void getProductsByItemType(String item,String type,final GenericCallback<List<Product>> callback ){
@@ -347,6 +347,10 @@ public class ApiClient {
 
     public void getTypesBilling(  GenericCallback<List<FilterType>> callback){
         handleRequest( ApiUtils.getAPISessionService().getTypesBilling("getDistinctTypes"), callback);
+    }
+
+    public void getDescriptionsMoneyMovements( String type, GenericCallback<List<FilterType>> callback){
+        handleRequest( ApiUtils.getAPISessionService().getDescriptionsMoneyMovements("getDistinctDescriptions", type), callback);
     }
 
     public void getSumStockByFilterProducts( String item, String brand,String type2,String model,String deleted,GenericCallback<Integer> callback){

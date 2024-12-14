@@ -189,6 +189,9 @@ public interface APIService {
     @GET("parallel_money_movements.php")
     Observable<Response<List<FilterType>>> getTypes(@Query("method") String method);
 
+    @GET("parallel_money_movements.php")
+    Observable<Response<List<FilterType>>> getDescriptionsMoneyMovements(@Query("method") String method, @Query("type") String type);
+
     //PARALLEL BILLINGS
 
     @POST("parallel_billings.php")
@@ -206,6 +209,8 @@ public interface APIService {
 
     @GET("parallel_billings.php")
     Observable<Response<List<FilterType>>> getTypesBilling(@Query("method") String method);
+
+
 
     //PRODUCT BILLINGS
 
@@ -282,7 +287,7 @@ public interface APIService {
 
     @GET("products.php")
     Observable<Response<List<ReportProduct>>> getProductsByPageByItemByBrandAndTypePriceManager(@Query("method") String method, @Query("page") Integer page, @Query("item") String item, @Query("brand") String brand, @Query("type") String type,
-                                                                                                @Query("model") String model, @Query("deleted") String deleted);
+                                                                                                @Query("model") String model, @Query("deleted") String deleted,  @Query("stockcero") String stock_cero);
 
     @GET("products.php")
     Observable<Response<List<Product>>> getProductsByItemType(@Query("method") String method,@Query("item") String item,@Query("type") String type);

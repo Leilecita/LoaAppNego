@@ -89,11 +89,11 @@ public class ReportSaleAdapter extends BaseAdapter<ReportSale,ReportSaleAdapter.
 
             String numberDay = DateHelper.get().numberDay(e.created);
 
-            String card=ValuesHelper.get().getIntegerQuantityByLei(e.cardAmount);
-            String ef=ValuesHelper.get().getIntegerQuantityByLei(e.efectAmount);
+            String card=ValuesHelper.get().getBigNumb2(e.cardAmount);
+            String ef=ValuesHelper.get().getBigNumb2(e.efectAmount);
             String cantArt=String.valueOf(e.countSales);
-            String trans=String.valueOf(e.transfAmount);
-            String merc=String.valueOf(e.mercPagoAmount);
+            String trans=ValuesHelper.get().getBigNumb2(e.transfAmount);
+            String merc=ValuesHelper.get().getBigNumb2(e.mercPagoAmount);
 
             if (Double.compare(e.transfAmount, 0.0) != 0) {
 

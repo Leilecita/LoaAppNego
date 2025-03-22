@@ -213,12 +213,12 @@ public class BoxFragment extends BaseFragment implements Paginate.Callbacks {
             @Override
             public void onSuccess(ReportSumByPeriodBox data) {
 
-                tot_ctdo.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_ctdo));
-                tot_card.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_card));
-                tot_total_box.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_box));
+                tot_ctdo.setText(ValuesHelper.get().getBigNumb2(data.tot_ctdo));
+                tot_card.setText(ValuesHelper.get().getBigNumb2(data.tot_card));
+                tot_total_box.setText(ValuesHelper.get().getBigNumb2(data.tot_box));
 
-                tot_dep.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_dep));
-                tot_extr.setText(ValuesHelper.get().getIntegerQuantityByLei(data.tot_rest_box));
+                tot_dep.setText(ValuesHelper.get().getBigNumb2(data.tot_dep));
+                tot_extr.setText(ValuesHelper.get().getBigNumb2(data.tot_rest_box));
             }
 
             @Override

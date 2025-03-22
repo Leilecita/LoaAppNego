@@ -1,5 +1,7 @@
 package com.example.android.loa;
 
+import java.math.BigDecimal;
+
 public class ValuesHelper {
 
     private static ValuesHelper INSTANCE = new ValuesHelper();
@@ -34,6 +36,19 @@ public class ValuesHelper {
         }else{
             return String.valueOf(val);
         }
+    }
+
+
+    public String getBigNumb2(Double d){
+
+        // Convertir a BigDecimal
+        BigDecimal bigDecimal = BigDecimal.valueOf(d);
+
+        // Si no tiene decimales, quitar la parte decimal
+        String resultado = bigDecimal.stripTrailingZeros().toPlainString();
+
+        //return BigDecimal.valueOf(d).toPlainString();
+        return resultado;
     }
 
     public String roundInteger(Double val){

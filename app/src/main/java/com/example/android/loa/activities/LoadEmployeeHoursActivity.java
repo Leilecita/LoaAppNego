@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.core.app.NavUtils;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
@@ -441,6 +445,9 @@ public class LoadEmployeeHoursActivity extends BaseActivity {
                     mItemEmployee.created=date;
 
                 mItemEmployee.observation=mObsT.getText().toString().trim();
+
+                save.setEnabled(false);
+                save.setAlpha(0.6f);
 
                 ApiClient.get().putItemEmployee(mItemEmployee, new GenericCallback<Item_employee>() {
                     @Override

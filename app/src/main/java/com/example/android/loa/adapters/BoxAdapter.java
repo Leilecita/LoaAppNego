@@ -24,6 +24,7 @@ import com.example.android.loa.DialogHelper;
 import com.example.android.loa.MathHelper;
 import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
+import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.activities.photos.BoxPhotoActivity;
 import com.example.android.loa.activities.photos.BoxPhotoPosnetActivity;
 import com.example.android.loa.activities.todelete.ExtractionsActivity;
@@ -116,12 +117,12 @@ public class BoxAdapter  extends BaseAdapter<Box,BoxAdapter.ViewHolder> {
 
         final Box currentBox = getItem(position);
 
-        holder.counted_sale.setText(MathHelper.get().getIntegerQuantity(currentBox.counted_sale));
-        holder.card.setText(MathHelper.get().getIntegerQuantity(currentBox.credit_card));
+        holder.counted_sale.setText(ValuesHelper.get().getBigNumb2(currentBox.counted_sale));
+        holder.card.setText(ValuesHelper.get().getBigNumb2(currentBox.credit_card));
 
-        holder.total_amount.setText(MathHelper.get().getIntegerQuantity(currentBox.total_box));
-        holder.rest_box.setText(MathHelper.get().getIntegerQuantity(currentBox.rest_box));
-        holder.dep.setText(MathHelper.get().getIntegerQuantity(currentBox.deposit));
+        holder.total_amount.setText(ValuesHelper.get().getBigNumb2(currentBox.total_box));
+        holder.rest_box.setText(ValuesHelper.get().getBigNumb2(currentBox.rest_box));
+        holder.dep.setText(ValuesHelper.get().getBigNumb2(currentBox.deposit));
 
         if((currentBox.image_url.equals("/uploads/preimpresos/person_color.png") && currentBox.counted_sale != 0) ||
                 (currentBox.image_url_posnet.equals("/uploads/preimpresos/person_color.png")) && Double.compare(currentBox.credit_card,0) != 0 ){

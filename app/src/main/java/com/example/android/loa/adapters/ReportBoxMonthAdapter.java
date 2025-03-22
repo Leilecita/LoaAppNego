@@ -97,10 +97,10 @@ public class ReportBoxMonthAdapter extends BaseAdapter<ReportMonthBox,ReportBoxM
         holder.month.setText(getMonth(current.m).substring(0,3));
 
         holder.year.setText(current.y);
-        holder.counted_sale.setText(ValuesHelper.get().getIntegerQuantityByLei(current.sale));
-        holder.card.setText(ValuesHelper.get().getIntegerQuantityByLei(current.card));
-        holder.dep.setText(ValuesHelper.get().getIntegerQuantityByLei(current.dep));
-        holder.tot.setText(ValuesHelper.get().getIntegerQuantityByLei(current.sale + current.card));
+        holder.counted_sale.setText(ValuesHelper.get().getBigNumb2(current.sale));
+        holder.card.setText(ValuesHelper.get().getBigNumb2(current.card));
+        holder.dep.setText(ValuesHelper.get().getBigNumb2(current.dep));
+        holder.tot.setText(ValuesHelper.get().getBigNumb2(current.sale + current.card));
 
         final BoxAdapter adapterItemOrder= new BoxAdapter(mContext,new ArrayList<Box>());
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(mContext);

@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +25,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
-import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.bumptech.glide.Glide;
 import com.example.android.loa.DateHelper;
 import com.example.android.loa.DialogHelper;
 import com.example.android.loa.Interfaces.OnAmountChange;
@@ -41,16 +36,12 @@ import com.example.android.loa.R;
 import com.example.android.loa.ValidatorHelper;
 import com.example.android.loa.ValuesHelper;
 import com.example.android.loa.activities.OperationHistoryClientActivity;
-import com.example.android.loa.activities.photos.PhotoEdithActivity;
 import com.example.android.loa.data.SessionPrefs;
 import com.example.android.loa.network.ApiClient;
-import com.example.android.loa.network.ApiUtils;
 import com.example.android.loa.network.Error;
 import com.example.android.loa.network.GenericCallback;
 import com.example.android.loa.network.models.Client;
 import com.example.android.loa.network.models.Item_file;
-import com.example.android.loa.network.models.ReportExtraction;
-import com.example.android.loa.network.models.StockEvent;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 

@@ -147,7 +147,7 @@ public class DateHelper {
 
             Calendar c = Calendar.getInstance();
             c.setTime(date1);
-            c.add(Calendar.SECOND, 1);
+            c.add(Calendar.SECOND, 4);
             date1 = c.getTime();
 
             return format1.format(date1);

@@ -15,7 +15,7 @@
         >
 
         <RelativeLayout
-            android:layout_width="45dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -66,7 +66,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
+                android:textSize="@dimen/small_text"
                 android:layout_height="wrap_content"
                 android:text="10/9"
                 />
@@ -81,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:id="@+id/card"
                 android:textColor="@color/colorPrimaryDarkLetter"
-                android:textSize="@dimen/general_text"
+                android:textSize="@dimen/small_text"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimaryDarkLetter"
                 android:gravity="center_horizontal"
-                android:textSize="@dimen/general_text"
+                android:textSize="@dimen/small_text"
                 android:id="@+id/total_amount"
                 android:layout_height="wrap_content"
                 android:text="11900"/>
@@ -115,7 +115,7 @@
                 android:textColor="@color/colorPrimaryDarkLetter"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
-                android:textSize="@dimen/general_text"
+                android:textSize="@dimen/small_text"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:text="11233"
